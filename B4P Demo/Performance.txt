@@ -1,0 +1,559 @@
+
+
+// Beyond 4P
+// Various functions are tried out for performance check.
+
+{
+
+
+	table initialize ( sub  menu,
+		{ { Menu Choice,Menu Explanation,				Menu Selection		},
+		  { 1,	"Sorting"						,	sorting		},
+		  { 2,	"Ranking"						,	ranking		},
+		  { 3,	"Checking for duplicates"				,	duplicates	},
+		  { 4,	"Delete rows"						,	delete rows	},
+		  { 5,	"Insert rows"						,	insert rows	},
+		  { 6,	"Lookup"						,	lookup		},
+		  { 7,	"Consolidate"						,	consolidate	},
+		  { 8,	"Table multiplication"					,	multiply	},
+		  { 9,	"Merging tables"					,	merge		},
+		  { A,	"Arithmetics"						,	arithmetics	},
+		  { B,	"Boolean"						,	boolean		},
+		  { C,	"Comparing tables"					,	compare		},
+		  { P,	"Parameter conversions"					,	convert		},
+		  { I,	"Interactive (city and countries tables loaded)"	,	leave		} } );
+
+	echo( new line );
+	selection[] = table menu quick( sub menu, Menu Choice, Menu Explanation, Menu Selection );
+
+	table load( cities, working directory[] + "Cities.csv" );
+
+	switch( selection[])
+	{
+	    case(sorting)
+	    {
+
+		echo(new line, "Performance measurement on sorting", new line);
+
+		size[] = 500000;
+		count[] = 1;
+		echo("Create a table of size ", size[] );
+
+		table initialize( t, {{ Col A, Col B}} );
+
+		for (i[]=1, i[]<=size[], i[]++) table append( t, {{ random string(6), random string(6) }} );
+
+		pause;
+		echo("    Start sorting ...");
+
+		for (i[]=1, i[]<=count[], i[]++)
+		{
+		    table sort rows( t, Col A, alphabetic ignore case );
+			echo("    And again on column B");
+		    table sort rows( t, Col B, alphabetic  );
+		}
+
+		echo("    Done sorting.");
+		echo("    Save result to file");
+
+		table save( t, working directory[] + "Performance sort out.csv" );
+
+	    }
+
+	    case(ranking)
+	    {
+
+
+		echo(new line, "Functional check on ranking", new line);
+
+		if (true)
+		{
+
+			table initialize( t,
+				{ { Col },
+				{ C },
+				{ A },
+				{ ' a ' },
+				{ F },
+				{ B },
+				{ A },
+				{ F },
+				{ F },
+				{ F },
+				{ E },
+				{ D },
+				{ D } } );
+			table insert columns( t, {Rank}, "" );
+
+
+			r[] = table rank rows( t, Rank, Col, alphabetic ignore both, 213);
+			echo("Return value is ", r[]);
+
+		}
+		else
+		{
+			size[] = 100000;
+
+			echo("Create a table of size ", size[] );
+
+			table initialize( t, {{ Col, Rank }} );
+			for (i[]=1, i[]<=size[], i[]++) table append( t, { random string(4) } );
+
+			pause;
+			echo("    Start Ranking ...");
+
+			table rank rows( t, Rank, Col, alphabetic,  113);
+
+			echo("    Done Ranking.");
+
+		}
+
+		table save( t, working directory[] + "Performance Ranking out.csv" );
+		interactive;
+
+
+	    }
+
+	    case(duplicates)
+	    {
+/*
+
+		echo(new line, "Functional check on duplicates", new line);
+
+		table initialize( t,
+			{ { Col },
+			{ C },
+			{ a },
+			{ A },
+			{ F },
+			{ B },
+			{ A },
+			{ F },
+			{ F },
+			{ F },
+			{ E },
+			{ D },
+			{ D } } );
+
+
+		table check duplicates( t, Col, Identifer, Index, Count);
+
+*/
+		size[] = 100000;
+
+		echo("Create a table of size ", size[] );
+
+		table initialize( t, {{ Col }} );
+		for (i[]=1, i[]<=size[], i[]++) table append( t, { random string(4) } );
+
+		pause;
+		echo("    Start checking for duplicates ...");
+
+		table check duplicates selected rows ( t, [Col]{0}==A, Col, Identifer, Index, Count);
+		table check duplicates selected rows ( t, [Col]{0}==B, Col, Identifer, Index, Count);
+	
+
+		table save( t, working directory[] + "Performance Dupe Check out.csv" );
+		interactive;
+
+
+	    }
+
+	    case(delete rows)
+	    {
+
+
+		echo(new line, "Functional check deleting selected rows", new line);
+
+		if (false)
+		{
+			table initialize( t,
+			{ { Col },
+			{ Mike },
+			{ Lisa },
+			{ Michel },
+			{ Lynn },
+			{ Abel },
+			{ Barbara },
+			{ Linda },
+			{ Michelle },
+			{ Jack },
+			{ Jim },
+			{ Leo },
+			{ Mona } } );
+
+			r[] = table delete selected rows ( t, [Col]{0}==M );
+			echo("Number of rows deleted: ", r[] );
+		}
+		else
+		{
+
+			size[] = 100000;
+
+			echo("Create a table of size ", size[] );
+
+			table initialize( t, {{ Col, Rank }} );
+			for (i[]=1, i[]<=size[], i[]++) table append( t, { random string(4) } );
+
+			pause;
+			echo("    Start Deleting ...");
+
+			table keep selected rows ( t, [Col]{0}<=J );  // Delete all rows beginning letter J or smaller
+
+			echo("    Done Deleting.");
+		}
+
+		table save( t, working directory[] + "Performance Deleting Rows out.csv" );
+		interactive;
+	    }
+
+
+	    case(insert rows)
+	    {
+
+
+		echo(new line, "Functional check deleting selected rows", new line);
+
+		if (false)
+		{
+			table initialize( t,
+			{ { Title,	First Name, Last Name	},
+			  { Ms,		Mona,	Lisa		},
+			  { Mr,		Mike,	Thilemann	},
+			  { Ms,		Michelle,Taylor		},
+			  { Ms,		Linda,	Miller		},
+			  { Ms,		Barbara,Kaufmann	},
+			  { Mr,		John,	Thilemann	},
+			  { Mr,		John,	Johnsson	},
+			  { Mr,		Michel,	Thomsson	},
+			  { Mr,		Michel,	Thilemann	},
+			  { Ms,		Lisa,	Thilemann	},
+			  { Mr,		Mike,	Tanner		}, } );
+
+			r[] = table insert selected rows ( t, [First Name]{0}==M, 2, {First Name}, Index );
+			echo("Number of rows identified for insertion: ", r[] );
+		}
+		else
+		{
+
+			size[] = 100000;
+
+			echo("Create a table of size ", size[] );
+
+			table initialize( t, {{ Col }} );
+			for (i[]=1, i[]<=size[], i[]++) table append( t, { random string(4) } );
+
+			pause;
+			echo("    Start Inserting ...");
+
+			r[] = table insert selected rows ( t, [Col]{0}<=J, 2, Col, Index );
+
+			echo("    Done Inserting.");
+		}
+
+		table save( t, working directory[] + "Performance Inserting Rows out.csv" );
+		interactive;
+	    }
+
+
+
+
+
+	    case(lookup)
+	    {
+
+
+		echo(new line, "Functional check table lookup", new line);
+
+		unless (true) // true = Do functional check, false = Do performance check
+
+		{
+			table initialize( t,
+			{ { Title,	First Name, Last Name	},
+			  { Ms,		Mona,	Lisa		},
+			  { Mr,		Mike,	Thilemann	},
+			  { Ms,		Michelle,Taylor		},
+			  { Ms,		Linda,	Miller		},
+			  { Ms,		Barbara,Kaufmann	},
+			  { Mr,		John,	Thilemann	},
+			  { Mr,		John,	Johnsson	},
+			  { Mr,		Michel,	Thomsson	},
+			  { Mr,		Michel,	Thilemann	},
+			  { Ms,		Lisa,	Thilemann	},
+			  { Mr,		Mike,	Tanner		}, } );
+
+			table initialize( l,
+			{ { First Name, Last Name,	Age	},
+			  { Mike,	Tanner,		20	},
+			  { Lisa,	Thilemann,	21	},
+			  { Michel,	Thilemann,	22	},
+			  { Michel,	Thomsson,	23	},
+			  { John,	Johnsson,	24	},
+			  { John,	Johnsson,	124	},
+			  { John,	Johnsson,	224	},
+			  { John,	Johnsson,	324	},
+			  { John,	Thilemann,	25	},
+			  { John,	Thilemann,	125	},
+			  { John,	Thilemann,	125	},
+			  { John,	Thilemann,	225	},
+			  { John,	Thilemann,	425	},
+			  { Barbara,	Kaufmann,	26	},
+			  { Linda,	Miller,		27	},
+			  { Linda,	Miller,		127	},
+			  { Linda,	Miller,		227	},
+			  { Linda,	Miller,		327	},
+			  { Michelle,	Taylor,		28	},
+			  { Michelle,	Taylor,		128	},
+			  { Michelle,	Taylor,		228	},
+			  { Michelle,	Taylor,		328	},
+			  { Mike,	Thilemann,	29	},
+			  { Mona,	Lisa,		30	} } );
+			r[] = table lookup fast ( t, {First Name,Last Name}, New Age, l, {First Name,Last Name}, Age );
+			echo("Number of rows deleted: ", r[] );
+
+		}
+		else
+		{
+
+
+			size_target [] = 60;
+			size_lookup [] = 20;
+			count[] = 1;
+	
+
+			echo("Create a lookup of size ", size_lookup[] );
+
+			table initialize( l, {{ Match, Value }} );
+			for (i[]=1, i[]<=size_lookup[], i[]++) table append( l, { { random string(8),random string(4) } } );
+
+			table initialize( t, {{ Match }} );
+			for (i[]=1, i[]<=size_target[], i[]++)
+			{
+				j[] = round down((i[]-1)*size_lookup[]/size_target[]);
+				if (j[] >= size_lookup[]) j[] -= 1;
+				if (j[] < 1) j[] = 1;
+				table append( t, { [l:Match,j[]] } );
+				[l:Value,j[]] = "Item " + literal(i[]);
+			}
+
+
+			pause;
+			echo("    Start Looking up ...");
+
+			for (i[]=1, i[] <= count[], i[]++)
+			{
+				table lookup ( t, Match, Val, l, Match, Value );
+			}
+			echo("    Done looking up");
+
+
+		}
+
+		table save( t, working directory[] + "Performance Lookups out.csv" );
+		interactive;
+
+
+	    }
+
+
+
+	    case(consolidate)
+	    {
+		echo(new line, "Functional check table lookup", new line);
+
+		if (false) // true = Do functional check, false = Do performance check
+		{
+			; // See 'Consolidation and Merging.txt'
+		}
+		else
+		{
+
+			size [] = 1000;
+			count[] = 1;
+	
+
+			echo("Create a file to consolidate with size ", size[] );
+
+			table initialize( t, {{ Match, Value 1, Value 2, Value 3 }} );
+			for (i[]=1, i[]<=size[], i[]++) table append( t, { { random string(1), random(10), random(10), 0 } } );
+
+
+			pause;
+			echo("    Start Consolidating ...");
+
+			for (i[]=1, i[] <= count[], i[]++)
+			{
+ 
+//				table consolidate selected rows ( t, [Match]{0}!=A, Match,{Value 1, Value 2, Value x3}  );
+//				table consolidate selected rows ( t, [Match]{0}!=A );
+//				table consolidate ( t );
+				table consolidate selected rows ( t, [Match]{0}!=A, Match, {Value 1, Value 2, Value 3}, {sum, average, count}, ", " );
+			}
+			echo("    Done consolidating");
+
+
+		}
+		table save( t, working directory[] + "Performance Consolidate out.csv" );
+		interactive;
+	    }
+
+
+
+	    case(multiply)
+	    {
+		echo(new line, "Functional check table lookup", new line);
+
+		if (false) // true = Do functional check, false = Do performance check
+		{
+			; // See 'Consolidation and Merging.txt'
+		}
+		else
+		{
+
+			size1[] = 10;
+			size2[] = 100000;
+	
+
+			echo("Create a source table of size ", size1[], " and destination table of size ", size2[] );
+
+			table initialize( s, {{ From Source }} );
+			for (i[]=1, i[]<=size1[], i[]++) table append( s, { { random string(3) } } );
+			table initialize( d, {{ From Dest }} );
+			for (i[]=1, i[]<=size2[], i[]++) table append( d, { { random string(6) } } );
+
+
+			pause;
+			echo("    Start Multiplying ...");
+
+			table multiply( s, d );
+
+			echo("    Done multiplying");
+
+
+		}
+		table save( d, working directory[] + "Performance Multiply out.csv" );
+		interactive;
+	    }
+
+
+
+	    case(merge)
+	    {
+		echo(new line, "Functional check table merge", new line);
+
+			size1[] = 100000;
+			size2[] = 100000;
+	
+
+			echo("Create a source table of size ", size1[], " and destination table of size ", size2[] );
+
+			table initialize( s, {{ Ident, Sum }} );
+			for (i[]=1, i[]<=size1[], i[]++) table append( s, { { random string(2),1 } } );
+			table initialize( d, {{ Ident, Sum }} );
+			for (i[]=1, i[]<=size2[], i[]++) table append( d, { { random string(2),1 } } );
+
+
+			pause;
+			echo("    Start Merging ...");
+
+//			table merge ( s, d, Ident, '*', sum );
+//			table intersect ( s, d, Ident, '*', sum );
+			table exclude ( s, d, Ident  );
+
+			echo("    Done merging");
+
+
+		table save( d, working directory[] + "Performance Merge out.csv" );
+		interactive;
+	    }
+
+
+	    case(compare)
+	    {
+		echo(new line, "Functional check table compare", new line);
+
+
+		size1[] = 200000;
+
+		echo("Create a source old table of size ", size1[] );
+
+		table initialize( old table, {{ Ident, Col1, Col2, Col3, Col4 }} );
+		for (i[]=1, i[]<=size1[], i[]++) table append( old table, { { random string(6),random string(4),random string(4),random string(4),random string(4) } } );
+
+
+		echo("Create a source new table of size ", size1[] );
+
+		table create( new table );	// Create new table, but reversed row arrangement
+		[new table:,0] = [old table:,0]; // Copy header rows
+		for (i[]=1; j[]=table length(old table)-1, i[] < table length(old table), i[]++; j[]--) [new table:,i[]] = [old table:,j[]];
+		table rearrange columns( old table, {Col4, Col3, Col2, Col1, Ident} );
+
+		for (i[]=1, i[]<=size1[], i[]++)
+		{
+			if (i[]/10   == round down(i[]/10  )) [new table: Col1 , i[]] = Difference;
+			if (i[]/1000 == round down(i[]/1000)) [new table: .., i[]] = { 5:Difference };
+		}
+
+		pause;
+		echo("    Start Comparing ...");
+
+		table compare( new table, old table, report, Ident, different rows );
+//		table compare( new table, old table, report );
+
+		echo("    Done comparing");
+		
+
+		table save( report, working directory[] + "Performance Compare out.csv" );
+		interactive;
+
+	    }
+
+
+	    case(arithmetics)
+	    {
+		echo("Measure performance of arithmetics");
+		size1[] = 4000000;
+
+		watch start;		
+		for (i[]=1, i[]<=size1[], i[]++)
+		{
+			e[] = 100 * 200 + 50 / 20;
+		}
+		echo("Time required for ", size1[], " is ", watch stop());
+		echo("Result is ", e[]);
+	    }
+
+
+	    case(boolean)
+	    {
+		echo("Measure performance of arithmetics");
+		size1[] = 4000000;
+
+		watch start;		
+		for (i[]=1, i[]<=size1[], i[]++)
+		{
+			e[] = (true < false) & (false > true);
+		}
+		echo("Time required for ", size1[], " is ", watch stop());
+	    }
+
+	    case(convert)
+	    {
+		echo("Measure conversion time");
+		size1[] = 4000000;
+
+		watch start;		
+		for (i[]=1, i[]<=size1[], i[]++)
+		{
+			e[] = sum( 1,2,3,4,5,6,7,8 );
+//			e[] = 1+2+3+4+5+6+7+8;
+		}
+		echo("Time required for ", size1[], " is ", watch stop());
+	    }
+	}
+
+
+	echo("Done.");
+	interactive;
+
+}

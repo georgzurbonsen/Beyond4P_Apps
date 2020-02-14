@@ -1,0 +1,170 @@
+{
+
+
+    echo("Demonstration of table columns manipulations", new line );
+
+    table initialize ( sub  menu,
+		{ { Menu Choice,Menu Explanation,				Menu Selection		},
+		  { 1,	"Table contents: Format Numbers"		,	format numbers		},
+		  { 2,	"Table contents: Fill contents vertically"	,	fill vertically		},
+		  { 3,	"Table contents: Fill contents horizontally"	,	fill horizontally	},
+		  { 4,	"Table contents: Substitute contents vertically",	substitute vertically	},
+		  { 5,	"Table contents: Substitute contents horizontally",	substitute horizontally	},
+
+		  { M,	"Back to previous menu"					,	back		},
+		  { I,	"Interactive (city and countries tables loaded)"	,	interactive	} } );
+
+    do
+    {
+
+	echo( new line );
+	selection[] = table menu quick( sub menu, Menu Choice, Menu Explanation, Menu Selection );
+
+
+ 	switch( selection[])
+	{
+
+	    case(format numbers) // Format numbers
+	    {
+
+		echo("A table with numbers and non-numeric contents will be created, formatted and ");
+		echo("saved as 'Format Numbers Out.csv'.  Open with Excel to view results.");
+		table initialize( t,
+			{ { 	Values 1, 	Values 2, 	Values 3,	Values 4 	},
+			  {	12.34,		12.34,		12.34,		0.1234		},
+			  {	56,		56,		56,		0.56		},
+			  {	'',		'',		'',		''		},
+			  {	'abc',		'abc',		'abc',		'abc'		},
+			  {	-78.9,		-78.9,		-78.9,		-0.789		},
+			  {	1000,		1000,		1000,		10		} } );
+
+		table format numbers( t, Values 1, "'A' 000.000" );
+		table format numbers( t, Values 2, "EUR #,##0.00", local ); 
+		table format numbers( t, Values 3, "#,##0", local ); 
+		table format numbers( t, Values 4, "0.00%" ); // Issues values in % (value scaled up by 100)
+
+		table save( t, "Format Numbers Out.csv" );
+	    }
+
+	    case(fill vertically) // Repeat contents
+	    {
+
+		echo("A table blank contents will be filled vertically with data located above or below");
+		table initialize( t,
+			{ { 	City,	 	District, 	Scoring,	Remarks		 	},
+			  {	Hamburg,	Alster,		High,		Located at a lake	},
+			  {	"",		Altona,		Medium,		'"'			},
+			  {	Zürich,		Seefeld,	High,		'"'			},
+			  {	"(same)",	Fluntern,	Medium,		Up the hill		},
+			  {	"",		Seefeld,	Like above				},
+			  {	"",		Oerlikon,	High					} } );
+
+
+		// Try with different function calls
+
+//		table fill vertically selected rows ( t, ([District]='A*'), City, ',(same)' );
+//		table fill vertically( t, City );
+//		table fill vertically( t, City, ',(same)', up );
+//		table v( t, {City, District, Scoring, Remarks}, {3,',(same)', "", Like above, '"'}, down );
+//		table fill vertically selected rows( t, [Scoring]==High, {City, District, Scoring}, {"(same)", ""}, up );
+
+		echo(new line, "Table output: ", new line, [t:..,0] );
+		table process( t, echo([]) );
+		echo(new line );
+
+	    }
+
+
+
+	    case(substitute vertically) // Substitute repeated contents
+	    {
+
+		echo("Repeated contents will be substituted");
+		table initialize( t,
+			{ { 	City,	 	District, 	Scoring,	Remarks		 	},
+			  {	Hamburg,	Alster,		High,		Located at a lake	},
+			  {	Hamburg,	Altona,		Medium,		Located at a lake	},
+			  {	Zürich,		Seefeld,	High,		Located at a lake	},
+			  {	Zürich,		Fluntern,	Medium,		Up the hill		},
+			  {	Zürich,		Seefeld,	Medium		Up the hill		},
+			  {	Zürich,		Oerlikon,	High		Up the hill		} } );
+
+
+		// Try with different function calls
+
+
+		table substitute vertically( t, City, literal('"') );
+//		table substitute vertically( t, City, "(see below)", up );
+//		table substitute verticall selected rows( t, [City]==Zürich, City, "(see above)" );
+
+
+		echo(new line, "Table output: ", new line, [t:..,0] );
+		table process( t, echo([]) );
+		echo(new line );
+
+	    }
+
+	    case(fill horizontally) // Repeat contents
+	    {
+
+		echo("A table blank contents will be filled horizontally with data located above or below");
+		table initialize( t,
+			{ { 	Name,	 	Jan,	Feb,	Mar,	Apr,	May,	June	},
+			  {	Miller,		5,	"",	15,	"",	"",	25	},
+			  {	Fuller,		"",	6					},
+			  {	Tanner,		7,	"same",	17,	"same",	"same"		},
+			  {	Kaufmann,	"same",	9,	10,	11,	12		} } );
+
+
+		// Try with different function calls
+
+//		table fill horizontally ( t );
+//		table fill horizontally ( t, Jan, June, ',same' );
+//		table fill horizontally ( t, Jan, June, ',same', left );
+//		table fill horizontally ( t, Jan, '', ',same', left );
+		table fill horizontally selected rows ( t, ([Name]='*ller'), '', '', ',same' );
+
+		echo(new line, "Table output: ", new line, [t:..,0] );
+		table process( t, echo([]) );
+		echo(new line );
+
+	    }
+
+
+	    case(substitute horizontally) // Repeat contents
+	    {
+
+		echo("A table blank contents will be filled horizontally with data located above or below");
+		table initialize( t,
+			{ { 	Name,	 	Jan,	Feb,	Mar,	Apr,	May,	June	},
+			  {	Miller,		5,	5,	15,	15,	15,	25	},
+			  {	Fuller,		6,	6					},
+			  {	Tanner,		7,	7,	17,	17			},
+			  {	Kaufmann,	9,	9,	10,	11,	12		} } );
+
+
+		// Try with different function calls
+
+//		table substitute horizontally ( t );
+		table substitute horizontally ( t, Jan, June, 'same' );
+//		table substitute horizontally ( t, Jan, June, 'same', left );
+//		table substitute horizontally ( t, Jan, '', 'same', left );
+//		table substitute horizontally selected rows ( t, ([Name]='*ller'), '', '', 'same' );
+
+		echo(new line, "Table output: ", new line, [t:..,0] );
+		table process( t, echo([]) );
+		echo(new line );
+
+	    }
+
+
+
+	}
+	echo(new line, "Test done.  Continue with menu");
+    }
+    while (selection[] <> interactive, back);
+
+    if (selection[] = interactive) { interactive; exit; }
+
+
+}

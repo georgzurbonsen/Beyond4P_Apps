@@ -1,0 +1,81 @@
+{
+
+
+	echo("Demonstration of structure", new line );
+
+	// Define residence towns for three persons
+
+	mike[town]	= Edinburgh;
+	bill[town]	= Toulouse;
+	john[town]	= Firenze;
+
+	echo("Number of members in mike[] = ", member count( mike[] ) );
+	echo("Identification of mike[] = ", identify( mike[] ) );
+	echo;
+
+	// And assign their ages to them
+
+	mike[age]	= 20;
+	bill[age]	= 30;
+	john[age]	= 40;
+
+
+	// Add another person with age and town
+
+	structure( alan[], { age, town }, { 50, Prague } );
+
+
+	names[] = { alan, bill, john, mike };
+
+	// Create new variable trees: town[...] and age[...]
+
+	for all parameters( names[], name[] )
+	{
+	    for all variables( (name[])[], var[], index[], var name[] )
+	    {
+		(var name[])[name[]] = name[][var name[]];
+
+		// Note: The extra parenthesis on the left is needed to avoid confusing left hand assignment with reference to variable.
+		// Same applies below with the transaction symbol '+<=='.
+	    }
+	}	
+	
+
+	echo("The names are ", 			set names ( age[] ));		// Collect member variable names in the parameter set and output them
+	echo("The corresponding ages are ", 	set	  ( age[] ));		// Collect the values (ages)  in the parameter set and output them
+	echo("The corresponding towns are ", 	set	  ( town[] ));		// Collect the values (towns) in the parameter set and output them
+
+	// Example of a transaction: Put all persons into the a structure
+
+	for all parameters( set names ( age[] ), name[] )
+	{
+		persons[name[]] +<== (name[])[]; 	// Add the member variables for each person (age and town)
+		persons[name[]] = name[];		// And include the name one level up
+	}
+
+
+	// Assign a default value
+
+	persons[''] = Unknown;
+	persons['',''] = 'Hmmm?';
+
+	echo("Looking for Alan : ", persons[alan], "  Age: ", persons[alan,age] );
+	echo("Looking for Linda: ", persons[linda],"  Age: ", persons[linda,age] );	// Because a default name has been specified, no exception occurs
+
+
+	// Use parameter sets to access nested structures.  You can list names and use parameter sets in any combination.
+
+	set 1[] = { alan, town };
+
+	echo("Looking for Alan's town: ", persons[{alan,town}] );
+	echo("Looking for Alan's town: ", persons[set 1[]] );		// The same
+
+
+
+	echo(new line, "Below you see the contents in of the variable persons[]:" );
+
+	list local variables( persons );
+
+
+
+}

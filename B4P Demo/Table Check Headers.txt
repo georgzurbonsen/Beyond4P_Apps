@@ -1,0 +1,318 @@
+
+// Test function to run table check columns
+
+
+define function( test header, { { headers in table, parameters }, { headers to check, columns }, 
+				{ further parameters, parameters}, {expected ret val, literal }} )
+
+{
+	
+	echo(new line);
+	echo( "    Table contains     : ", headers in table[] );
+	echo( "    Parameters contain : ", headers to check[] );
+	echo( "    Option parameters  : ", further parameters[] );
+
+	table initialize( t, { headers in table[] } );
+
+	ret val[] = table check headers silently( { t, headers to check[] } + further parameters[] );
+
+	if ( ret val[] == expected ret val[])
+	{
+		echo("    Success.   Same return value: ", ret val[]);
+		return (true);
+	}
+	else
+	{
+		echo("    **FAILED** Results deviate: '", ret val[], "' while expecting '", expected ret val[],"'");
+		pause;
+		return(false);
+	}
+
+}
+
+{
+
+	echo( "Test program for new 'table check headers' function rolled out in Release 4.09" );
+				
+
+	a[] = test header( { Name, Street, Town, Country 	}, { 1, 2, 3, 0 }, 			{}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { -1, -2, -3, -4 }, 			{}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { 1, 2, 3, 4 }, 			{}, range error );
+	a[] = test header( { Name, Street, Town, Country 	}, { -1, -2, -3, -4, -5 }, 		{}, range error );
+	a[] = test header( { Name, Street, Town, Country	}, { 1, 2, 3, 0},			{must exist, no numbers}, forbidden number);
+	a[] = test header( { Name, Street, Town, Country	}, { Name, 1, Town, Country},		{must exist, no numbers}, forbidden number);
+
+	a[] = test header( { Name, Street, Town, Country 	}, { Name, Street, Town, Country }, 	{must exist, min 1},  ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { Name, Street, Town, Country }, 	{must exist, max 1},  wrong count  );
+	a[] = test header( { Name, Street, Town, Country 	}, { Name, Street, Town, Country }, 	{must exist, min 1, max 1}, wrong count  );
+	a[] = test header( { Name, Street, Town, Country 	}, { Name, Street, Town, Country }, 	{must exist, only 1}, wrong count  );
+
+	a[] = test header( { Name, Street, Town, Country 	}, { Town  },			 	{must exist, min 1},  ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { Town  }, 				{must exist, max 1},  ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { Town  }, 				{must exist, min 1, max 1},  ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { Town  }, 				{must exist, only 1}, ok );
+
+	a[] = test header( { Name, Street, Town, Country 	}, { },				 	{must exist, min 1},  wrong count );
+	a[] = test header( { Name, Street, Town, Country 	}, { }, 				{must exist, max 1},  empty and ok);
+	a[] = test header( { Name, Street, Town, Country 	}, { }, 				{must exist, min 1, max 1},  wrong count );
+	a[] = test header( { Name, Street, Town, Country 	}, { }, 				{must exist, only 1}, wrong count );
+
+	a[] = test header( { Name, Street, Town, Country 	}, { Name, Street, Town, Country }, 	{}, ok );
+	a[] = test header( { Name, Street, Town, Country, Name	}, { Name, Street, Town, Country}, 	{}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { Zip, Street, Town, Country}, 	{}, not found );
+	a[] = test header( { Name, Street, Town, Country 	}, { Zip, County, Phone, State}, 	{}, not found );
+	a[] = test header( { Name, Street, Town, Country 	}, { },			 		{}, empty and ok );
+	a[] = test header( { 					}, { },			 		{}, empty and ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { 1, 2, 3, 0 }, 			{}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { 0 }, 				{}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { 4 }, 				{}, range error );
+	a[] = test header( { Name, Street, Town, Country 	}, { 5 }, 				{}, range error );
+	a[] = test header( { Name, Street, Town, Country 	}, { -1 }, 				{}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { -3 }, 				{}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { -4 }, 				{}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { -5 }, 				{}, range error );
+	a[] = test header( { Name, Street, Town, Country 	}, { -6 }, 				{}, range error );
+	a[] = test header( { 					}, { 0 }, 				{}, range error );
+	a[] = test header( { 					}, { 1 }, 				{}, range error );
+	a[] = test header( { 					}, { 2 }, 				{}, range error );
+	a[] = test header( { 					}, { -1 }, 				{}, range error );
+	a[] = test header( { 					}, { -2 }, 				{}, range error );
+
+	a[] = test header( { Name, Street, Town, Country 	}, { Name, Street, Town, Country, Name},{must not exist}, already existing );
+	a[] = test header( { Name, Street, Town, Country 	}, { Name, Street, Town, Country }, 	{must not exist}, already existing );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town },	 	{must not exist}, already existing );
+	a[] = test header( { Name, Street, Town, Country	}, { Country, Town, Street, Name }, 	{must not exist}, already existing );
+	a[] = test header( { Name, Street, Town, Country, Name	}, { Name, Street, Town, Country},	{must not exist}, already existing );
+	a[] = test header( { Name, Street, Town, Country 	}, { Zip, Street, Town, Country}, 	{must not exist}, already existing );
+	a[] = test header( { Name, Street, Town, Country 	}, { Zip, County, Phone, State}, 	{must not exist}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { },			 		{must not exist}, empty and ok );
+	a[] = test header( { 					}, { },			 		{must not exist}, empty and ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { 1, 2, 3, 0 }, 			{must not exist}, already existing );
+	a[] = test header( { Name, Street, Town, Country 	}, { 0 }, 				{must not exist}, already existing );
+	a[] = test header( { Name, Street, Town, Country 	}, { 4 }, 				{must not exist}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { 5 }, 				{must not exist}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { -1 }, 				{must not exist}, already existing );
+	a[] = test header( { Name, Street, Town, Country 	}, { -3 }, 				{must not exist}, already existing );
+	a[] = test header( { Name, Street, Town, Country 	}, { -4 }, 				{must not exist}, already existing );
+	a[] = test header( { Name, Street, Town, Country 	}, { -5 }, 				{must not exist}, range error );
+	a[] = test header( { Name, Street, Town, Country 	}, { -6 }, 				{must not exist}, range error );
+	a[] = test header( { 					}, { 0 }, 				{must not exist}, ok );
+	a[] = test header( { 					}, { 1 }, 				{must not exist}, ok );
+	a[] = test header( { 					}, { 2 }, 				{must not exist}, ok );
+	a[] = test header( { 					}, { -1 }, 				{must not exist}, range error );
+	a[] = test header( { 					}, { -2 }, 				{must not exist}, range error );
+
+	a[] = test header( { Name, Street, Town, Country 	}, { Name, Street, Town, Country, Name},{may exist}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { Name, Street, Town, Country }, 	{may exist}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town },	 	{may exist}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Country, Town, Street, Name }, 	{may exist}, ok );
+	a[] = test header( { Name, Street, Town, Country, Name	}, { Name, Street, Town, Country },	{may exist}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, Street, Town, Country}, 	{may exist}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, County, Phone, State}, 	{may exist}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { },			 		{may exist}, empty and ok );
+	a[] = test header( { 					}, { },			 		{may exist}, empty and ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { 1, 2, 3, 0 }, 			{may exist}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { 0 }, 				{may exist}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { 4 }, 				{may exist}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { 5 }, 				{may exist}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { -1 }, 				{may exist}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { -3 }, 				{may exist}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { -4 }, 				{may exist}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { -5 }, 				{may exist}, range error );
+	a[] = test header( { Name, Street, Town, Country 	}, { -6 }, 				{may exist}, range error );
+	a[] = test header( { 					}, { 0 }, 				{may exist}, ok );
+	a[] = test header( { 					}, { 1 }, 				{may exist}, ok );
+	a[] = test header( { 					}, { 2 }, 				{may exist}, ok );
+	a[] = test header( { 					}, { -1 }, 				{may exist}, range error );
+	a[] = test header( { 					}, { -2 }, 				{may exist}, range error );
+	
+
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country, Name},{must exist or any number}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country }, 	{must exist or any number}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town },	 	{must exist or any number}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Country, Town, Street, Name }, 	{must exist or any number}, ok );
+	a[] = test header( { Name, Street, Town, Country, Name	}, { Name, Street, Town, Country},	{must exist or any number}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, Street, Town, Country}, 	{must exist or any number}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, County, Phone, State}, 	{must exist or any number}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { },			 		{must exist or any number}, empty and ok );
+	a[] = test header( { 					}, { },			 		{must exist or any number}, empty and ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { 1, 2, 3, 0 }, 			{must exist or any number}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { 0 }, 				{must exist or any number}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { 4 }, 				{must exist or any number}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { 5 }, 				{must exist or any number}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { -1 }, 				{must exist or any number}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { -3 }, 				{must exist or any number}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { -4 }, 				{must exist or any number}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { -5 }, 				{must exist or any number}, range error );
+	a[] = test header( { Name, Street, Town, Country 	}, { -6 }, 				{must exist or any number}, range error );
+	a[] = test header( { 					}, { 0 }, 				{must exist or any number}, ok );
+	a[] = test header( { 					}, { 1 }, 				{must exist or any number}, ok );
+	a[] = test header( { 					}, { 2 }, 				{must exist or any number}, ok );
+	a[] = test header( { 					}, { -1 }, 				{must exist or any number}, range error );
+	a[] = test header( { 					}, { -2 }, 				{must exist or any number}, range error );
+
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country, Name},{must exist}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country }, 	{must exist}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town },	 	{must exist}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Country, Town, Street, Name }, 	{must exist}, ok );
+	a[] = test header( { Name, Street, Town, Country, Name	}, { Name, Street, Town, Country},	{must exist}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, Street, Town, Country}, 	{must exist}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, County, Phone, State}, 	{must exist}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { },			 		{must exist}, empty and ok );
+	a[] = test header( { 					}, { },			 		{must exist}, empty and ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { 1, 2, 3, 0 }, 			{must exist}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { 0 }, 				{must exist}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { 4 }, 				{must exist}, range error );
+	a[] = test header( { Name, Street, Town, Country 	}, { 5 }, 				{must exist}, range error );
+	a[] = test header( { Name, Street, Town, Country 	}, { -1 }, 				{must exist}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { -3 }, 				{must exist}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { -4 }, 				{must exist}, ok );
+	a[] = test header( { Name, Street, Town, Country 	}, { -5 }, 				{must exist}, range error );
+	a[] = test header( { Name, Street, Town, Country 	}, { -6 }, 				{must exist}, range error );
+	a[] = test header( { 					}, { 0 }, 				{must exist}, range error );
+	a[] = test header( { 					}, { 1 }, 				{must exist}, range error );
+	a[] = test header( { 					}, { 2 }, 				{must exist}, range error );
+	a[] = test header( { 					}, { -1 }, 				{must exist}, range error );
+	a[] = test header( { 					}, { -2 }, 				{must exist}, range error );
+
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country, Name},{unique}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country }, 	{unique}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town },	 	{unique}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Country, Town, Street, Name }, 	{unique}, ok );
+	a[] = test header( { Name, Street, Town, Country, Name	}, { Name, Street, Town, Country}, 	{unique}, duplicate );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, Street, Town, Country}, 	{unique}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, County, Phone, State}, 	{unique}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { },			 		{unique}, empty and ok );
+	a[] = test header( { 					}, { },			 		{unique}, empty and ok );
+
+	a[] = test header( { Name, Street, Town, Country, Name	}, { 0 }, 				{unique}, duplicate );
+	a[] = test header( { Name, Street, Town, Country, Name	}, { 3 }, 				{unique}, ok );
+	a[] = test header( { Name, Street, Town, Country, Name	}, { 4 }, 				{unique}, duplicate );
+
+
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country, Name},{full match}, no full match );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country }, 	{full match}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town },	 	{full match}, no full match );
+	a[] = test header( { Name, Street, Town, Country	}, { Country, Town, Street, Name }, 	{full match}, ok );
+	a[] = test header( { Name, Street, Town, Country, Name	}, { Name, Street, Town, Country}, 	{full match}, duplicate );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, Street, Town, Country}, 	{full match}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, County, Phone, State}, 	{full match}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { },			 		{full match}, no full match );
+	a[] = test header( { 					}, { },			 		{full match}, empty and ok );
+
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country, Name},{sequence}, incorrect sequence );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country }, 	{sequence}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town },	 	{sequence}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Town, Country },	 	{sequence}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Country, Town },	 	{sequence}, incorrect sequence );
+	a[] = test header( { Name, Street, Town, Country	}, { Country, Town, Street, Name }, 	{sequence}, incorrect sequence );
+	a[] = test header( { Name, Street, Town, Country, Name	}, { Name, Street, Town, Country}, 	{sequence}, duplicate );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, Street, Town, Country}, 	{sequence}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, County, Phone, State}, 	{sequence}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { },			 		{sequence}, empty and ok );
+	a[] = test header( { 					}, { },			 		{sequence}, empty and ok );
+
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country, Name},{strict sequence}, incorrect sequence );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country }, 	{strict sequence}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town },	 	{strict sequence}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Town, Country },	 	{strict sequence}, incorrect sequence );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Country, Town },	 	{strict sequence}, incorrect sequence );
+	a[] = test header( { Name, Street, Town, Country	}, { Country, Town, Street, Name }, 	{strict sequence}, incorrect sequence );
+	a[] = test header( { Name, Street, Town, Country, Name	}, { Name, Street, Town, Country}, 	{strict sequence}, duplicate );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, Street, Town, Country}, 	{strict sequence}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, County, Phone, State}, 	{strict sequence}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { },			 		{strict sequence}, empty and ok );
+	a[] = test header( { 					}, { },			 		{strict sequence}, empty and ok );
+
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country, Name},{identical}, no full match );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country }, 	{identical}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town },	 	{identical}, no full match );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Town, Country },	 	{identical}, no full match );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Country, Town },	 	{identical}, no full match );
+	a[] = test header( { Name, Street, Town, Country	}, { Country, Town, Street, Name }, 	{identical}, incorrect sequence );
+	a[] = test header( { Name, Street, Town, Country, Name	}, { Name, Street, Town, Country}, 	{identical}, duplicate );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, Street, Town, Country}, 	{identical}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, County, Phone, State}, 	{identical}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { },			 		{identical}, no full match );
+	a[] = test header( { 					}, { },			 		{identical}, empty and ok );
+
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country, Name},{must exist, no repetition}, repeated );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country, -1},	{must exist, no repetition}, repeated );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country }, 	{must exist, no repetition}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town },	 	{must exist, no repetition}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Country, Town, Street, Name }, 	{must exist, no repetition}, ok );
+	a[] = test header( { Name, Street, Town, Country, Name	}, { Name, Street, Town, Country},	{must exist, no repetition}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, Street, Town, Country}, 	{must exist, no repetition}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, County, Phone, State}, 	{must exist, no repetition}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { },			 		{must exist, no repetition}, empty and ok );
+	a[] = test header( { 					}, { },			 		{must exist, no repetition}, empty and ok );
+	a[] = test header( { Name, Street, Town, "", Country	}, { Name, "", Street, Town, Country},	{must exist, no repetition}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, "", Street, Town, Country },	{must exist, no repetition}, not found );
+
+
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country, Name},{must exist, no blanks}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country }, 	{must exist, no blanks}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town },	 	{must exist, no blanks}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Country, Town, Street, Name }, 	{must exist, no blanks}, ok );
+	a[] = test header( { Name, Street, Town, Country, Name	}, { Name, Street, Town, Country},	{must exist, no blanks}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, Street, Town, Country}, 	{must exist, no blanks}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, County, Phone, State}, 	{must exist, no blanks}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { },			 		{must exist, no blanks}, empty and ok );
+	a[] = test header( { 					}, { },			 		{must exist, no blanks}, empty and ok );
+	a[] = test header( { Name, Street, Town, "", Country	}, { Name, "", Street, Town, Country},	{must exist, no blanks}, forbidden blank );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, "", Street, Town, Country },	{must exist, no blanks}, forbidden blank );
+
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country, Name},{must exist, no repetition, no blanks}, repeated );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country }, 	{must exist, no repetition, no blanks}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town },	 	{must exist, no repetition, no blanks}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Country, Town, Street, Name }, 	{must exist, no repetition, no blanks}, ok );
+	a[] = test header( { Name, Street, Town, Country, Name	}, { Name, Street, Town, Country},	{must exist, no repetition, no blanks}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, Street, Town, Country}, 	{must exist, no repetition, no blanks}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, County, Phone, State}, 	{must exist, no repetition, no blanks}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { },			 		{must exist, no repetition, no blanks}, empty and ok );
+	a[] = test header( { 					}, { },			 		{must exist, no repetition, no blanks}, empty and ok );
+	a[] = test header( { Name, Street, Town, "", Country	}, { Name, "", Street, Town, Country},	{must exist, no repetition, no blanks}, forbidden blank );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, "", Street, Town, Country },	{must exist, no repetition, no blanks}, forbidden blank );
+
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country, Name},{must exist, ignore blanks}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country }, 	{must exist, ignore  blanks}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town },	 	{must exist, ignore  blanks}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Country, Town, Street, Name }, 	{must exist, ignore  blanks}, ok );
+	a[] = test header( { Name, Street, Town, Country, Name	}, { Name, Street, Town, Country},	{must exist, ignore  blanks}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, Street, Town, Country}, 	{must exist, ignore  blanks}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { Zip, County, Phone, State}, 	{must exist, ignore  blanks}, not found );
+	a[] = test header( { Name, Street, Town, Country	}, { },			 		{must exist, ignore  blanks}, empty and ok );
+	a[] = test header( { 					}, { },			 		{must exist, ignore  blanks}, empty and ok );
+	a[] = test header( { Name, Street, Town, "", Country	}, { Name, "", Street, Town, Country},	{must exist, ignore  blanks}, ok );
+	a[] = test header( { Name, Street, Town, Country	}, { Name, "", Street, Town, Country },	{must exist, ignore  blanks}, ok );
+
+
+
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Street, Town, Country, Name},{create if missing}, ok );
+
+	h[] = table row width( t );
+	echo( [t:,0] );
+	echo( "Header count is: ", table row width( t ), "  Expecting: 4" );
+	if (h[]<>4) pause;
+
+	a[] = test header( { Name, Street, Town, Country	}, { Name, Phone, Town, State, Name},	{create if missing}, ok );
+	h[] = table row width( t );
+	echo( [t:,0] );
+	echo( "Header count is: ", table row width( t ), "  Expecting: 6" );
+	if (h[]<>6) pause;
+
+	a[] = test header( { Name, Street, Town, Country	}, { Name, 4, Street, 5 },		{create if missing}, ok );
+	h[] = table row width( t );
+	echo( [t:,0] );
+	echo( "Header count is: ", table row width( t ), "  Expecting: 6" );
+	if (h[]<>6) pause;
+
+	a[] = test header( { Name, Street, Town, Country	}, { Name, -1, Street, -1},		{create if missing}, ok );
+	h[] = table row width( t );
+	echo( [t:,0] );
+	echo( "Header count is: ", table row width( t ), "  Expecting: 6" );
+	if (h[]<>6) pause;
+
+	echo (new line);
+	interactive;
+} 

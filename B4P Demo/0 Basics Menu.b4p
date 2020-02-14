@@ -1,0 +1,34 @@
+
+{
+
+    do
+    {
+
+	echo(new line, new line, "0. Sub-menu for basic functions");
+
+	table initialize ( main menu,
+		{ { Menu Choice,Menu Explanation,			Menu Selection				},
+		  { 0,		Hello World,				00 Basics Hello World.b4p		},
+		  { 1,		Numerals,				01 Basics Numerals.b4p			},
+		  { 2,		Booleans,				02 Basics Booleans.b4p			},
+		  { 3,		Literals,				03 Basics Literals.b4p			},
+		  { 4,		Dates and Times,			04 Basics Dates.b4p			},
+		  { 5,		Parameter Sets,				05 Basics Parameter Sets.b4p		},
+		  { M,		Main menu,				back					},
+		  { I ,		Interactive,				interactive				} } );
+
+
+	echo( new line );
+	main selection[] = table menu quick( main menu, Menu Choice, Menu Explanation, Menu Selection );
+
+	switch( main selection[])
+	{
+		case ('*.txt','*.b4p') 	start(main selection[]);
+		case (interactive)	{ interactive; exit; }
+
+	}
+    }
+    while( main selection[] <> back );
+
+
+}

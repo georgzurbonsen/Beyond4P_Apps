@@ -1,0 +1,22 @@
+
+{
+
+/*  Comment:
+
+    This is a simple demonstration program, welcoming you to use Beyond4P.
+    I hope you will have a lot of pleasure with this language.
+
+*/
+
+//  This is a row comment which you can add to the end of the statement.
+
+
+    echo( Hello    World  );	// No quotation marks: Spaces reduced to 1
+    echo('Hello world');	// Softquoted literal
+    echo("Hello world");	// Quoted literal
+
+
+    echo("Today, it's ", date(today));
+    echo(new line,"Enjoy programming with Beyond4P.");
+
+}

@@ -1,0 +1,500 @@
+{
+
+
+
+
+    echo("Demonstration of some basic functionality with parameter sets", new line );
+
+    table initialize ( sub  menu,
+		{ { Menu Choice,Menu Explanation,				Menu Selection		},
+		  { 0,	"Parameter sets: Introduction"				,	intro		},
+		  { 1,	"Parameter sets: Unary operations and functions"	,	set unary ops	},
+		  { 2,	"Parameter sets: Binary operations"			,	set binary ops	},
+		  { 3,	"Parameter sets: Finding and counting"			,	find count	},
+		  { 4,	"Parameter sets: Left and right functions"		,	left right	},
+		  { 5,	"Parameter sets: Deep operations"			,	deep ops	},
+		  { 6,	"Parameter sets: Deep function calls"			,	deep funcs	},
+		  { 7,	"Parameter sets: Deep operations with 2 levels"		,	deep ops 2	},
+		  { 8,	"Parameter sets: Indirect parameter passing to functions",	indirect	},
+		  { 9,	"Parameter sets: Matrix mathematics"			,	matrix		},
+		  { M,	"Back to previous menu"					,	back		},
+		  { I,	"Interactive (city and countries tables loaded)"	,	interactive	} } );
+
+    do
+    {
+
+	echo( new line );
+	selection[] = table menu quick( sub menu, Menu Choice, Menu Explanation, Menu Selection );
+
+ 	switch( selection[])
+	{
+
+	    case(intro) // Introduction
+	    {
+
+		echo("Some introductory concepts.  Study the code along with the outcome when running it");
+
+		b[] = {1,2,3};
+		echo("Set containing numerals:      ", b[] );
+
+		c[] = {1,2,3,a,b,c,true,date(today)};
+		echo("Set containing mixed types:   ", c[] );
+
+		a[] = {{}};
+		echo("Ste containing and empty set: ", a[] );
+
+		a[] = {};
+		echo("Empty set:                    ", a[] );
+
+		d[] = {1,2,{3,4,{5,6}},{}};
+		echo("Nested parameter sets:        ", d[], "  ( Last element is a nested empty set )" );
+
+		e[] = {1,2,{3,4,{5,6}},{}}{0};
+		echo("1st element of set above:     ", e[], "  ( 1st element is referred as element 0 )" );
+
+		e[] = {1,2,{3,4,{5,6}},{}}{2};
+		echo("3rd element of set above:     ", e[], "  ( 3rd element, referred with 2, is a subset )" );
+
+		e[] = {1,2,{3,4,{5,6}},{}}{-1};
+		echo("3rd element of set above:     ", e[], "  ( last element, which is the empty set )" );
+
+		a[] = {a,b,c,d,e}{1..3};
+		echo("Picking details:              ", a[], "  ( Picking details with range: Results in {b,c,d} )" );
+
+		e[] = {b[],a[]};
+		echo("2 sets put into a new set:    ", e[], "  ( combination of {1,2,3} and {} )" );
+
+		a[] = {4:a, 3:b, 2:{1,2}};
+		echo("Create repeated elements:     ", a[], "  ( 4 x a, 3 x b and 2 x {1,2} )" );
+
+		a[] = {1..5,A..E};
+		echo("Create ranges:                ", a[], "  ( 1..5 and A..E )" );
+
+		a[] = {No. 1 .. No. 5};
+		echo("Create ranges with text:      ", a[], "  ( No. 1 .. No. 5 )" );
+
+		a[] = {2..4..12,A..C..K};
+		echo("Use other increments:         ", a[], "  ( 2,4,...,12 and A,C,E,...K )" );
+
+		a[] = {No. 2..No. 6..No. 22};
+		echo("Combination of the above:     ", a[], "  ( No. 2, No. 4, .. No.22 )" );
+
+		a[] = {No. 02..No. 06..No. 22};
+		echo("Combination of the above:     ", a[], "  ( No. 02, No. 04, .. No.22 )" );
+
+		a[] = {5..0};
+		echo("Decrementing range - 1st try: ", a[], "  ( Empty set, From 5..0 in increments of 1 not possible )" );
+
+		a[] = {5..4..0};
+		echo("Decrementing, this one works: ", a[], "  ( Empty set, From 5..0 in increments of 1 not possible )" );
+
+		a[] = {5..4.5..0};
+		echo("Decrementing by half works:   ", a[], "  ( 5, 4.5, 4, 3,5, ... 0 )" );
+
+		a[] = {date(today)..date(today)+2..date(today)+14};
+		echo("It works with dates, too:     ", a[], "  \n                      ( You can do this with dates, too. Here: Steps of 2 days )" );
+
+		a[] = {a,b,c,d,e,f,g};
+		a[]{1} = B;
+
+		echo("Writing individual elements:  ", a[], "  ( Here 'b' is replaced by 'B' )" );
+
+
+
+	    }
+
+	    case(set unary ops) // Unary operators
+	    {
+
+		lit1[] = input(new line +"Enter a parameter set of  values separated with commas: ", literal);
+		p1[] = parameter set( softquoted literal(lit1[]));
+
+		echo(new line);
+		echo("Parameter set 1: ", p1[], "  (", p1[]{}," elements )");
+		echo(new line);
+
+		p3[] = +p1[];
+		echo("Sort ascending:  ", p3[], "  (", p3[]{}," elements )");
+
+		p3[] = -p1[];
+		echo("Sort descending: ", p3[], "  ( ", p3[]{}," elements )");
+
+		p3[] = !p1[];
+		echo("Order mirrored:  ", p3[], "  ( ", p3[]{}," elements )");
+
+		p3[] = trim(p1[]);
+		echo("Trim:            ", p3[], "  ( ", p3[]{}," elements ) (All duplicate elements removed)");
+
+		echo("Length:          ", length(p3[])," (Alternative way to get length than using {} at the end)");
+
+	    }
+
+	    case(set binary ops) // Binary operators
+	    {
+
+
+		lit1[] = input(new line +"Enter a parameter set of  values separated with commas: ", literal);
+		lit2[] = input("Enter another parameter set also separated with commas: ", literal);
+
+		p1[] = parameter set( softquoted literal(lit1[]));
+		p2[] = parameter set( softquoted literal(lit2[]));
+
+		echo(new line);
+		echo("Parameter set 1: ", p1[], "  ( ", p1[]{}," elements )");
+		echo("Parameter set 2: ", p2[], "  ( ", p2[]{}," elements )");
+		echo(new line);
+
+		p3[] = p1[] & p2[];
+		echo("Intersection:    ", p3[], "  ( ", p3[]{}," elements )");
+	
+		p3[] = p1[] | p2[];
+		echo("Union:           ", p3[], "  ( ", p3[]{}," elements )");
+
+		p3[] = p1[] + p2[];
+		echo("Addition:        ", p3[], "  ( ", p3[]{}," elements )");
+
+		p3[] = p1[] - p2[];
+		echo("Subtraction:     ", p3[], "  ( ", p3[]{}," elements )");
+
+		p3[] = p1[] / p2[];
+		echo("All-Removal:     ", p3[], "  ( ", p3[]{}," elements )");
+
+		p3[] = match(p1[], p2[] );
+		echo("Sets do match:      ", p3[], "  ( ordering of elements is not relevant )");
+
+		p3[] = p1[] = p2[];
+		echo("Sets do match:      ", p3[], "  ( simple equal operator '=' is same as 'match()' )");
+
+		p3[] = p1[] == p2[];
+		echo("Direct comparison:  ", p3[], "  ( double equal operator '==': ordering is relevant here )");
+
+		p3[] = subset(p1[], p2[]);
+		echo("Subset comparison:  ", p3[], "  ( If true: Parameter set 2 is subset of parameter set 1 )");
+
+
+
+
+	    }
+
+	    case(find count) // Find elements and count
+	    {
+
+		lit1[] = input(new line +"Enter a parameter set of  values separated with commas: ", literal);
+		p1[] = parameter set( softquoted literal(lit1[]));
+		lit2[] = input("Enter a value to check against the parameter set: ");
+
+		echo(new line);
+		echo("Parameter set 1: ", p1[], "  ( ", p1[]{}," elements )");
+		echo(new line);
+
+		echo(new line);
+		echo("Resulf of find(): ", find( p1[], lit2[] ));
+		echo("Resulf of count elements(): ", count elements( p1[], lit2[] ));
+		echo(new line);
+
+
+	    }
+
+	    case(left right) // Left and right operations
+	    {
+
+		lit1[] = input(new line +"Enter a parameter set of  values separated with commas: ", literal);
+		p1[] = parameter set( softquoted literal(lit1[]));
+		num2[] = input("Enter a number (try positive and negative numbers as well): ", numeral);
+
+		echo(new line);
+		echo("Parameter set 1: ", p1[], "  ( ", p1[]{}," elements )");
+		echo(new line);
+
+		p3[] = left(p1[],num2[]);;
+		echo("left:            ", p3[], "  ( ", p3[]{}," elements )");
+
+		p3[] = right(p1[],num2[]);;
+		echo("right:            ", p3[], "  ( ", p3[]{}," elements )");
+
+
+	    }
+
+	    case(deep ops) // Deep operations
+	    {
+
+		echo("Deep operators and the 'deep' function allows to apply arithmetic operations on the elements");
+		echo("of the parameter sets provided.", new line);
+
+		a[] = { 1,1,2,2,3,3,4,4 };
+		b[] = { 2,2,3,3,2,2,3,3 };
+
+		c[] = a[] *^ b[]; 
+
+		echo("Parameter set a[]: ", a[]);
+		echo("Parameter set b[]: ", b[]);
+		echo("Parameter set c[]: ", c[], "  ( Elements of a[] and b[] multiplied )" );
+
+		c[] -^= 1;  // The deep operator '^' refers to working with elements. Subtract them by 1
+
+		echo("Parameter set c[]: ", c[], "  ( Elements of c[] subtracted by 1 )" );
+
+		c[] = -^ c[]; // Negate the elements
+
+		echo("Parameter set c[]: ", c[], "  ( Elements of c[] negated )" );
+
+		echo("Compare elements a[] > b[]: ", a[] >^ b[] );
+
+		echo("Calculate sum of products of a[] and b[]: ", sum( a[] *^ b[] ) );
+
+		echo("Deep ops on literals work, too: ", "The " +^ {dog,cat,fish}, "  ( Example with string catenation )" );
+
+		echo("Mixed types in sets: ",  { 1, H, date(today) } +^ { 2, i, 7 } );
+		echo("Mixed types in sets: ",  true !=^ { true, false }, "  ( Example of Boolean inversion )" );
+
+		echo(new line,"Deep operations of two parameter sets of different lengths",new line);
+
+		a[] = { 6,5,4,3,2 };
+		b[] = { 3,2 };
+
+		c[] = a[] *^ b[]; 
+
+		echo("Parameter set a[]: ", a[]);
+		echo("Parameter set b[]: ", b[]);
+		echo("Parameter set c[]: ", c[], "  ( c[]: Only first two elements are multiplied )" );
+		
+		c[] = b[] *^ a[]; // Switch the operands
+		echo("Parameter set c[]: ", c[], "  ( c[]: Only first two elements are multiplied, same as before )" );
+
+
+		echo(new line,"Deep operations of two parameter sets of different lengths with repetition",new line);
+
+		c[] = a[] *^: b[];  // Note the colon suffix.
+
+		echo("Parameter set a[]: ", a[]);
+		echo("Parameter set b[]: ", b[]);
+		echo("Parameter set c[]: ", c[], "  ( Shorter parameter set: Continue with 1st element, etc. )" );
+		echo("Note that {3,2} was implicitly extended to {3,2,3,2,3} before calculating");
+
+		a[] +^:= {0,10};
+
+		echo("Parameter set a[]: ", a[], "  ( 10 added to every 2nd element )" );
+		 
+
+		// Include 2 levels
+		// Include repetition patterns
+		// Include the deep function
+
+
+	    }
+
+	    case(deep funcs) // Deep function calls
+	    {
+
+		echo("Apply a function call 'deep'ly on the elements in the parameter set");
+
+		a[] = { -1,2,-3,4,-5 };
+		b[] = { 3,2 };
+		echo("Parameter set a[]: ", a[]);
+		echo("Parameter set b[]: ", b[]);
+
+		c[] = deep( abs, {a[]} );
+		echo("Parameter set c[]: ", c[], "  ( abs(...) applied on the elements of a[] )" );
+
+		c[] = deep( sum, { a[], b[] } );
+		echo("Parameter set c[]: ", c[], "  ( sum(...) applied on the elements of a[] and b[] )" );
+
+		c[] = deep( product, { a[], b[] } );
+		echo("Parameter set c[]: ", c[], "  ( product(...) applied on the elements of a[] and b[] )" );
+
+		c[] = deep( product, { a[], b[] },1, 1 ); // 3rd parameter = depth, 4th parameter = padding value
+		echo("Parameter set c[]: ", c[], "  ( like above, but excess elements multiplied by 1 )" );
+
+		c[] = deepr( product, { a[], b[] } ); // Note 'deepr'
+		echo("Parameter set c[]: ", c[], "  ( Shorter parameter will be repated to match length of longer one )" );
+
+	    }
+
+	    case(deep ops 2) // Deep ops with 2 levels
+	    {
+		a[] = { { 4, 5},{ 6, 7} };
+		b[] = { {10,20},{30,40} };
+
+		echo("Parameter set a[]: ", a[]);
+		echo("Parameter set b[]: ", b[]);
+
+		c[] = a[] + b[]; // Simple one: It catenates both vectors.
+		echo("Parameter set c[]: ", c[], "  ( Just catenating the two nested parameter sets. )" );
+
+		c[] = a[] +^ b[]; // Simple one: It catenates both vectors.
+		echo("Parameter set c[]: ", c[], "  ( Catenating the nested parameter sets. )" );
+
+		c[] = a[] +^^ b[]; // Simple one: It catenates both vectors.
+		echo("Parameter set c[]: ", c[], "  ( Adding the elements together )" );
+
+		c[] = a[] +^^ 50;
+		echo("Parameter set c[]: ", c[], "  ( Add value to the elements )" );
+
+		c[] = a[] +^^ {50,60}; // 50 added to '1st' row, 60 to '2nd' row.
+		echo("Parameter set c[]: ", c[], "  ( Add value to the elements )" );
+
+		c[] = a[] +^^: {{50,60}}; // 50 and 60 added to each of the two rows.  Colon needed for repeat pattern
+		echo("Parameter set c[]: ", c[], "  ( Add value to the elements )" );
+
+		echo("Flattened parameter set (all nestings removed):", flat(a[]) );
+
+
+	    }
+
+	    case(indirect) // Indirect parameter passing
+	    {
+		echo("The followiong is a traditional function call:");
+		echo("Average value is ", average( 2,3,4,5 ) ); // Note: 4 function parameters passed
+
+		echo("The followiong uses indirect parameter passing, supported on selected functions:");
+		echo("Average value using indirect paramter passing is ", average( {2,3,4,5} ) ); // Note: 1 function parameter passed.
+
+		echo(new line,"A 2nd example with function 'pow()':");
+		echo("Power of 10: ", pow(10, 3 ) );
+		a[] = {10,3};
+		echo("Power of 10: ", pow(a[]) );
+
+
+	    }
+
+	    case(matrix) // Matrix operations with nexted parameter sets
+	    {
+
+		// Note: once() makes sure this code is executed only once when this program is loaded.  If passed through for 2nd time, the block will be skipped.
+		// This featuers is particularly useful for function definitions which shall happen only once, regardless how often the code is executed.
+
+		once() define procedure( print matrix, { { text rows, parameters }, {m, valid }, {decimal digits, numeral} } )  // Matrix of maximum 3 rows, any colunmn count
+		{
+
+			format[]      = "_-??"; // Number format for literal
+			if (decimal digits[]>0) format[] += "." + left("000000000", decimal digits[]); // Enhance number format for digits behind dec. point
+			format[]+=" ";
+			placeholder[] =  left("               ",length(format[])-1);
+
+			array( r[], text rows[] ); // Puts the 3 values into an array
+	
+			if ( type(m[]) != parameter set)
+			{
+			    r[1] += literal( m[] );
+			}
+			else
+			{
+			    if ( type(m[]{0}) != parameter set) m[] = {m[]}; // Convert 1D-Vector to horizontal matrices if necessary.
+			    m[] = deep( literal, { m[], format[] }, 2 );
+
+			    height[] = m[]{};
+
+			    if (height[]==1)
+			    {
+				r[1] += "|";
+				for all parameters( m[]{0}, v[] ) r[1]+=v[];
+				r[1] += "|";
+			    }
+			    else
+			    {
+				for (i[]=0, i[]<=2, i[]++) r[i[]] += "|";
+				for all parameters( m[]{0}, v[] ) r[0]+=v[];
+				if (height[]==2)
+				{
+				    for all parameters( m[]{0}, v[] ) r[1]+=placeholder[];
+				    for all parameters( m[]{1}, v[] ) r[2]+=v[];
+
+				}
+				else
+				{
+				    for all parameters( m[]{1}, v[] ) r[1]+=v[];
+				    for all parameters( m[]{2}, v[] ) r[2]+=v[];
+
+				}
+				for (i[]=0, i[]<=2, i[]++) r[i[]] += "|";
+			    }
+
+			}
+
+
+			for all variables( r[], v[] ) echo( v[] );
+			echo;	
+		}
+
+
+
+
+		echo("Demonstration of 2D matrix mathematics using nested parameter sets");
+
+
+		echo("1. Scaler multiplied with 2D matrix");
+		m1[] = 3 *^^ {{1,2},{3,4}};
+		print matrix(
+		{ "          | 1  2 |   ",
+		  "    3  x  |      | = ",
+		  "          | 3  4 |   " }, m1[], 0 );		  
+
+		echo("2. Horizontal matrix multiplied with vertical matrix");
+		m1[] = mmul( {{2,3}}, vertical( {4,5} ));
+		print matrix(
+		{ "               | 4 |   ",
+		  "    | 2  3 | * |   | = ",
+		  "               | 5 |   " }, m1[], 0 );		  
+
+		echo("3. Horizontal matrix multiplied with 2D matrix");
+		m1[] = mmul( {{2,3}}, {{1,2},{3,4}} );
+		print matrix(
+		{ "                 | 1  2 |   ",
+		  "    | 2  3 |  *  |      | = ",
+		  "                 | 3  4 |   " }, m1[], 0 );		  
+
+		echo("4. Horizontal matrix scalar-multiplied with 2D matrix");
+		m1[] = {{2,3}} *^^ {{1,2},{3,4}};
+		print matrix(
+		{ "                 | 1  2 |   ",
+		  "    | 2  3 |  x  |      | = ",
+		  "                 | 3  4 |   " }, m1[], 0 );		  
+	
+
+		echo("5. 2D matrix multiplied with 2D matrix");
+		m1[] = mmul( {{1,2},{3,4}}, {{8,6},{4,2}} );
+		print matrix(
+		{ "    | 1  2 |     | 8  6 |   ",
+		  "    |      |  *  |      | = ",
+		  "    | 3  4 |     | 4  2 |   " }, m1[], 0 );		  
+
+		echo("6. 2D matrix divided by 2D matrix");
+		m1[] = mdiv( {{1,2},{3,4}}, {{8,6},{4,2}} );
+		print matrix(
+		{ "    | 1  2 |     | 8  6 |   ",
+		  "    |      |  /  |      | = ",
+		  "    | 3  4 |     | 4  2 |   " }, m1[], 2 );  
+
+		echo("7. Matrix inversion");
+		m1[] = minv( {{1,2},{3,4}} );
+		print matrix(
+		{ "    | 1  2 |-1   ",
+		  "    |      |   = ",
+		  "    | 3  4 |     " }, m1[], 1 );		  
+
+		echo("8. Matrix determinant");
+		m1[] = mdet( {{1,2},{3,4}} );
+		print matrix(
+		{ "    | 1  2 |   ",
+		  " det|      | = ",
+		  "    | 3  4 |   " }, m1[], 1 );
+
+		echo("9. Transposing matrix");
+		m1[] = transpose( {{1,2,3},{4,5,6}} );
+		print matrix(
+		{ "    | 1  2  3 |   ",
+		  " TR |         | = ",
+		  "    | 4  5  6 |   " }, m1[], 0 );
+
+
+	    }
+
+	}
+	echo(new line, "Test done.  Continue with menu");
+    }
+    while (selection[] <> interactive, back);
+
+    if (selection[] = interactive) { interactive; exit; }
+
+
+}

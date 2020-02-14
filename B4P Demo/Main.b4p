@@ -1,0 +1,66 @@
+
+{
+
+	working directory[] = "";
+	runtime settings[verbose] = quiet;
+
+	table initialize ( main menu,
+		{ { Menu Choice,Menu Explanation,			Menu Selection			},
+		  { 0,		Basics,					0 Basics Menu.b4p		},
+		  { 1,		Variables,				1 Variables Menu.b4p		},
+		  { 2,		"Tables (Basic Features)",		2 Tables Basics Menu.b4p	},
+		  { 3,		Math Functions,				3 Math Menu.b4p			},
+		  { 4,		"Control Flow",				4 Control Flow Menu.b4p		},
+		  { 5,		"Directories and Files",		5 Directories and Files.b4p	},
+		  { 6,		"Transactions",				6 Transactions.b4p		},
+		  { 7,		"Resident Data" + new line,		7 Resident Data.b4p		},
+
+		  { Q,		Table explore and extract,		Table Explore and Extract.b4p	},
+		  { F,		table process selected rows fast,	Table Process Fast Demo.txt	},
+		  { C,		Cities table exercises,			cities.b4p			},
+		  { E,		Date and time functions,		Dates.txt			},
+		  { A,		Loading tables with fixed column widths,Fixed Column Code.txt		},
+		  { H,		Searching the header rows,		Header Rows.txt			},
+// construction	  { L,		Lookup and Lookup Smart,		Lookups.b4p			},
+		  { K,		Merging and consolidating tables,	Consolidation and Merging.txt	},
+		  { S,		Demo of serializing function,		Serialize.txt			},
+		  { V,		Demo Table Division,			Table Division.txt		},
+		  { P,		Performance measurements,		Performance.txt			},
+		  { T,		Test programs,				tests				},
+		  { U,		Functions demo,				Functions.txt			},
+		  { X,		HTML XML and Styles Demo,		Style Demo.b4p			},
+		  { Y,		Utility Demo,				Utility Demo.txt		},
+		  { Z,		Trade Functions,			Trade.txt			},
+		  { I ,		Interactive,				interactive			} } );
+
+
+	table initialize ( test menu,
+		{ { Menu Choice,Menu Explanation,			Menu Selection			},
+		  { C,		"Check 'table check' function",		Table Check Contents.txt	},
+		  { D,		"Do 'table check duplicates'",		Duplicates.txt			},
+		  { X,		"Loading XML files",			xml.txt				},
+		  { F,		"Test 'table fit' function",		Table fit.txt			},
+		  { H,		"Check table headers",			Table Check Headers.txt		},
+		  { T,		"Test Throw and Catch",			Throw and Catch.txt		},
+		  { J,		"Test if-then-else",			If Then Else.txt		},
+		  { I,		Interactive,				interactive			} } );
+
+
+
+	echo( new line );
+	main selection[] = table menu quick( main menu, Menu Choice, Menu Explanation, Menu Selection );
+	if ( main selection[] = tests )
+	{
+		echo( new line );
+		main selection[] = table menu quick( test menu, Menu Choice, Menu Explanation, Menu Selection );
+	}
+
+
+	switch( main selection[])
+	{
+		case ('*.txt','*.b4p') 	{ start(working directory[] + main selection[]); exit; }
+
+		case (interactive)	{ interactive; exit; }
+
+	}
+}

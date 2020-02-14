@@ -1,0 +1,162 @@
+
+once
+{
+	define procedure( print array, {{ a, all, reference }} )
+	{
+		for all variables( a[], value[], index[] )
+		{
+		    // Use function 'literal' twice: 1st to convert non-literal to literal (if needed), then 2nd to add formatting.
+		    print(index[], literal(literal(value[]),": ######* ::  ") );
+
+		    for all variables( a[index[]], value2[], index2[] ) print(index2[],literal(value2[],": ######  "));
+		    echo;
+		}
+
+	}
+}
+
+
+
+{
+
+    echo("Demonstrating arrays");
+
+
+
+    table initialize ( sub  menu,
+		{ { Menu Choice,Menu Explanation,				Menu Selection		},
+		  { 1,	"Arrays basics"						,	arrays 1	},
+		  { 2,	"2-dimensional arrays"					,	arrays 2	},
+		  { 3,	"2-dimensional arrays with different sizes"		,	arrays 3	},
+		  { 4,  "Convert array to structure"				,	arrays 4	},
+		  { 5,  "Convert structure to array"				,	arrays 5	},
+		  { M,	"Back to previous menu"					,	back		},
+		  { I,	"Interactive (city and countries tables loaded)"	,	interactive	} } );
+
+    do
+    {
+
+	echo( new line );
+	selection[] = table menu quick( sub menu, Menu Choice, Menu Explanation, Menu Selection );
+
+ 	switch( selection[])
+	{
+
+	    case(arrays 1) // Array basics
+	    {
+
+		{
+		    dim( a[], 5, "-" ); // Define an array with 5 elements
+		    a[1] = "Hello";
+		    print array( a[] );
+		}
+		echo("Array converted to parameter set: ", set( a[] ));
+		delete(a[]);
+	    }
+
+
+	    case(arrays 2) // 2-Dimensional arrays
+	    {
+
+		{
+		    a[] = The root;
+		    dim( a[], {4,3}, '-'); // Defines 6x3 array, which is actually a 4 x 3 + 4
+		    a[1,1] = Ha; // An element in the 3 x 3 array
+		    a[1,2] = He; // An element in the 3 x 3 array
+		    a[2,2] = Hi; // An element in the 3 x 3 array
+		    a[3,2] = Ho; // An element in the 3 x 3 array
+		    a[2] = Ahoi; // First level member still available
+		    a[3] = Hello; // First level member still available
+		}
+
+		print array( a[] );
+
+		echo("Resize the array.");
+		redim( a[], {5,2}, "More" ); // 3rd parameter required, but ignored if array becomes smaller
+
+		print array( a[] );
+
+		echo("Array converted to parameter set: ", set( a[] ));
+		delete(a[]);		
+	    }
+
+
+
+	    case(arrays 3) // Non-rectangular arrays and combining them
+	    {
+
+		echo("Multi-dimensional array may have different sizes in 2nd and further levels");
+	        dim( a[], 3, "-", a[0], 1, 1, a[1], 2, 2, a[2], 3, 3 ); // Define an array with 5 elements
+		print array( a[] );
+
+		echo("Array converted to parameter set: ", set( a[] ));
+
+
+		echo("Another example using the 'array' function");
+		array( b[], { 1, 2, {3,4}, 5 } );
+		print array( b[] );
+
+		echo("Append array b to end of array a");
+		a[] +<== b[];
+		print array( a[] );
+
+		delete(a[],b[]);
+	    }
+
+	    case(arrays 4) // Convert array to structure
+	    {
+		echo("Convert an array to a structure");
+		array( a[], { Austria, { Graz, Linz }, Switzerland, { Bern, Thun }, Germany, { Köln, Bonn} } );
+		print array( a[] );
+		array to structure recursive( a[], "Item. " );	
+		list local variables(a);	
+
+		echo("Convert array to structure with dedicated member names" );
+		array( b[], { Austria, Switzerland, Germany } );
+		array to structure( b[], { AT, CH, DE, LI, FR, IT } ); // Excess items in parameter set ( LI, FR, ...) included intentionally, but ignored
+		list local variables(b);
+
+		delete(a[], b[]);
+
+	    }
+
+
+	    case(arrays 5) // Convert structure to array 
+	    {
+		echo("Convert a structure to an array");
+
+		a[] = Hedwig;
+		a[son 1] = Blake;
+		a[son 2] = Colin;
+		a[daughter 1] = Lisa;
+		a[daughter 2] = Linda;
+		a[daughter 2,grandson 1] = Nick;
+		a[son 1,granddaughter 2] = Jane;
+
+		b[] <== a[];
+
+		structure to array(a[]);
+		structure to array recursive(b[]);
+
+		echo("Outcome of 'structure to array (nested structure is retained)':");
+		list local variables(a);
+		echo("Outcome of 'structure to array recursive (2-dim array)':");
+		list local variables(b);
+
+
+		delete(a[],b[]);
+
+	    }
+
+
+
+
+	}
+	echo(new line, "Test done.  Continue with menu");
+    }
+    while (selection[] <> interactive, back);
+
+    if (selection[] = interactive) { interactive; exit; }
+
+
+}

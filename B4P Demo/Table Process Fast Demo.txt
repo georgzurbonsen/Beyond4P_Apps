@@ -1,0 +1,28 @@
+
+// Table process fast demo
+
+
+
+{
+	table load( names, working directory[] + "Table Process Fast Names.csv");
+	table load( purchases, working directory[] + "Table Process Fast Purchases.csv");
+
+	row[] = 0;
+	table process( names,
+	{
+		name[] = [Name];
+		total[] = 0;
+		echo( "Name: ", name[], "  row number before call: ", row[], "  ");
+	
+		table process selected rows fast( purchases, [Name]==name[], row[], repeat revolving, total[] += [Amount] );
+//		table process selected rows     ( purchases, [Name]==name[],              total[] += [Amount] );
+
+		[Total Amount] = total[];
+		
+	} );
+
+	table save( names, working directory[] + "Table Process Fast Names Out.csv");
+
+}
+
+

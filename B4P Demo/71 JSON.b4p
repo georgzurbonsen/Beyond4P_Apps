@@ -1,0 +1,287 @@
+
+
+
+// This is a JSON demo file
+
+{
+
+
+	table initialize ( sub  menu,
+		{ { Menu Choice,Menu Explanation,				Menu Selection	},
+		  { 1,	"Save 1 table as JSON files and load again",		JSON 1		},
+		  { 2,	"Save 2 tables as JSON files and laod again",		JSON 2		},
+		  { 3,	"Load more sophisticated JSON demo file to table",	JSON 3		},
+		  { 4,	"Save a variable as JSON file",				JSON Var 1	},
+		  { 5,	"Load a variable as JSON file",				JSON Var 2	},
+		  { 6,	"Put JSON text into variable and back",			JSON Var 3	},
+		  { 7,	"Put variable into JSON text and back",			JSON Var 4	},
+		  { I,	"Interactive (city and countries tables loaded)"	,	leave		} } );
+
+	// Do the demo with 2 tables
+
+	table load( cities, "Cities.csv" );
+
+	table initialize 	( little, { { Statement, Result }, { "1+1=2", true }, { "1+1=3", false }, { "Value X", unknown }, 
+				  {}, { "Lone row", true, 'beyond the "table"' }, { Two + new line + lines, tabulation + tab + inside } } );
+		
+	do
+	{
+
+	  echo( new line );
+	  selection[] = table menu quick( sub menu, Menu Choice, Menu Explanation, Menu Selection );
+
+
+  	  switch( selection[])
+	  {
+	    case(JSON 1)
+	    {
+		echo			(new line, "Save the table Cities.csv in JSON array and objects formats", new line);
+
+		table save 		( cities  , "JSON 1 Table Out.txt", JSON arrays );
+
+		table load		( cities J, "JSON 1 Table Out.txt", JSON );
+		table compare		( cities J, cities, report, City );
+		table save		( report, "JSON round trip report 1 Out.csv" );
+
+		table save 		( cities  , "JSON 2 Table Out.txt", JSON objects );
+
+		table load		( cities J, "JSON 2 Table Out.txt", JSON );
+		table compare		( cities J, cities, report, City );
+		table save		( report, "JSON round trip report 2 Out.csv" );
+	    }
+
+
+	    case(JSON 2)
+	    {
+		echo			(new line, "Save the table Cities.csv in JSON array and objects formats", new line);
+
+		table save multiple	( {cities,little}, {Cities Worldwide,Little Table}, "JSON 3 Table Out.txt", JSON arrays );
+
+		table load		( cities J, "JSON 3 Table Out.txt", JSON );
+		table compare		( cities J, cities, report, City );
+		table save		( report, "JSON round trip report 3 (cities) Out.csv" );
+
+		table load		( little J, "JSON 3 Table Out.txt", JSON, ' "name" : "L*", "table" : ' ); // Look for a pattern
+		table compare		( little J, little, report, 0 );
+		table save		( report, "JSON round trip report 3 (little) Out.csv" );
+
+		table save multiple	( {cities,little}, {Cities Worldwide,Little Table}, "JSON 4 Table Out.txt", JSON objects );
+
+		table load		( cities J, "JSON 4 Table Out.txt", JSON );
+		table compare		( cities J, cities, report, City );
+		table save		( report, "JSON round trip report 4 (cities) Out.csv" );
+
+		table load		( little J, "JSON 4 Table Out.txt", JSON, ' "table_1" ' ); // Look for "table_1"
+		table compare		( little J, little, report, 0 );
+		table save		( report, "JSON round trip report 4 (little) Out.csv" );
+
+		echo			( new line, "Attempt to load contents in JSON file which cannot be found" );
+
+		result[] = table load	( little J, "JSON 4 Table Out.txt", JSON, ' "table_bla_blaaah" ' ); // Look for nonexisting table
+		echo			( "Load result = ", result,"   Table length = ", table length( little J ) );
+
+
+	    }
+
+	    case(JSON 3)
+	    {
+
+		echo			(new line, "Load more sophisticated JSON File.  'JSON Animal File.csv' created, do visual check.", new line);
+
+		result[] = table load	( animals, "JSON Animal File.txt", JSON );
+		echo			( new line, "Return value of loading function is ", result[] ); // true = successful, false = blank table
+		table save		( animals, "JSON Animal File.csv" );
+
+		echo			( new line, "Save an empty table to JSON and attempt to load it", new line);
+
+		table create		( empty table );
+		table save 		( empty table  , "JSON Empty Table Out.txt", JSON arrays );
+
+		result[] = table load	( little J, "JSON Empty Table Out.txt", JSON ); // Look for nonexisting table
+		echo			( "Load result = ", result,"   Table length = ", table length( little J ) );
+
+
+	    }
+
+	    case(JSON Var 1)
+	    {
+		echo			( new line, "Save variables into JSON files" );
+//		structure		( x[], {date,date and time,time,no date}, {date(today),date(now),time(now),date("")} );
+//		x[] = {"a'a",b,"c d","e  f",1,2,true,{3,4}};
+		x[] = {"a'a",null(),b,"c d","e  f",1,2,true,{3,4}};
+		variable save		( x[], "JSON Variable 1 Out.txt", JSON );
+
+	    }
+
+	    case(JSON Var 2)
+	    {
+		delete (a[]);
+		echo			( new line, "Load variables from JSON files" );
+		variable load		( a[], "JSON Variable.txt", JSON  );
+		inspect			( a[] );
+	    }
+
+	    case(JSON Var 3)
+	    {
+		echo( new line, "Build variable from JSON text and convert back to JSON text and compare them:" );
+
+		orig texts[] =
+		{ '1', '"String"', 'true', null, '[ "Hello", [1,2,3]]', 
+		  '[ "Hello", { "a":1, "b":2, "c":3 } ]',
+			  '"{' + "'" + Hello + "'" + ',true,123}"', // This one contains a B4P parameter set
+		  '[ "2019-07-14", "2019-07-14 12:13:14", "07:30:00", "0000-00-00" ]' };
+
+		echo				( new line, "Load variables from JSON text" );
+
+		for all parameters( orig texts[], orig text[] )
+		{
+			echo("Try with: ", orig text[] );
+			json to variable		( a[], orig text[], JSON B4P  );
+			print("Variable: "); inspect	( a[] );
+			text[] = variable to json	( a[] );
+			echo ("Final JSON code:    ", text[] );
+			echo ("Original JSON code: ", orig text[] );
+			echo ("Contents Equal?     ", orig text[] =~ text[] );
+			echo(new line);
+		}
+
+	    }
+
+	    case(JSON Var 4)
+	    {
+		echo( new line, "Save variable as JSON and load it again:" );
+
+		echo( new line, "1. Simple variable" );
+		delete( name[], result[] );
+		name[ ] = Yves;
+
+		print("Variable name[]   : "); inspect(name[]);
+		json text[] = variable to json( name[] );
+		echo ("JSON text         : ", json text[] );
+		json to variable ( result[], json text[], JSON B4P );
+		print("Variable name[]   : "); inspect(result[]);
+		echo("Check variables manually", new line);
+
+
+		echo( new line, "2. Structure" );
+		delete( name[], result[] );
+		name[ ] = Yves;
+		name[son] = John;
+		name[daughter] = Lisa;
+
+		print("Variable name[]   : "); inspect(name[]);
+		json text[] = variable to json( name[] );
+		echo ("JSON text         : ", json text[] );
+		json to variable ( result[], json text[], JSON B4P );
+		print("Variable name[]   : "); inspect(result[]);
+		echo("Check variables manually", new line);
+
+		echo( new line, "2a. Structure with void base variable" );
+		name [ ] = null();
+
+		print("Variable name[]   : "); inspect(name[]);
+		json text[] = variable to json( name[] );
+		echo ("JSON text         : ", json text[] );
+		
+		echo( new line, "3. Nested Structure" );
+		delete( name[], result[] );
+
+		name[ ] = Yves;
+		name[son] = John;
+		name[son, grandson] = Nic;
+		name[daughter] = Lisa;
+
+		print("Variable name[]   : "); inspect(name[]);
+		json text[] = variable to json( name[] );
+		echo ("JSON text         : ", json text[] );
+		json to variable ( result[], json text[], JSON B4P );
+		print("Variable name[]   : "); inspect(result[]);
+		echo("Check variables manually", new line);
+
+		echo( new line, "3a. Nested Structure with void base variable" );
+		name [ ] = null();
+
+		print("Variable name[]   : "); inspect(name[]);
+		json text[] = variable to json( name[] );
+		echo ("JSON text         : ", json text[] );
+
+		echo( new line, "4. Arrays" );
+		delete( name[], result[] );
+
+		name[ ] = Yves;
+		array( name[ ], { Ha, He, Hi } );
+
+		print("Variable name[]   : "); inspect(name[]);
+		json text[] = variable to json( name[] );
+		echo ("JSON text         : ", json text[] );
+		json to variable ( result[], json text[], JSON B4P );
+		print("Variable name[]   : "); inspect(result[]);
+		echo("Check variables manually", new line);
+
+		echo( new line, "4a. Array with void base variable" );
+		name [ ] = null();
+
+		print("Variable name[]   : "); inspect(name[]);
+		json text[] = variable to json( name[] );
+		echo ("JSON text         : ", json text[] );
+
+
+		echo( new line, "5. Nested Arrays" );
+		delete( name[], result[] );
+
+		name[ ] = Yves;
+		array( name[ ], { Ha, He, Hi } );
+		array( name[0], { Hana, Aloha } );
+
+		print("Variable name[]   : "); inspect(name[]);
+		json text[] = variable to json( name[] );
+		echo ("JSON text         : ", json text[] );
+		json to variable ( result[], json text[], JSON B4P );
+		print("Variable name[]   : "); inspect(result[]);
+		echo("Check variables manually", new line);
+
+		echo( new line, "5a. Nested Array with void base variable" );
+		name [ ] = null();
+
+		print("Variable name[]   : "); inspect(name[]);
+		json text[] = variable to json( name[] );
+		echo ("JSON text         : ", json text[] );
+
+
+		echo( new line, "6. Array in structure" );
+		delete( name[], result[] );
+
+		name[ ] = Yves;
+		name[son] = John;
+		array( name[son], { red, blue } );
+		name[daughter] = Lisa;
+
+		print("Variable name[]   : "); inspect(name[]);
+		json text[] = variable to json( name[] );
+		echo ("JSON text         : ", json text[] );
+		json to variable ( result[], json text[], JSON B4P );
+		print("Variable name[]   : "); inspect(result[]);
+		echo("Check variables manually", new line);
+
+		echo( new line, "7. Structure in array" );
+		delete( name[], result[] );
+
+		name[ ] = Yves;
+		array( name[ ], { Ha, He, Hi } );
+		name[0,a] = HaHa;
+		name[0,b] = Aloha;
+
+		print("Variable name[]   : "); inspect(name[]);
+		json text[] = variable to json( name[] );
+		echo ("JSON text         : ", json text[] );
+		json to variable ( result[], json text[], JSON B4P );
+		print("Variable name[]   : "); inspect(result[]);
+		echo("Check variables manually", new line);
+	    }
+	  }
+	  echo(new line, "Test done.  Continue with menu");
+	}
+	while (selection[] != leave);
+
+
+}

@@ -1,0 +1,61 @@
+
+define function ( square root, { { n, numeral } } )
+{
+    if (n[] < 0) exception( stop, "1st parameter: Negative value not allowed for square roots", 1 );
+
+    // Note: The 1 in the last parameter instructs Beyond4P to show the rows of the code which calles 'square root (...)'.
+
+    return( sqrt(n[]) );
+}
+
+
+{
+
+    echo("Demonstration of exception functions", new line );
+
+    table initialize ( sub  menu,
+		{ { Menu Choice,Menu Explanation,					Menu Selection		},
+		  { 0,	"Simple Exception"					,	simple exception	},
+		  { 1,	"Exception with reference to calling program"		,	calling exception	},
+		  { 2,	"Exception with reference to calling function"		,	function exception	},
+		  { M,	"Back to previous menu"					,	back			},
+		  { I,	"Interactive (city and countries tables loaded)"	,	interactive	} } );
+
+
+    do
+    {
+
+	echo( new line );
+	selection[] = table menu quick( sub menu, Menu Choice, Menu Explanation, Menu Selection );
+
+
+ 	switch( selection[])
+	{
+
+	    case(simple exception) // Simple exception
+	    {
+		echo("An exception will happen next ...", new line);
+		exception( pause, "An exception has occurred." );
+	    }
+
+	    case(calling exception) // Simple exception
+	    {
+		echo("An exception with reference to starting this program will happen next ...", new line);
+		exception( pause, "An exception has occurred.", 1 );
+	    }
+
+	    case(function exception) // Simple exception
+	    {
+		echo("Call a user function which reports an exception ...", new line);
+		b[] = square root( -1 );
+	    }
+
+	}
+	echo(new line, "Test done.  Continue with menu");
+    }
+    while (selection[] <> interactive, back);
+
+    if (selection[] = interactive) { interactive; exit; }
+
+
+}

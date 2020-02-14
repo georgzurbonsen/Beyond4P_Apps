@@ -1,0 +1,370 @@
+
+
+{
+
+    echo("Demonstration of directory listings", new line );
+
+    table initialize ( sub  menu,
+		{ { Menu Choice,Menu Explanation,					Menu Selection		},
+		  { 0,	"Search and list files"					,	search files		},
+		  { 1,	"Simple directory listing"				,	directory		},
+		  { 2,	"Colorful directory listing"				,	color directory		},
+		  { 3,	"Find duplicate files"					,	find duplicates		},
+		  { 4,	"Directory and file operations"				,	directory and file demo	},
+		  { 5,	"Recursive directory and file operations"		,	recursive demo		},
+		  { C,	"Clean up: Delete all files containing 'out'"		,	cleanup			},
+		  { M,	"Back to previous menu"					,	back			},
+		  { I,	"Interactive (city and countries tables loaded)"	,	interactive	} } );
+
+
+    do
+    {
+
+	echo( new line );
+	selection[] = table menu quick( sub menu, Menu Choice, Menu Explanation, Menu Selection );
+
+	if (system info[operating system] = Linux)	path[] = "/home";
+	else:						path[] = "C:\";
+
+
+
+	echo( new line,"Some disk and file info:" );
+	echo( "   Total disk space in C:\ is ", literal(disk space( path[] ),"#,###", english), " bytes" );
+	echo( "   Free  disk space in C:\ is ", literal(disk space free( path[] ),"#,###", english), " bytes" );
+	echo( "   Working directory is ", working directory() );
+
+
+ 	check( selection[])
+	{
+	    case(search files, directory, color directory)
+	    {
+
+		recursive[] = input quick ignore case("Specify R for recursive, N for non-recursive", "NR" ) = "R"; 
+		path[] = input("Enter path: ", literal );
+		echo("Path is ", path[]);
+		matching pattern[] = input("Enter matching pattern (e.g. '*.*': ", literal );
+		echo("Matching pattern is ", matching pattern[]);
+
+
+	    }
+
+	    case(search files)
+	    {
+		echo("Searching maximum 3 files ...");
+		echo( search files( path[], matching pattern[], 3, files ));
+
+	    }
+
+	    case(directory, color directory) 
+	    {
+
+		if (recursive[])
+		{
+			count[] = directory listing recursive( t, path[], matching pattern[], files );
+		}
+		else
+		{
+			count[] = directory listing ( t, path[], matching pattern[], files );
+		}
+		echo("Directory listing contains ", count[], " items" );
+	    }
+	    case(directory)
+	    {
+
+		echo("Name                          File size");
+		table process( t, echo(literal([Name],"############################  "), literal(literal([Size],"0", local),"############", align right ))); 
+	    }
+
+	    case(color directory)
+	    {
+		table copy table( t, u ); // Make a copy for further feature below
+
+	
+		table insert columns( t, Type, "", Date Created );
+
+
+		// Some HTML color formatting.  Actual conversion takes place in the function 'table save'.
+
+		red_text[] = escape + escape + '<font color = "red">' + escape + '</font>';
+		green_text[] = escape + escape + '<font color = "#008000">' + escape + '</font>';
+		lightgreen_text[] = escape + escape + '<font color = "#40C040">' + escape + '</font>';
+		blue_text[] = escape + escape + '<font color = "blue">' + escape + '</font>';
+		purple_text[] = escape + escape + '<font color = "#E000A0">' + escape + '</font>';
+		ocre_text[] = escape + escape + '<font color = "#E0A040">' + escape + '</font>';
+		lightblue_text[] = escape + escape + '<font color = "#40C0F0">' + escape + '</font>';
+		gray_text[] = escape + escape + '<font color = "#C0C0C0">' + escape + '</font>';
+
+
+		// A good example where a piece of code is supplied as a parameter into the function call 'table process'.
+
+		table process( t, 
+			switch (+[Name])
+			{
+				case ('*.XLS', '*.XLS?' )  { [Name] = [Name] + green_text[]; [Type] = "Excel"; }
+				case ('*.DOC', '*.DOC?' )  { [Name] = [Name] + blue_text[]; [Type] = "Word"; }
+				case ('*.PPT', '*.PPT?' )  { [Name] = [Name] + red_text[]; [Type] = "Powerpoint"; }
+				case ('*.CSV' )  	   { [Name] = [Name] + lightgreen_text[];  [Type] = "CSV"; }
+				case ('*.PDF' )  	   { [Name] = [Name] + purple_text[]; [Type] = "PDF"; }
+				case ('*.ZIP', '*.ZIP?' )  { [Name] = [Name] + ocre_text[];  [Type] = "ZIP"; }
+				case ('*.GIF', '*.BMP', '*.TIF', '*.TIFF', +'*.JPG', '*.PNG' )  { [Name] = [Name] + lightblue_text[]; [Type] = "Picture"; }
+				case ('*.HTM', '*.HTM?', '*.MHT' )  { [Name] = [Name] + gray_text[]; [Type] = "HTML"; }
+			} );
+
+
+		// Yes, Excel can 'eat' HTML format.
+
+		table save( t, working directory[] +"dir.xls", HTML );
+
+
+	    }
+
+
+	    case (find duplicates)
+	    {
+
+
+		// This little prpogram gets directory listing and checks for duplicate files in the drive so you can
+		// do some clean up work on the disk afterwards.
+
+
+		path[] = input("Enter path: ", literal );
+		echo("Path is ", path[]);
+		count[] = directory listing recursive( u, path[], "*.*", files );	
+		echo("Directory listing contains ", count[], " items" );
+
+
+		echo( new line, "Identify duplicate files (same name, date, time and size)");
+		echo( "Ignore all smaller files with less than 100 kB size");
+		table delete selected rows( u, [Size]<100000 );
+
+		echo( "Shortened List size is ", table length(u));
+		table insert columns( u, {identifier, index, count}, "", 0 );
+		echo( "Now check the duplicate entries");
+		pause;
+		table check duplicates ignore both( u, {Name,Date Updated,Time Updated,Size}, identifier , index, count );
+
+		echo("  Clean up and sort table by duplicates.");
+		table delete selected rows( u, [identifier]="" );
+		table sort rows( u, { identifier, index }, numeric );
+
+		echo("  Save the data.");
+
+		table save( u, working directory[] + "duplicates out.xls", HTML );
+		echo( new line, "Done.", new line );
+	    }
+
+	    case (directory and file demo)
+	    {
+
+		echo(new line, new line, "Demo 1: Create two subdirectories");
+
+		result1[] = directory create all( working directory[] + "Sub Dir Name 1", working directory[] + "Sub Dir Name 2" );
+	
+ 
+		echo("Encountered ", result1[], " successes while creating 2 subdirectories." );
+		echo("Take a look at " , working directory[], " to see that 2 subdirectories have been created (otherwise already existing)." );
+
+		pause;
+
+
+		if (main selection[]==recursive demo) continue case;
+
+		echo(new line, new line, "Demo 2: Check some files");
+
+		echo( "The file 'Main.b4p'       is existing ... ", file existing( working directory[] + "Main.b4p" ));
+		echo( "The file 'Sub Dir Name 1' is existing ... ", file existing( working directory[] + "Mainxx.txt" ));
+		echo( "The file 'Mainxx.txt'     is existing ... ", file existing( working directory[] + "Mainxx.txt" ));
+		echo( "The directory 'Sub Dir Name 1' is existing ... ", directory existing( working directory[] + "Sub Dir Name 1" ));
+		echo( "The directory 'Sub Dir Name x' is existing ... ", directory existing( working directory[] + "Sub Dir Name x" ));
+		echo( "The directory 'Main.b4p'       is existing ... ", directory existing( working directory[] + "Main.b4p" ));
+
+
+		echo(new line);
+		echo( "File size of 'Main.b4p'   is ", file size( working directory[] + "Main.b4p" ));
+		echo( "File size of 'Cities.txt' is ", file size( working directory[] + "Cities.txt" ));
+		echo( "File size of '*.txt' (all files ending with '.txt') is ", file size( working directory[] + "*.txt" ));
+		echo( "File size of 'Sub Dir Name 1' (Directory, size alway zero) is ", file size( working directory[] + "Sub Dir Name 1" ));
+		echo( "File size of 'Working directory is ", file size( working directory[]),"  (because no file(s) are specified)." );
+
+
+		echo(new line, new line, "Demo 3: Copy two text files");
+
+
+		result1[] = file copy all( 
+				{ working directory[] + "Main.b4p",	working directory[] + "Cities.txt"	 },
+				{ working directory[] + "Sub Dir Name 1\" + "Main.b4p", working directory[] + "Sub Dir Name 1\" + "Cities.txt" } );
+		echo("Number of successes: ", result1[] );
+
+
+		pause;
+
+		echo("Try to copy again. It will fail.");
+		result1[] = file copy all( working directory[] + "Main.b4p", working directory[] + "Sub Dir Name 1\" + "Main.b4p" );
+		echo("Number of successes: ", result1[] );
+
+		echo("Try to copy again with 'file copy overwrite'");
+		result1[] = file copy overwrite( working directory[] + "Main.b4p", working directory[] + "Sub Dir Name 1\" + "Main.b4p" );
+		echo("Number of successes: ", result1[] );
+
+		echo("Take a look that the file has been copied." );
+
+
+		echo(new line, new line, "Demo 4: Check the directory sizes");
+
+
+		echo(new line);
+		echo( "Directory size of 'Sub Dir Name 1' is ", directory size( working directory[] + "Sub Dir Name 1" ),"  (Should be sum of Cities+Main.b4p)");
+		echo( "Directory size of 'Sub Dir Name 2' is ", directory size( working directory[] + "Sub Dir Name 2" ),"  (Should be zero)");
+		echo( "Directory size of 'Sub Dir Name x' is ", directory size( working directory[] + "Sub Dir Name x" ),"  (Should be -1 / not existing)");
+
+
+		echo(new line, new line, "Demo 5: Rename a copied file");
+		result1[] = file rename all( working directory[] + "Sub Dir Name 1\Cities.txt", working directory[] + "Sub Dir Name 2\Towns.txt" ); // All files
+		echo("Number of successes: ", result1[] );
+		pause;
+
+
+		echo(new line, new line, "Demo 6: Delete the copied file");
+
+		result1[] = file delete all( working directory[] + "Sub Dir Name 2\" + "Towns.txt" ); // All files
+		result1[] = file delete all( working directory[] + "Sub Dir Name 1\" + "Main.b4p" ); // All files
+		echo("Number of successes: ", result1[] );
+
+		echo("Take a look that the file has been deleted (They are actually in the waste basket).");
+		pause;
+
+		echo(new line, new line, "Demo 7: Delete two directories created");
+
+
+		result1[] = directory delete all ( working directory[] + "Sub Dir Name 1", working directory[] + "Sub Dir Name 2" );
+		echo("Number of successes: ", result1[] );
+		echo("Done.");
+
+
+	    }
+
+	    case (recursive demo)
+	    {
+		echo(new line, "Cleaning up before starting");
+
+		for( a[] = 1, a[] <= 7, a[]++) directory delete recursive all( working directory[] + "Sub Dir Name "+ literal(a[])  );
+
+
+		echo(new line, new line, "Bulk copy of files into various subdirectories");
+
+//		runtime settings [ verbose ] = debug;
+
+
+		echo("   1.  Copy text files beginning with C into 'Sub Dir Name 1\Text files\' and 'Sub Dir Name 2\Text files\'");
+		file copy multiple( working directory[], 
+			{ working directory[] + "Sub Dir Name 1\Text files" , 
+			  working directory[] + "Sub Dir Name 2\Text files" }, "C*.txt" );
+
+
+		echo("   2.  Copy text files beginning with C from 'Sub Dir Name 1\Text files\' to 'Sub Dir Name 2\Text files\', overwriting allowed");
+		file copy multiple overwrite( working directory[], 
+			{ working directory[] + "Sub Dir Name 1\Text files" , 
+			  working directory[] + "Sub Dir Name 2\Text files" }, "C*.txt" );
+
+
+		echo("   3.  Copy CSV files beginning with C into 'Sub Dir Name 1\CSV files\' and 'Sub Dir Name 2\CSV files\'");
+		file copy multiple( working directory[], 
+			{ working directory[] + "Sub Dir Name 1\CSV files" , 
+			  working directory[] + "Sub Dir Name 2\CSV files" }, "C*.csv" );
+
+
+		echo("   4.  Copy all text files into 'Sub Dir Name 3\Text files\' and 'Sub Dir Name 4\Text files\'");
+		file copy multiple( working directory[], 
+			{ working directory[] + "Sub Dir Name 3\Text files" , 
+			  working directory[] + "Sub Dir Name 4\Text files" }, "*.txt" );
+
+
+		echo("   5.  Copy all CSV  files into 'Sub Dir Name 3\CSV files\' and 'Sub Dir Name 4\CSV files\'");
+		file copy multiple( working directory[], 
+			{ working directory[] + "Sub Dir Name 3\CSV files" , 
+			  working directory[] + "Sub Dir Name 4\CSV files" }, "*.csv" );
+
+
+		echo("   6.  Copy all XLSX  files into 'Sub Dir Name 1\' and 'Sub Dir Name 2\	'");
+		file copy multiple all( working directory[], 
+			{ working directory[] + "Sub Dir Name 1\" , 
+			  working directory[] + "Sub Dir Name 2\" }, "*.xlsx" );
+
+		echo(new line, "Take a look at the 4 new subdirectories which contain further subdirectories and contents.");
+		pause;
+
+
+		echo(new line, new line, "Demo 3: Compare how multiple and recursive copy functions are working");
+
+		file copy multiple( working directory[]  + "Sub Dir Name 1", working directory[] + "Sub Dir Name 5", "*.*" );
+		file copy recursive( working directory[] + "Sub Dir Name 1", working directory[] + "Sub Dir Name 6", "*.*" );
+		file copy recursive( working directory[] + "Sub Dir Name 3", working directory[] + "Sub Dir Name 7", "T*.*" ); // All files beginning with T
+
+		directory create( working directory[] + "Sub Dir Name 3\empty directory" ); // Will be deleted later because it is empty
+
+		echo("Take a look at the 3 additional subdirectories and see what is different.");
+		pause;
+
+		echo("Following two subdirectories will be deleted:");
+
+		echo("  Directory 'Sub Dir Name 3: All files beginning with T");
+		directory delete recursive all( working directory[] + "Sub Dir Name 3", "T*" ); // Empty directories will be deleted
+
+		echo("  Directory 'Sub Dir Name 4: All files");
+		directory delete recursive( working directory[] + "Sub Dir Name 4", "*" ); 
+
+		// This function requires a further look: Consider file names?  If not, flag an error.
+
+		echo("Take a a look at Sub Dir Name 3: All subdirectories starting with T do no longer exist.");
+		echo("Take a a look at Sub Dir Name 4: All subidrectories deleted.");
+		
+		echo;
+
+
+		echo("Delete files in 'Sub Dir Name 1'  but not in 2. Then try 'directory delete recursive if empty'");
+		
+		file delete recursive( working directory[] + "Sub Dir Name 1", "*" );
+		directory delete recursive if empty( working directory[] + "Sub Dir Name 1" );
+		directory delete recursive if empty( working directory[] + "Sub Dir Name 2" );
+ 
+
+		pause;
+
+		echo("Demonstrate directory delete multiple(...)");
+
+		echo("Delete files in 'Sub Dir Name 2'");
+		file delete recursive( working directory[] + "Sub Dir Name 2", "*" );
+
+		echo("Delete subdirectories in 'Sub Dir Name 2' and '..3'");
+		directory delete multiple( working directory[] + "Sub Dir Name 2", "*" );
+		directory delete multiple all( working directory[] + "Sub Dir Name 3", "*" );
+
+		pause;
+
+		echo("Do final cleanup");
+
+		for( a[] = 1, a[] <= 7, a[]++) directory delete recursive all( working directory[], working directory[] + "Sub Dir Name "+ literal(a[])  );
+		echo("Done.");
+
+	    }
+
+	    case (cleanup)
+	    {
+
+		echo("Delete all files containing 'out'");
+		file delete multiple ( working directory[] , "*out*.*" );
+		echo("Done.");	
+
+	    }
+
+
+
+	}
+	echo(new line, "Test done.  Continue with menu");
+    }
+    while (selection[] <> interactive, back);
+
+    if (selection[] = interactive) { interactive; exit; }
+
+
+}

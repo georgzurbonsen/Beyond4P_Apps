@@ -1,0 +1,125 @@
+
+
+// This program demonstrates use of the 'table check' function.
+// The data files contain some information about locomotives where the pricing info is fully ficituous
+// and therefore not suitable for any competitive intelligence purposes.
+	
+{
+
+	table initialize( athletes, 
+	{
+		{ Name, 	Gender, Age, Handicap,	NTRP Level,	Sport 	},
+		{ Mike, 	male,	43,  36,	"",		Golf	}, 	// OK
+		{ Pascale,	emale,	31,  33,	"",		Golf	}, 	// Gender wrong
+		{ Michele,	female, 200, 36,	"",		Golf	}, 	// Age wrong
+		{ Nicolas,	male,	33,  99,	"",		Golf	}, 	// HCP wrong
+		{ "",		male,	24,  44,	Level 1.0,	Golf	}, 	// Name missing
+		{ Christa,	female,	17,  "",	Level 4.5,	Tennis	},	// OK
+		{ Christel,	female,	29,  "",	Level 2.0,	Squash	},	// Wrong sports
+		{ Zoë,		female, 18,  18,	Level 1.5,	Tennis	},	// OK
+		{ Chris,	male,	16,  "",	Level 3.0,	Tennis	},	// OK
+		{ Willy,	male,	18,  "",	Level 6.1,	Tennis	},	// Wrong level
+		{ Moritz,	male,	 1,  "",	"",		Tennis	}	// Level missing
+
+	} );	// OK again
+
+
+	table initialize ( sub  menu,
+		{ { Menu Choice,Menu Explanation,					Menu Selection	},
+		  { 1,	"Checking Tables: Simple gender check"			,	check 1		},
+		  { 2,	"Checking Tables: Check sports"				,	check 2		},
+		  { 3,	"Checking Tables: Different checks for different sports",	check 3		},
+		  { 4,	"Checking Tables: Equipment inside different locos"	,	check 4		},
+		  { I,	"Interactive"						,	leave		} } );
+
+	echo( new line );
+	selection[] = table menu quick( sub menu, Menu Choice, Menu Explanation, Menu Selection );
+
+
+	switch( selection[])
+	{
+	    case(check 1)
+	    {
+		table keep columns( athletes, {Name, Gender} );		// Just keep first 3 names and gender.
+		table delete rows( athletes, 4, 99 );
+
+		table initialize( ref,
+		{
+			{ Gender  		},
+			{ 'male,female'	   	}
+		} );
+
+
+/*		table initialize( ref,
+		{
+			{ Gender  		},
+			{ male 		   	},
+			{ female 		   	}
+		} );
+*/
+
+		table check( athletes, ref, Gender );
+		table save( athletes, working directory[] + "Table Check Out1.csv" );
+		table save( ref,      working directory[] + "Table Check Ref1.csv" );
+	    }
+
+
+	    case(check 2, check 3)
+	    {
+
+		table keep columns( athletes, {Name, Sport, Handicap, NTRP Level} ); // Look how skilled they are
+		table initialize( ref,
+		{
+			{ Sport, 	Handicap, 	NTRP Level  		},
+			{ Tennis, 	'*',		'Level ?.0,Level ?.5'	},
+			{ Golf,		'0..54',	'' 		   	}
+		} );
+
+
+		if ( selection[] == check 2)
+		{
+			echo( "Table check 2");
+			table check( athletes, ref, {Handicap, NTRP Level} );
+		}
+		else
+		{
+			echo( "Table check 3");
+			table check( athletes, ref, {Handicap, NTRP Level}, Sport );
+		}
+
+	
+		table save( athletes, working directory[] + "Table Check Out1.csv" );
+	    }
+
+	    case(check 4)
+	    {
+		table load( products, working directory[] + "Table Check Target In.csv" );
+		table load( ref,      working directory[] + "Table Check Reference In.csv" );
+
+		// Choose to call one of the functions below
+
+//		table check ( products, ref, {Power,Speed,Count}, Equipment, Vehicle Name, Vehicle Type );
+//		table check ( products, ref, {Power,Speed,Count}, Equipment, Vehicle Name, Vehicle Type, Additional Check );
+		table check ( products, ref, {Power,Speed,Count}, Equipment, Vehicle Name, Vehicle Type, Additional Check, Quantity Check);
+//		table check ( products, ref, {Power,Speed,Count}, Equipment, Vehicle Name, Vehicle Type, '', Quantity Check);
+
+		table save( products, working directory[] + "Table Check Out1.csv" );
+
+	    }
+
+
+	}
+
+
+	echo("Done.");
+	interactive;
+
+/*
+
+	table save( tgt, working directory[] + "TableCheckOut.csv" );
+	interactive;
+
+*/
+
+}
+

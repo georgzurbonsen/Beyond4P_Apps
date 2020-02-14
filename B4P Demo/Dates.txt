@@ -1,0 +1,138 @@
+
+
+{
+
+	table initialize ( birthdates,
+		{ { Name, Birthdate },
+		  { Nina, 31.01.2000 },
+		  { Nino, 01.02.2001 } } );
+
+
+	table initialize ( sub  menu,
+		{ { Menu Choice,Menu Explanation,				Menu Selection		},
+		  { 1,	"Read dates from the table direclty"			,	dates 1		},
+		  { 2,	"Rescheduling functions without time context"		,	rescheduling 1	},
+		  { 3,	"Rescheduling functions with    time context"		,	rescheduling 2	},
+		  { 4,	"Sort table with dates and times"			,	sort dates	},
+		  { I,	"Interactive"						,	leave		} } );
+
+	echo( new line );
+	selection[] = table menu quick( sub menu, Menu Choice, Menu Explanation, Menu Selection );
+
+	table load( cities, working directory[] + "Cities.csv" );
+
+	switch( selection[])
+	{
+	    case(dates 1)
+	    {
+
+		table conversion[date] = true;
+
+		echo("Read dates from the table");
+		d[] = [birthdates:Name,Nina,Birthdate];
+		echo("Value is ", d[]);
+		echo("Type  is ", type(d[]));
+
+	    }
+
+
+	    case('rescheduling*')
+	    {
+		if (selection[]=rescheduling 1) d[] = date(today);
+		else: d[] = date time(now);
+
+
+//		echo("Rescheduling blank date:      ", reschedule( "",  begin, 	day )  );
+//		echo("Rescheduling blank date+time: ", reschedule( date time(""),  begin, 	day ), new line );
+// The code examples above will assert exceptions.
+
+		echo("Begin of day:             ", reschedule( d[], begin, 	day ) );
+		echo("End of day:               ", reschedule( d[], end,   	day ) );
+		echo("Next day:                 ", reschedule( d[], next,  	day ) );
+		echo("Previous day:             ", reschedule( d[], previous,	day ) );
+		echo("10 days:                  ", reschedule( d[], 10,  	days ) );
+		echo("-10 days:                 ", reschedule( d[], -10,	days ) );
+		echo;
+
+		echo("Begin of week:            ", reschedule( d[], begin, 	week ) );
+		echo("End of week:              ", reschedule( d[], end,   	week ) );
+		echo("Next week:                ", reschedule( d[], next,  	week ) );
+		echo("Previous week:            ", reschedule( d[], previous,	week ) );
+		echo("10 weeks:                 ", reschedule( d[], 10,  	weeks ) );
+		echo("-10 weeks:                ", reschedule( d[], -10,	weeks ) );
+		echo;
+
+		echo("Begin of month:           ", reschedule( d[], begin, 	month ) );
+		echo("End of month:             ", reschedule( d[], end,   	month ) );
+		echo("Next month:               ", reschedule( d[], next,  	month ) );
+		echo("Previous month:           ", reschedule( d[], previous,	month ) );
+		echo("10 months:                ", reschedule( d[], 10,  	months ) );
+		echo("-10 months:               ", reschedule( d[], -10,	months ) );
+		echo;
+
+		echo("Begin of quarter:         ", reschedule( d[], begin, 	quarter ) );
+		echo("End of quarter:           ", reschedule( d[], end,   	quarter ) );
+		echo("Next quarter:             ", reschedule( d[], next,  	quarter ) );
+		echo("Previous quarter:         ", reschedule( d[], previous,	quarter ) );
+		echo("10 quarters:              ", reschedule( d[], 10,  	quarters ) );
+		echo("-10 quarters:             ", reschedule( d[], -10,	quarters ) );
+		echo;
+
+		echo("Begin of year:            ", reschedule( d[], begin, 	year ) );
+		echo("End of year:              ", reschedule( d[], end,   	year ) );
+		echo("Next year:                ", reschedule( d[], next,  	year ) );
+		echo("Previous year:            ", reschedule( d[], previous,	year ) );
+		echo("10 years:                 ", reschedule( d[], 10,  	years ) );
+		echo("-10 years:                ", reschedule( d[], -10,	years ) );
+		echo;
+
+		echo("5th day in month:         ", reschedule( d[], day, 	5 ) );
+		echo("4th week in year (Monday):", reschedule( d[], week,   	5 ) );
+		echo("5th month in year:        ", reschedule( d[], month,  	5 ) );
+		echo("2nd quarter in year:      ", reschedule( d[], quarter,	2 ) );
+		echo("Year 2010:                ", reschedule( d[], year,  	2010 ) );
+
+		echo;
+		echo("Wrong month:              ", reschedule( d[], month, 	13 ) );
+//		echo("Wrong parameters 1:       ", reschedule( d[], 3,		3 ) ); 	   // Is a mistake.  Try it out.
+//		echo("Wrong parameters 2:       ", reschedule( d[], year,	years ) ); // Is a mistake.  Try it out.
+		echo;
+
+
+	    }
+
+	    case(sort dates)
+	    {
+		echo("Sort a table containing dates and times");
+		table initialize( t1,
+		{  { Name, Date },
+		   { Ann,  "04.04.2010" },
+		   { Sonny,"24.12." },
+		   { Alex, "03.04.2010 00:00:01" },
+		   { Axel, "03.04.2010 00:00:00" },
+		   { Ben,  "03.04.2010 13:00:00" },
+		   { Carl, "03.04.2010" },
+		   { Dale, "02.04.2010" },
+		   { Elly, "16:00:00" },
+		   { Emma, "15:59:59" },
+		   { Nina, "" },
+		   { Nena, "Hello" },
+		   { Otto, "00:00:00"  } } );
+
+		table rank rows( t1, date up, Date, date  );
+		table rank rows( t1, date down, Date, date down );
+		table rank rows( t1, time up, Date, time  );
+		table rank rows( t1, time down, Date, time down );
+		table rank rows( t1, date time up, Date, date and time  );
+		table rank rows( t1, date time down, Date, date and time down );
+		table save( t1, working directory[] + "Sort by date out.csv" );
+
+
+	    }
+	}
+
+
+	echo("Done.");
+	interactive;
+
+}

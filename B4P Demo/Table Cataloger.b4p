@@ -1,0 +1,50 @@
+// Demonstration of Excel table cataloging. For Rafael.  Created 01.09.2019
+// This file searches for all Excel files (.xlsx) and those with macros (.xlsm), investigates all sheets inside the files
+// and then looks for all individual tables in each of the sheets.  Some meta information will be provided in a table called 'catalogue'.
+// Legacy, binary and encrypted are not supported by Beyond4P., e.g. .xls, .xlsb
+
+include ( Office Library );
+include ( Style Library );
+runtime settings[verbose] = quiet;
+
+{
+    table initialize ( catalogue, {{ File Name, Sheet Name, Table Nr, Starting Row Nr, Row count, Starting Col Nr, Header, Row 1, Row 2,'% data not blank' }} );
+
+    for all parameters ( search files( ".", "*.xlsx", -1 ) + search files( ".", "*.xlsm", -1 ), excel file[] )
+    {
+	for all parameters ( excel list sheets( excel file[] ), excel sheet[] )
+	{
+		table load excel file	( table, excel file[], excel sheet[] );
+		coordinates[] 		= table explore( table, 2 );
+
+		// coordinates[] is a nested parameter set: { { x_left, y_top, x_right, y_bottom}, { x_... , , , }, ... }, one set of coordinates for each table discovered.
+
+		echo("File: ", excel file[], ",   Sheet: ", excel sheet[], ",    # tables found: ", coordinates[]{} );
+
+		for all parameters ( coordinates[], coord[], table nr[] )
+		{
+		    table create 	( extracted );
+		    table extract	( extracted, table, coordinates[], table nr[] );
+
+		    for all table columns ( extracted, 0, header[], col nr[] )
+		    {
+			pct not blank[] = ([extracted:col nr[],..] / {""}){} / table length ( extracted )-1;
+
+			table append( catalogue, { { excel file[], excel sheet[], table nr[], 
+			    coordinates[]{table nr[]}{0}, table length ( extracted ), coordinates[]{table nr[]}{1}, 
+			    header[], [extracted:col nr[],1], [extracted:col nr[],2], literal(pct not blank[],"0%") } } );
+		    }
+		}
+	}
+    }
+
+    table style table( catalogue, table, column width, 30);
+    table style table( catalogue, sheet, autofilter, 0, freeze rows, 1);
+
+    translate style attributes for excel( catalogue );
+    translate style attributes for html( catalogue );
+
+    table save( catalogue, "Catalogue Out 1.xls", EXCEL ); // XML 2003 format for Excel
+    table save( catalogue, "Catalogue Out 2.xls", HTML ); // HTML, can be opened with Excel and browser (rename from .xls to .html first).
+
+}

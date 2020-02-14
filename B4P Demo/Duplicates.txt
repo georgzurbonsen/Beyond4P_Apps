@@ -1,0 +1,49 @@
+
+
+// This program demonstrates use of the 'table check duplicates' function.
+	
+{
+
+
+	table initialize( Names, 
+	{
+		{ Last Name,    First Name,  	Gender  },
+		{ Miller,	Linda,		female	},
+		{ Miller,	Mike,		male	},
+		{ Abel,		Lisa,		female	},
+		{ Fisher,	Knut,		male	},
+		{ Johnson,	Jane,		female	},
+		{ miller,	Mike,		male	},
+		{ Miller,	mike,		male	},
+		{ Abel,		Lisa,		female	},
+		{ Bell,		Susan,		female	} } );
+		
+
+	echo(new line, "Call 'table check duplicates' and list the output", new line );
+
+//	table check duplicates( Names, {Last Name, First Name}, Identifier, Index, Count );
+
+
+	// List the table on the screen
+
+	echo( [Names:,0] );
+	table process( Names, echo([]));
+
+
+
+	echo(new line, new line, "Call 'table check duplicates ignore case' and list the output", new line );
+
+	table check duplicates ignore case( Names, {Last Name, First Name}, Identifier, Index, Count );
+
+
+	// List the table on the screen
+
+	echo( [Names:,0] );
+	table process( Names, echo([]));
+
+
+	table save( Names, working directory[] + "Duplicates Out.csv" );
+
+	interactive;
+
+}

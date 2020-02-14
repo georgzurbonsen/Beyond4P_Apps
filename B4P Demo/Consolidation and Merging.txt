@@ -1,0 +1,368 @@
+
+{
+
+	table initialize( hobbies1, 
+		{ { Name,	Hobby,		Sport,		Color,		Animal		},
+		  { Jill,	Games,		Snowboard,	Gray,		Dog		},
+		  { Michele,	Games,		"",		Pink,		Cat		},
+		  { Michele,	Reading,	Riding,		Red,		Horses		},
+		  { Jill,	Theatre,	Sailing,	Turquois,	Whale		} });
+
+
+	table initialize( hobbies2, 
+		{ { Name,	Hobby,		Sport,		Color,		Animal		},
+		  { Michele,	Playing,	Golf,		Brown,		Tigers		},
+		  { Michele,	Writing,	Riding,		Magenta,	Ponys		},
+		  { Michele,	Photography,	Soccer,		Blue,		Fish		},
+		  { Michele,	Movies,		Handball,	Green,		Crabs		},
+		  { Jill,	Drama,		Surfing,	Skyblue,	Trouts		} });
+
+	table initialize ( sub  menu,
+		{ { Menu Choice,Menu Explanation,			Menu Selection,		Load and save farms		},
+		  { C,	"Demonstrate 'table consolidate' function"	,consolidate 1,		No				},
+		  { M,	"Demonstrate 'table merge' function"		,merge,			Yes				},
+		  { N,	"Demonstrate 'table merge' function 2"		,merge 2,		No				},
+		  { I,	"Demonstrate 'table intersect' function"	,intersect,		Yes				},
+		  { J,	"Demonstrate 'table intersect' function 2"	,intersect 2,		No				},
+		  { O,	"Demonstrate 'table overlay' function"		,overlay,		Yes				},
+		  { P,	"Demonstrate 'table overlay' function2 "	,overlay 2,		No				},
+		  { S,	"Demonstrate 'table subtract' function"		,subtract,		Yes				},
+		  { T,	"Demonstrate 'table subtract' function 2"	,subtract 2,		No				},
+		  { U,	"Demonstrate 'table multiply' function"		,multiply,		Yes				},
+		  { X,	"Demonstrate 'table exclude' function"		,exclude,		Yes				},
+		  { Y,	"Demonstrate 'table exclude' function 2"	,exclude 2,		No				},
+		  { L,	"Demonstrate 'table lookup' function"		,lookup,		No				},
+		  { Q,	"Demonstrate 'table lookup smart' function"	,lookup smart,		No				},
+		  { V,	"Demonstrate 'table compare' function"		,compare,		No				}
+		} );
+
+	echo( new line );
+	selection[] = table menu quick( sub menu, Menu Choice, Menu Explanation, Menu Selection );
+
+	if ( [sub menu: Menu Selection, selection[], Load and save farms] == Yes )
+	{
+		table load( hb, working directory[] + "Farms in Hillboro.csv");
+		table load( hv, working directory[] + "Farms in Hillville.csv");
+	}
+
+	switch( selection[])
+	{
+	  case(consolidate 1)
+	  {
+		table load( t, working directory[] + Consolidation Demo.csv );
+		table consolidate( t, Name, [t:1..,0], [t:1..,0], ", " );
+		table save( t, working directory[] +  Consolidation Demo out.csv);
+
+	  }
+
+
+	  case ( merge )
+	  {
+		echo("Demonstrate 'table merge':");
+
+		// Below, select exactly 1 function of choice and comment-out the remaining ones.
+
+//		table merge( hv, hb );
+//		table merge( hv, hb, Farmer );
+//		table merge( hv, hb, Farmer, '*' );
+//		table merge extend columns( hv, hb, Farmer );
+//		table merge intersect columns( hv, hb, Farmer );
+//		table merge subtract  columns( hv, hb, Farmer );
+//		table merge exclusive columns( hv, hb, Farmer );
+//		table merge extend columns( hv, hb, Farmer, '*', overwrite if blank);
+//		table merge extend columns( hv, hb, Farmer, '*', overwrite except blank );
+
+		table merge extend columns( hv, hb, Farmer, { Area, Wheat, Oat, Barley, Corn, Cows, Sheeps, Chicken, Organic, Specialty, Place },
+		    { sum,  sum,   sum, sum,    sum,  sum,  sum,    sum,     must match, append,    append }, ", " );
+
+
+	  }
+
+	  case ( merge 2 )
+	  {
+		echo("Demonstrate 'table merge': Demonstrating every row is merged only once");
+
+		table merge ( hobbies2, hobbies1, Name, '*', append, ', ' );
+
+		table save( hobbies1, working directory[] + "Hobbies out.csv" );
+
+	  }
+
+
+
+	  case ( overlay )
+	  {
+		echo("Demonstrate 'table overlay':");
+
+		// Below, select exactly 1 function of choice and comment-out the remaining ones.
+
+//		table overlay( hv, hb );
+//		table overlay( hv, hb, Farmer );
+//		table overlay( hv, hb, Farmer, '*' );
+//		table overlay extend columns( hv, hb, Farmer );
+//		table overlay extend columns( hv, hb, Farmer, '*' );
+//		table overlay intersect columns( hv, hb, Farmer, '*' );
+//		table subtract columns( hv, hb, Farmer );
+
+		   table overlay extend columns( hv, hb, Farmer, 
+    			{ Area, Wheat, Oat, Barley, Corn, Cows, Sheeps, Chicken, Organic,    Specialty, Place },
+    			{ sum,  sum,   sum, sum,    sum,  sum,  sum,    sum,     must match, append,    append }, ", " );
+
+
+	  }
+
+	  case ( overlay 2 )
+	  {
+		echo("Demonstrate 'table overlay': Demonstrating every row is intersected only once");
+
+		table overlay ( hobbies2, hobbies1, Name, '*', append, ', ' );
+
+		table save( hobbies1, working directory[] + "Hobbies out.csv" );
+
+	  }
+
+
+	  case ( intersect )
+	  {
+		echo("Demonstrate 'table intersect':");
+
+		// Below, select exaccly 1 function of choice and comment-out the remaining ones.
+
+//		table intersect( hv, hb );
+//		table intersect( hv, hb, Farmer );
+//		table intersect ( hv, hb, Farmer, '*' );
+//		table intersect extend columns( hv, hb, Farmer );
+//		table intersect extend columns( hv, hb, Farmer, '*' );
+//		table intersect intersect columns( hv, hb, Farmer, '*' );
+//		table intersect subtract columns( hv, hb, Farmer );
+//		table intersect exclusive columns( hv, hb, Farmer );
+
+		    table intersect extend columns( hv, hb, Farmer, 
+		    { Area, Wheat, Oat, Barley, Corn, Cows, Sheeps, Chicken, Organic,    Specialty, Place },
+		    { sum,  sum,   sum, sum,    sum,  sum,  sum,    sum,     must match, append,    append }, ", " );
+
+
+	  }
+
+	  case ( intersect 2 )
+	  {
+		echo("Demonstrate 'table intersect': Demonstrating every row is intersected only once");
+
+		table intersect ( hobbies2, hobbies1, Name, '*', append, ', ' );
+
+		table save( hobbies1, working directory[] + "Hobbies out.csv" );
+
+	  }
+
+
+
+	  case ( exclude )
+	  {
+		echo("Demonstrate 'table exclude':");
+
+		// Below, select exactly 1 function of choice and comment-out the remaining ones.
+
+//		table exclude( hv, hb );
+//		table exclude( hv, hb, Farmer );
+//		table exclude extend columns ( hv, hb, Farmer );
+//		table exclude intersect columns ( hv, hb, Farmer );
+//		table exclude subtract columns ( hv, hb, Farmer );
+		table exclude exclusive columns ( hv, hb, Farmer );
+
+	  }
+
+
+	  case ( exclude 2 )
+	  {
+		echo("Demonstrate 'table exclude': Demonstrating every row is excluded only once");
+
+		table exclude ( hobbies2, hobbies1, Name  );
+
+		table save( hobbies1, working directory[] + "Hobbies out.csv" );
+
+	  }
+
+
+	  case ( subtract )
+	  {
+		echo("Demonstrate 'table subtract':");
+
+		// Below, select exactly 1 function of choice and comment-out the remaining ones.
+
+//		table subtract( hv, hb );
+//		table subtract( hv, hb, Farmer );
+//		table subtract extend columns ( hv, hb, Farmer );
+//		table subtract intersect columns ( hv, hb, Farmer );
+//		table subtract subtract columns ( hv, hb, Farmer );
+		table subtract exclusive columns ( hv, hb, Farmer );
+
+	  }
+
+	  case ( subtract 2 )
+	  {
+		echo("Demonstrate 'table subtract': Demonstrating every row is subtracted only once");
+
+		table subtract ( hobbies2, hobbies1, Name  );
+
+		table save( hobbies1, working directory[] + "Hobbies out.csv" );
+
+	  }
+
+
+	  case ( multiply )
+	  {
+
+		table initialize( dest,
+		{ { Name, 	Town, 	Age },
+		  { A. Abel,	Albany,	30  },
+		  { B. Bingel,	Bern,	35  },
+		  { C. Chaplin, Cologne,40  },
+		  { D. Dealer,  Detroit,45  } } );
+/*
+		table initialize( source,
+		{ { Score Type,	Score		} } );
+*/
+
+		table initialize( source,
+		{ { Score Type,	Score		},
+		  { Min,	0		},
+		  { Max,	100		} } );
+
+
+//		table multiply( source, dest );
+//		table multiply selected rows ( source, dest, [Name]='B*' );
+		table multiply selected rows ( source, dest, {3,2} );
+		table save( dest, working directory[] + "Table Multiplication Out.csv");
+
+
+	  }
+
+
+	  case ( lookup )
+	  {
+		echo( "Test table lookup" );
+
+		table initialize( lookup,
+		{ { First Name, Last Name },
+		  { Abel,       Blum      },
+		  { Bert,       Chaplin   },
+		  { Cecilia,    Davids    },
+		  { Yvonne,     Yennings  }, 
+		  { Nick,       Chaplin   },
+		  { Jack,       Chaplin   },
+ 		  { Linda,      Davids    },
+		  { Marc,       Yennings  },
+		  { "" },
+		  { Yves,       Yennings  },
+		  { Mia,        Zindel    } } );
+
+		table initialize( dest,
+		{ { Family Name },
+		  { Yennings }, { Yennings }, { Yennings }, { Yennings },
+		  { Chaplin  }, { Chaplin  }, { Chaplin  },
+		  { Blum     }, { Blum     }, { Blum     }, { Zindel } } );
+
+		table lookup             ( dest, Family Name, First Name 1 standard, lookup, Last Name, First Name );
+		table lookup top down    ( dest, Family Name, First Name 2 top down, lookup, Last Name, First Name );
+		table lookup once        ( dest, Family Name, First Name 3 once    , lookup, Last Name, First Name );
+		table lookup fast	 ( dest, Family Name, First Name 4 fast    , lookup, Last Name, First Name );
+		table lookup smart       ( dest, Family Name, First Name 5 smart   , lookup, Last Name, First Name );
+		table save( dest, working directory[] + "TableLookup Out.csv");
+	
+
+	  }
+
+
+
+	  case ( lookup smart )
+	  {
+		echo( "Test table lookup smart" );
+
+		table initialize( lookup,
+		{ { Country,    	Continent,   	Language 	},
+		  { "DE,AT,LI,CH",   	"*",		German   	},
+		  { "FR,LU,BE",		W. Europe,	French   	},
+		  { "GB,IE",		W. Europe,	English		},
+		  { "<>QB", 		N. America,	English   	}, // But not Quebec
+		  { "*",		N. America,	French  	},
+		  { IT,			"*",		Italian 	},
+		  { BR,			L. America,     Portuguese	},
+		  { "*",		L. America,     Spanish		},
+		  { "*",		"*",		Not found	} } );
+
+
+		table initialize( dest,
+		{ { Country,    	Continent	},
+		  { DE, 		W. Europe	}, // German
+		  { FR,			W. Europe	}, // French
+		  { FR,			Africa		}, // Not found
+		  { CA,			N. America	}, // French
+		  { QB,			N. America	}, // Quebec speaks french
+		  { BR,			L. America	}, // Portuguese
+		  { CN,			Asia		}, // Not found
+		  { CL,			L. America	} } );
+
+		table lookup smart       ( dest, {Country,Continent}, Language, lookup, {Country,Continent}, Language );
+		table save( dest, working directory[] + "TableLookup Out.csv");
+
+	  }
+
+	  case ( compare )
+	  {
+		echo( "Test table check" );
+
+		runtime settings[verbose] = standard;
+
+		table initialize( old table,
+		{ { Last Name,  First Name,	Gender, Street,		City,		Favorite animal,Favorite sports	},
+		  { Johnson,	Philippe,	Male,	Main St.,	Lakeview,	Dog,		Soccer		},
+		  { Johnson,	Philippe,	Female,	North C. St.,	Lakehill,	Cat,		Softball	},
+		  { Amsel,	Linda,		Female,	South Bridge,	Lakehill,	Tiger,		Floor hockey	},
+		  { Kaufmann,	Dominique,	Male,	Great Place,	Lakegrounds,	Jaguar,		Basketball	},
+		  { Kaufmann,	Dominique,	Female,	Hill St.,	Lakegrounds,	Jaguar,		Basketball	},
+		  { Kaufmann,	Dominique,	Male,	Maple Ave.,	Lakegrounds,	Bulldog,	Tennis		},
+		  { Tanner,	Linda,		Female,	Maple Ave.,	Lakegrounds,	Parakeet,	Running		},
+		} );	
+		
+		table create( new table );	// Create new table, but reversed row arrangement
+
+		[new table:,0] = [old table:,0]; // Copy header rows
+		for (i[]=1; j[]=table length(old table)-1, i[] < table length(old table), i[]++; j[]--) [new table:,i[]] = [old table:,j[]];
+		
+
+		table rearrange columns( new table, { Favorite animal, Favorite sports, City } ); // Shuffle the columns
+		table rearrange columns( old table, { Gender } ); // Shuffle the columns
+
+
+		[new table:City,1] = Mountainview;   		// 1 modified field
+		[new table:Street,2] = South C. St.; 		// 1 modified field
+		[new table:City,2]   = Seahill; 		// 1 modified field
+		[new table:Favorite animal,2]   = Guenon; 	// 1 modified field
+		[new table:Favorite sports,2]   = Canoo; 	// 1 modified field
+		[new table:Gender,2]   = Female;	 	// 1 modified field
+		[new table:Last Name,2]   = Oakhill;	 	// 1 modified field
+		[new table:First Name,2]   = Yvonne;	 	// 1 modified field
+
+
+		table compare( new table, old table, report, {Last Name, First Name}  );
+//		table compare( new table, old table, report  );
+
+		table save( report, working directory[] + "Table compare out.csv");
+
+
+
+	  }
+
+
+	}
+
+	if ( [sub menu: Menu Selection, selection[], Load and save farms] == Yes )
+	{
+		table save( hb, working directory[] + "Farms in Hilltown out.csv");
+	}
+
+
+	echo("Done.");
+	interactive;
+
+}

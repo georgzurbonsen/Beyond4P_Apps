@@ -1,0 +1,106 @@
+{
+
+    echo("Demonstration of interpolation function", new line );
+
+    table initialize ( sub  menu,
+		{ { Menu Choice,Menu Explanation,				Menu Selection		},
+		  { 0,	"Interpolation: Nearest neigbor"			,	neighbor	},
+		  { 1,	"Interpolation: Nearest right neigbor"			,	right neighbor	},
+		  { 2,	"Interpolation: Linear"					,	linear		},
+		  { 3,	"Interpolation: Polynomial"				,	polynomial	}, 
+		  { 4,	"Interpolation: Cubic Splines"				,	spline		}, 
+		  { 5,	"Interpolation: Polynomial w. parameter set"		,	polynomial 2	}, 
+		  { 6,	"Interpolation: Spline w. parameter set"		,	spline 2	}, 
+		  { 7,	"Interpolation: Linear w. parameter set"		,	linear 2	}, 
+		  { M,	"Back to previous menu"					,	back		},
+		  { I,	"Interactive (city and countries tables loaded)"	,	interactive	} } );
+
+    x points[] = { 1, 3, 4, 7 };
+    y points[] = { 1, 3, 5, 2 };
+
+
+    table initialize ( extrapolation,
+		{ { Menu Choice,Menu Explanation,				Menu Selection		},
+		  { C,	"Continue with same slope"				,	continue	},
+		  { Z,	"Continue with y = zero"				,	zero		},
+		  { F,	"Continue with flat line"				,	flat		},
+		  { R,	"Reject: Causes an exception"				,	reject		}, 
+		  { S,	"Specify a slope"					,	slope		} } );
+
+
+
+    do
+    {
+
+	echo( new line );
+	selection[] = table menu quick( sub menu, Menu Choice, Menu Explanation, Menu Selection );
+
+	if (selection[]=polynomial 2, spline 2, linear 2)
+	{
+
+		echo("Apply interpolation function with parameter set", new line);
+		echo("Specify how extrapolation shall be done outside interpolation range:");
+		extrapolation[] = table menu quick( extrapolation, Menu Choice, Menu Explanation, Menu Selection );
+		if (extrapolation[]=slope)
+		{
+		    extrapolation[] = input( "Enter a slope value:  ", numeral );
+		}
+
+		table initialize( t, {{x,y}} );
+
+		[t:x,..] = {-2 .. -1.9 .. 12 };
+		if (selection[]=polynomial 2)
+		{
+			[t:y,..] = polynomial interpolation( [t:x,..], x points[], y points[], extrapolation[], extrapolation[] );
+		}
+		else: if (selection[]=spline 2)
+		{
+			[t:y,..] = spline interpolation( [t:x,..], x points[], y points[], extrapolation[], extrapolation[] );
+		}
+		else:
+		{
+			[t:y,..] = linear interpolation( [t:x,..], x points[], y points[], extrapolation[], extrapolation[] );
+		}
+
+		table save( t, interpolation.csv );
+		echo("Saved a file in 'interpolation.csv'.", new line, "Open this file with Excel and create a chart to seee the results");
+	}
+
+	else: if (selection[]=neighbor,right neighbor,linear,spline,polynomial)
+	{
+
+		echo("Specify how extrapolation shall be done outside interpolation range:");
+		extrapolation[] = table menu quick( extrapolation, Menu Choice, Menu Explanation, Menu Selection );
+		if (extrapolation[]=slope)
+		{
+		    extrapolation[] = input( "Enter a slope value:  ", numeral );
+		}
+
+		table initialize( t, {{x,y}} );
+		for (x[] = -2, x[] <= 12, x[]+=0.1)
+		{
+
+		    switch( selection[] )
+		    {
+			case (neighbor) 	y[] = nearest       neighbor interpolation( x[], x points[], y points[], extrapolation[], extrapolation[] );
+			case (right neighbor)   y[] = nearest right neighbor interpolation( x[], x points[], y points[], extrapolation[], extrapolation[] );
+			case (linear)           y[] = linear                 interpolation( x[], x points[], y points[], extrapolation[], extrapolation[] );
+			case (polynomial)       y[] = polynomial             interpolation( x[], x points[], y points[], extrapolation[], extrapolation[] );
+			case (spline)           y[] = spline                 interpolation( x[], x points[], y points[], extrapolation[], extrapolation[] );
+		    }
+
+		    echo( "( ", literal(x[],"?0.0?"), ",", literal(y[],"?0.0??")," )" );
+		    table append( t, {{x[],y[]}} );
+		}
+		table save( t, interpolation.csv );
+		echo("Saved a file in 'interpolation.csv'.", new line, "Open this file with Excel and create a chart to seee the results");
+
+	}
+	echo(new line, "Test done.  Continue with menu");
+    }
+    while (selection[] <> interactive, back);
+
+    if (selection[] = interactive) { interactive; exit; }
+
+
+}

@@ -1,0 +1,218 @@
+{
+
+
+
+
+    echo("Demonstration of some basic functionality with literals", new line );
+
+    table initialize ( sub  menu,
+		{ { Menu Choice,Menu Explanation,				Menu Selection		},
+		  { 0,	"Literals: Introduction"				,	intro		},
+		  { 1,	"Literals: Basic operators"				,	literals ops	},
+		  { 2,	"Literals: Comparisons"					,	compare		},
+		  { 3,	"Literals: Some functions"				,	functions	},
+		  { 4,	"Literals: Special characters (UNICODE)"		,	characters	},
+		  { M,	"Back to previous menu"					,	back		},
+		  { I,	"Interactive (city and countries tables loaded)"	,	interactive	} } );
+
+    do
+    {
+
+	echo( new line );
+	selection[] = table menu quick( sub menu, Menu Choice, Menu Explanation, Menu Selection );
+
+ 	switch( selection[])
+	{
+
+	    case(intro) // Introduction
+	    {
+		echo("Demonstration of different ways of specifying literals, see following examples in the code.", new line);
+		echo(This is a test);
+		echo( This   is  a test   );
+		echo(new line,"You may have recognized that blanks in un-quoted literals are reduced to 1 blank, and all");
+		echo("blanks before first contents and after last contents are removed. Note that this is also the case when");
+		echo("you specify variable names, e.g. 'new variable[]' is same as 'new   variable []'.");
+
+		echo;
+		echo("Literals come in 3 fragrances: Unquoted, softquoted, quoted");
+		unquoted   literal [] =   This  is a test  ; // Unquoted: Contents in the code cannot contain code-relevant symbols like operators.
+		softquoted literal [] = ' This  is a test &euro;1.00'; // Pay attention to entity for EURO symbol
+		quoted     literal [] = " This  is a test &euro;1.00"; // And here, too.
+
+		echo("Unquoted:   ",unquoted literal[],   "   (Type: ", type detailed( unquoted   literal []),")");
+		echo("Softquoted: ",softquoted literal[], "   (Type: ", type detailed( softquoted literal []),")");
+		echo("Quoted:     ",quoted literal[],     "   (Type: ", type detailed( quoted     literal []),")");
+
+		echo(new line,"Note that the entity for special characters like the euro symbol can only be coded in the");
+		echo("softquoted literal and will be converted accordingly.  Not possible with unquoted literals since the");
+		echo("'&' and ';' symbols have specific functions in the Beyond4P language: AND operator and statement separator.");
+
+		echo(new line,"Dealing with numbers in literals");
+
+		num 1[] = 1.23;		// This is a numeral
+		num 2[] = '1.23';	// This is a literal (also applicable with double quotation marks)
+		num 3[] = 1. 23;	// This is a literal
+		num 4[] = 1.23.;	// This is a literal
+		num 5[] = Nr 1;		// This is a literal
+		num 6[] = literal(1.23);// Number converted to literal.
+		num 7[] = 555 1212;	// This is a literal (blank inbetween)
+
+		echo("num 1[]: ",num 1[],   "   (Type: ", type detailed( num 1[]),")");
+		echo("num 2[]: ",num 3[],   "   (Type: ", type detailed( num 2[]),")");
+		echo("num 3[]: ",num 3[],   "   (Type: ", type detailed( num 3[]),")");
+		echo("num 4[]: ",num 4[],   "   (Type: ", type detailed( num 4[]),")");
+		echo("num 5[]: ",num 5[],   "   (Type: ", type detailed( num 5[]),")");
+		echo("num 6[]: ",num 6[],   "   (Type: ", type detailed( num 6[]),")");
+		echo("num 7[]: ",num 7[],   "   (Type: ", type detailed( num 7[]),")");
+
+		echo(new line,"Special symbols: tab, new line");
+
+		echo(abel, tab, beat, tab, charly, tab, dirk, new line, tab, emil, tab, tab, flynn );
+
+		a[] = abel + tab + beat + tab + charly + tab + dirk + new line + tab + emil + tab + tab + flynn;
+		echo(a[]); // Same output as above.
+
+		echo;
+		echo("Random string (20 letters+numbers) : ", random string(20) );
+		echo("Random string (20 letters only   ) : ", random string letters only(20) );
+
+		echo(new line, "Replacing contents in the string:");
+		a[] = "This idea is not my idea at all.";
+		echo("Only one occurrence is replaced    : ", replace( a[], idea, fool ) );
+		echo("Only next occurrence is replaced   : ", replace( a[], idea, fool, 15 ) );
+		echo("All occurrences are replaced       : ", replace all ( a[], idea, fool ) );
+
+		echo(new line, "Picking details in strings");
+		a[] = "Encyclopedia";
+		echo("Using this example word : ", a[]        );
+		echo("Length (# characters)   : ", a[]{}      );
+		echo("2nd character           : ", a[]{1}     );
+		echo("Last character          : ", a[]{-1}    );
+		echo("2nd - 4th char          : ", a[]{1..3}  );
+		echo("2nd - 2nd last char     : ", a[]{1..-2} );
+		echo("2nd, 3rd, 3nd char      : ", a[]{1,2,1} );
+
+
+
+	    }
+
+	    case(literals ops) // Basic ops
+	    {
+
+		echo("Let's apply different operators on 2 literals", new line);
+		lit1[] = input("Enter one piece of text    : ", literal );
+		lit2[] = input("Enter another piece of text: ", literal );
+		echo;
+
+		echo("Catenated literals:             ", lit1[] + lit2[] );
+		echo("lit2[] subtracts lit[1]:        ", lit1[] - lit2[] ); // Removes first pattern occurrence
+		echo("lit2[] divides   lit[1]:        ", lit1[] / lit2[] ); // Removes all   pattern occurrences
+		echo("lit1[] converted to upper case: ", +lit1[]  );
+		echo("lit1[] converted to lower case: ", -lit1[]  );
+		echo("lit1[] with all blanks removed: ", ~lit1[]  );
+
+		echo("lit1[] and lit2[] joined smartly: ", join( {lit1[], lit2[]}, "<< ", " , ", " >>" ) );
+
+
+	    }
+
+
+	    case(compare) // comparing literals
+	    {
+
+		echo("Let's compare 2 literals", new line);
+		lit1[] = input("Enter one piece of text    : ", literal );
+		lit2[] = input("Enter another piece of text: ", literal );
+		echo;
+
+		echo("lit1[] == lit2[] (strictly equal)           : ", lit1[] == lit2[] );
+
+		// Try: ABC = A*  which gives true (placeholder).
+		echo("lit1[] = lit2[]  (equal, wildcards allowed) : ", lit1[] = softquoted literal( lit2[] ) );
+
+		echo("lit1[] <  lit2[] (alphabetic less than)     : ", lit1[] < lit2[] );
+		echo("lit1[] >  lit2[] (alphabetic greater than)  : ", lit1[] > lit2[] );
+
+		echo("lit1[] == lit2[] (equal ignore case)        : ", lit1[] ==+ lit2[] );
+		echo("lit1[] == lit2[] (equal ignore blanks)      : ", lit1[] ==~ lit2[] );
+
+		echo("lit1[] contains 'the', 'she', 'my'          : ", lit1[] = '*the*,*she*,*my*' );
+		echo("lit1[] begins with A or a                   : ", lit1[] = 'A*','a*' );
+		echo("lit1[] begins with A or a (same as above)   : ", lit1[] =+ 'A*' ); // Also 'a*' works, too.
+
+		echo;
+		echo("Find pattern lit[2] in lit1[]               : ", find( lit1[], lit2[] ) );
+		echo("Position nubmers: -1 = Not found, 0 = 1st char, 1 = 2nd char, etc.");
+
+		echo;
+		echo("Identify the differing contents in two strings");
+		echo("Example: 'My best place' and 'My great place' isolates 'best' and 'great' as differences.", new line);
+		get differences( lit1[], lit2[], left[], right[] );
+		echo("Differing contents in left string           : ", left[]);
+		echo("Differing contents in right string          : ", right[]);
+
+
+	    }
+
+	    case(functions) // Basic functiosn
+	    {
+
+		echo("Let's try some functions", new line);
+		lit1[] = input("Enter one piece of text    : ", literal );
+		echo;
+
+		echo("Original literal as entered                 : ", lit1[] );
+		echo("Remove all blanks before + after literal    : ", trim(lit1[]) );
+		echo("Remove all blanks                           : ", trim all(lit1[]) );
+
+		echo("First 3 characters                          : ", left(lit1[], 3 ) );
+		echo("First word (until but excluding space)      : ", left(lit1[], ' ' ) );
+		echo("All except last 3 characters                : ", left(lit1[], -3) );
+
+		echo("Last 3 characters                           : ", right(lit1[], 3 ) );
+		echo("Last word (until but excluding space)       : ", right(lit1[], ' ' ) );
+		echo("Last word (until but including space)       : ", right include(lit1[], ' ' ) );
+		echo("All except first 3 characters               : ", right(lit1[], -3) );
+
+	    }
+
+
+	    case(characters) // Special characters
+	    {
+
+		a[] = '&euro;'; // Euro symbol
+		b[] = 'é';	// A foreign symbol
+		c[] = new line; // New line symbol
+
+		echo("Character code of a[] (EURO SIGN)                      : ", code(a[]) );
+		echo("Character code of b[] (LATIN SMALL LETTERE WITH ACUTE) : ", code(b[]) );
+		echo("Character code of c[] (new line - LINE FEED)           : ", code(c[]) );
+
+		d[] = chr( 252 );
+		echo("Character of d[] (LATIN SMALL LETTER U WITH DIARESIS)  : ", d[] );
+
+		echo(new line, "Decoding entities in literals");
+		a[] = decode entities( "&euro; 10.00" ); // Note: This is a hard quoted literal, entity is not decoded at compile time.
+		b[] = decode entities( "&#8364; 10.00" ); // Decimal representation
+		c[] = decode entities( "&#x20ac; 10.00" ); // Hexadecimal representation
+		echo("EURO sign decoded: ", a[] ); 
+		echo("EURO sign decoded: ", b[] ); 
+		echo("EURO sign decoded: ", c[] ); 
+
+		echo(new line, "Encoding entities in literals");
+		a[] = encode entities( "€ 10.00 > CHF 5.00" ); // LT and EURO SIGN encoded
+		echo("Symbols encoded  : ", a[] ); 
+		echo("And decoded again: ", decode entities(a[]) );
+
+
+	    }
+
+	}
+	echo(new line, "Test done.  Continue with menu");
+    }
+    while (selection[] <> interactive, back);
+
+    if (selection[] = interactive) { interactive; exit; }
+
+
+}

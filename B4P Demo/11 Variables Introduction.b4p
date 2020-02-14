@@ -1,0 +1,55 @@
+{
+
+
+	echo("Demonstration of some basic functionality with variables", new line );
+
+	echo("Assignment of values");
+	
+
+	n1[] = 123.450;
+	n2[] = n1[] + 0;
+	n3[] = numeral("123.450");
+	l1[] =  Hello  world ;	// Note: Multiple white spaces (incl. tabs) in literal values not in quotation marks 
+	l2[] = 'Hello world';
+	l3[] = "Hello world";
+	b1[] = false;
+	b2[] = l2[] = l3[];
+	d1[] = date(1.2.2018);
+	d2[] = d1[] + 0;
+	d3[] = date time("1.2.2018 10:30:00");
+	d4[] = time("1.2.2018 10:30:00");
+	d5[] = date(today);
+	d6[] = date(now);
+	p1[] = { a,b,c,1,2,3 };
+	p2[] = p1[] + { l1[] }; 
+	p3[] = { p1[], l1[] };
+	p4[] = { p1[], { l1[] } };
+
+
+	echo("n1[] = ", n1[],"  Type: ", type detailed(n1[]) );
+	echo("n2[] = ", n2[],"  Type: ", type detailed(n2[]) );
+
+	echo(new line, "Continuing like this is cumbersome.  consider putting the variable names into a set.", new line );
+
+	variable names[] = {n1, n2, n3, l1, l2, l3, b1, b2, d1, d2, d3, d4, d5, d6, p1, p2, p3, p4 };
+
+	for all parameters( variable names[], var[] )
+	{
+	    value[] = var[][];
+	    echo(var[], "[] = ", value[],"  Type: ", type detailed(value[]) );
+
+	}
+
+	echo(new line, "You can also create a structured variable ...");
+
+	for all parameters( variable names[], var[] ) tree[var[]] = var[][];
+
+	echo("... and the following loop works through the variables in alphabetic order.", new line);
+
+	for all variables( tree[], value[], index[], var[] )
+	{
+	    echo(literal(index[],"?0"),".: tree[", var[], "] = ", value[],"  Type: ", type detailed(value[]) );
+	}
+
+
+}

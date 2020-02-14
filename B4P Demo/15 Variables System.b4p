@@ -1,0 +1,38 @@
+{
+
+
+	if (member count( command line arguments[] ) <=1 )
+	{
+
+		echo("Demonstration of accessing system variables", new line );
+
+		echo("My user name is ", system info[user name] );
+
+		echo("As an example, access the country specific settings");
+
+		list variables( local settings );
+
+		echo("Example of date: ", date(today));
+		local settings[date format] = "YYYY-MM-DD";
+		echo("Example of date with modified format: ", date(today));
+
+
+		echo("Demonstrate command line arguments");
+
+
+
+		start(command line arguments[0],"Hello","Hi" ); // Start this same program.
+		echo("finished call start()");
+
+	}
+	else // Recursive start of this program.
+	{
+	    echo("List (command line) parameters passed to this program");
+	    for (i[]=0, i[] < member count( command line arguments[]), i[]++)
+	    {
+		echo(i[],": ", command line arguments[i[]]);
+	    }
+	}
+
+
+}

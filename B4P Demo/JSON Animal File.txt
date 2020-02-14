@@ -1,0 +1,42 @@
+
+// This is a JSON Demo file
+
+{
+	"My_name" : "Cptn America",
+	"Comments" : "Some animals seen on my world trips",
+	"My_table":
+	
+	[
+		[ "Animal",		"Category",	"Number of legs",	"Brain inside",		"Remarks" ],
+		{
+			"Animal" : "Dog",
+			"Brain inside": true,
+			"Number of Legs" : 4,
+			"Friendly" : true		// Adds header "Friendly"
+		},
+		{
+			"Animal" : "Snake",  // Will be overwritten by Boa further below.
+			"Friendly": false,
+			"Number of Legs" : 0,
+			"Category" : "Reptile",
+			"Animal" : "Boa",
+			"Remarks": "Not poisonous\nmakes you suffocate"
+		},
+		[ "Cat", "Mammal", 4, "yes", "Loves people", true ], // Last item refers to 'friendly' created by row above
+		{ },	// A blank row of objects
+		"Parakeet",	// A cute bird alone in the table.  Placed into 1st column
+		"Parrot",	/* A bigger one */
+		[ ],	// A blank row of arrays
+		{
+			"Number of Legs" : 0,
+			"Category" : null, // Translates into blank field (empty)
+			"Animal" : "Jellyfish",
+			"Brain inside" : false,
+			"Remarks" : "Dangerous / \"Gefährlich\""  /* Quite poisonous, test non-ANSII symbol */
+		},
+		[ 
+			"Koi", "Fish", 0, true, "Nice ones are traded for more than 1'000\u20ac!" // EURO symbol coded in escape sequence
+		]
+	]
+}
+

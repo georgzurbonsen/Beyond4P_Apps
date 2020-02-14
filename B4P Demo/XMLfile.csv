@@ -1,0 +1,16 @@
+﻿XML Level;XML Tag;XML Usage;XML Contents;XML Attributes;type;govt;language
+1;Country;Start;GB  ;type,govt,language;nation;"monarchy
+kingdom";änglish
+2;name;Start;   Great    Britain  
+3;deutsch;Empty;Grossbritannien
+2;name;End;  
+2;capital;Start;London
+2;capital;End; 
+1;Country;End
+1;Country;Start;DE  ;type;nation
+2;name;Start;Germany
+3;deutsch;Empty;Deutschland
+2;name;End;  
+2;capital;Start;Bärlin
+2;capital;End;Nice city 
+1;Country;End

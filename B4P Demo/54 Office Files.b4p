@@ -1,0 +1,99 @@
+
+include( Office Library" );
+
+{
+
+    echo("Demonstration of Open Office file operations", new line );
+
+    table initialize ( sub  menu,
+		{ { Menu Choice,Menu Explanation,					Menu Selection		},
+		  { 1,	"Extract author name from an MS office file"		,	extract properties	},
+		  { 2,	"Advanced directory listing with MS office docu properties",	advanced directory	},
+		  { 3,	"Advanced directory listing recursive"			,	advanced directory recursive },
+		  { 4,	"Excel list sheet names"				,	excel list sheets	},
+		  { 5,	"Load an Excel file"					,	load excel file		},
+		  { M,	"Back to previous menu"					,	back			},
+		  { I,	"Interactive (city and countries tables loaded)"	,	interactive	} } );
+
+
+    do
+    {
+
+	echo( new line );
+	selection[] = table menu quick( sub menu, Menu Choice, Menu Explanation, Menu Selection );
+
+
+ 	check( selection[])
+	{
+
+	    case (extract properties)
+	    {
+		office document properties	( "Cities.xlsx", property names[], property values[] );
+		echo				("Identified properties: ");
+		for all parameters		( property names[], property name[], i[] )
+		{
+			echo("   ", literal(property name[],"####################" )," = ", property values[]{i[]});
+		}
+
+	    }
+
+	    case (advanced directory)
+	    {
+		echo				("Directory listing including built-in document properties in .xlsx, .pptx and .docx files");
+		path name[]			 = input("Enter a path name: ", literal );
+
+		advanced directory listing	( directory table, path name[] );
+
+		table save			( directory table, "Advanced directory out.csv");
+		pause ("Take a look at the file 'Advanced directory out.csv' to see author names, etc. in MS Office files.");
+	    }
+
+	    case (advanced directory recursive)
+	    {
+		echo("Directory listing including built-in document properties in .xlsx, .pptx and .docx files");
+		path name[] = input("Enter a path name: ", literal );
+
+		advanced directory listing recursive( directory table, path name[], "*" );
+
+		table save( directory table, "Advanced directory out.csv");
+		pause("Take a look at the file 'Advanced directory out.csv' to see author names, etc. in MS Office files.");
+	    }
+
+	    case (load excel file)
+	    {
+		echo("Test loading an Excel file");
+
+		fn[]			= input("Enter an Excel file name incl. file type (Blank = Excel Test File.xlsx): ", literal);
+		if (fn[]="") 		fn[] = "Excel Test File.xlsx";
+		sh[]			= input("Enter a sheet name (default if blank): ", literal);
+		
+		if (sh[]="")
+		{
+			table load excel file	(c, fn[] );
+		}
+		else
+		{
+			table load excel file	(c, fn[], sh[] );
+		}
+
+		table save		(c, "Excel in CSV out.csv");
+		pause("Take a look at the file 'Excel in CSV out.csv' to view the loaded data from the Excel file");
+	    }
+
+	    case (excel list sheets)
+	    {
+		echo("Test listing available sheet names inside Excel file");
+		result[] = excel list sheets( "Excel Test File.xlsx" );
+		echo("This Excel file has following sheets: ", result[] );
+	    }
+
+
+	}
+	echo(new line, "Test done.  Continue with menu");
+    }
+    while (selection[] <> interactive, back);
+
+    if (selection[] = interactive) { interactive; exit; }
+
+
+}

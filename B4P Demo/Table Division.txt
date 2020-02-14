@@ -1,0 +1,76 @@
+
+
+// Demonstrates the 'table divide' functionality
+// Choose tables to divide and see the results
+
+{
+
+	echo("Test table division");
+
+	table initialize( numerator,
+	{
+		{ Country,		Father,	Mother,		Child,		Age		},
+		{ Austria,	Franz,	Helga,		Harald,		5		},
+		{ Austria,	Franz,	Helga,		Maria,		4		},
+		{ Austria,	Franz,	Ursula,		Sabine,		2		},
+		{ Austria,	Moritz,	Melanie,	Gertrud,	7		},
+		{ Austria,	Moritz,	Melanie,	Maria,		4		},
+		{ Austria,	Moritz,	Melanie,	Sabine,		2		},
+		{ Austria,	Peter,	Christina,	Robert,		9		},
+		{ Germany,	Franz,	Helga,		Harald,		5		},
+		{ Germany,	Franz,	Helga,		Maria,		4		},
+		{ Germany,	Franz,	Ursula,		Sabine,		2		},
+		{ Germany,	Moritz,	Melanie,	Gertrud,	7		},
+		{ Germany,	Max,	Melanie,	Maria,		4		},
+		{ Germany,	Max,	Melanie,	Sabine,		2		},
+		{ Germany,	Peter,	Christina,	Robert,		9		}
+	} );
+
+
+/*
+	table initialize( denominator,
+	{
+		{ Child,		Age		},
+		{ Maria,		4		},
+		{ Sabine,		2		}
+	} );
+*/
+	table initialize( denominator,
+	{
+		{ Age, Child		},
+		{ 4,	Maria		},
+		{ 2,	Sabine		}
+	} );
+
+
+/* This is an alternative practicing table
+
+	table initialize( numerator,
+	{
+		{ Student,	Task		},
+		{ Fred,		Database 1	},
+		{ Fred,		Database 2	},
+		{ Fred,		Compiler 1	},
+		{ Eugene,	Database 1	},
+		{ Eugene,	Compiler 1	},
+		{ Sarah,	Database 1	},
+		{ Sarah,	Database 2	}
+	} );
+
+	table initialize( denominator,
+	{
+		{ Task			},
+		{ Database 1	},
+		{ Database 2	}
+	} );
+
+*/
+	echo("Do a division: ");
+
+//	table divide( numerator, denominator, quotient, { Age, Child, Mother, Father }, Country );
+	table divide selected rows( [Country]==Austria, numerator, denominator, quotient  );
+
+	echo( [quotient:,0] );
+	table process( quotient, echo([]));
+	interactive;
+}

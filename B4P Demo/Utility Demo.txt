@@ -1,0 +1,37 @@
+	
+{
+	
+	include( Utility Library );
+
+
+	table initialize ( sub  menu,
+		{ { Menu Choice,Menu Explanation,				Menu Selection		},
+		  { 1,	"Choose a recent file"					,	recent		},
+		  { I,	"Interactive (city and countries tables loaded)"	,	leave		} } );
+
+	echo( new line );
+	selection[] = table menu quick( sub menu, Menu Choice, Menu Explanation, Menu Selection );
+
+
+	switch( selection[])
+	{
+	    case(recent)
+	    {
+
+		echo(new line, "Look and choose for a recent file", new line);
+		
+		file name[] = choose recent file( "Choose a text file: ", working directory[], "*.txt", biggest, 10 );
+		echo("The chosen file is ", file name[], new line, new line);
+
+
+	    }
+
+		
+
+	}
+
+
+	echo("Done.");
+	interactive;
+
+}

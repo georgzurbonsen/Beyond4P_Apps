@@ -1,0 +1,33 @@
+
+{
+
+    do
+    {
+
+	echo(new line, new line, "2. Sub-menu for demonstrating tables (basic features)");
+
+	table initialize ( main menu,
+		{ { Menu Choice,Menu Explanation,			Menu Selection				},
+		  { 1,		Introduction on accessing tables,	21 Tables Access Introduction.b4p	},
+		  { 2,		Table row manipulations,		22 Tables Row Manipulations.b4p		},
+		  { 3,		Table column manipulations,		23 Tables Column Manipulations.b4p	},
+		  { 4,		Table contents manipulations,		24 Tables Contents Manipulations.b4p	},
+		  { 9,		Memorizing and forgetting column numbers,29 Tables Forget Column Numbers.b4p	},
+		  { M,		Main menu,				back					},
+		  { I ,		Interactive,				interactive				} } );
+
+
+	echo( new line );
+	main selection[] = table menu quick( main menu, Menu Choice, Menu Explanation, Menu Selection );
+
+	switch( main selection[])
+	{
+		case ('*.txt','*.b4p') 	start(main selection[]);
+		case (interactive)	{ interactive; exit; }
+
+	}
+    }
+    while( main selection[] <> back );
+
+
+}

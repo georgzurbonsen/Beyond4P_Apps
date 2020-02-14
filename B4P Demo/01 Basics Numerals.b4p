@@ -1,0 +1,373 @@
+{
+
+
+
+
+    echo("Demonstration of some basic functionality with numerals", new line );
+
+    table initialize ( sub  menu,
+		{ { Menu Choice,Menu Explanation,				Menu Selection		},
+		  { 0,	"Numerals: Introduction"				,	intro		},
+		  { 1,	"Numerals: Unary, Binary and Assignment Operators"	,	num ops		},
+		  { 2,	"Numerals: Ad hoc Operators"				,	ad hoc		},
+		  { 3,	"Numerals: Comparing them"				,	comparing	},
+		  { 4,	"Numerals: Input formats"				,	input format	},
+		  { 5,	"Numerals: Output formats"				,	output format	},
+		  { 6,	"Numerals: Some functions"				,	num funcs	},
+		  { 7,	"Numerals: Statistics"					,	statistics	},
+		  { M,	"Back to previous menu"					,	back		},
+		  { I,	"Interactive (city and countries tables loaded)"	,	interactive	} } );
+
+    do
+    {
+
+	echo( new line );
+	selection[] = table menu quick( sub menu, Menu Choice, Menu Explanation, Menu Selection );
+
+ 	switch( selection[])
+	{
+
+	    case(intro) // Introduction
+	    {
+		echo("Demonstration of different ways of specifying numerals, see following examples in the code.", new line);
+
+		dim( a[], 12, 0 );	// Define an array (12 elements, initialzed with 0)
+
+		a[ 0] = 1;
+		a[ 1] = 1.23;
+		a[ 2] = 01.23;
+		a[ 3] = 1.230;
+		a[ 4] = -1.23;		// Note: Type is 'plain numeral' because minus sign does a unary operation.
+		a[ 5] = -01.230;	// Same here.  Leading and trailing zeros vanish
+		a[ 6] = - 1.23;		// It does not matter if a blank is between minus sign and first digit.
+		a[ 7]= .23;		// For numbers less than 1 and bigger than -1, no leading 0 required.
+		a[ 8]= -.23;		// Same
+		a[ 9] = 1. 23;		// This is not a numeral, but a literal (blank inside)
+		a[10] = 1 .23;		// Same
+		a[11] = 1.23E01;	// Same.  Scientific notation not supported by Beyond4P.
+
+		for (i[]=0, i[]<member count(a[]), i[]++)
+		{
+		    echo("a[", i[], "] = ",a[i[]],"   Type: ", type detailed(a[i[]]) ); 
+		}
+
+		echo(new line,"Apply an operation on the numerals: Multiply by 1 to keep the same values");
+		echo("Note that all numbers are of type 'plain numeral' where the original literal");
+		echo("representation has been discarded, e.g. leading and lagging zeros.");
+
+		for (i[]=0, i[]<=8, i[]++)
+		{
+		    a[i[]] *= 1;
+		    echo("a[", i[], "] = ",a[i[]],"   Type: ", type detailed(a[i[]]) ); 
+		}
+
+
+	    }
+
+
+	    case(num ops) // Operators
+	    {
+		echo("Demonstration of binary operators.  Specify two numerals for doing some math:", new line);
+		num1[] = input("Enter 1st number (num1[]) : ", numeral);
+		num2[] = input("Enter 2nd number (num2[]) : ", numeral);
+
+		echo("Addition               : ", num1[] + num2[] );
+		echo("Subtraction            : ", num1[] - num2[] );
+		echo("Multiplication         : ", num1[] * num2[] );
+		echo("Division               : ", num1[] / num2[] );
+
+		echo("Also try 0 as 2nd number to see how division by 0 is handled.");
+
+		echo(new line, "Demonstration of binary operators.  Specify two numerals for doing some math:", new line);
+
+		echo("Negation of num1[]     : ", -num1[] );
+		echo("Positive op num1[]     : ", +num1[] );
+
+
+		echo(new line, "Mixing numerals with literals work only if they are blank (no characters).");
+		echo("Blanks are always treated as zero.  Non-blank literals generate error messages.");
+
+		echo("num1[] added w. blank  : ", num1[] + ''   );
+		echo("num1[] multip. w. blank: ", num1[] * ""   );	// It does not matter if you use "" or '' for blanks.
+
+
+		echo(new line, "Demonstration of assignment operators.  Specify two numerals for doing some math:", new line);
+
+		num1[] += 5;
+		echo("5 added to num1[]      : ", num1[] );
+
+		num2[] *= 5;
+		echo("5 multiplied to num2[] : ", num2[] );
+
+
+	    }
+
+
+	    case(ad hoc) // Ad hoc Operators
+	    {
+
+		echo("Demonstration of ad hoc operators.  Specify two numerals for doing some math:", new line);
+		num1[] = input("Enter 1st number (num1[]) : ", numeral);
+		num2[] = input("Enter 2nd number (num2[]) : ", numeral);
+
+		num1[]++;	// Increment by 1
+		++num2[];	// No difference here if ad hoc operator is before or after.
+
+		echo(new line, "Ad hoc operators in stand-alone manner (plus 1):", new line);
+		echo("num1[] incremented        : ", num1[] );
+		echo("num2[] incremented        : ", num2[] );
+
+		num1[]--(2);	// Decrement by 2. PARENTHESES are required.
+		--(2)num2[];	// No difference here if ad hoc operator is before or after.
+
+		echo(new line, "Ad hoc operators in stand-alone manner (minus 2):", new line);
+		echo("num1[] decremented        : ", num1[] );
+		echo("num2[] decremented        : ", num2[] );
+
+		num1[]**(2);	// Double
+		**(0.5)num2[];	// halfved
+
+		echo(new line, "Ad hoc operators in stand-alone manner (doubled, halved):", new line);
+		echo("num1[] doubled            : ", num1[] );
+		echo("num2[] halved             : ", num2[] );
+
+		echo(new line, "Continuing this demonstration, let's set num1[] to 2 and num2[] to 3");
+		num1[] = 2;
+		num2[] = 3;
+
+		echo("num1[] incremented after  parameter passed: ", num1[]++ );
+		echo("num1[] - present value: ", num1[] );
+
+		echo("num2[] incremented before parameter passed: ", ++num2[] );
+		echo("num1[] decremented before and doubled after parameter passed: ", --num1[]**(2) );
+		echo("num1[] - final value: ", num1[] );
+
+		echo(new line, "Continuing this demonstration, let's set num1[] to 2 and num2[] to 3");
+		echo(new line, "    Calculate: ++num3[]-- *= **(0.5)num1[]++ * ++ num2[]--(9);", new line);
+
+		num1[] = 20;
+		num2[] =  9;
+		num3[] =  4;
+
+		++num3[]-- *= **(0.5)num1[]++ * ++ num2[]--(9);	
+
+		echo("The compact assignment above is equivalent to following statements listed below");
+
+		echo("    num3[] = num3[] + 1;                  num3[] =   5 ");
+		echo("    num1[] = num1[] * 0.5;                num1[] =  10 ");
+		echo("    num2[] = num2[] + 1;                  num2[] =  10 ");
+		echo("    num3[] = num3[] * num1[] * num2[];    num3[] = 500 ");
+		echo("    num3[] = num3[] - 1;                  num3[] = 499 ");
+		echo("    num1[] = num1[] + 1;                  num1[] =  11 ");
+		echo("    num2[] = num2[] - 9;                  num2[] =   1 ");
+		echo(new line, "The calculated result:");
+		echo("    num1[] = ", num1[] );
+		echo("    num2[] = ", num2[] );
+		echo("    num3[] = ", num3[] );
+		echo;
+
+
+	    }
+
+	    case(comparing) // Comparing numerals
+	    {
+
+		echo("Demonstration of comparing numerals", new line);
+
+
+		echo("Note: Beyond4P distinguishes between exact and tolerated comparisons");
+		echo("Tolerated comparisons consider differences smaller than epsilon as equal");
+		echo("Epsilon is a very small value: ", runtime settings[epsilon]);
+		echo("Using tolerated comparisons may be necessary by numerals which have undergone");
+		echo("intensive mathematics where minor errors from least significant bids may develop.");
+
+
+		echo(new line, "For this demonstrator, epsilon is temporarily increased to 0.01");
+		eps saver[] = runtime settings[epsilon];
+		runtime settings[epsilon] = 0.01;
+
+		half   eps[] = runtime settings[epsilon] / 2;
+		double eps[] = runtime settings[epsilon] * 2;
+
+		left [] = { 0, 1, 0, 0+half eps[],0+double eps[],1-half eps[],1-double eps[] };
+		right[] = { 0, 0, 1, 0,           0,             1,           1              };
+
+
+
+		echo;
+		for (i[]=0, i[]<left[]{}, i[]++)
+		{
+		    echo("Comparing ", left[]{i[]}," with ", right[]{i[]},": ");
+
+		    echo("    =, ==: ", left[]{i[]} == right[]{i[]}, "     =~ ,==~ : ", left[]{i[]} ==~ right[]{i[]} );
+		    echo("   <>, !=: ", left[]{i[]} != right[]{i[]}, "    <>~ ,!=~ : ", left[]{i[]} !=~ right[]{i[]} );
+		    echo("    >    : ", left[]{i[]} >  right[]{i[]}, "          >~ :",  left[]{i[]} >~ right[]{i[]} );
+		    echo("    >=   : ", left[]{i[]} >= right[]{i[]}, "         >=~ :",  left[]{i[]} >=~ right[]{i[]} );
+		    echo("    <    : ", left[]{i[]} <  right[]{i[]}, "          <~ :",  left[]{i[]} <~ right[]{i[]} );
+		    echo("    <=   : ", left[]{i[]} <= right[]{i[]}, "         <=~ :",  left[]{i[]} <=~ right[]{i[]} );
+		}
+
+
+		runtime settings[epsilon] = eps saver[];  // Restore epsilon.
+
+
+		echo(new line, "Comparisons allow additional selections and ranges on the right hand side with.");
+		echo("Supported operators are: = (but not ==) and <> (but not !=),");
+		echo;
+		num[] = input("Enter a numer between 0 and 10: ", numeral, 0..10);
+
+		echo("Comparing numbers with selections.");		
+		echo("    Number is one of 1,2,4,8       : ", (num[] = 1,2,4,8) );
+		echo("    Number is between 3 and 6 or 9 : ", (num[] = 3..6,9) );
+
+
+
+	    }
+	    case(input format) // Input format
+	    {
+
+		echo("Demonstration of input format with 'clean numeral' function:", new line);
+
+		echo("5,000.10 (decimal point) => 5000.1             : ", clean numeral( "5,000.10" ) );
+		echo("5,000.10 (decimal comma) => 5.0001             : ", clean numeral( "5,000.10", ',' ) );
+		echo("5.000,10 (decimal point) => 5000.1             : ", clean numeral( "5.000,10" ) );
+		echo("5.000,10 (decimal comma) => 5.0001             : ", clean numeral( "5.000,10", ',' ) );
+
+		echo;
+
+		echo("(5,000.10) (decimal point) => -5000.1          : ", clean numeral( "(5,000.10)" ) ); // Commercial representation of negative numbers
+		echo("-5,000.10  (decimal point) => -5000.1          : ", clean numeral( "-5,000.10 " ) );
+		echo(" 5,000.10- (decimal point) => -5000.1          : ", clean numeral( " 5,000.10-" ) );
+
+		echo;
+
+		echo("USD (5,000.10) (decimal point) => -5000.1      : ", clean numeral( "USD 5,000.10)" ) );
+		echo("CHF (5'000.10) (decimal point) => -5000.1      : ", clean numeral( "CHF 5'000.10)" ) );
+		echo("€ +5,000.10    (decimal point) => -5000.1      : ", clean numeral( "€ +5,000.10" ) );
+
+		echo;
+
+		echo("Section 1.23:   (decimal point) => 1.23        : ", clean numeral( "Section 1.23:" ) );
+		echo("Section 1,23:   (decimal point) => 123         : ", clean numeral( "Section 1,23:" ) );
+		echo("Section 1-23:   (decimal point) => 123         : ", clean numeral( "Section 1-23:" ) ); // Hyphen does not qualify as minus sign here.
+		echo("Section -123:   (decimal point) => -123        : ", clean numeral( "Section -123:" ) );
+
+
+	    }
+
+	    case(output format) // Output format with 'literal'
+	    {
+		
+		echo("Demonstration of output format with 'literal' function:", new line);
+
+		num[] = input("Enter a number of choice: ", numeral);
+
+		echo("Whole number (0 is shown as 0)                 : ", literal(num[],"0" ) );
+ 		echo("Whole number (0 is shown as blank)             : ", literal(num[],"#" ) );
+ 		echo("Whole number (Show at least 3 digits)          : ", literal(num[],"000" ) );
+ 		echo("Whole number (Show 2 decimal digits)           : ", literal(num[],"0.00" ) );
+ 		echo("Whole number (4x0 and 2 decimal digits)        : ", literal(num[],"0000.00" ) );
+ 		echo("Whole number (4xPlaceh. and 2 decimal digits)  : ", literal(num[],"???0.00" ) );
+ 		echo("Whole number (2-4 decimal digits)              : ", literal(num[],"0.00##" ) );
+ 		echo("Whole number (1000 Separator, no region spec'd): ", literal(num[],"#,##0.00" ) );
+ 		echo("Whole number (1000 Separator, local)           : ", literal(num[],"#,##0.00", local ) );
+ 		echo("Whole number (1000 Separator, Germany)         : ", literal(num[],"#,##0.00", german ) );
+ 		echo("Whole number (1000 Separator, Switzerland)     : ", literal(num[],"#,##0.00", swiss ) );
+ 		echo("Whole number (1000 Separator, France)          : ", literal(num[],"#,##0.00", french ) );
+ 		echo("Whole number (1000 Separator, UK/USA)          : ", literal(num[],"#,##0.00", english ) );
+ 		echo("Whole number (1000 Separator, India)           : ", literal(num[],"#,##0.00", indian ) );
+ 		echo("Whole number (1000 Separator, customized)      : ", literal(num[],"#,##0.00", "*", "%" ) );
+ 		echo("Whole number (1000 Separator, neg parentheses) : ", literal(num[],"(#,##0.00)" ) );
+ 		echo("Whole number (and use space if positive)       : ", literal(num[],"_(#,##0.00_)" ) );
+ 		echo("Whole number (neg: minus sign behind)          : ", literal(num[],"#,##0.00-" ) );
+ 		echo("Whole number (Currency, + or - shown, local)   : ", literal(num[],"'EUR' + #,##0.00", english ) );
+
+
+	    }
+
+	    case(num funcs) // Some functions
+	    {
+
+		echo("Demonstration of some function calls with numerals:", new line);
+	
+		echo(new line, "Basics:", new line);
+		num[] = input("Enter a numeric value of choice: ", numeral );
+
+		echo("Number is even           : ", even(num[]) );
+		echo("Number is odd            : ", odd(num[]) );
+		echo("Number is whole          : ", whole(num[]) );
+		echo("Number is divisible by 7 : ", mod(num[],7)=0 );
+		echo("Rounded to whole digits  : ", round(num[], 1) );
+		echo("Rounded to steps of 10   : ", round(num[], 10) );
+		echo("Rounded to steps of 0.25 : ", round(num[], 0.25) );
+
+	
+		echo(new line, "Trigonometry:", new line);
+
+		pi[] = asin( 1 )*2;
+		echo("Number pi is ", pi[] );
+		num[] = input("Enter an angular value (0..360): ", numeral, 0..360); // Does input validation: Value between 0 and 360 degrees
+
+		echo("Sine function               : ", sin deg(num[]) );		// Note: 'sin deg' takes angles in degrees
+		echo("Sine function (same)        : ", sin    (num[] * pi[]/180 ) );	// Note: 'sin deg' takes angles in degrees
+		echo("Note: The 1st sine function is 'sin deg' taking degrees, the 2nd one is 'sin'");
+		echo("      and takes degre converted to radians.  Outputs are the same.");
+
+	    }
+
+
+	    case(statistics) // Some statistics
+	    {
+
+		echo("Demonstration of some statistics functions.  Numbers are inside a parameter set.", new line);
+
+		nums[] = { 15, 10, 5, '', 10, 0, 5, 15 };
+
+		echo("Count                          : ",count(nums[]) );
+		echo("Count (Blanks ignored)         : ",count ignore blanks(nums[]) );
+		echo("Count (0 ignored)              : ",count ignore zero(nums[]) );
+		echo("Count (Blanks and 0 ignored)   : ",count ignore both(nums[]) );
+		echo;
+		echo("Sum                            : ",sum(nums[]) );
+		echo("Average (Blanks = 0)           : ",average(nums[]) );
+		echo("Average (Blanks ignored)       : ",average ignore blanks(nums[]) );
+		echo("Average (Blanks and 0 ignored) : ",average ignore zero(nums[]) );
+
+		echo("Standard deviation             : ",deviation(nums[]) );
+
+
+		echo("Demonstration of conditional combination functions.  Numbers are inside a parameter set.", new line);
+
+
+		corresponding[] = { 6,5,4,3,2,1,0,-1 };
+
+		echo("Sums 1st, 3rd and last element    : ",sum if (nums[], corresponding[], (6,4,-1) ) );
+		echo;
+		echo("Sums 1st-5th element              : ",sum if (nums[], corresponding[], >= 2 ) );
+		echo("Sums 5th-7th element              : ",sum if (nums[], corresponding[], 0..2 ) );
+
+		echo("Intersection of conditions above  : ",sum if (nums[], corresponding[], (0..2), corresponding[], >=2 ) );
+		// Note: (0..2) in parentheses to avoid confusing next parameter on the right with selection
+		echo("Union of conditions above         : ",sum if any (nums[], corresponding[], (0..2), corresponding[], >=2 ) );
+
+
+		echo(new line, "Some economics - calculate Compound Average Growth Rate (CAGR)", new line);
+
+		revenues[] = { 80, 100, 80, 85, 100, 120 }; // Annual revenues
+		echo("CAGR from 1st to last year        : ", literal( cagr( revenues[] ), "0.00 %" ) ); // Note: Percent is part of active number format
+		echo("Possibly 1st year is exceptionally low and last year exceptionally high.  Group in 2 years");
+		echo("CAGR from 1st 2 to last 2 years   : ", literal( cagr( revenues[], 2 ), "0.00 %" ) );
+
+
+	    }
+
+
+	}
+	echo(new line, "Test done.  Continue with menu");
+    }
+    while (selection[] <> interactive, back);
+
+    if (selection[] = interactive) { interactive; exit; }
+
+
+}

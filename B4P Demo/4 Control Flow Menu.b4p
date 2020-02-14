@@ -1,0 +1,30 @@
+
+{
+
+    do
+    {
+
+	echo(new line, new line, "4. Sub-menu for demonstrating control flow");
+
+	table initialize ( main menu,
+		{ { Menu Choice,Menu Explanation,			Menu Selection				},
+		  { 8,		'User-defined functions',		'48 User-defined Functions.b4p'		},
+		  { 9,		Exceptions,				49 Control Flow Exceptions.b4p		},
+		  { M,		Main menu,				back					},
+		  { I ,		Interactive,				interactive				} } );
+
+
+	echo( new line );
+	main selection[] = table menu quick( main menu, Menu Choice, Menu Explanation, Menu Selection );
+
+	switch( main selection[])
+	{
+		case ('*.txt','*.b4p') 	start(main selection[]);
+		case (interactive)	{ interactive; exit; }
+
+	}
+    }
+    while( main selection[] <> back );
+
+
+}

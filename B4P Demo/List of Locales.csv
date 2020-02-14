@@ -1,0 +1,28 @@
+﻿Locale;Language;Country;Date Language;List Separator;Currency;Currency Symbol;Decimal Symbol;Thousand Symbol;Date Separator Symbol;Time Separator Symbol;Date Format;Time Format;;Lookup Date Language;Months;Short Months;Weekdays;Short Weekdays 2;Short Weekdays 3;Ordinal;Week;Week Abbr
+de_CH;German;Switzerland;de;";";CHF;CHF;.;';.;:;DD.MM.YYYY;HH:II:SS;;de;Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember;Jan, Feb, März, Apr, Mai, Juni, Juli, Aug, Sep, Okt, Nov, Dez;Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag, Sonntag;Mo, Di, Mi, Do, Fr, Sa, So;Mon, Die, Mit, Don, Fre, Sam, Son;.;Woche;KW
+de_DE;German;Germany;de;";";EUR;€;,;.;.;:;DD.MM.YYYY;HH:II:SS;;de_at;Jänner, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember;Jän, Feb, März, Apr, Mai, Juni, Juli, Aug, Sep, Okt, Nov, Dez;Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag, Sonntag;Mo, Di, Mi, Do, Fr, Sa, So;Mon, Die, Mit, Don, Fre, Sam, Son;.;Woche;KW
+de_AT;German;Austria;de_at;";";EUR;€;,; ;.;:;DD.MM.YYYY;HH:II:SS;;en;January, February, March, April, May, June, July, August, September, October, November, December;Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec;Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday;Mo, Tu, We, Th, Fr, Sa, Su;Mon, Tue, Wed, Thu, Fri, Sat,Sun;th,st,nd,rd,th,th,th,th,th,th,th,th,th,th,th,th,th,th,th,th,th;Week;Wk
+de_IT;German;Italy;de;";";EUR;€;,;.;.;:;DD.MM.YYYY;HH:II:SS;;fr;janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre;janv., févr., mars, avr., mai, juin, juill., août, sept., oct., nov., déc.;lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche;Lu, Ma, Me, Je, Ve, Sa, Di;lun., mar., mer., jeu., ven., sam.,dim.;e;Semaine;Sem
+en_US;English;USA;en;,;USD;$;.;,;/;:;M/D/YYYY;HH:II:SS;;it;gennaio, febbraio, marzo, aprile, maggio, giugno, luglio, agosto, settembre, ottobre, novembre, dicembre;gen, feb, mar, apr, mag, giu, lug, ago, set, ott, nov, dic;lunedì, martedì, mercoledì, giovedì, venerdì, sabato, domenica;Lu, Ma, Me, Gi, Ve, Sa, Do;lun, mar, mer, gio, ven, sab, dom;o;Settimana;Sem
+en_GB;English;Great Britain;en;,;GBP;£;.;,;/;:;DD/MM/YYYY;HH:II:SS;;es;enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre;ene., feb., mar., abr., may., jun., jul., ago., sep., oct., nov., dic.;lunes, martes, miércoles, jueves, viernes, sábado, domingo;Lu, Ma, Mi, Ju, Vi, Sa, Do;lun., mar., mié., jue., vie., sáb., dom.;o;Semana;Sem
+en_CA;English;Canada;en;,;CAD;$;.;,;/;:;M/D/YYYY;HH:II:SS;;sv;januari, februari, mars, april, maj, juni, juli, augusti, september, oktober, november, december;jan., feb., mars, apr., maj, juni, juli, aug., sep., okt., nov., dec.;måndag, tisdag, onsdag, torsdag, fredag, lördag, söndag;Må, Ti, On, To, Fr, Lö, Sö;mån, tis, ons, tors, fre, lör, sön;:a/e;Vecka;Vec
+en_DE;English;Germany;en;,;EUR;€;,;.;/;:;DD/MM/YYYY;HH:II:SS;;;;;;;;;;
+en_CH;English;Switzerland;en;,;CHF;CHF;,;.;/;:;DD/MM/YYYY;HH:II:SS;;;;;;;;;;
+en_AT;English;Austria;en;,;EUR;€;,;.;/;:;DD/MM/YYYY;HH:II:SS;;;;;;;;;;
+en_FR;English;France;en;,;EUR;€;,; ;/;:;DD/MM/YYYY;HH:II:SS;;;;;;;;;;
+en_SE;Swedish;Sweden;en;";";SEK;SEK;,;;-;:;YYYY-MM-DD;HH:II:SS;;;;;;;;;;
+en_in;English;India;en;,;INR;₹;.;,;/;:;DD/MM/YYYY;HH:II:SS;;;;;;;;;;
+fr_CA;French;Canada;fr;";";CAD;$;.; ;.;:;DD.MM.YYYY;HH:II:SS;;;;;;;;;;
+fr_FR;French;France;fr;";";EUR;€;,; ;.;:;DD.MM.YYYY;HH:II:SS;;;;;;;;;;
+fr_CH;French;Switzerland;fr;";";CHF;CHF;,; ;.;:;DD.MM.YYYY;HH:II:SS;;;;;;;;;;
+fr_BE;French;Belgium;fr;";";EUR;€;,; ;/;:;D/MM/YYYY;HH:II:SS;;;;;;;;;;
+it_IT;Italian;Italy;it;";";EUR;€;,;.;/;:;DD/MM/YYYY;HH:II:SS;;;;;;;;;;
+it_CH;Italian;Switzerland;it;";";CHF;CHF;.;';.;:;DD.MM.YYYY;HH:II:SS;;;;;;;;;;
+es_ES;Spanish;Spain;sp;";";EUR;€;.;,;/;:;D/M/YYYY;HH:II:SS;;;;;;;;;;
+es_US;Spanish;USA;sp;,;USD;$;.;,;/;:;D/M/YYYY;HH:II:SS;;;;;;;;;;
+sv_SE;Swedish;Sweden;sv;";";SEK;SEK;,; ;-;:;DD-MM-YYYY;HH:II:SS;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;
+;Beyond4P Locale Directory;;;http://www.localeplanet.com/icu/;;;; ;= 1 blank;;;;;;;;;;;;;

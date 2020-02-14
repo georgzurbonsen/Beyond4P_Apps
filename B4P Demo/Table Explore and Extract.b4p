@@ -1,0 +1,143 @@
+{
+
+    echo("Demonstration of interpolation function", new line );
+
+    table initialize ( sub  menu,
+		{ { Menu Choice,Menu Explanation,				Menu Selection		},
+		  { 0,	"Test small simple tables"				,	test 1		},
+		  { 1,	"Identify sub-tables from a file"			,	test 2		},
+		  { 2,	"Testing 'table filter'"				,	test 3		},
+		  { I,	"Interactive (city and countries tables loaded)"	,	interactive	} } );
+
+
+
+
+
+    do
+    {
+
+	echo( new line );
+	selection[] = table menu quick( sub menu, Menu Choice, Menu Explanation, Menu Selection );
+
+	switch( selection[] )
+	{
+	    case ( test 1 )
+	    {
+//		table initialize( test, { {"Hi"} } );
+//		table initialize( test, { {"Hi","He"} } );
+//		table initialize( test, { {"Hi"},{"He"} } );
+//		table initialize( test, { {"Ha","He",""},{"Hi","Ho",""} } );
+
+		table initialize( test, { {"Ha","Ha","",""},{"He","He","Hi","Hi"},{"Hu","Hu","He","He" } } );
+
+//		table initialize( test, { {"","Ha"},{"Ho",""} } );
+
+//		table initialize( test, {{"","Ha"}, {"Hi","He"} } );
+//		table initialize( test, {{ Hi, Ho, "" },{ Ha, He, ""}} ); // Just 1 single header entry
+//		table initialize( test, {{ Hi, Ho },{Ha, He}} ); // Just 1 single header entry
+//		table initialize( test, {{ Hi, Ho },{Ha, He}} ); // Just 1 single header entry
+
+		coords[] = table explore ( test, 1 );
+
+		echo("Identified ", coords[]{}," tables:");
+		for all parameters( coords[], c[], i[] )
+		{
+			echo("    Table ", i[], ":  (", c[]{0}, ", ", c[]{1},") ... ( ", c[]{2}, ", ", c[]{3},")" );
+		}		
+
+
+
+	    }
+
+	    case ( test 2 )
+	    {
+
+		table load( test, "Table Explore Demo.csv" );
+		coords[] = table explore ( test, 2, 1 );
+
+		echo("Identified ", coords[]{}," tables:");
+		for all parameters( coords[], c[], i[] )
+		{
+			echo("    Table ", i[], ":  (", c[]{0}, ", ", c[]{1},") ... ( ", c[]{2}, ", ", c[]{3},")" );
+		}		
+
+	    }
+
+	    case ( test 3 )
+	    {
+
+		table load( test, "Table Explore Demo.csv" );
+		coords[] = table explore ( test, 2, 1 );
+
+		echo("Identified ", coords[]{}," tables before filtering:");
+		for all parameters( coords[], c[], i[] )
+		{
+			echo("    Table ", i[], ":  (", c[]{0}, ", ", c[]{1},") ... ( ", c[]{2}, ", ", c[]{3},")" );
+		}		
+
+		coords[] = table filter ignore case ( test, coords[], { }, 0, {}, {0,0,4,7}  ); // Try different filter parameters
+
+		echo("Identified ", coords[]{}," tables after filtering:");
+		for all parameters( coords[], c[], i[] )
+		{
+			echo("    Table ", i[], ":  (", c[]{0}, ", ", c[]{1},") ... ( ", c[]{2}, ", ", c[]{3},")" );
+		}		
+
+
+		// Arrange all found tables in sequential manner
+
+		table create ( extracted );
+		for all parameters ( coords[], c[], i[] )
+		{
+		    [extracted:0,table length(extracted)+2] = compose("Table ", i[], "  Coordinates: ", c[] );
+		    table extract( extracted, test, coords[], i[], table length(extracted), 1 );
+		}		
+		table save( extracted, "Table Explore Demo Out.csv" );
+
+	    }
+
+
+	}
+
+	echo(new line, "Test done.  Continue with menu");
+    }
+    while (selection[] <> interactive, back);
+
+    if (selection[] = interactive) { interactive; exit; }
+
+
+}
+
+/*
+
+	Low level tests:
+
+	Round 1					Round 2				Round 3				Round 4
+
+	Table with 1 entry			+ 1 blank column on right	+ 1 blank column on left	+ 1 blank column on left and right
+	Table with 2 entries on 1 row		"				"				"
+	Table with 2 entries on 1 column	"				"				"
+	Table with 2 rows and 2 columns 	"				"				"
+
+	All passed.
+
+	Round  					Round 5				Round 6				Round 7
+
+	Table with 1 entry			+ 1 blank row on bottom		+ 1 blank row on top		+ 1 blank row on top and bottom
+	Table with 2 entries on 1 row		"				"				"
+	Table with 2 entries on 1 column	"				"				"
+	Table with 2 rows and 2 columns 	"				"				"
+
+	Combination Horizontal and Vertical
+
+
+
+
+
+*/
+
+
+
+
+
+s*/

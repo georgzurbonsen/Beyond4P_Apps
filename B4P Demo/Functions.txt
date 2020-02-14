@@ -1,0 +1,162 @@
+
+
+//
+//	Demonstrations of procedures and functions
+//
+
+
+once	// Following funcitons should only be defined once.
+{
+
+	define function ( polynom, { { x, numeral }, { a, numeral }, { b, numeral }, { c, numeral } } )
+	{
+		return ( a[]*x[]*x[] + b[]*x[] + c[] ); 
+	}
+
+
+	define function ( my sum, { {parameter 1, numeral} }, 0, unlimited )
+	{
+		for (i[] = 1, i[] <= parameter count[], i[]++)
+		{
+			sum[] += ('parameter ' + literal(i[]))[];
+		}
+	
+		return (sum[]);
+	}
+
+
+	define procedure ( simple )
+	{
+		echo("A very simple procedure");	
+	}
+}
+
+
+
+do
+{
+	table initialize ( sub  menu,
+		{ { Menu Choice,Menu Explanation			,	Menu Selection	},
+		  { 1,	"Call a very simple function"			,	simple		},
+		  { 2,	"Call a function with some parameters"		,	polynom		},
+		  { 3,	"Choose a functcion to define"			,	condition	},
+		  { 4,	"Deep function call"				,	deep		},
+		  { I,	"Interactive"					,	leave		} } );
+
+	echo( new line );
+	selection[] = table menu quick( sub menu, Menu Choice, Menu Explanation, Menu Selection );
+	echo(new line);
+
+
+	switch( selection[])
+	{
+
+	    case ( simple )
+	    {
+		echo("Call the simple procedure directly", new line );
+		simple;
+
+		echo(new line, "Now call it with the 'call' function", new line );
+
+		call( 'simple', {} );
+		
+		echo(new line, "Done");
+	    }
+
+	    case ( polynom )
+	    {
+
+		echo("Call a polynom function four times in a loop", new line );
+		for (i[]=0, i[]<=3, i[]++) echo( "Polynom(i[],1,2,3) = ", polynom(i[],1,2,3) );
+
+	    }
+
+
+	    case ( condition )
+	    {
+
+		choice[] = input quick ignore case(new line + "Choose S for using sum function, and A for the average function: ", AS);
+
+		// You can place 'define function' in conditional blocks, etc.  The function will only be defined
+		// if the conditional block is executed.
+
+		if (choice[]=S)
+		{
+
+			// Note: I amed the first parameter 'parameter 1' since all further un-named parameters are automatically
+			// named 'parameter 2', 'parameter 3', etc
+		
+			define function ( my function, { {parameter 1, numeral} }, 0, unlimited )
+			{
+				for (i[] = 1, i[] <= parameter count[], i[]++) sum[] += ('parameter ' + literal(i[]))[];
+				return (sum[]);
+			}
+		}
+		else: define function ( my function, { {parameter 1, numeral} }, 0, unlimited )
+			{
+				for (i[] = 1, i[] <= parameter count[], i[]++) sum[] += ('parameter ' + literal(i[]))[];
+				return (sum[] / parameter count[]);
+			}
+
+		echo("Call the chosen function with parameters 1,2,3,4,5. Result = ", my function( 1,2,3,4,5 ), new line );
+
+		delete user function( my function );		// Useful in case you want to reassign new function to same name
+		// delete user function( echo );		// Try this one and you will get an error message because this is not a user function
+
+	    }
+
+	    case ( deep )
+	    {
+
+		a[] = { 1..9 }; // 1,2,3,4...9
+
+		echo(new line, "Demonstrate a deep call with ", a[], " using the function 'sqrt' and round to 3 digits" );
+		b[] = deep( round, { deep( sqrt, {a[]}), 0.001 } );
+		echo("Result is ", b[] );
+
+
+		echo(new line,  "Demonstrate a deep call with repetition effect:");
+
+		b[] = { 10, 20, 30 };
+		c[] = deepr( sum, {a[], b[] } );
+
+		echo("Result is ", c[] );
+
+
+		once() define function( double, { {d, numeral} } )
+		{
+			return( 2 * d[] );
+		}
+
+		echo( new line,  "Confirm that function 'double' works properly: double(3) is ", double(3) );
+		echo( "And apply on {1..9}: ", deep( double, {a[]} ) );
+
+
+		echo( new line, "Try a 2nd level deep function: Double values inside a matrix" );
+
+		a[] = { { 1,2,3 }, {11..13}, { 21..23 } };
+		echo(" Input value is ", a[] );
+		echo(" Output value is ", deep( double, {a[]}, 2 ) );
+
+		echo( new line, "Try a 2nd level deep function: Add 100 to all values inthe matrix" );
+
+		b[] = 100;
+		echo(" Input value is ", a[] );
+		echo(" Output value is ", deep( sum, {a[], b[]}, 2 ) );
+
+		echo( new line, "Try a 2nd level deep function: Add {100,200,300} to all values inthe matrix" );
+
+		b[] = { 100, 200, 300 };
+		echo(" Input value is ", a[] );
+		echo(" Output value is ", deep( sum, {a[], b[]}, 2 ) );
+
+	    }
+
+
+
+	}
+}
+
+while ( selection [] <> leave );
+interactive;
+

@@ -1,0 +1,423 @@
+
+{
+
+    echo("Test of References to variables");
+
+
+
+    table initialize ( sub  menu,
+		{ { Menu Choice,Menu Explanation,				Menu Selection		},
+		  { 1,	"Test variables locked"					,	locked 1	},
+		  { 2,	"Test locked I/O parameters in function calls"		,	locked 2	},
+		  { 3,	"References to variables - basic test"			,	references 1	},
+		  { 4,	"References to variables - From array members"		,	references 2	},
+		  { 5,	"References to variables - From structure members"	,	references 3	},
+		  { 6,	"References to variables - Globals from functions"	,	references 4	},
+		  { 7,	"References to function parameters - basic test"	,	function call 1	},
+		  { 8,	"References to function parameters - stress test"	,	function call 2	},
+		  { A,	"References in transactions A"				,	transactions 1	},
+		  { B,	"References in transactions B"				,	transactions 2	},
+		  { C,	"References in transactions C"				,	transactions 3	},
+		  { D,	"References in transactions D"				,	transactions 4	},
+		  { E,	"References in transactions E"				,	transactions 5	},
+		  { M,	"Back to previous menu"					,	back		},
+		  { I,	"Interactive (city and countries tables loaded)"	,	interactive	} } );
+
+    do
+    {
+
+	echo( new line );
+	selection[] = table menu quick( sub menu, Menu Choice, Menu Explanation, Menu Selection );
+
+ 	switch( selection[])
+	{
+
+	    case(locked 1)
+	    {
+
+		
+		once() define function ( global challenge )
+		{
+//			global() delete( globe[] ); // If not commented out, then this function call generates exception because globe[] is locked.
+			echo("If no error message occured, the global variable globe[] has just been deleted (unless commented out)");
+			return (Worldwide);
+		}
+
+
+		echo("Define global variable 'globe'", new line);
+		global() globe[] = Global;
+		
+		echo("Call function 'global challenge'", new line);
+		globe[] = global challenge();
+		echo("Variable globe[] returns ", globe[], "   Expected: Worldwide");
+		global() delete(globe[]);
+
+	    }
+
+
+	    case(locked 2)
+	    {
+
+		once() define function ( global challenge 2, { {gl, literal, io} } )
+		{
+//			delete( g[] ); // If not commented out, then this function call generates exception because g[] is locked.
+//			delete( gl[] ); // Attempting to delete parameter will also fail, as long if not commented out.
+ 			echo("If no error message occured, the global variable g[] has just been deleted");
+			echo("Variable gl[] contains: ", gl[] );
+				return ("Out");
+		}
+
+
+		global() g[] = Global 2;
+		
+		h[] = global challenge 2( g[] );
+		echo("return value h[]: ", h[],"  global variable g[]: ", g[]);
+		global() delete(g[]);
+
+	    }
+
+
+	    case(references 1)
+	    {
+
+		echo(new line, "Example 1: Create a simple reference", new line);
+
+		a[] = Hello;
+
+		ref1[] =^ a[];
+
+		a[] = Hi;
+		echo( a[],", ",ref1[] );		// Outputs "Hi, Hi"
+
+		ref1[] = He;
+		echo( a[],", ",ref1[] );		// Outputs "He, He"
+
+
+
+		echo(new line, "Example 2: Accessing through a references to a taret member variable", new line);
+
+		ref1[b] = Ho;
+
+		echo( a[b],", ",ref1[b] );		// Outputs "Ho, Ho"
+
+		a[b] = Ha;
+		echo( a[b],", ",ref1[b] );		// Outputs "Ha, Ha"
+
+
+		echo(new line, "Example 3: Moving the reference to a member variable", new line);
+
+		ref1[] = ^a[b];
+		ref1[] = Hi;
+
+		echo( a[b],", ",ref1[] );		// Outputs "Hi, Hi"
+
+
+		echo(new line, "Example 4: Copy references", new line);
+
+		ref2[] =^  ref1[];
+		ref3[] =^^ ref1[];
+
+		ref3[] = Hu;
+
+		echo( a[b],", ",ref1[] );		// Outputs "Hu, Hu"
+		echo( ref2[],", ",ref3[] );		// Outputs "Hu, Hu"
+
+
+		ref3[] =^ a[];
+
+		echo( a[],", ", ref3[] );		// Outputs "He, He"
+		echo( ref1[],", ",ref2[] );		// Outputs "Hu, Hu"
+
+
+		release( ref1[], ref2[], ref3[] );
+		echo( "Released references have value ", ref1[] );	// Void.
+		delete(a[]);
+
+	
+	    }
+
+
+	    case(references 2)
+	    {
+
+		echo(new line, "Example 2: Create references inside a members of arrays", new line);
+
+		array( a[ ],{Ha,He,Hi,Ho} );
+
+		a[0] =^  a[3];
+
+
+		a[1] =^^ a[0]; // Ref. to Ref.
+		echo( a[0],", ", a[1] );		// Outputs "Ho, Ho";
+
+		a[0] =^ a[2];
+		echo( a[0],", ", a[1] );		// Outputs "Hi, Hi";
+
+		release all(a[]);
+		delete(a[]);
+
+
+	    }
+
+
+	    case(references 3)
+	    {
+
+		echo(new line, "Example 3: Create references inside a members of structures.", new line);
+
+
+		a[] = Ha;
+		a[b] = He;
+
+		c[] = Hi;
+		c[d] = ^a[];
+		c[e] = ^a[b];
+		c[f] = ^c[e]; // --> to a[b]
+
+		echo( c[d],", ", c[e] );		// Outputs "Ha, He"
+
+		// Blue part of illustration
+
+		a[g] = ^c[];
+
+		echo( a[g],", ", a[g,d] );		// Outputs "Hi, Ha";
+
+		// You can loop around.
+
+		echo( a[g,d,b] ); 			// Outputs "He".
+		echo( a[g,d,g],", ",a[g,d,g,d] );	// Outputs "Hi, Ha".
+
+		release all( c[],a[] );
+		delete(c[]);
+
+	    }
+
+
+
+
+	    case(references 4)
+	    {
+
+		echo(new line, "Example 4: See what happens if references are created inside function calls", new line);
+
+		global { g[] = 123; } // Define a global variable
+
+		once() define procedure (test me)
+		{
+
+			ref1[] = ^g[];
+			ref1[] = 456;
+			echo( "Reference to a global variable: ", ref1[]);
+		}
+
+		echo("Test the function 'test me'");
+		test me;
+		echo("Variable g[] is ", g[]);
+		global() delete(g[]);
+
+
+	    }
+
+
+
+	    case(function call 1)
+	    {
+		echo(new line, "Example 1: Pass references as parameters into function call");
+
+		once() define procedure( test parameters 1, {{ para, numeral, reference }} )
+		{
+			echo("Called function. para[] = ", para[],".  set para[] to 5 and introduce member para[b] and set to 6");
+			para[] = 5;
+			para[b] = 6;
+		}
+		
+		a[] = 3;
+		echo("a[] is ", a[], "  Now call the function.");
+
+		test parameters 1( a[] );
+		echo("a[] is ", a[], "  and a[b] is ", a[b], " after the call  Output should be 5 and 6.");
+	    }
+
+
+
+
+
+
+	    case(function call 2)
+	    {
+		echo(new line, "Example 2: Pass references as parameters into function call");
+
+		once() define procedure( test parameters 2, {{ para, numeral, reference }} )
+		{
+			echo("Called function. Try to manipulate the parameter.  This results in an exception.");
+
+			c[] = 987;
+			// Provoke an exception
+			table load( abc, def ); // Will not find the file
+
+
+		}
+		
+		a[] = 3;
+		echo("a[] is ", a[], "  Now call the function.");
+
+		test parameters 2( a[] );
+		echo("a[] is ", a[]);
+		echo("glo[] is ", glo[]);
+	    }
+
+
+
+
+
+	    case(transactions 1)
+	    {
+
+		list local variables;
+		echo(new line, "Transactions on references to variables: The final target variables are accessed.");
+
+		a[] = ah;
+		a[b] = Ha;
+		a[c] = Ho;
+
+		f[] = Hm;
+
+		g[] = ^f[];
+		h[] = ^a[]; 
+
+
+		g[] <== h[];
+
+
+		c[c] = Hu;
+		c[d] = Hä;
+
+
+		g[] |<== c[];
+
+		echo("All local variables will be listed.  Type 'return' to continue");
+		echo("g[] should contain 3 members, h[] and c[] should contain 2 members");
+
+		list local variables;
+
+		release all;
+		delete( a[], c[], f[], g[], h[] );		
+
+	    }
+
+	    case(transactions 2)
+	    {
+
+		echo(new line, "Transactions on references to variables: The final target variables are accessed.");
+
+		e[] = He;
+
+		a[] = Ha;
+		c[a] = ^a[];
+
+		d[] = Hi;
+		d[a] = Ho;
+		d[b] =^ e[];
+
+		c[] |<== d[]; // c[a] points to a[] and must be assigned with "Ho".
+
+		echo("All local variables will be listed.  Type 'return' to continue");
+		echo("Note that d[a] is transferred to c[a] which in turn is a[]. Ho appears in a[].");
+		echo("Variable c[] contains c[e] after transferring d[b] which points to e[]	.");
+
+		list local variables;
+		release all;
+		delete( a[], c[], d[] );
+
+	    }
+
+	    case(transactions 3)
+	    {
+
+		echo(new line, "The source contains 1 array with 3 elements and 1 of them is a reference");
+
+		array( a[], {Ha, He, Hi} );
+
+		b[] = Ho;	// Assign 2nd element to a reference.
+		a[1] = ^b[];
+
+
+		echo(new line, "Transaction to a destination being created");
+
+		c[] <== a[];
+
+
+		echo(new line, "Transaction to a structure");
+
+
+		d[] = Hm;
+		d[n] = Hn;
+		d[u] = Hu;
+
+
+		d[] |<== a[];
+
+		list local variables;
+		release all;
+		delete( a[], b[], c[], d[] );
+
+	    }
+
+
+	    case(transactions 4)
+	    {
+
+		echo(new line, "The source contains 1 structure with 3 elements and 1 of them is a reference to an array member");
+
+		a[a] = Ha;	a[e] = He;	a[i] = Hi;
+
+		dim( b[], 3, "" );
+		b[1] = Hu;
+
+
+		a[e] =^ b[1];  // This one is an un-named array member.
+
+
+		pause;
+		c[] <== a[];
+
+		list local variables;
+		release all;
+		delete( a[],b[],c[] );
+	    }
+
+
+	    case(transactions 5)
+	    {
+
+		echo(new line, "Destination contains an array.");
+
+		dim( a[], 2, "" );
+		c[] = Hu;
+		a[1] = ^c[];
+
+		dim( b[], 3, "" );
+
+		b[0] = Ha; b[1] = He; b[2] = Hi;
+
+		a[] |<== b[];
+
+
+		list local variables;
+		release all;
+		delete( a[],b[],c[] );
+	    }
+
+
+
+
+
+	}
+	echo(new line, "Test done.  Continue with menu");
+    }
+    while (selection[] <> interactive, back);
+
+    if (selection[] = interactive) { interactive; exit; }
+
+
+}

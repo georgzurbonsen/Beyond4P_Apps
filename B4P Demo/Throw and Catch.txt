@@ -1,0 +1,34 @@
+
+{
+
+	echo("Demonstrate throw");
+	
+	{
+		echo( "Do a throw" );
+		throw(1); // Throw a 1
+		echo( " This text will not appear.");
+
+	}
+
+
+	catch ( a[] )
+	{
+		echo("Catch function: Received a ", a[] );
+	}
+
+
+	echo( new line, "Do a 2nd try" );
+
+	{
+		echo( "Do a throw" );
+		throw; // Throw.  Payload will be void.
+		echo( " This text will not appear.");
+
+	}
+	
+
+	catch { echo( "Caught it !!"); }
+
+	interactive;
+
+}

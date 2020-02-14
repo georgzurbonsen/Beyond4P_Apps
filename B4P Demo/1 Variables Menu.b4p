@@ -1,0 +1,34 @@
+
+{
+
+    do
+    {
+
+	echo(new line, new line, "1. Sub-menu for demonstrating variables");
+
+	table initialize ( main menu,
+		{ { Menu Choice,Menu Explanation,			Menu Selection				},
+		  { 1,		Introduction,				11 Variables Introduction.b4p		},
+		  { 2,		Structures,				12 Variables Structures.b4p		},
+		  { 3,		Arrays,					13 Variables Arrays.b4p			},
+		  { 4,		Global variables,			14 Variables Global.b4p			},
+		  { 5,		System variables,			15 Variables System.b4p			},
+		  { 9,		References to variables,		19 References.b4p			},
+		  { M,		Main menu,				back					},
+		  { I ,		Interactive,				interactive				} } );
+
+
+	echo( new line );
+	main selection[] = table menu quick( main menu, Menu Choice, Menu Explanation, Menu Selection );
+
+	switch( main selection[])
+	{
+		case ('*.txt','*.b4p') 	start(main selection[]);
+		case (interactive)	{ interactive; exit; }
+
+	}
+    }
+    while( main selection[] <> back );
+
+
+}

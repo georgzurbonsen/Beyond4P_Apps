@@ -1,0 +1,277 @@
+{
+
+
+
+
+    echo("Demonstration of basic table access", new line );
+
+    table initialize ( sub  menu,
+		{ { Menu Choice,Menu Explanation,				Menu Selection		},
+		  { 0,	"Tables Basics: Introduction"				,	intro		},
+		  { 1,	"Tables Basics: Accessing individual fields"		,	fields		},
+		  { 2,	"Tables Basics: Accessing whole rows"			,	whole rows	},
+		  { 3,	"Tables Basics: Accessing whole columns"		,	whole columns	},
+		  { 4,	"Tables Basics: Accessing multiple fields"		,	multiple fields	},
+		  { 5,	"Tables Basics: Accessing with transactions"		,	transactions    },
+		  { 6,	"Tables Basics: Accessing with function calls"		,	functions       },
+
+		  { M,	"Back to previous menu"					,	back		},
+		  { I,	"Interactive (city and countries tables loaded)"	,	interactive	} } );
+
+    do
+    {
+
+	echo( new line );
+	selection[] = table menu quick( sub menu, Menu Choice, Menu Explanation, Menu Selection );
+
+	echo(new line, "Loading a small table 'Cities.csv' for this demonstration ...");
+	table load( cities, "Cities.csv" );
+
+
+ 	switch( selection[])
+	{
+
+	    case(intro) // Simple introduction
+	    {
+		echo("A first table demo.  The top row is always considered the header row", new line);
+
+		table initialize ( pets,
+			{ { Animal, 	Size,	 	Class, 		Number of legs },
+			  { Earthworm,	Tiny,		Oligochaeta,	0		},
+			  { Sparrow,	very small,	Bird,		2		},
+			  { Dog,	Small,		Mammal,		4		},
+			  { House fly,	Tiny,		Insect,		6		},
+			  { Lobster,	Small,		Crustacea,	8		},
+			  { Elephant,	Big,		Mammal,		4		} } );
+		
+
+		echo("The first anmial listed in the table is an ", [pets:Animal,1], "." );
+		echo("The last  anmial listed in the table is an ",  [pets:Animal,-1], "." );
+		echo("The house fly has ", [pets:Animal,House fly,Number of legs], " legs." );
+		echo;
+		echo("Mammal listed first          :  ", [pets:Class, Mammal] );
+		echo("Following animals are mamals : ",  [pets:Class,:Mammal] ); // Note the colon (:) to access multiple matching rows.
+		echo;
+		echo("The table contains ", table length(pets), " rows of data, plus the header row." );
+
+		table delete( pets );
+	    }
+
+
+	    case(fields) // Fields
+	    {
+
+		echo("Demonstration simple read and write accesses to the table", new line);
+
+		echo;
+		echo("Row 0, Column 0 (Top left element)   : ", [cities:0,0] );		// Row 0 column 0
+		echo("Row 1, Column 'Country'              : ", [cities:Country,1] );	// Row 1, column labeled 'Country' in top row
+
+
+		echo(new line, "Rename headers 'City', 'Country' and 'Moving along'");
+
+		[cities:0,0] = Town;
+
+		with table( cities, 0 ) // Inside the 'with table' you can use partial table speification: on 'cities', row 0
+		{
+		    [Country] = Nation;
+		    [-1] = Travelling along;	// -1 Refers to last column with 'Moving along' inside
+		}
+
+		echo;
+		echo("List all headers");
+		for (i[] = 0, i[] < table row width( cities, 0 ), i[]++) echo("   ", [cities:i[],0] );
+
+		echo;
+		echo("List all headers using 'with table' to enable partial table specificatcion");
+		with table( cities, 0) for (i[] = 0, i[] < table row width( cities, 0 ), i[]++) echo("   ", [i[]] );
+
+		echo;
+		echo("List all headers using the 'for all table columns' loop");
+		for all table columns( cities, 0, h[] ) echo("   ", h[] );
+
+		// Note: The original header 'City' has been renamed to 'Town' further up in this code.
+
+		echo;
+		echo("You can also look up a particular field for a specific city");
+		echo("Famous attraction in San Francisco is ", [cities:Town,San Francisco,Famous attraction]);
+		echo("Row number for San Francisco is ", [cities:Town,San Francisco]);
+
+	    }
+
+	    case(whole rows)
+	    {
+		echo("Demonstration on accessing whole rows", new line);
+
+		echo;
+		echo("Read entire header row into parameter set and show it:");
+		echo( [cities:,0] ); // Note: No column specified.
+
+		echo("Read all remaining rows");
+		table process( cities, echo([]) ); // Partial table reference: No column specified to cover all of them
+
+		[cities:.., table length(cities)] = {Cologne,NRW,GER,1100000,Dome,75,"Roman/Germanic Museum",Skateboard};
+
+		echo;
+		echo("After adding a row at the end, read all remaining rows");
+		table process( cities, echo([]) ); // Partial table reference: No column specified to cover all of them
+
+	    }
+
+	    case(whole columns)
+	    {
+		echo("Demonstration on accessing whole columns", new line);
+
+		echo(new line, "List all cities including the header name:");
+		echo( [cities:City,] );
+
+		echo(new line, "List all cities excluding the header name:");
+		echo( [cities:City,..] );
+
+		echo(new line, "List all cities, just rows 3..5:");
+		echo( [cities:City,3..5] );
+
+		countries[] = [cities:Country,..]; 	// Read all countries
+		echo( "Countries read       : ", countries[] );
+		echo( "Convert countries to lower case");
+		countries[] = -^ countries[];		// Convert them to lower case (with deep operator on parameter set elements
+		[cities:Country,..] = countries[];
+
+		// You can do this with 1 statement: [cities:Country,..]  = -^ [cities:Country,..];
+
+		echo( "Countris inside table: ", [cities:Country,..]); 	// Read all countries, now all in lower case
+
+
+	    }
+
+	    case(multiple fields)
+	    {
+	
+		echo("Demonstration on accessing multiple fields in the table", new line);
+		
+		echo(new line, "Note: Reading multiple fields are stored as parameter sets.");
+		echo("Fields covering multiple rows and columns are stored as nested parameter sets.");
+ 
+		echo(new line, "Multpile fields in one row:");
+		echo( "Phily?            : ", [cities:0..2,3] );  // City, state and country for Philadelphia.
+		echo( "Phily?            : ", [cities:{City,3,Famous attraction,-1},3] );  // City, Inhabitants, famous attraction, moving along
+	
+		echo(new line, "Multpile fields in one column:");
+		echo( "3 Cities          : ", [cities:City,8..10] );  // Venice, LA, Vienna
+		echo( "3 Cities          : ", [cities:City,{1,3,5}] );  // NY, Phily, SF
+		echo( "2 Cities          : ", [cities:City,{Boston,Paris},City] );  // List the city names (a stupid query)
+		echo( "2 Countries       : ", [cities:City,{Boston,Paris},Country] );  // List the corresponding country names
+		echo( "U.S. Cities       : ", [cities:Country,:USA,City] ); // All cities in the USA.  Note the colon for multiple matches.
+		echo( "Cities beginning with V: ", [cities:City,:'V*'] ); // Venice, Vienna. Note the colon for multiple matches.
+
+		echo(new line, "Combination of both, put into nested parameter sets:");
+		echo( "3 Cities          : ", [cities:{0..2,Famous cultural place},{1,3,5}] );  // NY, Phily, SF
+		echo( "3 Cities          : ", [cities:Country,:SWI,City..Country] );  // Zürich and Davos: City, State, Country.
+
+		echo(new line, "Read from begin and till end of row:");
+		echo( "Phily Begin       : ", [cities:..3,3] );  // Begin of row to column 3
+		echo( "Phily End         : ", [cities:3..,3] );  // Column 3 to end of row
+
+		echo(new line, "Read from  begin and till end of column:");
+		echo( "Till Copenhagen   :", [cities:City,..Copenhagen] );  // Until Copenhagen
+		echo( "Copenhagen to end : ", [cities:City,Copenhagen..] );  // Copenhagen to end of table
+
+		// Note that you can also write multiple fields with values inside parameter sets.
+
+
+	    }
+
+	    case(transactions)
+	    {
+
+		echo("Demonstration on accessing multiple fields in the table using transactions", new line);
+
+		echo(new line, "Read entire row  (variable member names named by headers)");
+		a[] <== [cities:..,Vienna];
+		for all variables( a[], value[], index[], name[] ) echo("    ",name[]," = ", value[] );
+
+		delete(a[]);
+
+		echo(new line, "Read selected rows only (variable member names named by headers)");
+		a[] <== [cities:..,Vienna,{0..2,Famous attraction}]; // Just selected columns
+		for all variables( a[], value[], index[], name[] ) echo("    ",name[]," = ", value[] );
+
+		echo(new line, "Write an additional city to the end of the table");
+
+		b[City] = Cologne;
+		b[Country] = Germany;
+		b[Inhabitants] = 1100000;
+		b[Beverage] = Kölsch;		// Note: Beverage does not exist in the table.  A new column with header 'Beverage' will be created.
+
+		[cities:..,-1] +<== b[];	// Add cologne above the last row
+		[cities:,3] <==  b[];		// Replace row 3 with Cologne (all old data will be deleted)
+
+						// Try out different modifiers and observe the outcome.
+
+		echo( [cities:,0] );		// Header row.
+		table process( cities, echo("    City, State, Country, Inhabitants = ", [] ) ); // Column 0 (implicit) till column 3 (Inhabitants)
+
+	    }
+
+	    case(functions)
+	    {
+		echo("Demonstration on accessing multiple fields in the table using function calls", new line);
+
+		echo(new line, "table read row() reads contents sequentially and puts the data into a parameter set.");
+		r[] = table read row( cities, 2, 0, -2 ); // Read all columns in row 2 except last one.
+		echo(r[]);
+
+
+		echo(new line, "table write row() writes contents sequentially into the table.");
+		table write row( cities, table length(cities), {Cologne, NRW, Germany, 1100000 } ); // Read all columns in row 2 except last one.
+		echo([cities:,-1]); // Read last row.
+
+
+		echo(new line, "table read row aligned() reads contents sequentially and puts the data into a parameter set.");
+
+		r[] = table read row aligned( cities, 2, { Country, 0, -1 } ); // Country, City (Column 0), Moving along (-1 = last column)
+		echo(r[]);
+
+		echo(new line, "table write row aligned() writes contents into specified columns into the table.");
+		table write row aligned( cities, table length(cities), { GER, Bavaria, Munich, Hefeweizen }, { Country, 1, City, Beverage } );
+		echo([cities:,0]); // Read header row (Note: New column added: 'Beverage' to fit 'Hefeweizen' in.
+		echo([cities:,-1]); // Read last row.
+
+		echo(new line, "table read column() reads all contents in one column");
+		c[] = table read column( cities, Famous cultural place );
+		echo("With blanks   : ", c[]); 
+		c[] = table read column ignore blanks( cities, Famous cultural place );
+		echo("Without blanks: ",c[]); 
+
+		echo(new line, "table read column selected rows() reads all contents in one column from rows fulfilling selection criteria");
+		c[] = table read column selected rows( cities, Famous cultural place, [Country]=USA,CAN ); // Last parameter is a piece of code
+		echo("USA+CAN only  : ",c[] / {""} ); // The division by blank removes all blank elements. 
+
+		echo(new line, "table write column() writes contents in one column");
+		table write column( cities, Beverage, { Manhattan, Wiskey, Bud Lite, Samuel Adams, R. Mondavi, Ice Beer, Heinecken, Primitivo } );
+
+		echo(new line, "table write column selected rows() writes contents in one column");
+		table write column selected rows( cities, Beverage, ([Country]=SWI), Mineral water ); 
+		// Mineral water only specified once, so only one place in Switzerland is mentioned.
+
+		echo([cities:,0]); // Header rows
+		table process( cities, echo([])); // All further rows.
+
+		echo(new line, "Finally list all row numbers");
+		echo("    All rows with >1 Million inhabitants: ", table selected rows( cities, [Inhabitants]>1000000 ) );
+
+		echo("    Rows 1, 3-5 and last                : ", table selected rows( cities, {1, 3..5, -1} ) );
+		echo("    Just 2nd last row                   : ", table selected rows( cities, -2 ) );
+
+	    }
+
+
+	}
+	echo(new line, "Test done.  Continue with menu");
+    }
+    while (selection[] <> interactive, back);
+
+    if (selection[] = interactive) { interactive; exit; }
+
+
+}
