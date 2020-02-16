@@ -1,0 +1,31 @@
+{
+
+//	file download overwrite 	( "https://data.ct.gov/api/views/5mzw-sjtu/rows.json", DigitalStrategy.json );	// Huge JSON file, requires patience for now
+	file download overwrite 	( "https://www2.ed.gov/digitalstrategy.json", DigitalStrategy.json );		// Smaller JSON file
+
+	watch start;
+	table load			( table, DigitalStrategy.json, JSON );
+	echo( "Loading file done.  Start analyzing ... ");
+
+	depth[] = max([table:JSON Level,..])+1;
+
+	table initialize  ( summary page 1,
+			{ { "Item", "Value" },
+			  { "Number of hierarchical levels", depth[] },
+			  { "Total number of nodes", table length( table )-1 } } );
+
+	table copy table 		(table, summary page 2);
+	table delete selected rows	( summary page 2, [JSON Type]=array,object );
+	table append			( summary page 1, { { "Number of end nodes", table length( summary page 2 )-1 } } );
+	table consolidate		( summary page 2, { JSON Level, JSON Name }, JSON Value, count );
+	table sort rows 		( summary page 2, { JSON Level, JSON Name }, { numeric, alphabetic } );
+
+	table save multiple		( { summary page 1, summary page 2, table }, { Metrics, Summary, Details }, summary.xls, EXCEL );
+
+	table process			( summary page 1, echo( literal( [Item], "30# : ", align right), [Value] ) );
+
+	echo(new line, "Time needed [ms]: ", watch stop() );
+
+	interactive;
+
+}
