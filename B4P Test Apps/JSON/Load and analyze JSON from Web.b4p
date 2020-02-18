@@ -1,11 +1,20 @@
 {
 
-//	file download overwrite 	( "https://data.ct.gov/api/views/5mzw-sjtu/rows.json", DigitalStrategy.json );	// Huge JSON file, requires patience for now
-	file download overwrite 	( "https://www2.ed.gov/digitalstrategy.json", DigitalStrategy.json );		// Smaller JSON file
+	file download overwrite 	( "https://data.ct.gov/api/views/5mzw-sjtu/rows.json", Downloaded Example.JSON );			// Huge JSON file (>220 MB), housing data, requires patience for now
+//	file download overwrite 	( "https://www2.ed.gov/DigitalStrategy.JSON", Downloaded Example.JSON );				// Smaller JSON file
+//	file download overwrite 	( "https://www.bfs.admin.ch/bfsstatic/dam/assets/9386464/master", Downloaded Example.JSON );		// Smaller JSON file
+//	file download overwrite 	( "https://www.fsis.usda.gov/shared/data/ES/foodkeeper.json", Downloaded Example.JSON );		// Smaller JSON file
 
+
+	echo( "Web download completed ... ");
+
+	pause;
 	watch start;
-	table load			( table, DigitalStrategy.json, JSON );
+
+	table load			( table, Downloaded Example.JSON, JSON );
 	echo( "Loading file done.  Start analyzing ... ");
+
+	echo(new line, "Time elapsed [ms]: ", watch read() );
 
 	depth[] = max([table:JSON Level,..])+1;
 
@@ -14,17 +23,35 @@
 			  { "Number of hierarchical levels", depth[] },
 			  { "Total number of nodes", table length( table )-1 } } );
 
+
+	echo("Copy table. ...  Length is ", table length( table ));
 	table copy table 		(table, summary page 2);
+
+	echo("Delete selected rows ...");
 	table delete selected rows	( summary page 2, [JSON Type]=array,object );
+
+	echo("Append summary ...");
 	table append			( summary page 1, { { "Number of end nodes", table length( summary page 2 )-1 } } );
+
+	echo("Consolidate ...");
 	table consolidate		( summary page 2, { JSON Level, JSON Name }, JSON Value, count );
+
+	echo("Sort rows ...");
 	table sort rows 		( summary page 2, { JSON Level, JSON Name }, { numeric, alphabetic } );
 
-	table save multiple		( { summary page 1, summary page 2, table }, { Metrics, Summary, Details }, summary.xls, EXCEL );
+
+	echo(new line, "Done processing the table: Time elapsed [ms]: ", watch read() );
+
+	table save 			( summary page 1, Summary 1.csv );
+	table save 			( summary page 2, Summary 2.csv );
+	table save 			( table 	, table.csv );
+
+//	table save multiple		( { summary page 1, summary page 2, table }, { Metrics, Summary, Details }, summary.xls, EXCEL );
+//	Use this function call for smaller files which Excel can digest
 
 	table process			( summary page 1, echo( literal( [Item], "30# : ", align right), [Value] ) );
 
-	echo(new line, "Time needed [ms]: ", watch stop() );
+	echo(new line, "Done saving the work. Time needed [ms]: ", watch stop() );
 
 	interactive;
 
