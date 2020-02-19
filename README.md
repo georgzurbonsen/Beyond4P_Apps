@@ -17,7 +17,7 @@ Various examples written in B4P language
 * https://catalog.data.gov/dataset
 * https://data.gov.uk/
 
-# JSON
+# JSON Datasets
 * https://github.com/jdorfman/Awesome-JSON-Datasets
 * https://stackify.com/top-11-json-performance-usage-tips/
 * https://json-datasets.zeef.com/jdorfman
