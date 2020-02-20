@@ -1,4 +1,3 @@
-#!/usr/local/bin/Beyond4P
 {
 
 	file download overwrite 	( "https://data.ct.gov/api/views/5mzw-sjtu/rows.json", Downloaded Example.JSON );			// Huge JSON file (>220 MB), housing data, requires patience for now
