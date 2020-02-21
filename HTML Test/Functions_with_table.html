@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>	
+
+
+<head>
+<meta charset="utf-8"/>
+<title>Beyond 4P Reference</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+<h3>Provide Context for Partial Table Specification with 'with table' Procedure</h3>
+<h4> Function Names</h4>
+<code>with table</code>
+<h4> Keywords</h4>
+<p>partial table specification</p>
+<h4> Synopsis</h4>
+<code>with table ( table name, row number ) statement; <br/>
+with table ( table name, row number ) {statements; } </code>
+<h4> Description</h4>
+<p>      This procedure enables <i>partial table specification</i> in the subsequent code using the table name and current row number provide
+      through the procedure parameters. 
+</p>
+<h4> Call as: <font color="black">procedure</font></h4>
+<h4> Restrictions</h4>
+<p>No indirect parameter passing<br/>
+<i>Partial table specifications</i> referring to current table name and row number is enabled for the subsequent statement(s).</p>
+<h4> Parameter count: <font color="black">2</font></h4>
+<h4> Parameters</h4>
+<table><col width = "80"><col width = "120"><col width = "600"><tr><th>No.</th><th>Type</th><th>Description</th></tr>
+<tr><td>1.<br/>input</td>
+<td>literal</td>
+<td><b>Table Name</b><br/><p>Name of exsting table</p>
+</td></tr>
+<tr><td>2.<br/>input</td>
+<td>numeral</td>
+<td><b>Row Number</b><br/><p>Row number to apply apply</p>
+</td></tr>
+</table>
+<h4> Examples</h4>
+<code>&nbsp; &nbsp; &nbsp; table initialize ( colors, { { EN, FR }, { red, rouge }, { blue, blue }, { green, vert }, { yellow, jaune } } );<br/>
+<br/>
+&nbsp; &nbsp; &nbsp; with table ( colors, 2 )<br/>
+&nbsp; &nbsp; &nbsp; {<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; echo( row(), ": ", [EN]," / ", [FR] );<br/>
+&nbsp; &nbsp; &nbsp; }<br/>
+&nbsp; &nbsp; &nbsp; // Without the context, the full table specification is requierd, see below<br/>
+&nbsp; &nbsp; &nbsp; echo( "2: ", [colors:EN,2]," / ", [colors:FR,2] );</code>
+<h4> Output</h4>
+<code>2: blue / blue<br/>
+2: blue / blue<br/>
+</code>
+<h4> See also</h4>
+<p>row<br/>
+for all table rows<br/>
+table process</p>
+</body>
+</html>	
+
