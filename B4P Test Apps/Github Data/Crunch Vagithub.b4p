@@ -1,3 +1,4 @@
+#!/usr/local/bin/Beyond4P
 include ( Office Library );
 
 {
