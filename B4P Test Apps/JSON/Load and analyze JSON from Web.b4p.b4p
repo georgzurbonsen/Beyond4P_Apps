@@ -1,0 +1,89 @@
+#!/usr/local/bin/Beyond4P
+{
+
+	echo("Download a JSON file from a remote server:");
+
+	table initialize( menu, 
+	{  {	input,	text,						link },
+	   {	1, 	"Big file with real estate sales", 		"https://data.ct.gov/api/views/5mzw-sjtu/rows.json" },
+	   {	2,	"Voting statistics in Switzerland",		"https://www.bfs.admin.ch/bfsstatic/dam/assets/9386464/master" },
+	   {	3,	"On food",					"https://www.fsis.usda.gov/shared/data/ES/foodkeeper.json" },
+	   {    '-',	"Skip download. Use previously downloaded file.", "-" }
+	} );
+
+	link[] = table menu quick( menu, input, text, link );
+	choice[] = input quick ignore case( "V = Load into variable,  T = Load into sequential table and analyze?", VT );
+
+	if (link[] <> "-") file download overwrite( literal(link[]), Downloaded Example.JSON ); // Force quoted literal
+
+	echo("Downlaod done (if requested).  Starting the watch to clock the performance");
+	watch start;
+
+	if (choice[] = V)
+	{
+
+		echo( "Load JSON ");
+		variable load			( a[], Downloaded Example.JSON, JSON );
+		echo( "Variable laod done. Let's save it.");
+
+		echo( "Save JSON ");
+		variable save			( a[], Output.JSON, JSON );
+
+		echo( "Done." );
+	}
+	else // if choice is T
+	{
+
+		table load			( table, Downloaded Example.JSON, JSON );
+		echo( "Loading file done.  Start analyzing ... ");
+
+		echo(new line, "Time elapsed [ms]: ", watch read() );
+
+		echo("Calculate max(..)");
+		depth[] = max([table:JSON Level,..])+1;
+
+		table initialize  ( summary page 1,
+				{ { "Item", "Value" },
+				  { "Number of hierarchical levels", depth[] },
+				  { "Total number of nodes", table length( table )-1 } } );
+
+
+		echo("Copy table. ...  Length is ", table length( table ));
+		table copy table 		(table, summary page 2);
+
+		echo("Delete selected rows ...");
+		table delete selected rows	( summary page 2, [JSON Type]=array,object );
+
+		echo("Append summary ...");
+		table append			( summary page 1, { { "Number of end nodes", table length( summary page 2 )-1 } } );
+
+		echo("Consolidate ...");
+		table consolidate		( summary page 2, { JSON Level, JSON Name }, JSON Value, count );
+
+		echo("Sort rows ...");
+		table sort rows 		( summary page 2, { JSON Level, JSON Name }, { numeric, alphabetic } );
+
+
+		echo(new line, "Done processing the table: Time elapsed [ms]: ", watch read() );
+
+		table save 			( summary page 1, Summary 1.csv );
+		table save 			( summary page 2, Summary 2.csv );
+		table save 			( table 	, table.csv );
+
+		if ( table length(table) < 1000000) // Less than 1 Million
+		{
+			table save multiple		( { summary page 1, summary page 2, table }, { Metrics, Summary, Details }, summary.xls, EXCEL );
+		}
+		else
+		{
+			echo("Table is too big to save as Excel file.");
+		}
+
+		table process			( summary page 1, echo( literal( [Item], "30# : ", align right), [Value] ) );
+	}
+
+	echo(new line, "Done saving the work. Time needed [ms]: ", watch stop() );
+
+	interactive;
+
+}
