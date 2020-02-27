@@ -1,5 +1,7 @@
 #!/usr/local/bin/Beyond4P
 
+//	Rafael: Search for MACOS and make necessary changes
+
 //	The 'view' command will instantly display Beyond4P tables on the screen using common web browsers
 //	or Excel.  The browser contents will be updated automatically with every view, however this does
 //	not work with Excel.  Thereore, an ascending number is used in the file name.
@@ -26,11 +28,12 @@ define procedure ( view reset ) // Clears all temprary files created.
 
 define procedure ( view, { { table name, literal }, { browser, literal } }, 1, 2 )
 {
+	except[] = false;
 	switch( system info[ operating system ] )
 	{
 	    case (Windows) 	supported browsers[] = { chrome, explorer, excel, excel html, excel xml };
-	    case (Linux)	supported browsers[] = { chrome, explorer };
-	    case (MACOS)	supported browsers[] = { chrome, explorer };
+	    case (Linux)	supported browsers[] = { chrome, firefox };
+	    case (MACOS)	supported browsers[] = { chrome, firefox };
 	    else:		exception( stop, "Function 'view': Operating system not known: " + system info[ operating system ], -1 );
 	}
 
@@ -42,15 +45,18 @@ define procedure ( view, { { table name, literal }, { browser, literal } }, 1, 2
 	{
 	    if (find( supported browsers[], browser[] ) < 0)
 	    {
-		exception( stop, compose( "Browser name '", browser[], "' not supported.", new line, "Supported browsers are ", supported browsers[] ), -1 );
+		except[] = true;
 	    }
-	    attribute write( system info[user app data directory beyond4p], "Beyond4P User Settings.json", "Browser", browser[] ); // Memorize it
+	    else
+	    {
+	        attribute write( system info[user app data directory beyond4p], "Beyond4P User Settings.json", "Browser", browser[] ); // Memorize it
+	    }
 	}
 
 	type[] = ".html";
 	option[] = HTML;
 
-	switch ( system info[ operating system ] )
+	if (!except[]) switch ( system info[ operating system ] )
 	{
 	    case ( Windows )
 	    {
@@ -61,34 +67,45 @@ define procedure ( view, { { table name, literal }, { browser, literal } }, 1, 2
 		    case (excel)	{ command[] = "start excel /r "; type[] = ".csv"; option[] = LOCAL; }
 		    case (excel html)	  command[] = "start excel /r ";
 		    case (excel xml)	{ command[] = "start excel /r "; type[] = ".xls"; option[] = EXCEL; }
-		    else:	exception( stop, "No browser defined. Use 'change browser' to select a browser.", -1 );
+		    else:		  except[] = true;
 		};
  	    }
 	    case ( Linux )
 	    {
 		switch( browser[])
 		{
-		    case (chrome)	  command[] = "start chrome -a ";
-		    case (explorer)	  command[] = "start explorer ";
-		    else:	exception( stop, "No browser defined. Use 'change browser' to select a browser.", -1 );
+		    case (chrome)	  command[] = "google-chrome ";
+		    case (firefox)	  command[] = "firefox ";
+		    else:		  except[] = true;
 		};
 	    }
 	    case ( MACOS )
 	    {
 		switch( browser[])
 		{
-		    case (chrome)	  command[] = "start chrome -a ";
-		    case (explorer)	  command[] = "start explorer ";
-		    else:	exception( stop, "No browser defined. Use 'change browser' to select a browser.", -1 );
+		    case (chrome)	  command[] = '/usr/bin/open -a "/Applications/Google Chrome.app" ';
+		    case (firefox)	  command[] = '/usr/bin/open -a firefox -g ';
+		    else:		  except[] = true;
 		}
 	    }
 	}
+
+	if (except[])
+	{
+	    echo("Note: Specify the browser in the 2nd parameter:  view( table name, browser name ) for the first time ");
+	    echo("      Beyond4P will memorize the browser for the next time unless changed again.");
+	    echo("      Available browsers are: ", join( supported browsers[], ", " ), new line );
+	    exception( stop, "    Retry with view ( table name, browser name )", -1 );
+	}
+
+
 
 	file name[] = "_b4p_view_" + table name[] + select if( browser[]==excel, literal(_browser excel file counter[]++),"" ) + type[];
 	
 	table save ( table name[], file name[], option[] );
 
 	command[] += '"' + working directory() + system info[directory separator] + file name[] + '"';
+	if (system info[operating system]<>Windows) command[] += " &"; // Non-Windows: start task in background
 	system( command[] );
 
 	if (function name[]=view pause) pause("Displaying table '" + table name[] + "'" );
@@ -98,20 +115,14 @@ define additional procedure ( view pause, view, { { table name, literal }, { bro
 
 
 
-
-
-
 // In OS X
 // https://superuser.com/questions/350309/how-can-i-open-a-url-in-google-chrome-from-the-terminal-in-os-x
 
-// LINUX
-// open -a "Google Chrome" index.html
 
 
-
-table load ( cities, cities.csv );
+table load ( cities, Cities.csv );
 view( cities );
 
 
 interactive;
-view reset;
+// view reset;
