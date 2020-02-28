@@ -1,68 +1,16 @@
 ﻿JSON Level;JSON Name;JSON Type;JSON Value
-0;fileName;literal;1
-2;maxCols;numeral;6
-2;maxRows;numeral;6
-2;name;literal;6
-5;Approved_Date;literal;16
-5;Category_ID;numeral;662
-5;Category_Name;literal;25
-5;Column;literal;62
-5;Cooking_Method;literal;89
-5;Cooking_Temperature;numeral;89
-5;Current_Version;void;21
-5;DOP_Freeze_Max;numeral;371
-5;DOP_Freeze_Metric;literal;371
-5;DOP_Freeze_Min;numeral;427
-5;DOP_Freeze_Tips;void;371
-5;DOP_Pantry_Max;void;658
-5;DOP_Pantry_Metric;void;658
-5;DOP_Pantry_Min;void;660
-5;DOP_Pantry_tips;void;658
-5;DOP_Refrigerate_Max;numeral;594
-5;DOP_Refrigerate_Metric;literal;594
-5;DOP_Refrigerate_Min;numeral;596
-5;DOP_Refrigerate_tips;void;594
-5;Data_Version_Number;numeral;21
-5;Description;literal;62
-5;FSIS_Approved_Flag;literal;21
-5;Freeze_Max;void;525
-5;Freeze_Metric;void;525
-5;Freeze_Min;void;525
-5;Freeze_Tips;void;525
-5;ID;numeral;869
-5;Keywords;literal;662
-5;Measure_from;numeral;89
-5;Measure_to;numeral;89
-5;Modified_Date;literal;21
-5;Name;literal;662
-5;Name_subtitle;void;662
-5;Notes;void;16
-5;Pantry_After_Opening_Max;void;645
-5;Pantry_After_Opening_Metric;void;645
-5;Pantry_After_Opening_Min;void;645
-5;Pantry_Max;void;661
-5;Pantry_Metric;void;661
-5;Pantry_Min;void;662
-5;Pantry_tips;literal;661
-5;Product_ID;numeral;182
-5;Refrigerate_After_Opening_Max;void;587
-5;Refrigerate_After_Opening_Metric;void;587
-5;Refrigerate_After_Opening_Min;void;587
-5;Refrigerate_After_Thawing_Max;void;525
-5;Refrigerate_After_Thawing_Metric;void;525
-5;Refrigerate_After_Thawing_Min;void;587
-5;Refrigerate_Max;void;597
-5;Refrigerate_Metric;void;597
-5;Refrigerate_Min;void;645
-5;Refrigerate_tips;void;597
-5;Rest_Time;void;90
-5;Rest_Time_metric;void;66
-5;Safe_Minimum_Temperature;void;93
-5;Sheet;literal;62
-5;Size_metric;literal;89
-5;Subcategory_Name;void;25
-5;Timing_from;numeral;89
-5;Timing_metric;literal;88
-5;Timing_per;literal;88
-5;Timing_to;numeral;88
-5;Tips;literal;93
+0;timestamp;literal;1
+0;wahl_jahr;numeral;1
+2;    anzahl_gewaehlte;numeral;534
+2;    kanton_bezeichnung;literal;534
+2;    kanton_nummer;numeral;534
+2;    liste_bezeichnung;literal;534
+2;    liste_nummer_bfs;numeral;534
+2;    liste_nummer_kanton;literal;534
+2;    liste_unterlistenverbindung;literal;534
+2;    liste_verbindung;literal;534
+2;    listen_staerke;numeral;534
+2;    partei_id;numeral;534
+2;    spatial_date;date;3
+2;    spatial_unit;literal;3
+2;    stimmen_liste;numeral;534

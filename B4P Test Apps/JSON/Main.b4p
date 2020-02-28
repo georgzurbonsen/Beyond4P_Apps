@@ -42,10 +42,16 @@
 		echo("Calculate max(..)");
 		depth[] = max([table:JSON Level,..])+1;
 
+
+		table process selected rows	( table, ([JSON Type]=array,object), [JSON Value]='' );
+		table process selected rows 	( table,  !is numeric([JSON Name]), [JSON Name] = literal( "", literal(2*[JSON Level])+" ") + literal([JSON Name]) );
+
 		table initialize  ( summary page 1,
 				{ { "Item", "Value" },
 				  { "Number of hierarchical levels", depth[] },
 				  { "Total number of nodes", table length( table )-1 } } );
+
+
 
 
 		echo("Copy table. ...  Length is ", table length( table ));
@@ -62,6 +68,7 @@
 
 		echo("Sort rows ...");
 		table sort rows 		( summary page 2, { JSON Level, JSON Name }, { numeric, alphabetic } );
+
 
 
 		echo(new line, "Done processing the table: Time elapsed [ms]: ", watch read() );
