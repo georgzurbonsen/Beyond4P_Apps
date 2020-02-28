@@ -33,7 +33,7 @@ define procedure ( view, { { table name, literal }, { browser, literal } }, 1, 2
 	{
 	    case (Windows) 	supported browsers[] = { chrome, explorer, excel, excel html, excel xml };
 	    case (Linux)	supported browsers[] = { chrome, firefox };
-	    case (MACOS)	supported browsers[] = { chrome, firefox };
+	    case (MACOS)	supported browsers[] = { chrome, firefox, safari, brave};
 	    else:		exception( stop, "Function 'view': Operating system not known: " + system info[ operating system ], -1 );
 	}
 
@@ -84,6 +84,8 @@ define procedure ( view, { { table name, literal }, { browser, literal } }, 1, 2
 		switch( browser[])
 		{
 		    case (chrome)	  command[] = '/usr/bin/open -a "/Applications/Google Chrome.app" ';
+		    case (brave)	  command[] = '/usr/bin/open -a "/Applications/Brave Browser.app" ';
+		    case (safari)	  command[] = '/usr/bin/open -a "/Applications/Safari.app" ';
 		    case (firefox)	  command[] = '/usr/bin/open -a firefox -g ';
 		    else:		  except[] = true;
 		}
@@ -122,6 +124,8 @@ define additional procedure ( view pause, view, { { table name, literal }, { bro
 
 table load ( cities, Cities.csv );
 view( cities );
+
+view(cities, brave);
 
 
 interactive;
