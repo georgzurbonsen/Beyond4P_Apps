@@ -1,0 +1,12 @@
+#!/usr/local/bin Beyond4P
+
+table load ( table, WC_Testbench.csv );
+table insert columns ( table, { Actual, Note } );
+
+table process ( table, 
+			print( "Test ", [Left Side], " = ", [Right Side] ); 
+			[Actual] = [Left Side] = softquoted literal([Right Side]); 
+			[Note] = select if( [Actual] != [Expected], "Wrong","OK" );
+			echo("         Result:  ", [Actual],"   ",[Note] ) );
+
+table save ( table, WC_Testbench_Out.csv );

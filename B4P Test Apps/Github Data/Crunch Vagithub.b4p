@@ -1,7 +1,9 @@
 #!/usr/local/bin/Beyond4P
 include ( Office Library );
+include ( Support Library );
 
 {
+	runtime settings[verbose] = quiet;
 	table load excel file		( table, vagithub.xlsx );
 
 	table delete blank rows		( table );
@@ -14,10 +16,11 @@ include ( Office Library );
 						[type] = Details ; index[] = 1;
 						[URL] =  replace all([URL], chr(160)+chr(160), chr(160) ) - chr(160);	// Remove all duplicate NBSP symbols and beginning NBSP
 						[language..] = parameter set( replace all( '"' + replace all ( [URL], chr(160), '","' ) + '"', chr(160), ' ') );
-						[URL] = '';	
+						[URL] = '';
 					  ,
 						[type] = select if( index[]++ == 1, URL, Description );
 					) ;
+
 
 	// Check for all numbers and remove thousand separators (commas)
 
@@ -27,10 +30,12 @@ include ( Office Library );
 	table process selected rows	( table, [type]==Description, ['description (optional)'] = [URL]; [URL] = '' );	
 
 
+
 	// Some rows contain two entries for languages, e.g.  "JavaScript CC0-1.0"
 
-	table process selected rows	( table, ([type]==Details) & (is numeric([members])==false), [language] = [language] + ' ' + [members] );
-	table delete cells selected rows( table, ([type]==Details) & (is numeric([members])==false), members );
+	table insert columns		( table, license, "", 'language' );
+	table process selected rows	( table, ([type]==Details) & (!is numeric([members])), [license] = [members] );
+	table delete cells selected rows( table, ([type]==Details) & (!is numeric([members])), members );
 
 
 	// Some rows contain no language and follow with numeric info immediately.  Move the payload to the right.
