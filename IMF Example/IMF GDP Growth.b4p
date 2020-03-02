@@ -1,7 +1,8 @@
 #!/usr/local/bin/Beyond4P
 
-include( Office Library );
-
+runtime settings [verbose]=quiet;
+include ( Office Library );
+include ( Support Library );
 
 /*
 	This Beyond4P example downloads two GDP growth reports (true Excel files with .xlsx),

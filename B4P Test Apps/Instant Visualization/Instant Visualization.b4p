@@ -1,6 +1,8 @@
 #!/usr/local/bin/Beyond4P
 
 
+runtime settings [verbose]=quiet;
+include ( Office Library );
 include ( Support Library );
 
 
