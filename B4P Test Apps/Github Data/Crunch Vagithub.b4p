@@ -1,14 +1,15 @@
 #!/usr/local/bin/Beyond4P
+
+runtime settings [verbose]=quiet;
 include ( Office Library );
 include ( Support Library );
 
 {
 	runtime settings[verbose] = quiet;
 	table load excel file		( table, vagithub.xlsx );
-
 	table delete blank rows		( table );
-	table delete rows		( table, 1, 2 );
-	table insert columns		( table, type, "", 0 );
+	table delete rows			( table, 1, 2 );			// delete two rows starting at row 1
+	table insert columns		( table, type, "", 0 );  	//
 
 	index[] = 1;	
 
