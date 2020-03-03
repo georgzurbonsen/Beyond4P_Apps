@@ -1,0 +1,9 @@
+
+include ( Support Library );
+
+table load( c, cities.csv);
+
+view( c, explorer datatables );
+
+
+interactive;
