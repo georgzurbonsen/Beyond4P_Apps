@@ -25,6 +25,9 @@ include ( Support Library );
 		table initialize			( aux table, { Values, Columns } );
 		[aux table : Values, ..] 		= tokenize( [Raw], { auto convert, thousand separator, "," }, chr(160) );
 
+		view (aux table);
+		view pause;
+		
 		// Look up the pattern table and record the data type into the column 'Columns' and write the data into the appropriate columns.
 		table lookup smart once ignore case  	( aux table, Values, Columns, lookup patterns, Patterns, Fields );
 		table process 				( aux table, [^[Columns]] = [Values] );  // Note the '^' symbol. Study chapter 5.13 in the B4P manual
