@@ -1,5 +1,5 @@
 #!/usr/local/bin/Beyond4P
-include ( Support Library );
+include ( Support Library.b4p );
 
 table load( c, Cities.csv);
 

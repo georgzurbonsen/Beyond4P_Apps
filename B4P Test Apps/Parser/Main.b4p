@@ -1,0 +1,59 @@
+#!/usr/local/bin/Beyond4P
+
+// Test the tokenizing and parsing features of Beyond4P
+// echo( find( "<a > and < b>", {">"} ) );
+
+table conversion[boolean] = true;
+
+table initialize ( token test table,
+{
+	{ Test Description,			String In,								Token Out },
+
+	{ "Test number conversion",		'tokenize("1,234.56 ", { auto convert, thousand separator, "," }, " " )',"{1234.56}" },
+	{ "Test type conversion",		'tokenize("a,1,true,c", auto convert, "," )',				"{'a',1,true,c}" },
+	{ "Test number conversion",		'tokenize("1.234,56 ", { decimal separator, ",", auto convert, thousand separator, "." }, " " )',"{1234.56}" },
+	{ "Test comment block",			'tokenize("a,b,c /* Comment */, d", {}, ",", {}, {},{"/*", "*/"})',	"{'a','b','c ',' d'}" },
+	{ "Test dedicated toekns",		'tokenize("a +b-c", {}, " ", {}, {"+","-"})',				"{a,'+',b,'-',c}"},
+	{ "Test comment block",			'tokenize("a,b,c/* Comment */ , d", {}, ",", {}, {},{"/*", "*/"})',	"{'a','b','c',' ',' d'}" },
+	{ "Test comment block",			'tokenize("a,b,c/* Comment */ , d", {}, {","," "}, {}, {},{"/*", "*/"})',"{'a','b','c','d'}" },
+	{ "Test comment block",			'tokenize("a,b,c // Comment ,d", {}, {","," "}, {}, {},{},"//")',	"{'a','b','c'}" },
+	{ "Test quotations",			'tokenize("<a > and < b>", {} , " ", { "<",">" } )',			"{'a ','and',' b'}" },
+	{ "Test multi char quotations",		'tokenize("<<a >> and << b>>", {}, " ", { "<<",">>" } )',		"{'a ','and',' b'}" },
+	{ "Test include quotations in token",	'tokenize("<<a >> and << b>>", {include quotations as tokens}, " ", { "<<",">>" } )',	"{'<<', 'a ', '>>','and','<<', ' b', '>>'}" },
+	{ "Test include quotations in text",	'tokenize("<<a >> and << b>>", {include quotations in text}, " ", { "<<",">>" } )',	"{'<<a >>','and','<< b>>'}" },
+	{ "Test both of above",			'tokenize("<<a >> and << b>>", {include quotations as tokens, include quotations in text}, " ", { "<<",">>" } )',	
+															"{'<<', '<<a >>', '>>','and','<<', '<< b>>', '>>'}" },
+	{ "Test one separator (space)",		'tokenize("")',								"{}"	},
+	{ "Test one item",			'tokenize(a, include blanks)',						"{a}"	},
+	{ "Test 2 separators separator",	'tokenize("a,b;c,d", {}, {",",";"})',					"{a,b,c,d}" },
+	{ "Test comma separator",		'tokenize("a,b ,,c", {}, ",")',						"{a,'b ',c}" },
+	{ "Test comma separator",		'tokenize("a, b ,,c", {trim token} , ",")',				"{a,b,c}" },
+	{ "Test trimming token",		'tokenize("a,  ,c", {include blanks, trim token}, ",")',		"{a,'',c}" },
+	{ "Test no empty token",		'tokenize("a,  ,c", trim token, ",")',					"{a,c}" },
+	{ "Test empty string",			'tokenize(" ", include blanks)',					"{'',''}" },
+	{ "Test empty string",			'tokenize(" ")',							"{}" },
+	{ "Stress test",		
+		'tokenize("a +3 -5 +((b)) *2 - <Comment> \\c\\ &Comment& +1 :blabla", {}, {" "},  {"((","))","\\"}, { "+","-","*","/"}, {"<",">","&","&"}, {":" })', 	"{'a','+','3','-','5','+','b','*','2','-','c','+','1'}" },
+	{ "Stress test",		
+		'tokenize("a +3 -5 +((9)) *2 - <Comment> \\c\\ &Comment& +1 :blabla", auto convert, {" "},  {"((","))","\\"}, { "+","-","*","/"}, {"<",">","&","&"}, {":" })', 	"{'a','+',3,'-',5,'+','9','*',2,'-','c','+',1}" }
+
+
+
+//	{ "Test new line in quotations",	'tokenize("<Hello" + new line + "World>", allow new line inside quotations, " ", { "<",">" } )',	"{'Hello"+new line+"World'}" }
+// 1st item is commented out. Tokenize-function works, but the checking algorithm (function 'parameter set(...)' does not tolerate line breaks inside quoted strings for good reason
+ 
+
+} );
+
+
+
+{
+	table process( token test table,
+		{
+		    print( [Test Description], ": '", [String In], "' --> " );
+		    a[] = expression( :[String In] );
+		    echo(a[], "  Check: ", select if( a[]==parameter set([Token Out]), "OK", "Error"));
+		} );
+
+}
+

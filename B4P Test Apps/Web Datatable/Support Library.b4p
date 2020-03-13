@@ -1,0 +1,461 @@
+
+/*
+	Support Library.b4p
+	____________________________________________________________________________________________________________
+
+
+	A collection of useful functions
+
+	____________________________________________________________________________________________________________
+
+
+	Version 1.00		Runs on Beyond4P Release 7.01 or higher.
+
+	Author:			Georg zur Bonsen
+				Copyright (C) 2020 by Georg zur Bonsen, All Rights Reserved
+
+	Contents:
+
+
+	If you want to use this library, then you need to specify following function call:   include ( Support Libary )
+	If the library is not in the same directory, then specfiy an appropriate directory path.
+
+
+	Revision History:
+	____________________________________________________________________________________________________________
+
+	Library	Beyond4P	Date		Features
+
+	1.00	7.00		28.02.2020	First release: List tables, view tables with broser
+
+*/
+
+once
+{
+
+	//
+	// Version verification
+	// _________________________________________________________________________________________________________
+	//
+
+	global() version info support library[] = "1.00";
+
+	echo(new line + "Included 'Support Library.txt' Release ", version info support library[] );
+	echo("Copyright (C) 2012..2020 Georg zur Bonsen, all rights reserved." + new line);
+
+	
+
+	if (numeral( left( version info[], ' ')) < 7.00)
+	{
+	    echo("Version Mismatch. Prerequisite for using this file 'Support Library.b4p' is Beyond4P Release 7.00 or newer");
+	    echo("Please obtain and install latest available release.");
+	    stop;
+	}
+	
+
+    //
+    // List Beyond4P Tables
+    // _________________________________________________________________________________________________________
+    //
+
+
+
+    define procedure( list, { { table, literal }, { screen width, numeral } , { page height, numeral } }, 1, 3 )
+    {
+
+	if (!existing(screen width[])) 	screen width[] = 80;			// Screen width if not provided as parameter
+	if (!existing(page height[]))	page height[] = 10;			// Number of rows to list if not provided as parameter
+
+
+	if ( table existing( table[] ) = false)
+	{
+		echo("Specified table '", table [], "' does not exist. ");
+		return;
+	}
+
+	if ( table length( table[] ) = 0 )
+	{
+		echo("Specified table '", table [], "' is empty. Nothing to list.. ");
+		return;
+	}
+
+
+// Step 1 - Identify column widths for display purposes
+
+	column count[] = table max width( table[] );
+
+	row offset[]  = 0;		 	// Row offset (1st data row to list) Headers are in row 0 and will always be displayed
+	col offset[]  = 0;			// Column offset (1st data column to list)
+
+
+	do cls[] = false;
+
+	dim( max column width[], column count[], 0 );
+	dim( avg column width[], column count[], 0 );
+	dim( eff column width[], column count[], 0 );
+	action[] = "";
+
+
+	x[] = -1; 	// 
+	y[] = -1;	//
+
+	for ( i[]=0, i[] < column count[], i[]++)
+	{
+		vector[] = deep( length, {[ table[]: i[], ] } );;
+
+		max column width[i[]] = max( vector[] );
+		avg column width[i[]] = round up(average( vector[] ), 1);
+		if (max column width[i[]] > 20) 
+		{
+			eff column width[i[]] = round up( 0.6 * max column width[i[]] + 0.4 * avg column width[i[]], 1);
+		}
+		else
+		{
+			eff column width[i[]] = max column width[i[]];
+		}
+		if ( eff column width[i[]] > 70 ) eff column width[i[]] = screen width[] - 10;
+	}
+
+	
+	do
+	{
+
+		// Identify number of columns which can be displayed so they fit on the screen
+
+		char count[] = 0;
+		col count to display[] = 0;
+		for ( i[] = col offset[], i[] < column count[], i[]++ )
+		{
+			if ( (char count[] + eff column width[i[]]) > (screen width[]-10))
+			{
+				col count[] = i[];
+				break;
+			}
+			else
+			{
+				char count[] += eff column width[i[]] + 1;
+				col count to display[]++;
+			}
+		}
+		
+
+		if (action[]!='?')
+		{
+		    if (do cls[]) cls;
+
+		    for ( row[] = 0, row[] <= page height[], row[]++ )
+		    {
+			row to display[] = select if ( row[] == 0, row[], row[] + row offset[] );
+			print( literal( row to display[],"000000: " ) );
+
+			for (col[] = col offset[], col[] < col offset[]  +col count to display[], col[]++ )
+			{
+				value[] = literal([ table[] : col[], row to display[] ]);			// Enforce literal value
+				substitute all( value[], new line, ' ' );
+				value[] = literal( value[], literal( eff column width[col[]] ) + "# " );	// Pad or limit number of chars
+				print( value[] );
+			}
+			echo;
+
+			if (row[]==0)
+			{
+			    print("        "); // Indentation
+			    for (col[] = col offset[], col[] < col offset[]  +col count to display[], col[]++ )
+			    {
+				value[] = literal( "", literal( eff column width[col[]] ) + "- " );	// Pad or limit number of chars
+				print( value[] );
+			    }
+			    echo;
+			}
+		    }
+		}
+		action[] = input quick ( "Action (? for help): ", "cNnWwUuDdLlRrPpXxYyGgSsQq?" + escape + chr(3) );
+		check( action[] )
+		{
+		    case ("?")
+		    {
+			echo("Navigation: l = Left,      r = Right       u = Page Up   d = Page Down   s = Search next" );
+			echo("            L = 1st Col.   R = Last Col.   U = Top       D = Bottom      S = Search" );
+			echo("            n = 1 column  narrower         w = 1 column wider            c = ClS on/off");
+			echo("            N = 5 columns narrower         W = 5 columns wider");
+			echo("            X = Change Screen Width        P = Change Page Height", new line );
+			echo("            Q = Quit", new line);
+			echo("Procedure call list:  list ( table name [, chars per row [, rows to show]] )");
+			echo("               e.g.:  list ( my table, 160, 20 ) // My table, 160 chars, 20 rows to show", new line);
+		    }
+		    case ('c')		do cls[] = !do cls[];
+		    case ('n')		eff column width[ col offset[]] = max(eff column width[ col offset[]]-1,4);
+		    case ('N')		eff column width[ col offset[]] = max(eff column width[ col offset[]]-5,4);
+		    case ('w')		eff column width[ col offset[]] = min(eff column width[ col offset[]]+1,screen width[]-10);
+		    case ('W')		eff column width[ col offset[]] = min(eff column width[ col offset[]]+5,screen width[]-10);
+		    case ('U') 		row offset[] = 0;
+		    case ('u') 		row offset[] = max(row offset[] - page height[],0);
+		    case ('D') 		row offset[] = round down( table length(table[])-1, page height[] );
+		    case ('d')
+		    {
+			row offset[] += page height[];
+			if (row offset[] > table length(table[])-1) row offset[] = round down( table length(table[])-1, page height[] );
+		    }
+		    case ('L') 		col offset[] = 0;
+		    case ('l') 		if (col offset[] > 0) col offset[]--;
+		    case ('R') 		col offset[] = max(0,column count[]-1);
+		    case ('r') 		if (col offset[] < column count[]-1) col offset[]++;
+		    case ('P','p')	page height[] = input( "Enter new page height (5 - 100): ", integer, (5..100) );
+		    case ('X','x')
+		    {
+			screen width[] = input( "Enter new screen width (40 - 400): ", integer, (40..400) );
+
+		    }
+		    case ('Y','y')
+		    {
+			page height[] = input( "Enter # rows to show (5 - 100): ", integer, (5..100) );
+
+		    }
+		    case ('G','g')
+		    {
+			target row[] = input( "Enter row number (1 - " + literal(table length(table[])-1) + "): ", integer, (1..(table length(table[])-1)) )-1;
+			row offset[] = round down( target row[], page height[] );
+		    }
+
+		    case ('s')
+		    {
+			if (x[]=-1) action[] = 'S'; 
+			else: x[]++;
+		    }
+		    case ('S','s')
+		    {
+			if (action[]='S')
+			{
+			    y[] = 0; x[] = 0;
+			    expr[] = input( "Enter search expression: ", literal );
+			}
+			rv[] = table search( table[], :expr[], y[], x[] );
+			if (rv[] = false)
+			{
+				echo("Searching for expression ", expr[], "  -- No match.");
+				y[] = 0; x[] = 0;
+			}
+			else
+			{
+				echo("Searching for expression ", expr[], "  -- Found in row ", y[], " and column ", x[]);
+				row offset[] = max(y[]-1,0);
+				col offset[] = x[];
+			}
+		    }
+		}
+	}
+	while ( +action[] <> 'Q', escape, chr(3) );
+    }
+}
+
+
+
+
+    //
+    // View Beyond4P Tables with Browsers
+    // _________________________________________________________________________________________________________
+    //
+
+
+global() _browser excel file counter[] = 0;	// Different file for every opening so the files are pushed onto Excel
+
+
+
+
+//
+// Following procedure upgrades HTML files saved with Beyond4P to view with DataTables.
+//
+// All codes provided by SpryMedia Ltd, Scottland, are under the MIT license
+// This includes all related CSS and Javascipt code
+// Copyright Copyright (C) 2008-2020, SpryMedia Ltd.
+//
+// Known issues: Do not include any formatting (e.g. colors, different fonts, etc.) so far.
+//
+
+define procedure( prepare HTML for DataTables, { { file name, literal } } )
+{
+	table load		( _data_table, file name[], TEXT );
+
+	[_data_table:0,0] = 	"<!-- Datatable --> "; // Clear table 0
+	[_data_table:0,1] = 	[_data_table:0,1] - "<table  >"; // Remove the opening <table>.
+
+	path[] =		replace all( system info[program directory beyond4p] + "/", "\", "/" );
+
+	preamble[] = 
+	{	'<html><head><link rel="stylesheet" type="text/css" href="' + path[] + 'weblib/datatables/css/jquery.dataTables.min.css"></head>',
+		'<body>',
+		'<script type="text/javascript" charset="utf8" src="' + path[] + 'weblib/jquery/jquery-3.4.1.js"></script>',
+		'<script type="text/javascript" charset="utf8" src="' + path[] + 'weblib/datatables/js/jquery.dataTables.min.js"></script>',
+		'<table id="example" class="display compact order-column" style="width:100%">'
+	};
+	
+	trailer[] = 
+	{	// </table is already part of table
+		"<script> $(document).ready( function() { $('#example').DataTable(); } );  </script>",
+		'</body></html>',
+	};
+
+	table insert rows	( _data_table, 1, preamble[]{} );
+	[_data_table:0,..] = 	preamble[];
+
+	header row[] = 		preamble[]{}+1;
+
+	table header[] = 	[_data_table:0,header row[]];
+	table footer[] = 	"</tbody><tfoot>" + table header[] + "</tfoot>";
+	table header[] = 	"<thead>" + table header[] + "</thead><tbody>";
+
+	[_data_table:0,header row[]] = 			table header[];
+	[_data_table:0,table length(_data_table)-2] = 	table footer[] + "</table>";
+
+	table append		( _data_table, trailer[] );
+	table save 		(_data_table, file name[], new line );
+	table delete		( _data_table );
+}
+
+
+
+
+//
+// Delete all temporary files created in the working directory
+//	
+
+define procedure ( view reset ) // Clears all temprary files created.
+{
+	files[] = search files( ".", "_b4p_view*" );
+	if (files[] = {})
+	{
+	    echo("No temporary files to delete.");
+	}
+	else
+	{
+	    echo("Identified following files: ", join( files[], ", ") );
+	    pause("Continue with deleting these files?");
+	    file delete( files[] );
+	    echo("Done deleting.");
+	}
+}
+
+
+//
+// Saves the table into a file and opens the browser or Excel immetiately thereafter
+//	
+
+
+define procedure ( view, { { table name, literal }, { browser, literal } }, 1, 2 )
+{
+	except[] = false;
+	switch( system info[ operating system ] )
+	{
+	    case (Windows) 	supported browsers[] = { here, chrome, chrome datatables, explorer, explorer datatables, excel, excel html, excel xml };
+	    case (Linux)	supported browsers[] = { here, chrome, chrome datatables, firefox,  firefox datatables };
+	    case (MACOS)	supported browsers[] = { here, chrome, chrome datatables, firefox,  firefox datatables, safari, safari datatables, brave, brave datatables};
+	    else:		exception( stop, "Function 'view': Operating system not known: " + system info[ operating system ], -1 );
+	}
+
+	if (parameter count[]<2)
+	{
+	    attribute read( system info[user app data directory beyond4p], "Beyond4P User Settings.json", "Browser", browser[] ); // Used memorized browser
+	}
+	else
+	{
+	    if (find( supported browsers[], browser[] ) < 0)
+	    {
+		except[] = true;
+	    }
+	    else
+	    {
+	        attribute write( system info[user app data directory beyond4p], "Beyond4P User Settings.json", "Browser", browser[] ); // Memorize it
+	    }
+	}
+
+	if (browser[] == here)
+	{
+		list( table name[] );
+		return;
+	}
+
+
+	type[] = ".html";
+	option[] = HTML;
+
+	// Include MIT datatable features
+	datatables[] = false;
+	if (find(browser[],datatables)>=0)
+	{
+
+	    browser[] -= ' datatables';
+	    datatables[] = true;
+	}
+
+	if (!except[]) switch ( system info[ operating system ] )
+	{
+	    case ( Windows )
+	    {
+		switch( browser[])
+		{
+		    case (chrome)	  command[] = "start chrome -a ";
+		    case (explorer)	  command[] = "start explorer ";
+		    case (excel)	{ command[] = "start excel /r "; type[] = ".csv"; option[] = LOCAL; }
+		    case (excel html)	  command[] = "start excel /r ";
+		    case (excel xml)	{ command[] = "start excel /r "; type[] = ".xls"; option[] = EXCEL; }
+		    else:		  except[] = true;
+		};
+ 	    }
+	    case ( Linux )
+	    {
+		switch( browser[])
+		{
+		    case (chrome)	  command[] = "google-chrome ";
+		    case (firefox)	  command[] = "firefox ";
+		    else:		  except[] = true;
+		};
+	    }
+	    case ( MACOS )
+	    {
+		switch( browser[])
+		{
+		    case (chrome)	  command[] = '/usr/bin/open -a "/Applications/Google Chrome.app" ';
+		    case (brave)	  command[] = '/usr/bin/open -a "/Applications/Brave Browser.app" ';
+		    case (safari)	  command[] = '/usr/bin/open -a "/Applications/Safari.app" ';
+		    case (firefox)	  command[] = '/usr/bin/open -a firefox -g ';
+		    else:		  except[] = true;
+		}
+	    }
+	}
+
+	if (except[])
+	{
+	    echo("Note: Specify the browser in the 2nd parameter:  view( table name, browser name ) for the first time ");
+	    echo("      Beyond4P will memorize the browser for the next time unless changed again.");
+	    echo("      Available browsers are: ", join( supported browsers[], ", " ), new line );
+	    exception( stop, "    Retry with view ( table name, browser name )", -1 );
+	}
+
+
+
+	file name[] = "_b4p_view_" + table name[] + select if( browser[]==excel, literal(_browser excel file counter[]++),"" ) + type[];
+	table save ( table name[], file name[], option[] );
+
+	if (datatables[]) 
+	{
+		prepare HTML for DataTables( file name[] );
+	}
+
+	command[] += '"' + working directory() + system info[directory separator] + file name[] + '"';
+	if (system info[operating system]<>Windows) command[] += " &"; // Non-Windows: start task in background
+	system( command[] );
+
+	if (function name[]=view pause) pause("Displaying table '" + table name[] + "'" );
+}
+
+
+//
+// Following function works like 'view', but will pause before continuing.
+//	
+
+
+define additional procedure ( view pause, view, { { table name, literal }, { browser, literal } }, 1, 2 );
+
+
+
+
