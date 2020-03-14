@@ -1,0 +1,80 @@
+#!/usr/local/bin/Beyond4P
+
+include ( Support Library );
+
+//	This example demonstrates three ways to loop through the table
+//	and these loops provide the same output.
+
+
+define procedure ( print and reset inhabitants )  // Doing it stupidly for now, using global variables
+{
+	echo(	"U.S. inhabitants        : ", literal(U.S. inhabitants[], "#,##0", local), new line, 
+		"and foreign inhabitants : ", literal(foreign inhabitants[], "#,##0", local), new line );
+
+	U.S. inhabitants[] = 0;
+	foreign inhabitants[] = 0;
+}
+
+
+	echo(new line, "5 ways to loop through table rows", new line,
+		       "=================================", new line );
+
+
+	table load( cities, "../../B4P Demo/Cities.csv");
+
+	cls;
+	echo( new line, "Variant 1: Use 'table process selected rows' (Most compact way to specify):" );
+
+	table process selected rows( cities, [Country]==USA,  
+			U.S. inhabitants[] 		+= [Inhabitants], 	// Note: Comma separates from 2nd and 3rd parameter.
+			foreign inhabitants[] 		+= [Inhabitants] );	// Mulitple statements allowed within a parameter, use ; to separate them
+
+	print and reset inhabitants;
+
+
+
+	echo( new line, "Variant 2: Use 'table process' (Also compact, using 'if' statement):" );
+
+	table process ( cities, if ([Country]==USA)
+			U.S. inhabitants[] 		+= [Inhabitants];
+			else: foreign inhabitants[] 	+= [Inhabitants] );
+
+	print and reset inhabitants;
+
+
+
+	echo( new line, "Variant 3: Use 'for all table rows' (Best readable approach if you have many statements to process):" );
+
+	for all table rows( cities, Country, country[] )
+	{
+		if (country[]==USA)
+			U.S. inhabitants[] 		+= [Inhabitants];
+			else: foreign inhabitants[] 	+= [Inhabitants];
+	}
+
+	print and reset inhabitants;
+
+
+	echo( new line, "Variant 4: Use traditional 'for' loop like in C/C++ (Code is starting to get sophisticated)" );
+
+	for ( row[] = 1, row[] < table length( cities), row[]++)  // Attention: Use commas and not semicolons, for good reason it's the other way around than in C/C++ !
+	{
+		if ([cities:Country,row[]]==USA)
+			U.S. inhabitants[] 		+= [cities:Inhabitants,row[]];
+			else: foreign inhabitants[] 	+= [cities:Inhabitants,row[]];
+	}
+
+	print and reset inhabitants;
+
+
+	echo( new line, "Variant 5: Use traditional 'for' loop combined with 'with table' (Provides table and row context to simplifying accessing table data):" );
+
+	for ( row[] = 1, row[] < table length( cities), row[]++)  // Attention: Use commas and not semicolons, for good reason it's the other way around than in C/C++ !
+	{
+	    with table( cities, row[] )
+		if ([Country]==USA)
+			U.S. inhabitants[] 		+= [Inhabitants];
+			else: foreign inhabitants[] 	+= [Inhabitants];
+	}
+
+	print and reset inhabitants;
