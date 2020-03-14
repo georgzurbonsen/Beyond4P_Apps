@@ -10,7 +10,7 @@ include ( Support Library );
 	table load excel file		( table, vagithub2.xlsx );
 	table load excel file		( lookup patterns, Patterns.xlsx );
 	
-	// Insert space for header at first row, include header labels in this first row, then delete blank rows
+	// Insert space for header at row 0, insert {list of header names} in row 0, then delete blank rows
 	table insert rows		( table, 0 ); 
 	[table:..,0] 			= { Raw, type, URL, description, language, license, members, stargazers, issues, 'pull-requests', last updated, need help, unknown };
 	table delete blank rows		( table );
