@@ -18,8 +18,7 @@ include ( Support Library );
 	// Counts the rows between the rows containing details
 	index[] = 1;
 
-	// process only rows in 'table' that meet selection criteria that
-	// first character of the [Raw] field is a space OR non-break space  == row containing details
+	// process only rows in 'table' for which the first character of [Raw] == space OR non-break space
 	table process selected rows	( table, ([Raw]{0}=' ',chr(160)),
 
 		// Following code is executed if the current row begins wtih a space (or non-break space / chr(160) 
@@ -30,17 +29,18 @@ include ( Support Library );
 		// Create an auxillary table (scratch table) with 2 columns
 		table initialize			( aux table, { Values, Columns } );
 
-		//put the set of tokenized values of [Raw] into column'Values'
+		//put the tokenized/parsed set of values from [Raw] into column'Values'
+		// syntax: tokenize ( [source field], {options}, {separators})
 		[aux table : Values, ..] 		= tokenize( [Raw], { auto convert, thousand separator, "," }, chr(160) );
 
-		// syntax: tokenize ( [source field], {options}, {separators})
 
 		// view intermediate results
 		view (aux table);
 		view pause;
 		
 		
-		// Look up the pattern table and record the data type into the column 'Columns' and write the data into the appropriate columns.
+		// Look up the pattern table and record the data type into the column 'Columns' 
+		// and write the data into the appropriate columns.
 		table lookup smart once ignore case  	( aux table, Values, Columns, lookup patterns, Patterns, Fields );
 		table process 				( aux table, [^[Columns]] = [Values] );  // Note the '^' symbol. Study chapter 5.13 in the B4P manual
 
