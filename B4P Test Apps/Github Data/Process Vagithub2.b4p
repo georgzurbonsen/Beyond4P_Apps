@@ -1,13 +1,11 @@
 #!/usr/local/bin/Beyond4P
 
+// Suppresses bla-bla while loading excel file
 runtime settings [verbose]=quiet;
 include ( Office Library );
 include ( Support Library );
 
-{	
-	// Suppresses bla-bla while loading excel file
-	runtime settings[verbose] 	= quiet;
-	
+{		
 	// load source file and patterns file
 	table load excel file		( table, vagithub2.xlsx );
 	table load excel file		( lookup patterns, Patterns.xlsx );
