@@ -4,29 +4,43 @@ runtime settings [verbose]=quiet;
 include ( Office Library );
 include ( Support Library );
 
-{
-	runtime settings[verbose] 	= quiet; // Suppresses bla-bla while loading excel file.
+{	
+	// Suppresses bla-bla while loading excel file
+	runtime settings[verbose] 	= quiet;
+	
+	// load source file and patterns file
 	table load excel file		( table, vagithub2.xlsx );
 	table load excel file		( lookup patterns, Patterns.xlsx );
-
-	table insert rows		( table, 0 ); // Provide space for headers and incldue them
+	
+	// Insert space for header at first row, include header labels in this first row, then delete blank rows
+	table insert rows		( table, 0 ); 
 	[table:..,0] 			= { Raw, type, URL, description, language, license, members, stargazers, issues, 'pull-requests', last updated, need help, unknown };
 	table delete blank rows		( table );
 
-	index[] = 1; // Counts the rows between the rows containing details
+	// Counts the rows between the rows containing details
+	index[] = 1;
 
+	// process only rows in 'table' that meet selection criteria that
+	// first character of the [Raw] field is a space OR non-break space  == row containing details
 	table process selected rows	( table, ([Raw]{0}=' ',chr(160)),
 
-		// Following code is executed if the current row begins wtih a space (or non-break space / chr(160) which is the row with details
+		// Following code is executed if the current row begins wtih a space (or non-break space / chr(160) 
+		// which is the row with details
 		[type] 					= Details ; 
 		index[] 				= 1;
 
-		// Create an auxiliary table with 2 columns and put the parsed values directly into the first column named 'Values'
+		// Create an auxillary table (scratch table) with 2 columns
 		table initialize			( aux table, { Values, Columns } );
+
+		//put the set of tokenized values of [Raw] into column'Values'
 		[aux table : Values, ..] 		= tokenize( [Raw], { auto convert, thousand separator, "," }, chr(160) );
 
+		// syntax: tokenize ( [source field], {options}, {separators})
+
+		// view intermediate results
 		view (aux table);
 		view pause;
+		
 		
 		// Look up the pattern table and record the data type into the column 'Columns' and write the data into the appropriate columns.
 		table lookup smart once ignore case  	( aux table, Values, Columns, lookup patterns, Patterns, Fields );
