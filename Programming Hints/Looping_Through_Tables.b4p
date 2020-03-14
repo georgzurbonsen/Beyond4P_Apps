@@ -20,7 +20,7 @@ define procedure ( print and reset inhabitants )  // Doing it stupidly for now, 
 		       "=================================", new line );
 
 
-	table load( cities, "../../B4P Demo/Cities.csv");
+	table load( cities, "../B4P Demo/Cities.csv");
 
 	cls;
 	echo( new line, "Variant 1: Use 'table process selected rows' (Most compact way to specify):" );
