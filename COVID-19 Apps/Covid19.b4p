@@ -6,7 +6,7 @@ include ( Office Library );
 runtime settings[verbose] 			= quiet;
 local settings[date format] 			= "MM/DD/YYYY";
 local settings[date separator] 			= "/";
-
+pause;
 
 // COVID 19 Analyzer
 
@@ -61,7 +61,7 @@ define procedure ( calculate delta, {{ case, literal }, { delta, literal }} )
 	forget memorized table columns;
 
 	table copy table		( case[], delta[] );
-	dates[] 			=   [delta[]::'####-##-##',0];		// Get all header names containing dates
+	dates[] 			=   [delta[]: :'####-##-##',0];		// Get all header names containing dates
 	[delta[]: dates[]{1..-1},..] 	-^^=[delta[]: dates[]{0..-2},..];  	// Calculate in a single strike! What's "-^^="? Study Chapter 6.10 "Deep Operators".
 	table save			( delta[], delta[]+".csv");
 }
@@ -99,22 +99,26 @@ define procedure ( day 0 alignment, {{ data, literal }} )
 {
 	forget memorized table columns;
 
-	threshold[] = 2;		// 1st day is day with minimum 2 confirmed cases
+	threshold[] = 5;		// 1st day is day with minimum 5 confirmed cases
 
 	new[] = data[] + " Day Zero";
 	table copy table columns		(  data[], new[], { "Country/Region", Population, Comments } );
-	table insert columns			(  new[], "CAGR per day", 0, 'Comments' );
+	table insert columns			(  new[], {Maximum,Population Percentage,CDGR per day}, 0, 'Comments' );
 
 	dates[]					= [data[]::'####-##-##',0];
 	[new[]:'>Comments'..,0]			= "Day " +^ deep( literal, {{ 1 .. dates[]{} }} );
 
 	table process( new[],  		series[] 		= filter start include( [ data[]:dates[],row() ], >=threshold[] );
-					[CAGR per day] 		= cagr( series[] );
+					[CDGR per day] 		= cagr( series[] );
+					[Maximum]		= max 123( series[] );
+					[Population Percentage]	= [Maximum] / [Population];
 					[Day 1..] 		= series[]; );
 
 	table save				( new[], new[]+".csv");
 
 }
+
+
 
 //	Following procedure smoothens the cases using a 3-day average
 //	where the last day is scaled up.   This allows for better recognition of changing trends
@@ -133,7 +137,7 @@ define procedure ( smoothe cases, {{ data, literal }} )
 
 	table process ( new[], for (col[] = last column[], col[] >= table column number( new[], dates[]{span[]} ), col[]-- )
 	{
-		[col[]]  = average([ { col[]-span[] .. col[] } ]);
+		[col[]]  = average([ { col[]-span[] .. col[] } ]);	// X day running average
 		[col[]] *= pick if( [last column[]]!=0, [data[]:last column[],row()] / [last column[]], 0 );
 	} );
 
