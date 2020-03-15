@@ -1,0 +1,180 @@
+#!/usr/local/bin/Beyond4P
+
+include ( Support Library );
+include ( Office Library );
+
+runtime settings[verbose] 			= quiet;
+local settings[date format] 			= "MM/DD/YYYY";
+local settings[date separator] 			= "/";
+
+
+// COVID 19 Analyzer
+
+// Note: All tables in Beyond4P are global.  If you wish to use a local table inside a function, then create one with unique name
+// and delete it after leaving the function.
+
+// Initial settings
+
+if (system info[user name] = "Zur Bonsen Georg")
+	'covid-19 path'[] = "../../COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Placeholder.csv";
+else: // Rafael:
+	exception ( stop, "Specify your path name to your cloned GOVID-19 repository" );
+
+
+
+
+
+define procedure ( load files, {{ case, literal }}  )
+{
+	forget memorized table columns;
+
+	file[] = replace( 'covid-19 path'[], Placeholder, case[] );
+
+	table load				( case[], file[], "," );
+	table delete columns			( case[], { Lat, Long } );
+	table delete selected rows		( case[], find(["Province/State"],",") >= 0  | ["Province/State"]='*Princess*'); // Keep whole countries + states, but no counties and cruise ships. for time being
+
+	// For countries containing details at province/state level, add aggregated data for the whole countries.
+
+	table copy table			( case[], copy );
+	table delete selected rows		( copy  , ["Province/State"] = '' );
+	table consolidate			( copy  , "Country/Region", [copy:'>Country/Region'..,0], sum );
+	table process selected rows		( case[], ["Province/State"] != "", ["Country/Region"] += " " + ["Province/State"] );
+
+	table merge				( copy  , case[] );
+	table sort rows				( case[], "Country/Region" );
+
+	table delete columns			( case[], "Province/State" );
+// table keep selected rows( case[], ["Country/Region"]=Switzerland );
+
+	[case[]:'>Country/Region'..,0] 		= deep( literal,  { deep( date, { [case[]:'>Country/Region'..,0] } ), "YYYY-MM-DD" } ); // Clean up date format to international format
+
+	table save( case[], case[]+".csv");
+
+}
+
+
+// Following procedure calculates the delta versus previous day, e.g. to identify new confirmed cases versus previous day.
+
+define procedure ( calculate delta, {{ case, literal }, { delta, literal }} )
+{
+	forget memorized table columns;
+
+	table copy table		( case[], delta[] );
+	dates[] 			=   [delta[]::'####-##-##',0];		// Get all header names containing dates
+	[delta[]: dates[]{1..-1},..] 	-^^=[delta[]: dates[]{0..-2},..];  	// Calculate in a single strike! What's "-^^="? Study Chapter 6.10 "Deep Operators".
+	table save			( delta[], delta[]+".csv");
+}
+
+
+define procedure( predict recoveries not reported  )
+{
+	forget memorized table columns;
+
+	lag[] = 14;				// Assume healthy after 14 days if no casuality happend.
+
+	data[] = 'Recovered Predicted';
+
+	table copy table			( 'Confirmed', data[] );
+	dates[] 				=   [data[]::'####-##-##',0];
+
+	[data[]: dates[]{lag[].. -1},..] 	= [data[]: dates[]{0..-1-lag[]},..];	// Right-shift copy by # lag days
+	[data[]: dates[]{0..lag[]-1},..] 	= 0;					// And set first # lag days to 0
+
+	table save				( data[], data[]+" Temp.csv");
+
+	[data[]: dates[],..] 			-^^= [Deaths: dates[],..];		// Subtract casualities
+	[data[]: dates[],..] 			= deep( max 123, { [data[]: dates[],..], [Recovered: dates[],..] }, 2 );	// If reported recoveries are higher, then use them
+
+	table save				( data[], data[]+".csv");
+
+}
+
+
+//	Folloing procedure derives a "Day 0" or "Day 1" analysis.
+//
+//
+
+define procedure ( day 0 alignment, {{ data, literal }} )
+{
+	forget memorized table columns;
+
+	threshold[] = 2;		// 1st day is day with minimum 2 confirmed cases
+
+	new[] = data[] + " Day Zero";
+	table copy table columns		(  data[], new[], { "Country/Region", Population, Comments } );
+	table insert columns			(  new[], "CAGR per day", 0, 'Comments' );
+
+	dates[]					= [data[]::'####-##-##',0];
+	[new[]:'>Comments'..,0]			= "Day " +^ deep( literal, {{ 1 .. dates[]{} }} );
+
+	table process( new[],  		series[] 		= filter start include( [ data[]:dates[],row() ], >=threshold[] );
+					[CAGR per day] 		= cagr( series[] );
+					[Day 1..] 		= series[]; );
+
+	table save				( new[], new[]+".csv");
+
+}
+
+//	Following procedure smoothens the cases using a 3-day average
+//	where the last day is scaled up.   This allows for better recognition of changing trends
+//
+
+define procedure ( smoothe cases, {{ data, literal }} )
+{
+	forget memorized table columns;
+
+	span[]-- = 3;				// Running average over 3 days
+
+	new[] = data[] + " Smoothened";
+	table copy table			(  data[], new[] );
+	dates[] 				= [data[]::'####-##-##',0];
+	last column[] 				= table column number( new[], dates[]{-1} );
+
+	table process ( new[], for (col[] = last column[], col[] >= table column number( new[], dates[]{span[]} ), col[]-- )
+	{
+		[col[]]  = average([ { col[]-span[] .. col[] } ]);
+		[col[]] *= pick if( [last column[]]!=0, [data[]:last column[],row()] / [last column[]], 0 );
+	} );
+
+	table save				( new[], new[]+".csv");
+
+}
+
+
+
+
+// I have put the main program into a function so all variables created are also local variables (and not global)
+
+define procedure ( main program )
+{
+	table load excel file ( Population Data, "Population Data.xlsx", Basedata );
+	table process ( Population Data, [Population] = clean numeral( [Population] ) ); // Remove 1,000 separators, especially the non-ANSI character on HP systems in Switzerland
+
+	data sets[] = { Confirmed, Deaths, Recovered };
+
+	for all parameters( data sets[], case[] )
+	{
+		load files		( case[] );
+		table insert columns	( case[], {Population, Comments}, "", '>Country/Region' );
+		table lookup		( case[], "Country/Region", Population, Population Data, "Country/Region", Population );
+		calculate delta		( case[], 'Delta '+case[] );
+	}
+
+	predict recoveries not reported;
+	smoothe cases( Confirmed );
+	day 0 alignment( Confirmed );
+
+}
+
+
+main program;
+interactive;
+
+
+
+
+
+
+
+
