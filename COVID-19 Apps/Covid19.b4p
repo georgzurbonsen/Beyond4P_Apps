@@ -6,7 +6,7 @@ include ( Office Library );
 runtime settings[verbose] 			= quiet;
 local settings[date format] 			= "MM/DD/YYYY";
 local settings[date separator] 			= "/";
-pause;
+
 
 // COVID 19 Analyzer
 
