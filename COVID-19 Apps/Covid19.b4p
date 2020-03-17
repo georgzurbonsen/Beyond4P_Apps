@@ -45,11 +45,7 @@ define procedure ( load files, {{ case, literal }}  )
 	table sort rows				( case[], "Country/Region" );
 
 	table delete columns			( case[], "Province/State" );
-// table keep selected rows( case[], ["Country/Region"]=Switzerland );
-
 	[case[]:'>Country/Region'..,0] 		= deep( literal,  { deep( date, { [case[]:'>Country/Region'..,0] } ), "YYYY-MM-DD" } ); // Clean up date format to international format
-
-	table save( case[], case[]+".csv");
 
 }
 
@@ -119,6 +115,45 @@ define procedure ( day 0 alignment, {{ data, literal }} )
 }
 
 
+//	Identify the trends, "accelerating" / "stagnating" ...
+//	where the last day is scaled up.   This allows for better recognition of changing trends
+//
+
+
+define procedure ( trend cases, {{ data, literal }} )
+{
+	forget memorized table columns;
+
+	span[]-- = 7;				// Running average over 7 days
+	days[]-- = 3;				// Calculate CAGR from two 3-days average at start and end
+
+	new[] = data[] + " Trend";
+	table copy table			(  data[], new[] );
+	dates[] 				= [data[]::'####-##-##',0];
+	1st column[]				= table column number( new[], dates[]{0} );
+	last column[] 				= table column number( new[], dates[]{-1} );
+	start column[] 				= table column number( new[], dates[]{0} ) + span[];
+
+
+	table process ( new[], for (col[] = last column[], col[] >= start column[], col[]-- )
+	{
+		if ( sum( [ col[]-span[] .. col[]-span[]+days[] ] ) <> 0)
+		{
+		    [col[]] = cagr( [ col[]-span[] .. col[] ], days[]+1 );
+		}
+		else
+		{
+		    [col[]] = "n/a";
+		}
+	} );
+
+	table process ( new[], [ 1st column[] .. start column[]-1 ] = "" );
+	table format numbers( new[], dates[], "0.00%" );
+
+	table save				( new[], new[]+".csv");
+
+}
+
 
 //	Following procedure smoothens the cases using a 3-day average
 //	where the last day is scaled up.   This allows for better recognition of changing trends
@@ -157,16 +192,24 @@ define procedure ( main program )
 
 	data sets[] = { Confirmed, Deaths, Recovered };
 
+	echo("In the 'Population Data', you can specify different choice patterns using capital letters", new line, "in order to focus on countries of choice.  Enter choice:");
+	favor[] = input quick ignore case("[space bar] = All favorites, Letter = Favorite as listed with that letter", " ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+
 	for all parameters( data sets[], case[] )
 	{
 		load files		( case[] );
 		table insert columns	( case[], {Population, Comments}, "", '>Country/Region' );
 		table lookup		( case[], "Country/Region", Population, Population Data, "Country/Region", Population );
+
+		if (favor[]!=' ')	table keep selected rows( case[], find( [Population Data:"Country/Region",["Country/Region"],Favorites], favor[] ) >= 0 );
+		table save( case[], case[]+".csv");
+
 		calculate delta		( case[], 'Delta '+case[] );
 	}
 
 	predict recoveries not reported;
 	smoothe cases( Confirmed );
+	trend cases ( Confirmed );
 	day 0 alignment( Confirmed );
 
 }
