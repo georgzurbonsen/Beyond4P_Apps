@@ -107,7 +107,11 @@ define procedure ( day 0 alignment, {{ data, literal }} )
 	table process( new[],  		series[] 		= filter start include( [ data[]:dates[],row() ], >=threshold[] );
 					[CDGR per day] 		= cagr( series[] );
 					[Maximum]		= max 123( series[] );
-					[Population Percentage]	= [Maximum] / [Population];
+					if ([Population]>0)
+					{
+						[Population Percentage]	= [Maximum] / [Population];
+					}
+					else:	echo( "Missing country: ", ["Country/Region"] );
 					[Day 1..] 		= series[]; );
 
 	table save				( new[], new[]+".csv");
