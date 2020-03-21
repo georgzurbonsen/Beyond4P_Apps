@@ -219,9 +219,11 @@ define procedure ( main program )
 	{
 		load files			( case[] );
 		table insert columns		( case[], {Population, Maximum, "Per 10,000 inhabitants", Comments}, "", '>Country/Region' );
-		table lookup smart ignore case	( case[], "Country/Region", {"Country/Region",Population}, Population Data, "Country/Region", {"Use Country/Region",Population} );
+		table lookup smart ignore case	( case[], "Country/Region", {Comments,Population}, Population Data, "Country/Region", {"Use Country/Region",Population} );
 
 		missing countries[] = [ case[] : Population, :0, "Country/Region" ];
+		[case[]:"Country/Region",..] 	= [case[]:"Comments",..];
+		[case[]:"Comments",..] 		= '';
 		if (missing countries[] != {})
 		{
 		    echo("Following countries are missing. Check 'Population Data.xlsx'.", new line, missing countries[] );
@@ -235,7 +237,6 @@ define procedure ( main program )
 		table sort rows			( case[], "Country/Region" );
 
 		if (favor[]!=' ')		table keep selected rows( case[], find( [Population Data:"Use Country/Region",["Country/Region"],Favorites], favor[] ) >= 0 );
-//		table save( case[], case[]+".csv");
 
 		calculate delta			( case[], 'Delta '+case[] );
 	}
