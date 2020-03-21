@@ -2,6 +2,8 @@
 
 include ( Support Library );
 include ( Office Library );
+include ( Style Library );
+
 
 runtime settings[verbose] 			= quiet;
 local settings[date format] 			= "MM/DD/YYYY";
@@ -13,14 +15,16 @@ local settings[date separator] 			= "/";
 // Note: All tables in Beyond4P are global.  If you wish to use a local table inside a function, then create one with unique name
 // and delete it after leaving the function.
 
-// Initial settings
 
-if (system info[user name] = "Zur Bonsen Georg")
-	'covid-19 path'[] = "../../COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Placeholder.csv";
-else: // Rafael:
-	exception ( stop, "Specify your path name to your cloned GOVID-19 repository" );
-
-
+define procedure ( download covid data )
+{
+	if (input quick ignore case("Download latest data from the Web? [NY]", NY )=Y)
+	{	
+		file download overwrite( "https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv?raw=true", "time_series_19-covid-Confirmed.csv" );
+		file download overwrite( "https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv?raw=true", "time_series_19-covid-Recovered.csv" );
+		file download overwrite( "https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv?raw=true", "time_series_19-covid-Deaths.csv" );
+	}
+}
 
 
 
@@ -28,7 +32,7 @@ define procedure ( load files, {{ case, literal }}  )
 {
 	forget memorized table columns;
 
-	file[] = replace( 'covid-19 path'[], Placeholder, case[] );
+	file[] = replace( "time_series_19-covid-XXX.csv", XXX, case[] );
 
 	table load				( case[], file[], "," );
 	table delete columns			( case[], { Lat, Long } );
@@ -42,11 +46,8 @@ define procedure ( load files, {{ case, literal }}  )
 	table process selected rows		( case[], ["Province/State"] != "", ["Country/Region"] += " " + ["Province/State"] );
 
 	table merge				( copy  , case[] );
-	table sort rows				( case[], "Country/Region" );
-
 	table delete columns			( case[], "Province/State" );
 	[case[]:'>Country/Region'..,0] 		= deep( literal,  { deep( date, { [case[]:'>Country/Region'..,0] } ), "YYYY-MM-DD" } ); // Clean up date format to international format
-
 }
 
 
@@ -59,7 +60,7 @@ define procedure ( calculate delta, {{ case, literal }, { delta, literal }} )
 	table copy table		( case[], delta[] );
 	dates[] 			=   [delta[]: :'####-##-##',0];		// Get all header names containing dates
 	[delta[]: dates[]{1..-1},..] 	-^^=[delta[]: dates[]{0..-2},..];  	// Calculate in a single strike! What's "-^^="? Study Chapter 6.10 "Deep Operators".
-	table save			( delta[], delta[]+".csv");
+//	table save			( delta[], delta[]+".csv");
 }
 
 
@@ -77,12 +78,8 @@ define procedure( predict recoveries not reported  )
 	[data[]: dates[]{lag[].. -1},..] 	= [data[]: dates[]{0..-1-lag[]},..];	// Right-shift copy by # lag days
 	[data[]: dates[]{0..lag[]-1},..] 	= 0;					// And set first # lag days to 0
 
-	table save				( data[], data[]+" Temp.csv");
-
 	[data[]: dates[],..] 			-^^= [Deaths: dates[],..];		// Subtract casualities
 	[data[]: dates[],..] 			= deep( max 123, { [data[]: dates[],..], [Recovered: dates[],..] }, 2 );	// If reported recoveries are higher, then use them
-
-	table save				( data[], data[]+".csv");
 
 }
 
@@ -95,26 +92,20 @@ define procedure ( day 0 alignment, {{ data, literal }} )
 {
 	forget memorized table columns;
 
-	threshold[] = 5;		// 1st day is day with minimum 5 confirmed cases
+	threshold[] = 30;		// 1st day is day with minimum 5 confirmed cases
 
 	new[] = data[] + " Day Zero";
 	table copy table columns		(  data[], new[], { "Country/Region", Population, Comments } );
-	table insert columns			(  new[], {Maximum,Population Percentage,CDGR per day}, 0, 'Comments' );
+	table insert columns			(  new[], {Maximum,"Per 10,000 inhabitants",CDGR per day}, 0, 'Comments' );
 
 	dates[]					= [data[]::'####-##-##',0];
 	[new[]:'>Comments'..,0]			= "Day " +^ deep( literal, {{ 1 .. dates[]{} }} );
 
-	table process( new[],  		series[] 		= filter start include( [ data[]:dates[],row() ], >=threshold[] );
-					[CDGR per day] 		= cagr( series[] );
-					[Maximum]		= max 123( series[] );
-					if ([Population]>0)
-					{
-						[Population Percentage]	= [Maximum] / [Population];
-					}
-					else:	echo( "Missing country: ", ["Country/Region"] );
-					[Day 1..] 		= series[]; );
-
-	table save				( new[], new[]+".csv");
+	table process( new[],  		series[] 			= filter start include( [ data[]:dates[],row() ], >=threshold[] );
+					[CDGR per day] 			= cagr( series[] );
+					[Maximum]			= max 123( series[] );
+					["Per 10,000 inhabitants"]	= pick if ( [Population]>0, [Maximum] / [Population] * 10000, 0 );
+					[Day 1..] 			= series[]; );
 
 }
 
@@ -141,20 +132,20 @@ define procedure ( trend cases, {{ data, literal }} )
 
 	table process ( new[], for (col[] = last column[], col[] >= start column[], col[]-- )
 	{
-		if ( sum( [ col[]-span[] .. col[]-span[]+days[] ] ) <> 0)
+		if ( product( [ col[]-span[] .. col[]-span[]+days[] ] ) <> 0)
 		{
 		    [col[]] = cagr( [ col[]-span[] .. col[] ], days[]+1 );
 		}
 		else
 		{
-		    [col[]] = "n/a";
+		    [col[]] = "";
 		}
 	} );
 
 	table process ( new[], [ 1st column[] .. start column[]-1 ] = "" );
-	table format numbers( new[], dates[], "0.00%" );
 
-	table save				( new[], new[]+".csv");
+	table insert columns			( new[], "Last Trend" );	// Last trend is calculated if last count is at least 50, otherwise figure is not accurate
+	table process selected rows		( new[],  [data[]:last column[]] > 50 & product( [ data[]:last column[]-1 .. last column[] ] ) != 0, [Last Trend] = [data[]:last column[]] / [data[]:last column[]-1]-1 );
 
 }
 
@@ -180,9 +171,32 @@ define procedure ( smoothe cases, {{ data, literal }} )
 		[col[]] *= pick if( [last column[]]!=0, [data[]:last column[],row()] / [last column[]], 0 );
 	} );
 
-	table save				( new[], new[]+".csv");
+//	table save				( new[], new[]+".csv");
 
 }
+
+
+
+define procedure ( death rates )
+{
+	// This function does 2 comparisons:
+	// Rate A:	# deaths vs. # confirmed cases (both accumulated) at same date
+	// Rate B:	# deaths to date vs. # confirmed cases identified specified days ago
+
+	forget memorized table columns;
+
+	aCFR lag[]-- = 7;			// One comparison: Compare # deaths with cases 7 days earlier
+	table insert columns			( Deaths, { Rate A, aCFR }, "", Comments );
+	dates[] 				= [Deaths   ::'####-##-##',0];
+
+	table process ( Deaths, 
+	{
+		[Rate A] = pick if( [Confirmed: dates[]{-1           } ] > 0, [dates[]{-1} ] / [Confirmed: dates[]{-1           } ], 0 );
+		[aCFR]   = pick if( [Confirmed: dates[]{-1-aCFR lag[]} ] > 0, [dates[]{-1} ] / [Confirmed: dates[]{-1-aCFR lag[]} ], 0 );
+	} );
+
+}
+
 
 
 
@@ -191,35 +205,66 @@ define procedure ( smoothe cases, {{ data, literal }} )
 
 define procedure ( main program )
 {
-	table load excel file ( Population Data, "Population Data.xlsx", Basedata );
-	table process ( Population Data, [Population] = clean numeral( [Population] ) ); // Remove 1,000 separators, especially the non-ANSI character on HP systems in Switzerland
+	download covid data;
 
-	data sets[] = { Confirmed, Deaths, Recovered };
+	table load excel file 			( Population Data, "Population Data.xlsx", Basedata );
+	table process 				( Population Data, [Population] = clean numeral( [Population] ) ); // Remove 1,000 separators, especially the non-ANSI character on HP systems in Switzerland
+
+	data sets[] 				= { Confirmed, Deaths, Recovered };
 
 	echo("In the 'Population Data', you can specify different choice patterns using capital letters", new line, "in order to focus on countries of choice.  Enter choice:");
 	favor[] = input quick ignore case("[space bar] = All favorites, Letter = Favorite as listed with that letter", " ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 
 	for all parameters( data sets[], case[] )
 	{
-		load files		( case[] );
-		table insert columns	( case[], {Population, Comments}, "", '>Country/Region' );
-		table lookup		( case[], "Country/Region", Population, Population Data, "Country/Region", Population );
+		load files			( case[] );
+		table insert columns		( case[], {Population, Maximum, "Per 10,000 inhabitants", Comments}, "", '>Country/Region' );
+		table lookup smart ignore case	( case[], "Country/Region", {"Country/Region",Population}, Population Data, "Country/Region", {"Use Country/Region",Population} );
 
-		if (favor[]!=' ')	table keep selected rows( case[], find( [Population Data:"Country/Region",["Country/Region"],Favorites], favor[] ) >= 0 );
-		table save( case[], case[]+".csv");
+		missing countries[] = [ case[] : Population, :0, "Country/Region" ];
+		if (missing countries[] != {})
+		{
+		    echo("Following countries are missing. Check 'Population Data.xlsx'.", new line, missing countries[] );
+		    exit;
+		}
 
-		calculate delta		( case[], 'Delta '+case[] );
+		table process			( case[],
+			[Maximum]			= [-1];
+			["Per 10,000 inhabitants"]	= pick if ( [Population]>0, [Maximum] / [Population] * 10000, 0 ) );
+
+		table sort rows			( case[], "Country/Region" );
+
+		if (favor[]!=' ')		table keep selected rows( case[], find( [Population Data:"Use Country/Region",["Country/Region"],Favorites], favor[] ) >= 0 );
+//		table save( case[], case[]+".csv");
+
+		calculate delta			( case[], 'Delta '+case[] );
 	}
 
 	predict recoveries not reported;
-	smoothe cases( Confirmed );
 	trend cases ( Confirmed );
 	day 0 alignment( Confirmed );
+	death rates;
 
 }
 
-
 main program;
+
+tables[] = { Confirmed, Confirmed Day Zero, Confirmed Trend, Recovered, Recovered Predicted, Deaths };
+for all parameters( tables[], table[] )
+{
+	table style table ( table[], sheet, autofilter, 0, freeze rows, 1, freeze columns, 2 );
+	table style columns( table[], { "Country/Region", Population }, sheet, column width, 20 );
+	table style columns( table[], [table[]::'####-##-##',0] + [table[]::'Day &',0], sheet, number format, select if ( (table[]='*Trend*'), "0.00%", "#,##0")  );
+	table style columns( table[], Population, sheet, number format, "#,##0"  );
+	table style columns( table[], [table[]::'*inhabitants',0], sheet, number format, "0.000"  );
+	table style columns( table[], [table[]::'CDGR per day',0] + [table[]::'Last Trend',0]+ [table[]::'Rate*,aCFR',0], sheet, number format, "0.00%"  );
+	translate style attributes for excel( table[] );
+}
+
+
+table save multiple( tables[], tables[], Result.xls, EXCEL );
+
+
 interactive;
 
 
