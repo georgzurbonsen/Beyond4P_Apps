@@ -123,12 +123,6 @@ define procedure ( day 0 alignment, {{ data, literal }} )
 							if ([col[]] > 100000) break;
 						} );
 
-
-//	table process selec
-
-	
-
-
 }
 
 
@@ -194,10 +188,7 @@ define procedure ( death rates )
 
 
 
-
-// I have put the main program into a function so all variables created are also local variables (and not global)
-
-define procedure ( main program )
+// Main Program
 {
 	download covid data;
 
@@ -242,25 +233,30 @@ define procedure ( main program )
 	day 0 alignment( Confirmed );
 	death rates;
 
+	// Save the data
+
+	tables[] = { Confirmed, Confirmed Day Zero, Confirmed Trend, Recovered, Recovered Predicted, Deaths };
+
+	my time stamp[]	= literal( date(today), "YYYY-MM-DD" );
+	dir name[]	= "./" + my time stamp[] + "_Results/";
+
+	directory create all ( dir name[] );
+
+	for all parameters( tables[], table[] )
+	{
+		table style table ( table[], sheet, autofilter, 0, freeze rows, 1, freeze columns, 2 );
+		table style columns( table[], { "Country/Region", Population, Comments }, sheet, column width, 20 );
+		table style columns( table[], [table[]::'####-##-##',0] + [table[]::'Day &',0], sheet, number format, select if ( (table[]='*Trend*'), "0.00%", "#,##0")  );
+		table style columns( table[], Population, sheet, number format, "#,##0"  );
+		table style columns( table[], [table[]::'*inh*',0], sheet, number format, "0.000"  );
+		table style columns( table[], [table[]::'CDGR per day',0] + [table[]::'Last Trend',0]+ [table[]::'Rate*,aCFR',0], sheet, number format, "0.00%"  );
+		translate style attributes for excel( table[] );
+
+		table save( table[], dir name[] + my time stamp[] + "_" + table[] + ".csv" );	
+	}
+
+	table save multiple( tables[], tables[], dir name[] + my time stamp[] + "_Results.xls", EXCEL );
 }
-
-main program;
-
-tables[] = { Confirmed, Confirmed Day Zero, Confirmed Trend, Recovered, Recovered Predicted, Deaths };
-for all parameters( tables[], table[] )
-{
-	table style table ( table[], sheet, autofilter, 0, freeze rows, 1, freeze columns, 2 );
-	table style columns( table[], { "Country/Region", Population, Comments }, sheet, column width, 20 );
-	table style columns( table[], [table[]::'####-##-##',0] + [table[]::'Day &',0], sheet, number format, select if ( (table[]='*Trend*'), "0.00%", "#,##0")  );
-	table style columns( table[], Population, sheet, number format, "#,##0"  );
-	table style columns( table[], [table[]::'*inh*',0], sheet, number format, "0.000"  );
-	table style columns( table[], [table[]::'CDGR per day',0] + [table[]::'Last Trend',0]+ [table[]::'Rate*,aCFR',0], sheet, number format, "0.00%"  );
-	translate style attributes for excel( table[] );
-}
-
-
-table save multiple( tables[], tables[], Result.xls, EXCEL );
-
 
 interactive;
 
