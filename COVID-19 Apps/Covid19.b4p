@@ -92,11 +92,11 @@ define procedure ( day 0 alignment, {{ data, literal }} )
 {
 	forget memorized table columns;
 
-	threshold[] = 30;		// 1st day is day with minimum 5 confirmed cases
+	threshold[] = 50;		// 1st day is day with minimum 50 confirmed cases
 
 	new[] = data[] + " Day Zero";
 	table copy table columns		(  data[], new[], { "Country/Region", Population, Comments } );
-	table insert columns			(  new[], {Maximum,"Per 10,000 inhabitants",CDGR per day}, 0, 'Comments' );
+	table insert columns			(  new[], {Maximum,"Per 100,000 inh.",CDGR per day}, 0, 'Comments' );
 
 	dates[]					= [data[]::'####-##-##',0];
 	[new[]:'>Comments'..,0]			= "Day " +^ deep( literal, {{ 1 .. dates[]{} }} );
@@ -104,8 +104,30 @@ define procedure ( day 0 alignment, {{ data, literal }} )
 	table process( new[],  		series[] 			= filter start include( [ data[]:dates[],row() ], >=threshold[] );
 					[CDGR per day] 			= cagr( series[] );
 					[Maximum]			= max 123( series[] );
-					["Per 10,000 inhabitants"]	= pick if ( [Population]>0, [Maximum] / [Population] * 10000, 0 );
+					["Per 100,000 inh."]		= pick if ( [Population]>0, [Maximum] / [Population] * 100000, 0 );
 					[Day 1..] 			= series[]; );
+
+
+	dates[]					= [new[]::'Day *',0];
+	1st column[]				= table column number( new[], dates[]{0} );
+	last column[] 				= table column number( new[], dates[]{-1} );
+
+	table insert rows			( new[], 1, 3 );
+	[new[]:"Country/Region",1..]		= { Doubling every 2 days, Doubling every 5 days, Doubling every 10 days };
+	[new[]:"CDGR per day",1..]		= { pow(2, 0.5)-1, pow(2, 0.2)-1, pow(2, 0.1)-1 };
+	[new[]:1st column[],1..]		= { 3 : threshold[] };
+
+	table process selected rows		( new[], {1..3}, for (col[] = 1st column[]+1, col[] <= last column[], col[]++ )
+						{
+							[col[]] = [col[]-1] * (1 + [CDGR per day]);
+							if ([col[]] > 100000) break;
+						} );
+
+
+//	table process selec
+
+	
+
 
 }
 
@@ -144,36 +166,12 @@ define procedure ( trend cases, {{ data, literal }} )
 
 	table process ( new[], [ 1st column[] .. start column[]-1 ] = "" );
 
+
 	table insert columns			( new[], "Last Trend" );	// Last trend is calculated if last count is at least 50, otherwise figure is not accurate
 	table process selected rows		( new[],  [data[]:last column[]] > 50 & product( [ data[]:last column[]-1 .. last column[] ] ) != 0, [Last Trend] = [data[]:last column[]] / [data[]:last column[]-1]-1 );
 
 }
 
-
-//	Following procedure smoothens the cases using a 3-day average
-//	where the last day is scaled up.   This allows for better recognition of changing trends
-//
-
-define procedure ( smoothe cases, {{ data, literal }} )
-{
-	forget memorized table columns;
-
-	span[]-- = 3;				// Running average over 3 days
-
-	new[] = data[] + " Smoothened";
-	table copy table			(  data[], new[] );
-	dates[] 				= [data[]::'####-##-##',0];
-	last column[] 				= table column number( new[], dates[]{-1} );
-
-	table process ( new[], for (col[] = last column[], col[] >= table column number( new[], dates[]{span[]} ), col[]-- )
-	{
-		[col[]]  = average([ { col[]-span[] .. col[] } ]);	// X day running average
-		[col[]] *= pick if( [last column[]]!=0, [data[]:last column[],row()] / [last column[]], 0 );
-	} );
-
-//	table save				( new[], new[]+".csv");
-
-}
 
 
 
@@ -181,7 +179,7 @@ define procedure ( death rates )
 {
 	// This function does 2 comparisons:
 	// Rate A:	# deaths vs. # confirmed cases (both accumulated) at same date
-	// Rate B:	# deaths to date vs. # confirmed cases identified specified days ago
+	// aCFR:	# Adjusted Case Fatality Risk
 
 	forget memorized table columns;
 
@@ -189,12 +187,8 @@ define procedure ( death rates )
 	table insert columns			( Deaths, { Rate A, aCFR }, "", Comments );
 	dates[] 				= [Deaths   ::'####-##-##',0];
 
-	table process ( Deaths, 
-	{
-		[Rate A] = pick if( [Confirmed: dates[]{-1           } ] > 0, [dates[]{-1} ] / [Confirmed: dates[]{-1           } ], 0 );
-		[aCFR]   = pick if( [Confirmed: dates[]{-1-aCFR lag[]} ] > 0, [dates[]{-1} ] / [Confirmed: dates[]{-1-aCFR lag[]} ], 0 );
-	} );
-
+	table process selected rows		( Deaths, ([Confirmed: dates[]{-1           } ] > 0), [Rate A] = [dates[]{-1} ] / [Confirmed: dates[]{-1           } ] );
+	table process selected rows		( Deaths, ([Confirmed: dates[]{-1-aCFR lag[]} ] > 0), [aCFR]   = [dates[]{-1} ] = [dates[]{-1} ] / [Confirmed: dates[]{-1-aCFR lag[]} ] );
 }
 
 
