@@ -182,7 +182,7 @@ define procedure ( death rates )
 	dates[] 				= [Deaths   ::'####-##-##',0];
 
 	table process selected rows		( Deaths, ([Confirmed: dates[]{-1           } ] > 0), [Rate A] = [dates[]{-1} ] / [Confirmed: dates[]{-1           } ] );
-	table process selected rows		( Deaths, ([Confirmed: dates[]{-1-aCFR lag[]} ] > 0), [aCFR]   = [dates[]{-1} ] = [dates[]{-1} ] / [Confirmed: dates[]{-1-aCFR lag[]} ] );
+	table process selected rows		( Deaths, ([Confirmed: dates[]{-1-aCFR lag[]} ] > 0), [aCFR]   = [dates[]{-1} ] / [Confirmed: dates[]{-1-aCFR lag[]} ] );
 }
 
 
@@ -206,6 +206,11 @@ define procedure ( death rates )
 		table insert columns		( case[], {Population, Area, Region 1, Region 2,Aggregate,Maximum, "Per 100,000 inh.", Comments}, "", '>Country/Region' );
 		table lookup smart ignore case	( case[], "Country/Region", {Comments,Population,Area,Region 1,Region 2,Aggregate }, Population Data, "Country/Region", {"Use Country/Region",Population, Area, Region 1, Region 2,Aggregate} );
 		table process selected rows	( case[], [Region 1]=='', [{Population,Area}] = Not defined, ["Country/Region"] = [Comments]; [Comments]='' );
+		if (favor[]!=' ')
+		{
+			table delete selected rows ( case[], [Region 1]=='' );
+		}
+	
 		for all parameters( {"Region 1", "Region 2"}, region[] )
 		{
 		    table copy table		( case[], duplicate + region[] ); // For regions
@@ -216,13 +221,14 @@ define procedure ( death rates )
 		}
 		table merge			( duplicate + Region 1, case[] );
 		table merge			( duplicate + Region 2, case[] );
+
+		table keep selected rows	( case[], find( [Population Data:"Use Country/Region",["Country/Region"],Favorites], favor[] ) >= 0 );
 		table delete columns		( case[], {Region 1, Region 2, Aggregate} );
 
-		if (favor[]!=' ')		table keep selected rows( case[], find( [Population Data:"Use Country/Region",["Country/Region"],Favorites], favor[] ) >= 0 );
 		table sort rows			( case[], "Country/Region" );
 
 		table process			( case[],
-			[Maximum]			= [-1];
+			[Maximum]		= [-1];
 			["Per 100,000 inh."]	= pick if ( [Population]>0, [Maximum] / [Population] * 100000, 0 ) );
 
 		calculate delta			( case[], 'Delta '+case[] );
@@ -244,18 +250,18 @@ define procedure ( death rates )
 
 	for all parameters( tables[], table[] )
 	{
-		table style table ( table[], sheet, autofilter, 0, freeze rows, 1, freeze columns, 2 );
-		table style columns( table[], { "Country/Region", Population, Comments }, sheet, column width, 20 );
-		table style columns( table[], [table[]::'####-##-##',0] + [table[]::'Day &',0], sheet, number format, select if ( (table[]='*Trend*'), "0.00%", "#,##0")  );
-		table style columns( table[], Population, sheet, number format, "#,##0"  );
-		table style columns( table[], [table[]::'*inh*',0], sheet, number format, "0.000"  );
-		table style columns( table[], [table[]::'CDGR per day',0] + [table[]::'Last Trend',0]+ [table[]::'Rate*,aCFR',0], sheet, number format, "0.00%"  );
+		table style table 		( table[], sheet, autofilter, 0, freeze rows, 1, freeze columns, 2 );
+		table style columns		( table[], { "Country/Region", Population, Comments }, sheet, column width, 20 );
+		table style columns		( table[], [table[]::'####-##-##',0] + [table[]::'Day &',0], sheet, number format, select if ( (table[]='*Trend*'), "0.00%", "#,##0")  );
+		table style columns		( table[], Population, sheet, number format, "#,##0"  );
+		table style columns		( table[], [table[]::'*inh*',0], sheet, number format, "0.000"  );
+		table style columns		( table[], [table[]::'CDGR per day',0] + [table[]::'Last Trend',0]+ [table[]::'Rate*,aCFR',0], sheet, number format, "0.00%"  );
 		translate style attributes for excel( table[] );
 
-		table save( table[], dir name[] + my time stamp[] + "_" + table[] + ".csv" );	
+		table save			( table[], dir name[] + my time stamp[] + "_" + table[] + ".csv" );	
 	}
 
-	table save multiple( tables[], tables[], dir name[] + my time stamp[] + "_Results.xls", EXCEL );
+	table save multiple			( tables[], tables[], dir name[] + my time stamp[] + "_Results.xls", EXCEL );
 }
 
 interactive;
