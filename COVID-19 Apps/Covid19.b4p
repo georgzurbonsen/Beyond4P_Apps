@@ -145,7 +145,6 @@ define procedure ( trend cases, {{ data, literal }} )
 	last column[] 				= table column number( new[], dates[]{-1} );
 	start column[] 				= table column number( new[], dates[]{0} ) + span[];
 
-
 	table process ( new[], for (col[] = last column[], col[] >= start column[], col[]-- )
 	{
 		if ( product( [ col[]-span[] .. col[]-span[]+days[] ] ) <> 0)
@@ -160,10 +159,8 @@ define procedure ( trend cases, {{ data, literal }} )
 
 	table process ( new[], [ 1st column[] .. start column[]-1 ] = "" );
 
-
 	table insert columns			( new[], "Last Trend" );	// Last trend is calculated if last count is at least 50, otherwise figure is not accurate
 	table process selected rows		( new[],  [data[]:last column[]] > 50 & product( [ data[]:last column[]-1 .. last column[] ] ) != 0, [Last Trend] = [data[]:last column[]] / [data[]:last column[]-1]-1 );
-
 }
 
 
@@ -204,13 +201,13 @@ define procedure ( death rates )
 	{
 		load files			( case[] );
 		table insert columns		( case[], {Population, Area, Region 1, Region 2,Aggregate,Maximum, "Per 100,000 inh.", Comments}, "", '>Country/Region' );
-		table lookup smart ignore case	( case[], "Country/Region", {Comments,Population,Area,Region 1,Region 2,Aggregate }, Population Data, "Country/Region", {"Use Country/Region",Population, Area, Region 1, Region 2,Aggregate} );
+		table lookup smart ignore case	( case[], "Country/Region", {Comments,Population,Area,Region 1,Region 2,Aggregate }, Population Data, "Search Country/Region", {"Use Country/Region",Population, Area, Region 1, Region 2,Aggregate} );
 		table process selected rows	( case[], [Region 1]=='', [{Population,Area}] = Not defined, ["Country/Region"] = [Comments]; [Comments]='' );
 		if (favor[]!=' ')
 		{
-			table delete selected rows ( case[], [Region 1]=='' );
+			table delete selected rows ( case[], ["Country/Region"] = "Missing Country" );
 		}
-	
+
 		for all parameters( {"Region 1", "Region 2"}, region[] )
 		{
 		    table copy table		( case[], duplicate + region[] ); // For regions
@@ -222,7 +219,9 @@ define procedure ( death rates )
 		table merge			( duplicate + Region 1, case[] );
 		table merge			( duplicate + Region 2, case[] );
 
-		table keep selected rows	( case[], find( [Population Data:"Use Country/Region",["Country/Region"],Favorites], favor[] ) >= 0 );
+		if (favor[]!=' ') 
+		    table keep selected rows	( case[], find( [Population Data:"Use Country/Region",["Country/Region"],Favorites], favor[] ) >= 0 );
+
 		table delete columns		( case[], {Region 1, Region 2, Aggregate} );
 
 		table sort rows			( case[], "Country/Region" );
