@@ -12,6 +12,7 @@ CH cantons[] = { AG, AI, AR,  BE, BL, BS,  FR, GE, GL,  GR, JU, LU,  NE, NW, OW,
 
 CH url  name[] = "https://raw.githubusercontent.com/openZH/covid_19/master/fallzahlen_kanton_total_csv/COVID19_Fallzahlen_Kanton_XX_total.csv"; // XX = Placeholder Kanton
 CH file name[] = "./inputs/time_series_covid19_Switzerland_XX.csv";
+US file name[] = "./inputs/US_states_daily.csv";
 
 
 // COVID 19 Analyzer
@@ -28,6 +29,10 @@ define procedure ( download covid data )
 		echo("Download country data worldwide from github (John Hopikins University)");
 		file download overwrite( "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv", "./inputs/time_series_covid19_Confirmed_global.csv" );
 		file download overwrite( "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv", "./inputs/time_series_covid19_Deaths_global.csv" );
+
+
+		echo("Load state date in USA");
+		file download overwrite( "https://raw.githubusercontent.com/COVID19Tracking/covid-tracking-data/master/data/states_daily_4pm_et.csv", US file name[] );
 
 		echo("Load canton data in Switzerland (BAG)");
 		for all parameters( CH cantons[], canton[] )
@@ -49,7 +54,7 @@ define procedure ( load files, {{ case, literal }}  )
 	table load				( case[], file[], ',' );
 
 	table delete columns			( case[], { Lat, Long } );
-	table delete selected rows		( case[], find(["Province/State"],",") >= 0  | ["Province/State"]='*Princess*'); // Keep whole countries + states, but no counties and cruise ships. for time being
+	table delete selected rows		( case[], find(["Province/State"],",") >= 0  | ["Country/Region"]='*Princess*' | ["Province/State"]='*Princess*'); // Keep whole countries + states, but no counties and cruise ships. for time being
 
 	// For countries containing details at province/state level, add aggregated data for the whole countries.
 
@@ -64,6 +69,25 @@ define procedure ( load files, {{ case, literal }}  )
 	table merge				( copy  , case[] );
 	table delete columns			( case[], "Province/State" );
 	[case[]:'>Country/Region'..,0] 		= deep( literal,  { deep( date, { [case[]:'>Country/Region'..,0] } ), "YYYY-MM-DD" } ); // Clean up date format to international format
+
+
+	// Enhance the file with U.S. states data
+
+	echo("Load daily U.S.states data");
+
+	table load		( us, US file name[], ',');
+
+	all states[] 		= 'US ' +^ +trim([us:state,..]);
+	table append		( case[], all states[] );
+
+	table process (us,
+		state[] 	= 'US '+ [state];
+
+		date column[] 	= table column number( case[], literal(date([date]),"YYYY-MM-DD") );
+		if ( date column[] >= 0 )
+		{
+		    [case[]:"Country/Region",state[],date column[]] = select if (case[]==Confirmed, [positive], [death] ); 
+		} );
 
 
 	// Enhance the file with Switzerland data

@@ -1,2 +1,0 @@
-table load( z, time_series_covid19_Switzerland_ZH.csv );
-table save( z, test.csv );
