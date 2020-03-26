@@ -44,12 +44,58 @@ define procedure ( download covid data )
 }
 
 
+define procedure ( load additional data, {{ case, literal }} )
+{
+	echo("Load daily U.S.states data");
+
+	table load		( us, US file name[], ',');
+
+	all states[] 		= 'US ' +^ +trim([us:state,..]);
+	table append		( case[], all states[] );
+
+	table process (us,
+		state[] 	= 'US '+ [state];
+
+		date column[] 	= table column number( case[], literal(date([date]),"YYYY-MM-DD") );
+		if ( date column[] >= 0 )
+		{
+		    [case[]:"Country/Region",state[],date column[]] = select by value (case[], Confirmed, [positive], Deaths, [death], Tested, [positive]+[negative], Hospitalized, [hospitalized] ); 
+		} );
+
+
+	echo("Load cantons in Switzerland");
+	for all parameters( CH cantons[], canton[] )
+	{
+	    echo("    Load canton ", canton[] );
+	    table load( ch, replace( CH file name[], XX, canton[] ), ',');
+
+	    with table( case[], table length( case[] ) )
+	    {
+		["Country/Region"] = "Switzerland " + canton[];
+		table process( ch,
+			if ( table column number( case[], [date] ) >= 0 )
+			{
+				[^[date]] = select by value (case[], Confirmed, [ncumul_conf], Deaths, [ncumul_deceased], Tested, [ncumul_tested], Hospitalized, [ncumul_hosp] );
+			} ) ;
+
+		value[] = 0;
+		for all parameters( [case[]::'####-##-##',0], date[] ) // Fill the reporting gaps
+		{
+		    if ([date[]]='') [date[]] = value[]; else: value[] = [date[]];
+		}
+	    }
+	}
+
+}
+
 
 define procedure ( load files, {{ case, literal }}  )
 {
 	forget memorized table columns;
 
-	file[] = replace( "./inputs/time_series_covid19_XXX_global.csv", XXX, case[] );
+	load blank table[]= case[]<>Confirmed,Deaths; // For all other parameters,  load 'Confirmed' table then delete all contents (waste of time, but very fast)
+
+	file[] = replace( "./inputs/time_series_covid19_XXX_global.csv", XXX, select if ( load blank table[], Confirmed, case[] ) );
 
 	table load				( case[], file[], ',' );
 
@@ -65,59 +111,16 @@ define procedure ( load files, {{ case, literal }}  )
 
 	table delete selected rows		( copy, [case[]:"Country/Region",["Country/Region"]] >= 0 ); // Delete consolidated countries if main country is already listed (e.g. Netherlands, France), but not Canada, Australia
 
-
 	table merge				( copy  , case[] );
 	table delete columns			( case[], "Province/State" );
 	[case[]:'>Country/Region'..,0] 		= deep( literal,  { deep( date, { [case[]:'>Country/Region'..,0] } ), "YYYY-MM-DD" } ); // Clean up date format to international format
 
-
-	// Enhance the file with U.S. states data
-
-	echo("Load daily U.S.states data");
-
-	table load		( us, US file name[], ',');
-
-	all states[] 		= 'US ' +^ +trim([us:state,..]);
-	table append		( case[], all states[] );
-
-	table process (us,
-		state[] 	= 'US '+ [state];
-
-		date column[] 	= table column number( case[], literal(date([date]),"YYYY-MM-DD") );
-		if ( date column[] >= 0 )
-		{
-		    [case[]:"Country/Region",state[],date column[]] = select if (case[]==Confirmed, [positive], [death] ); 
-		} );
+	if (load blank table[])			[case[]: :'####-##-##', ..] = 0;
 
 
-	// Enhance the file with Switzerland data
+	load additional data			( case[] );
 
-	echo("Load cantons in Switzerland");
-	for all parameters( CH cantons[], canton[] )
-	{
-	    echo("    Load canton ", canton[] );
-	    table load( ch, replace( CH file name[], XX, canton[] ), ',');
-
-	    with table( case[], table length( case[] ) )
-	    {
-		["Country/Region"] = "Switzerland " + canton[];
-		table process( ch,
-			if ( table column number( case[], [date] ) >= 0 )
-			{
-				[^[date]] = select if (case[]==Confirmed, [ncumul_conf], [ncumul_deceased] );
-			} ) ;
-
-		value[] = 0;
-		for all parameters( [case[]::'####-##-##',0], date[] ) // Fill the reporting gaps
-		{
-		    if ([date[]]='') [date[]] = value[]; else: value[] = [date[]];
-		}
-
-	    }
-
-	}
 //	table save ( case[], test.csv );	interactive;
-
 }
 
 
@@ -166,22 +169,6 @@ define procedure ( day 0 alignment, {{ data, literal }} )
 					[Maximum]			= max 123( series[] );
 					["Per 100,000 inh."]		= pick if ( [Population]>0, [Maximum] / [Population] * 100000, 0 );
 					[Day 1..] 			= series[]; );
-
-
-	dates[]					= [new[]::'Day *',0];
-	1st column[]				= table column number( new[], dates[]{0} );
-	last column[] 				= table column number( new[], dates[]{-1} );
-
-	table insert rows			( new[], 1, 3 );
-	[new[]:"Country/Region",1..]		= { Doubling every 2 days, Doubling every 5 days, Doubling every 10 days };
-	[new[]:"CDGR per day",1..]		= { pow(2, 0.5)-1, pow(2, 0.2)-1, pow(2, 0.1)-1 };
-	[new[]:1st column[],1..]		= { 3 : threshold[] };
-
-	table process selected rows		( new[], {1..3}, for (col[] = 1st column[]+1, col[] <= last column[], col[]++ )
-						{
-							[col[]] = [col[]-1] * (1 + [CDGR per day]);
-							if ([col[]] > 100000) break;
-						} );
 
 }
 
@@ -251,7 +238,7 @@ define procedure ( death rates )
 
 	table load excel file 			( Population Data, "Country Data.xlsx", Basedata );
 	table process 				( Population Data, [Population] = clean numeral( [Population] ) ); // Remove 1,000 separators, especially the non-ANSI character on HP systems in Switzerland
-	data sets[] 				= { Confirmed, Deaths };
+	data sets[] 				= { Tested, Hospitalized, Confirmed, Deaths };
 
 	echo("In the 'Population Data', you can specify different choice patterns using capital letters", new line, "in order to focus on countries of choice.  Enter choice:");
 	favor[]   = input quick ignore case("[space bar] = All favorites, Letter = Favorite as listed with that letter", " ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
@@ -287,7 +274,7 @@ define procedure ( death rates )
 
 		table process			( case[],
 			[Maximum]		= [-1];
-			["Per 100,000 inh."]	= pick if ( [Population]>0, [Maximum] / [Population] * 100000, 0 ) );
+			["Per 100,000 inh."]	= pick if ( [Population]>0, [Maximum] / [Population] * 100000, 0 ) ); // DL
 
 	}
 
@@ -299,7 +286,7 @@ define procedure ( death rates )
 
 	// Save the data
 
-	tables[] = { Confirmed, Confirmed Day Zero, Confirmed Trend, Recovered, Recovered Predicted, Deaths };
+	tables[] = { Tested, Confirmed, Confirmed Day Zero, Confirmed Trend, Recovered, Recovered Predicted, Hospitalized, Deaths };
 
 	my time stamp[]	= literal( date(today), "YYYY-MM-DD" );
 	dir name[]	= "./" + my time stamp[] + "_Results/";
