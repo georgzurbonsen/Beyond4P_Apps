@@ -155,7 +155,7 @@ define procedure ( day 0 alignment, {{ data, literal }} )
 {
 	forget memorized table columns;
 
-	threshold[] = 100;		// 1st day is day with minimum 100 confirmed cases
+	threshold[] = 2;		// 1st day is day with minimum 2 confirmed cases
 
 	new[] = data[] + " Day Zero";
 	table copy table columns		(  data[], new[], { "Country/Region", Population, Comments } );
