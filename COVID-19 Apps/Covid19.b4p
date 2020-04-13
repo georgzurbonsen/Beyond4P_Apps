@@ -155,7 +155,7 @@ define procedure ( day 0 alignment, {{ data, literal }} )
 {
 	forget memorized table columns;
 
-	threshold[] = 2;		// 1st day is day with minimum 2 confirmed cases
+	threshold[] = 20;		// 1st day is day with minimum 10 confirmed cases
 
 	new[] = data[] + " Day Zero";
 	table copy table columns		(  data[], new[], { "Country/Region", Population, Comments } );
@@ -210,6 +210,29 @@ define procedure ( trend cases, {{ data, literal }} )
 	table process selected rows		( new[],  [data[]:last column[]] > 50 & product( [ data[]:last column[]-1 .. last column[] ] ) != 0, [Last Trend] = [data[]:last column[]] / [data[]:last column[]-1]-1 );
 }
 
+
+define procedure ( calculate actively infected )
+{
+	table copy table			( Confirmed, Actively Infected );
+	dates[] 				= [Confirmed::'####-##-##',0];
+	[ Actively Infected: dates[], ..] 	-^^= [ Deaths: dates[], .. ] +^^ [ Recovered Predicted: dates[], .. ];
+}
+
+
+define procedure( trend cases based on active infections )
+{
+	table copy table			( Confirmed Trend, Actively Infected Trend );
+	dates[] 				= [Confirmed::'####-##-##',0] + {Last Trend};
+
+	1st column[]				= table column number( Confirmed Trend, dates[]{0} );
+	last column[] 				= table column number( Confirmed Trend, dates[]{-1} );
+
+	table process ( Actively Infected Trend, for (col[] = 1st column[], col[] <= last column[], col[]++ )
+	{
+		[col[]] *= pick if ( [Actively Infected:col[]] != 0, [Confirmed:col[]] / [Actively Infected:col[]], 0 );
+	} );
+
+}
 
 
 
@@ -309,16 +332,20 @@ define procedure ( interpolate gaps , {{ data, literal }} )
 
 	}
 
-	calculate recoveries;
 	interpolate gaps ( Confirmed );
 
+	calculate recoveries;
+	calculate actively infected;
+
 	trend cases ( Confirmed );
+	trend cases based on active infections();
+
 	day 0 alignment( Confirmed );
 	death rates;
 
 	// Save the data
 
-	tables[] = { Tested, Confirmed, Confirmed Day Zero, Confirmed Trend, Recovered, Recovered Predicted, Hospitalized, Deaths };
+	tables[] = { Tested, Confirmed, Confirmed Day Zero, Confirmed Trend, Recovered, Recovered Predicted, Hospitalized, Deaths, Actively Infected, Actively Infected Trend };
 
 	my time stamp[]	= literal( date(today), "YYYY-MM-DD" );
 	dir name[]	= "./" + my time stamp[] + "_Results/";
