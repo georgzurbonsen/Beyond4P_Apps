@@ -91,9 +91,9 @@ table delete selected rows	( imf, [GDP growth] = '.' );
 
 // The years are still listed vertically.  
 // Move them across columns by doing a simple pivot. Round the numbers for clarity
-table process			( imf, [year] = IMF Y + literal([year]); [GDP growth] = round([GDP growth], 0.1 ) ); 
-table spread 			( imf, GDP growth, [year] );
-table consolidate		( imf, country, { year, GDP growth } + [ imf : '>GDP growth'.., 0 ], { delete, delete, sum } );
+table process		( imf, [year] = IMF Y + literal([year]); [GDP growth] = round([GDP growth], 0.1 ) ); 
+table spread 		( imf, GDP growth, [year] );
+table consolidate	( imf, country, { year, GDP growth } + [ imf : '>GDP growth'.., 0 ], { delete, delete, sum } );
 
 table save( imf,       test imf 2.csv );	// Save intermediate files
 table save( worldbank, test wbk 2.csv );
@@ -103,8 +103,8 @@ table save( worldbank, test wbk 2.csv );
 
 ```text
 // Capitalize all headers and remove superscript numbers
-table process			( imf, 		[country] = ![country] - '1'-'2'-'3'-'4'-'5'-'6'-'7'-'8'-'9'-'0'-',' );
-table process			( worldbank, 	[country] = ![country] - '1'-'2'-'3'-'4'-'5'-'6'-'7'-'8'-'9'-'0'-',' );
+table process	( imf, 		[country] = ![country] - '1'-'2'-'3'-'4'-'5'-'6'-'7'-'8'-'9'-'0'-',' );
+table process	( worldbank, 	[country] = ![country] - '1'-'2'-'3'-'4'-'5'-'6'-'7'-'8'-'9'-'0'-',' );
 
 table merge extend columns	( imf, worldbank, country );
 table rename			( worldbank, combined );
@@ -130,12 +130,16 @@ for all parameters( years[both], year[] ) // Compare line by line
 		(["IMF " + year[]] <> '') & (["WBK " + year[]] <> ''), 
 			["Delta " + year[]] = ["IMF " + year[]] - ["WBK " + year[]] );
 	}
+```
 
+## Save results in spreadsheet
+```text
 echo (new line, "processing took ", watch stop()/1000, " seconds."  );
 echo ("Everything completed.  Open Result.csv" );
 
 table save			( combined, Result.csv );
 
+// End of program
 }
 
 ```
