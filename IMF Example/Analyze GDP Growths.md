@@ -1,56 +1,54 @@
 # IMF Example
 
-	This Beyond4P example downloads GDP growth reports from two different sources
-	(IMF and World Bank), converts to true Excel format (.xlsx), aligns the tables, 
-	and compares the growth figures.
+This Beyond4P example downloads GDP growth reports from two different sources (IMF and World Bank), converts to Excel format (.xlsx), cleans and aligns the tables, and compares the growth figures.
 
-	Written by Georg zur Bonsen, 21. Jan 2021
+Written by Georg zur Bonsen, 21. Jan 2021
+
+### Initialization
+* Set program path
+* Set options
+* Start stopwatch
+* Begin program code
 
 ```text
 #!/usr/local/bin/Beyond4P
 
-// Settings libraries
-runtime settings [verbose]=quiet;
-include ( Office Library );
-include ( Support Library );
-
-
+runtime settings [verbose]=quiet;  	// turn off notifications
+include ( Office Library );		// include MS Office compatibility
+include ( Support Library );		// include other support libraries
+watch start;				// start stopwatch timing
+{					// begin of program code section
 ```
 
 
 ## Define Spreadsheets
-
+Dataset variables are defined using brackets "[]"
+	
 ```text
-{
-	watch start;	// Clock the job.
-
-	// Rem: variables are defined using brackets "[]", with or without subscripts
-
-	gdp growth worldbank[] = "GDP Growth Worldbank.xlsx";
-	gdp growth imf      [] = "GDP Growth IMF.xlsx";
-
-	echo( "This small application shows how to retrieve some economical data and" );
-	echo( "and do some analysis with them.", new line );
+gdp growth worldbank[] = "GDP Growth Worldbank.xlsx";	//assign spreadsheet to variable
+gdp growth imf      [] = "GDP Growth IMF.xlsx";		//assign spreadsheet to variable
 ```
 
-## Download GDP growth data from IMF and World Bank
+## Download GDP growth data from the Worldbank and IMF and load into dataset file
 
 ```text
-	echo( "Step 1 - Download the GDP growth data from Worldbank and IMF", new line );
-
-	file download overwrite	( "http://pubdocs.worldbank.org/en/872421555426273916/Global-Economic-Prospects-June-2019-GDP-growth-data.xlsx", gdp growth worldbank[] );
-	file download overwrite	( "https://www.imf.org/external/pubs/ft/weo/data/WEOhistorical.xlsx", gdp growth imf[] );
+file download overwrite	( 
+	"http://pubdocs.worldbank.org/en/872421555426273916/Global-Economic-Prospects-June-2019-GDP-growth-data.xlsx", 
+	gdp growth worldbank[] );
+	
+file download overwrite	( 
+	"https://www.imf.org/external/pubs/ft/weo/data/WEOhistorical.xlsx", 
+	gdp growth imf[] );
 ```
 
-## Load downloaded IMF Data into Excel spreadsheet
+## Load subset of dataset file into  into Excel spreadsheets
 
 ```text
-	echo( "Step 2 - Load downloaded excel files" );
-	echo( "         Note: The IMF file is a huge one (> 7 MB compressed).  Allow a few minutes.", new line );
+echo( "Step 2 - Load downloaded excel files" );
+echo( "Note: The IMF file is a huge one (> 7 MB compressed).  Allow a few minutes.", new line );
 
-	table load excel file	( worldbank, gdp growth worldbank[], Statistical Appendix );
-	table load excel file	( imf      , gdp growth imf      [], ngdp_rpch );
-
+table load excel file	( worldbank, gdp growth worldbank[], Statistical Appendix );
+table load excel file	( imf      , gdp growth imf      [], ngdp_rpch );
 ```
 
 ## Prepare and clean Worldbank data
@@ -82,7 +80,7 @@ include ( Support Library );
 
 ```text
 	echo( "Step 4 - Precondition IMF data", new line );
-	echo( "         Cleaning up a big an messy table !!! ... ");
+	echo( "Cleaning up a big an messy table! ... ");
 
 	// Keep 1st two and the last column, forget all other.
 	table keep columns 		( imf, { country, year, -1 } ); 
@@ -117,12 +115,11 @@ include ( Support Library );
 ## Compare IMF and World Bank GDP figures
 
 ```text
-
 	echo( "Step 6 - Compare the IMF and Worldbank GDP figures", new line );
 
 	years [imf]			= [ combined ::'IMF*', 0 ] -^ 'IMF ';  // Here you see how to use member (child) variables
 	years [worldbank]		= [ combined ::'WBK*', 0 ] -^ 'WBK ';  // and parameter sets as contents
-	years [both]			= years[imf] & years[worldbank];       // Intersect 2 sets as taught in school
+	years [both]			= years[imf] & years[worldbank];       // Intersection of the two sets  (logical AND)
 
 	echo				( "Years in IMF       listing : ", years [imf]       );
 	echo				( "Years in Worldbank listing : ", years [worldbank] );
@@ -140,7 +137,6 @@ include ( Support Library );
 	echo ("Everything completed.  Open Result.csv" );
 
 	table save			( combined, Result.csv );
-
 
 }
 
