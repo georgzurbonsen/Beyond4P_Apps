@@ -27,9 +27,8 @@ define procedure ( download covid data )
 	if (input quick ignore case("Download latest data from the Web? [NY]", NY )=Y)
 	{	
 		echo("Download country data worldwide from github (John Hopikins University)");
-		file download overwrite( "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv", "./inputs/time_series_covid19_Confirmed_global.csv" );
-		file download overwrite( "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv", "./inputs/time_series_covid19_Deaths_global.csv" );
-
+		file download overwrite( "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv", "./inputs/time_series_covid19_Confirmed_global.csv" );
+		file download overwrite( "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv", "./inputs/time_series_covid19_Deaths_global.csv" );
 
 		echo("Load state date in USA");
 		file download overwrite( "https://raw.githubusercontent.com/COVID19Tracking/covid-tracking-data/master/data/states_daily_4pm_et.csv", US file name[] );
