@@ -112,8 +112,8 @@
 		vacation[] = { 01.07.2017,31.07.2017 };		// Summer vacation 	
 
 
-		ret[] = table distribute( demo table, Total Value, Batch Size, Start Date, End Date, months, calendar, '15.01.2017', '15.08.2017',Mmm,-1, Earlier, Later, holidays[], vacation[] );
-		ret[] = table distribute accumulate( demo table, Total Value, Batch Size, Start Date, End Date, months, calendar, '15.01.2017', '15.08.2017',Mmm,'#existing', Earlier, Later, holidays[], vacation[] );
+		ret[] = table distribute( demo table, Total Value, Batch Size, Start Date, End Date, months, calendar, '15.01.2017', '15.08.2017',{Mmmm,de_at},-1, Earlier, Later, holidays[], vacation[] );
+		ret[] = table distribute accumulate( demo table, Total Value, Batch Size, Start Date, End Date, months, calendar, '15.01.2017', '15.08.2017',{Mmmm,de_at},'#existing', Earlier, Later, holidays[], vacation[] );
 		// Note: For monthly intervals, output start date is moved back to 1st day and output end date to last day of month.
 		table save(demo table, working directory[]+"Table Distribute Out.csv");
 

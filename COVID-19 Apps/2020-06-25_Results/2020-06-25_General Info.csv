@@ -1,0 +1,369 @@
+﻿Country/Region;Population;Area;Comments;Map Chart Country/Region;First Case;Lockdown Start;Testing Start;US Electors;US Electors per 1M inh;US Voting Power NY=100
+0 America;1024681894;38409125;;Americas;;;;;;
+00 N. America;372107035;18250571;;North America;;;;;;
+01 M. America;179670200;2452270;;Middle America;;;;;;
+03 Caribbean;40771890;217122;;Caribbean;;;;;;
+04 S. America;432132769;17489162;;South America;;;;;;
+1 Europe;611702015;21312232.3170000017;;Europe;;;;;;
+11 N. Europe;21451759;1181143;;North Europe;;;;;;
+12 W. Europe;136029709;606885;;West Europe;;;;;;
+13 S. Europe;129670199;1023531.4399999999;;South Europe;;;;;;
+14 E. Europe;324550348;18500672.8770000003;;East Europe;;;;;;
+2 Asia Pacific;4256476723;31975201;;Asia Pacific Rim;;;;;;
+21 C. Asia;85399337;3637478;;Central Asia;;;;;;
+22 India Region;1817448317;4118717;;India Region;;;;;;
+23 China;1439323776;9388211;;China (incl HK, MO);;;;;;
+24 N.E. Asia;177745646;461785;;North-East Asia;;;;;;
+25 S.E. Asia;704661929;6382530;;South-East Asia;;;;;;
+26 AU / NZ;30322117;7945610;;Australia and New Zealand;;;;;;
+27 Pacific Ocean;1575601;40870;;Pacific Ocean;;;;;;
+3 ME/Africa;1715226785;34591101;;Middle East and Africa;;;;;;
+31 MENA;586642361;12901000;;Middle EAst and North Africa;;;;;;
+32 SSa Africa;1128584424;21690101;;Sub-Saharan Africa;;;;;;
+Afghanistan;38928346;652860;;Afghanistan;;;;;;
+Albania;2877797;27400;;Albania;;;;;;
+Algeria;43851044;2381740;;Algeria;;;;;;
+American Samoa;55191;200;;American Samoa;;;;;;
+Andorra;77265;470;;Andorra;;;;;;
+Angola;32866272;1246700;;Angola;;;;;;
+Anguilla;15003;90;;Anguilla;;;;;;
+Antigua and Barbuda;97929;440;;Antigua and Barbuda;;;;;;
+Argentina;45195774;2736690;;Argentina;;;;;;
+Armenia;2963243;28470;;Armenia;;;;;;
+Australia;25499884;7682300;;Australia;;;;;;
+Australia Australian Capital Territory;426709;2358;;Australian Capital Territory;;;;;;
+Australia New South Wales;8089526;809952;;New South Wales;;;;;;
+Australia Northern Territory;245869;1419630;;Northern Territory;;;;;;
+Australia Queensland;5095100;1851736;;Queensland;;;;;;
+Australia South Australia;1751693;1044353;;South Australia;;;;;;
+Australia Tasmania;534281;90758;;Tasmania;;;;;;
+Australia Victoria;6594804;237657;;Victoria;;;;;;
+Australia Western Australia;2621680;2642753;;Western Australia;;;;;;
+Austria;9006398;82409;;Austria;;;;;;
+Azerbaijan;10139177;82658;;Azerbaijan;;;;;;
+Bahamas;393244;10010;;Bahamas;;;;;;
+Bahrain;1701575;760;;Bahrain;;;;;;
+Bangladesh;164689383;130170;;Bangladesh;;;;;;
+Barbados;287375;430;;Barbados;;;;;;
+Belarus;9449323;202910;;Belarus;;;;;;
+Belgium;11589623;30280;;Belgium;;;;;;
+Belize;397628;22810;;Belize;;;;;;
+Benin;12123200;112760;;Benin;;;;;;
+Bermuda;62278;50;;Bermuda;;;;;;
+Bhutan;771608;38117;;Bhutan;;;;;;
+Bolivia;11673021;1083300;;Bolivia;;;;;;
+Bosnia and Herzegovina;3280819;51000;;Bosnia and Herzegovina;;;;;;
+Botswana;2351627;566730;;Botswana;;;;;;
+Brazil;212559417;8358140;;Brazil;;;;;;
+Brunei;437479;5270;;Brunei;;;;;;
+Bulgaria;6948445;108560;;Bulgaria;;;;;;
+Burkina Faso;20903273;273600;;Burkina Faso;;;;;;
+Burundi;11890784;25680;;Burundi;;;;;;
+Cambodia;16718965;176520;;Cambodia;;;;;;
+Cameroon;26545863;472710;;Cameroon;;;;;;
+Canada;37742154;9093510;;Canada;;;;;;
+Canada Alberta;4067175;640330.46;;Alberta;;;;;;
+Canada British Columbia;4648055;922503.01;;British Columbia;;;;;;
+Canada Manitoba;1278365;552370.99;;Manitoba;;;;;;
+Canada New Brunswick;747101;71388.81;;New Brunswick;;;;;;
+Canada Newfoundland and Labrador;519716;370514.08;;Newfoundland and Labrador;;;;;;
+Canada Northwest Territories;41786;1143793.8600000001;;Northwest Territories;;;;;;
+Canada Nova Scotia;923598;52942.27;;Nova Scotia;;;;;;
+Canada Ontario;13448494;908699.33;;Ontario;;;;;;
+Canada Prince Edward Island;142907;5686.03;;Prince Edward Island;;;;;;
+Canada Quebec;8164361;1356625.27;;Quebec;;;;;;
+Canada Saskatchewan;1098352;588243.54;;Saskatchewan;;;;;;
+Canada Yukon;35874;474712.68;;Yukon;;;;;;
+Cape Verde;555987;4030;;Cape Verde;;;;;Double entry in imported data for 2 language variants;
+Central African Republic;4829767;622980;;Central African Republic;;;;;;
+Chad;16425864;1259200;;Chad;;;;;;
+Channel Islands;173863;190;;Channel Islands;;;;;;
+Chile;19116201;743532;;Chile;;;;;;
+China;1439323776;9388211;;China;;2020-01-23;;;;
+China Anhui;59500510;139700;;Anhui;;2020-01-23;;;;
+China Beijing;19612368;16800;;Beijing;;2020-01-23;;;;
+China Chongqing;28846170;82300;;Chongqing;;2020-01-23;;;;
+China Fujian;36894216;121580;;Fujian;;2020-01-23;;;;
+China Gansu;25575254;454300;;Gansu;;2020-01-23;;;;
+China Guangdong;104303132;180000;;Guangdong;;2020-01-23;;;;
+China Guangxi;46026629;236000;;Guangxi;;2020-01-23;;;;
+China Guizhou;34746468;176000;;Guizhou;;2020-01-23;;;;
+China Hainan;9171300;34000;;Hainan;;2020-01-23;;;;
+China Hebei;71854202;187700;;Hebei;;2020-01-23;;;;
+China Heilongjiang;38312224;454000;;Heilongjiang;;2020-01-23;;;;
+China Henan;94023567;167000;;Henan;;2020-01-23;;;;
+China Hong Kong;7061200;1108;;Hong Kong;;2020-01-23;;;;
+China Hubei;57237740;185900;;Hubei;;2020-01-23;;;;
+China Hunan;65683722;210000;;Hunan;;2020-01-23;;;;
+China Inner Mongolia;24706321;1183000;;Inner Mongolia;;2020-01-23;;;;
+China Jiangsu;78659903;102600;;Jiangsu;;2020-01-23;;;;
+China Jiangxi;44567475;167000;;Jiangxi;;2020-01-23;;;;
+China Jilin;27462297;187400;;Jilin;;2020-01-23;;;;
+China Liaoning;43746323;145900;;Liaoning;;2020-01-23;;;;
+China Macau;552300;29;;Macau;;2020-01-23;;;;
+China Ningxia;6301350;66400;;Ningxia;;2020-01-23;;;;
+China Qinghai;5626722;721200;;Qinghai;;2020-01-23;;;;
+China Shaanxi;37327378;205600;;Shaanxi;;2020-01-23;;;;
+China Shandong;95793065;153800;;Shandong;;2020-01-23;;;;
+China Shanghai;23019148;6341;;Shanghai;;2020-01-23;;;;
+China Shanxi;35712111;156300;;Shanxi;;2020-01-23;;;;
+China Sichuan;80418200;485000;;Sichuan;;2020-01-23;;;;
+China Tianjin;12938224;11305;;Tianjin;;2020-01-23;;;;
+China Tibet;3002166;1228400;;Tibet;;2020-01-23;;;;
+China Xinjiang;21813334;1660400;;Xinjiang;;2020-01-23;;;;
+China Yunnan;45966239;394000;;Yunnan;;2020-01-23;;;;
+China Zhejiang;54426891;102000;;Zhejiang;;2020-01-23;;;;
+Colombia;50882891;1109500;;Colombia;;;;;;
+Comoros;869601;1861;;Comoros;;;;;;
+Congo (Brazzaville);5518087;341500;;Congo (Brazzaville);;;;;;
+Congo (Kinshasa);81340000;341500;;Congo (Kinshasa);;;;;;
+Costa Rica;5094118;51060;;Costa Rica;;;;;;
+Croatia;4105267;55960;;Croatia;;;;;;
+Cuba;11326616;106440;;Cuba;;;;;;
+Cyprus;1207359;9240;;Cyprus;;;;;;
+Czechia;10708981;77240;;Czechia;;;;;;
+Denmark;5792202;42430;;Denmark;;;;;;
+Denmark Faroe Islands;49290;1395;;Faroe Islands;;;;;;
+Djibouti;988000;23180;;Djibouti;;;;;;
+Dominica;71986;750;;Dominica;;;;;;
+Dominican Republic;10847910;48320;;Dominican Republic;;;;;;
+East Timor;1318445;14870;;East Timor;;;;;;
+Ecuador;17643054;248360;;Ecuador;;;;;;
+Egypt;102334404;995450;;Egypt;;;;;;
+El Salvador;6486205;20720;;El Salvador;;;;;;
+Equatorial Guinea;1402985;28050;;Equatorial Guinea;;;;;;
+Eritrea;3546421;101000;;Eritrea;;;;;;
+Estonia;1326535;42390;;Estonia;;;;;;
+Ethiopia;114963588;1000000;;Ethiopia;;;;;;
+Falkland Islands;3480;12170;;Falkland Islands;;;;;;
+Fiji;896445;18270;;Fiji;;;;;;
+Finland;5540720;303890;;Finland;;;;;;
+France;65273511;547557;;France;;;;;;
+France Martinique;375265;1060;;France Martinique;;;;;;
+France Mayotte;272815;375;;Mayotte;;;;;;
+France Reunion;895312;2500;;Reunion;;;;;;
+France Saint Barthelemy;9877;21;;Saint Barthelemy;;;;;;
+France Saint Martin;38666;53;;Saint Martin;;;;;;
+France Saint Pierre & Miquelon;5794;230;;Saint Pierre & Miquelon;;;;;;
+French Guiana;268700;82200;;French Guiana;;;;;;
+French Polynesia;280908;3660;;French Polynesia;;;;;;
+Gabon;2225734;257670;;Gabon;;;;;;
+Gambia;2416668;10120;;Gambia;;;;;;
+Georgia;3989167;69490;;Georgia;;;;;;
+Germany;83783942;348560;;Germany;;;;;;
+Ghana;31072940;227540;;Ghana;;;;;;
+Gibraltar;33691;10;;Gibraltar;;;;;;
+Greece;10423054;128900;;Greece;;;;;;
+Greenland;56770;2166086;;Greenland;;;;;;
+Grenada;112523;340;;Grenada;;;;;;
+Guadeloupe;390253;1690;;Guadeloupe;;;;;;
+Guatemala;17915568;107160;;Guatemala;;;;;;
+Guinea;13132795;245720;;Guinea;;;;;;
+Guinea-Bissau;1968001;28120;;Guinea-Bissau;;;;;;
+Guyana;786552;196850;;Guyana;;;;;;
+Haiti;11402528;27560;;Haiti;;;;;;
+Honduras;9904607;111890;;Honduras;;;;;;
+Hungary;9660351;90530;;Hungary;;;;;;
+Iceland;341243;100250;;Iceland;;;;;;
+India;1380004385;2973190;;India;;;;;;
+Indonesia;273523615;1811570;;Indonesia;;;;;;
+Iran;83992949;1628550;;Iran;;;;;;
+Iraq;40222493;434320;;Iraq;;;;;;
+Ireland;4937786;68890;;Ireland;;;;;;
+Israel;8655535;21640;;Israel;;;;;;
+Italy;60461826;294140;;Italy;;;;;;
+Ivory Coast;26378274;318000;;Ivory Coast;;;;;;
+Jamaica;2961167;10830;;Jamaica;;;;;;
+Japan;126476461;364555;;Japan;;;;;;
+Jordan;10203134;88780;;Jordan;;;;;;
+Kazakhstan;18776707;2699700;;Kazakhstan;;;;;;
+Kenya;53771296;569140;;Kenya;;;;;;
+Korea, South;51269185;97230;;Korea, South;;;;;;
+Kosovo;1810463;10.877;;Kosovo;;;;;;
+Kuwait;4270571;17820;;Kuwait;;;;;;
+Kyrgyzstan;6524195;191800;;Kyrgyzstan;;;;;;
+Laos;7275560;230800;;Laos;;;;;;
+Latvia;1886198;62200;;Latvia;;;;;;
+Lebanon;6825445;10230;;Lebanon;;;;;;
+Lesotho;2142249;30360;;Lesotho;;;;;;
+Liberia;5057681;96320;;Liberia;;;;;;
+Libya;6871292;1759540;;Libya;;;;;;
+Liechtenstein;38128;160;;Liechtenstein;;;;;;
+Lithuania;2722289;62674;;Lithuania;;;;;;
+Luxembourg;625978;2590;;Luxembourg;;;;;;
+MS Zaandam;Not defined;Not defined;Missing Country;;;;;;;
+Madagascar;27691018;581795;;Madagascar;;;;;;
+Malawi;19129952;94280;;Malawi;;;;;;
+Malaysia;32365999;328550;;Malaysia;;;;;;
+Maldives;540544;300;;Maldives;;;;;;
+Mali;20250833;1220190;;Mali;;;;;;
+Malta;441543;320;;Malta;;;;;;
+Mauritania;4649658;1030700;;Mauritania;;;;;;
+Mauritius;1271768;2030;;Mauritius;;;;;;
+Mexico;128932753;1943950;;Mexico;;;;;;
+Moldova;4033963;32850;;Moldova;;;;;;
+Monaco;39242;1;;Monaco;;;;;;
+Mongolia;3278290;1553560;;Mongolia;;;;;;
+Montenegro;628066;13450;;Montenegro;;;;;;
+Morocco;36910560;446300;;Morocco;;;;;;
+Mozambique;31255435;786380;;Mozambique;;;;;;
+Myanmar;54409800;653290;;Myanmar;;;;;;
+Namibia;2540905;823290;;Namibia;;;;;;
+Nepal;29136808;143350;;Nepal;;;;;;
+Netherlands;17134872;33720;;Netherlands;;;;;;
+Netherlands Aruba;106766;180;;Netherlands Aruba;;;;;;
+Netherlands Curacao;164093;444;;Curacao;;;;;;
+New Caledonia;285498;18280;;New Caledonia;;;;;;
+New Zealand;4822233;263310;;New Zealand;;;;;;
+Nicaragua;6624554;120340;;Nicaragua;;;;;;
+Niger;24206644;1266700;;Niger;;;;;;
+Nigeria;206139589;910770;;Nigeria;;;;;;
+North Macedonia;2083374;25220;;North Macedonia;;;;;;
+Northern Mariana Islands;57559;460;;Northern Mariana Islands;;;;;;
+Norway;5421241;365268;;Norway;;;;;;
+Oman;5106626;309500;;Oman;;;;;;
+Pakistan;220892340;770880;;Pakistan;;;;;;
+Palestinian Territory;5101414;6020;;Palestinian Territory;;;;;;
+Panama;4314767;74340;;Panama;;;;;;
+Papua New Guinea;8947024;452860;;Papua New Guinea;;;;;;
+Paraguay;7132538;397300;;Paraguay;;;;;;
+Peru;32971854;1280000;;Peru;;;;;;
+Philippines;109581078;298170;;Philippines;;;;;;
+Poland;37846611;306230;;Poland;;;;;;
+Portugal;10196709;91590;;Portugal;;;;;;
+Qatar;2881053;11610;;Qatar;;;;;;
+Romania;19237691;230170;;Romania;;;;;;
+Russia;145934462;16376870;;Russia;;;;;;
+Rwanda;12952218;24670;;Rwanda;;;;;;
+Saint Kitts & Nevis;53199;260;;Saint Kitts & Nevis;;;;;;
+Saint Lucia;183627;610;;Saint Lucia;;;;;;
+Saint Vincent and the Grenadines;110940;390;;Saint Vincent and the Grenadines;;;;;;
+San Marino;33931;60;;San Marino;;;;;;
+Sao Tome & Principe;219159;960;;Sao Tome & Principe;;;;;;
+Saudi Arabia;34813871;2149690;;Saudi Arabia;;;;;;
+Senegal;16743927;192530;;Senegal;;;;;;
+Serbia;8737371;87460;;Serbia;;;;;;
+Seychelles;98347;460;;Seychelles;;;;;;
+Sierra Leone;7976983;72180;;Sierra Leone;;;;;;
+Singapore;5850342;700;;Singapore;;;;;;
+Sint Maarten;42876;34;;Sint Maarten;;;;;;
+Slovakia;5459642;48088;;Slovakia;;;;;;
+Slovenia;2078938;20140;;Slovenia;;;;;;
+Somalia;15893222;627340;;Somalia;;;;;;
+South Africa;59308690;1213090;;South Africa;;;;;;
+South Sudan;11193725;610952;;South Sudan;;;;;;
+Spain;46754778;498800;;Spain;;;;;;
+Sri Lanka;21413249;62710;;Sri Lanka;;;;;;
+Sudan;43849260;1765048;;Sudan;;;;;;
+Suriname;586632;156000;;Suriname;;;;;;
+Swaziland;1160164;17200;;Swaziland;;;;;Double Entries;
+Sweden;10099265;410340;;Sweden;;;;;;
+Switzerland;8654622;39516;;Switzerland;;;;;;
+Switzerland Appenzell Inner Rhodes;16145;173;;Appenzell Inner Rhodes;;;;;;
+Switzerland Appenzell Outer Rhodes;55234;243;;Appenzell Outer Rhodes;;;;;;
+Switzerland Argovia;677387;1404;;Argovia;;;;;;
+Switzerland Basel City;194766;37;;Basel City;;;;;;
+Switzerland Basel Country;288132;518;;Basel Country;;;;;;
+Switzerland Berne;1034977;5959;;Berne;;;;;;
+Switzerland Friborg;318714;1671;;Friborg;;;;;;
+Switzerland Geneva;499480;1771;;Geneva;;;;;;
+Switzerland Glarus;40403;685;;Glarus;;;;;;
+Switzerland Grisons;198379;7105;;Grisons;;;;;;
+Switzerland Jura;73419;88;;Jura;;;;;;
+Switzerland Lucerne;409557;1493;;Lucerne;;;;;;
+Switzerland Neuchâtel;176850;220;;Neuchâtel;;;;;;
+Switzerland Nidwalden;43223;276;;Nidwalden;;;;;;
+Switzerland Obwalden;37841;491;;Obwalden;;;;;;
+Switzerland Schaffhausen;81991;298;;Schaffhausen;;;;;;
+Switzerland Schwyz;159165;908;;Schwyz;;;;;;
+Switzerland Solothurn;273194;791;;Solothurn;;;;;;
+Switzerland St. Gallen;507697;2026;;St. Gallen;;;;;;
+Switzerland Thurgovia;276472;991;;Thurgovia;;;;;;
+Switzerland Ticino;353343;2812;;Ticino;;;;;;
+Switzerland Uri;36433;1077;;Uri;;;;;;
+Switzerland Valais;343955;5224;;Valais;;;;;;
+Switzerland Vaud;799145;3212;;Vaud;;;;;;
+Switzerland Zug;126837;239;;Zug;;;;;;
+Switzerland Zurich;1520968;1729;;Zurich;;;;;;
+Syria;17500658;183630;;Syria;;;;;;
+Taiwan;23816775;35410;;Taiwan;;;;;;
+Tajikistan;9537645;139960;;Tajikistan;;;;;;
+Tanzania;59734218;885800;;Tanzania;;;;;;
+Thailand;69799978;510890;;Thailand;;;;;;
+Togo;8278724;54390;;Togo;;;;;;
+Trinidad and Tobago;1399488;5130;;Trinidad and Tobago;;;;;;
+Tunisia;11818619;155360;;Tunisia;;;;;;
+Turkey;84339067;769630;;Turkey;;;;;;
+Turks and Caicos;38717;950;;Turks and Caicos;;;;;;
+US;331002651;9147420;;US;;;;;;
+US Alabama;4903185;131171;;Alabama;;;;9;1.8355415918;123.1304149136
+US Alaska;731545;1477953;;Alaska;;;;3;4.1009097185;275.0941288407
+US Arizona;7278717;294207;;Arizona;;;;11;1.511255349;101.3768900623
+US Arkansas;3017804;134771;;Arkansas;;;;6;1.9882006916;133.3709773615
+US California;39512223;403466;;California;;;;55;1.3919743265;93.3753705915
+US Colorado;5758736;268431;;Colorado;;;;9;1.5628429572;104.8374510393
+US Connecticut;3565287;12542;;Connecticut;;;;7;1.9633763004;131.7057262972
+US Delaware;973764;5047;;Delaware;;;;3;3.0808286197;206.6658189076
+US District of Columbia;705749;158;;District of Columbia;;;;3;4.2508030475;285.149159946
+US Florida;21477737;138887;;Florida;;;;29;1.3502353623;90.5754689146
+US Georgia;10617423;148959;;Georgia;;;;16;1.5069570083;101.0885520188
+US Guam;162742;543;;Guam;;;;0;0;0
+US Hawaii;1415872;16635;;Hawaii;;;;4;2.8251141346;189.5121729297
+US Idaho;1787065;214045;;Idaho;;;;4;2.2383069446;150.1484161518
+US Illinois;12671821;143793;;Illinois;;;;20;1.5783051228;105.8746723578
+US Indiana;6732219;92789;;Indiana;;;;11;1.6339337743;109.606311545
+US Iowa;3155070;144669;;Iowa;;;;6;1.9017010716;127.5684751735
+US Kansas;2913314;211754;;Kansas;;;;6;2.0595102347;138.1545102813
+US Kentucky;4467673;102269;;Kentucky;;;;8;1.7906413473;120.1184506164
+US Louisiana;4648794;111898;;Louisiana;;;;8;1.7208764252;115.4385327938
+US Maine;1344212;79883;;Maine;;;;4;2.9757210916;199.6150750851
+US Maryland;6045680;25142;;Maryland;;;;10;1.6540736526;110.9573196524
+US Massachusetts;6892503;20202;;Massachusetts;;;;11;1.5959369187;107.0574351732
+US Michigan;9986857;146435;;Michigan;;;;16;1.6021056475;107.4712411764
+US Minnesota;5639632;206232;;Minnesota;;;;10;1.7731653413;118.9461383785
+US Mississippi;2976149;121531;;Mississippi;;;;6;2.0160280954;135.2376742446
+US Missouri;6137428;178040;;Missouri;;;;10;1.6293470164;109.2986261144
+US Montana;1068778;376962;;Montana;;;;3;2.8069440052;188.2932980308
+US Nebraska;1934408;198974;;Nebraska;;;;5;2.5847701209;173.3895973021
+US Nevada;3080156;284332;;Nevada;;;;6;1.9479532855;130.6711312562
+US New Hampshire;1359711;23187;;New Hampshire;;;;4;2.9418016034;197.3397135938
+US New Jersey;8882190;19047;;New Jersey;;;;14;1.5761878546;105.7326433668
+US New Mexico;2096829;314161;;New Mexico;;;;5;2.3845530561;159.9587873584
+US New York;19453561;122057;;New York;;;;29;1.4907296407;100
+US North Carolina;10488084;125920;;North Carolina;;;;15;1.430194495;95.9392270708
+US North Dakota;762062;178711;;North Dakota;;;;3;3.9366875661;264.0779024315
+US Ohio;11689100;105829;;Ohio;;;;18;1.5398961426;103.2981501481
+US Oklahoma;3956971;177660;;Oklahoma;;;;7;1.7690298969;118.6687276184
+US Oregon;4217737;248608;;Oregon;;;;7;1.6596577738;111.331909456
+US Pennsylvania;12801989;115883;;Pennsylvania;;;;20;1.5622572399;104.7981603915
+US Puerto Rico;3193694;8868;;Puerto Rico;;;;0;0;0
+US Rhode Island;1059361;2678;;Rhode Island;;;;4;3.7758611087;253.2894634693
+US South Carolina;5148714;77857;;South Carolina;;;;9;1.7480093087;117.2586404
+US South Dakota;884659;196350;;South Dakota;;;;3;3.39113715;227.4817014044
+US Tennessee;6829174;106798;;Tennessee;;;;11;1.6107365254;108.050211212
+US Texas;28995881;676587;;Texas;;;;38;1.3105309682;87.9120487302
+US Utah;3205958;212818;;Utah;;;;6;1.8715154721;125.5435875846
+US Vermont;623989;23871;;Vermont;;;;3;4.8077770602;322.5116700499
+US Virgin Islands;104425;350;;Virgin Islands;;;;0;0;0
+US Virgin Islands;104425;350;;Virgin Islands;;;;0;0;0
+US Virginia;8535519;102279;;Virginia;;;;13;1.5230473976;102.1679153615
+US Washington;7614893;172119;;Washington;;;;12;1.5758593062;105.7106039351
+US West Virginia;1792147;62259;;West Virginia;;;;5;2.7899497084;187.1532994436
+US Wisconsin;5822434;140268;;Wisconsin;;;;10;1.7174947797;115.2116878055
+US Wyoming;578759;251470;;Wyoming;;;;3;5.1835047058;347.7159482319
+Uganda;45741007;199810;;Uganda;;;;;;
+Ukraine;43733762;579320;;Ukraine;;;;;;
+United Arab Emirates;9890402;83600;;United Arab Emirates;;;;;;
+United Kingdom;67886011;241930;;United Kingdom;;;;;;
+United Kingdom Cayman Islands;65722;240;;United Kingdom Cayman Islands;;;;;;
+United Kingdom Isle of Man;84497;570;;Isle of Man;;;;;;
+United Kingdom Montserrat;4992;100;;Montserrat;;;;;;
+Uruguay;3473730;175020;;Uruguay;;;;;;
+Uzbekistan;33469203;425400;;Uzbekistan;;;;;;
+Vatican;801;0.44;;Vatican;;;;;;
+Venezuela;28435940;882050;;Venezuela;;;;;;
+Vietnam;97338579;310070;;Vietnam;;;;;;
+Western Sahara;597339;266000;;Western Sahara;;;;;;
+Yemen;29825964;527970;;Yemen;;;;;;
+Zambia;18383955;743390;;Zambia;;;;;;
+Zimbabwe;14862924;386850;;Zimbabwe;;;;;;
