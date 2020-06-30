@@ -1,6 +1,6 @@
 # IMF Example
 
-This Beyond4P example downloads GDP growth reports from two different sources (IMF and World Bank), converts to Excel format (.xlsx), cleans and aligns the tables, and compares the growth figures.
+This Beyond4P example downloads GDP growth data reports from two different sources (IMF and World Bank), converts to Excel format (.xlsx), cleans and aligns the tables, and compares the growth figures.
 
 Written by Georg zur Bonsen, 21. Jan 2021
 
