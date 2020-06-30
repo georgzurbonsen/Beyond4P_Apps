@@ -1,10 +1,14 @@
 # IMF Example
 
-This Beyond4P example downloads GDP growth reports from two different sources (IMF and World Bank), converts to true Excel format (.xlsx), aligns the tables, and compares the growth figures.
+This Beyond4P example downloads GDP growth reports from two different sources (IMF and World Bank), converts to Excel format (.xlsx), cleans and aligns the tables, and compares the growth figures.
 
 Written by Georg zur Bonsen, 21. Jan 2021
 
-### Set path and settings files; start stopwatch; begin program code
+### Initialization
+* Set program path
+* Set options
+* Start stopwatch
+* Begin program code
 
 ```text
 #!/usr/local/bin/Beyond4P
@@ -14,26 +18,20 @@ include ( Office Library );		// include MS Office compatibility
 include ( Support Library );		// include other support libraries
 watch start;				// start stopwatch timing
 {					// begin of program code section
-echo( "This application demonstrates how to retrieve and analyze economics data from different online sources.", new line );
-
 ```
 
 
 ## Define Spreadsheets
-
-Note: Variables are defined using brackets "[]", with or without subscripts
+Dataset variables are defined using brackets "[]"
 	
 ```text
 gdp growth worldbank[] = "GDP Growth Worldbank.xlsx";	//assign spreadsheet to variable
 gdp growth imf      [] = "GDP Growth IMF.xlsx";		//assign spreadsheet to variable
 ```
 
-## Download GDP growth data and load into Worldbank and IMF data objects
+## Download GDP growth data from the Worldbank and IMF and load into dataset file
 
 ```text
-
-echo( "Step 1 - Download the GDP growth data from Worldbank and IMF", new line );
-
 file download overwrite	( 
 	"http://pubdocs.worldbank.org/en/872421555426273916/Global-Economic-Prospects-June-2019-GDP-growth-data.xlsx", 
 	gdp growth worldbank[] );
@@ -43,7 +41,7 @@ file download overwrite	(
 	gdp growth imf[] );
 ```
 
-## Load subset of spreadsheet files into  into Excel spreadsheets
+## Load subset of dataset file into  into Excel spreadsheets
 
 ```text
 echo( "Step 2 - Load downloaded excel files" );
