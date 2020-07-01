@@ -73,7 +73,7 @@ table load excel file	( imf      , gdp growth imf      [], ngdp_rpch );
 
 ## Prepare and clean up the Worldbank data
 
-The sheet loaded looks like this one (but without the formatting)
+The sheet loaded looks like this one:
 
 ![Worldbank Table](images/Worldbank_Table.jpg)
 
@@ -118,16 +118,30 @@ At this moment, the worldbank data looks like this:
 ![Worldbank Table](images/Worldbank_Preprocessed.jpg)
 
 
-
 ## Prepare and clean IMF Data
+
+The sheet loaded looks like this one:
+
+![IMF Table](images/IMF_Table.jpg)
+
+* As a first step, let's delete all columns except the first the columns labeled 'country', 'year' and the last one. Beyond4P supports negative indexing on columns (also supported on variable array index values, etc.).
+* Rename the last column header to 'GDP growth'.
+* Delete all rows where the contents below the header 'GDP growth' contain points (and not numeric data).
 
 ```text
 // Keep 1st two and the last column, forget all other.
 table keep columns 		( imf, { country, year, -1 } ); 
-	
 table rename column headers	( imf, -1, GDP growth );
 table delete selected rows	( imf, [GDP growth] = '.' );
 
+```
+In contrast to the Worldbank table which lists years in the columns and country names in the row, the IMF table lists both
+year, country names and data in a simple table consisting of 3 columns.  Lets pivot this table so it contains 1 row per
+country name and the years distributed horizontally as additional headers.
+
+![IMF Table](images/IMF_Intermediate.jpg)
+
+```text
 // The years are still listed vertically.  
 // Move them across columns by doing a simple pivot. Round the numbers for clarity
 table process		( imf, [year] = IMF Y + literal([year]); [GDP growth] = round([GDP growth], 0.1 ) ); 
