@@ -73,7 +73,7 @@ table load excel file	( imf      , gdp growth imf      [], ngdp_rpch );
 
 ## Prepare and clean up the Worldbank data
 
-The sheet loaded looks like this one (but without the formatting)
+The sheet loaded looks like this one:
 
 ![Worldbank Table](images/Worldbank_Table.jpg)
 
@@ -98,11 +98,14 @@ table delete selected rows	( worldbank, [country] == '', 2 );
 	
 // Delete the 'e' and 'f' behind the years which were used to indicated them as 'expected' or 'forecasted' figures.
 for all table selected columns	( worldbank, ('20*'), 0, col nr[] )
-	{
+    {
 	[ col nr[] ] = WBK Y + literal([ col nr[] ]) - e - f; 
 	// Example: 'WBK Y2016', with suffix 'e' or 'f' stripped of if existing.
 	// Note: Since table context (table name and row number) are known, only column needs to be specified.
-	}
+    }
+
+table save( worldbank, test wbk 2.csv );	// Save intermediate file
+
 ```
 
 The loop **for all table selected columns** is a smart one which loops through all headers beginning with '20' which are years.
@@ -118,39 +121,92 @@ At this moment, the worldbank data looks like this:
 ![Worldbank Table](images/Worldbank_Preprocessed.jpg)
 
 
-
 ## Prepare and clean IMF Data
+
+The sheet loaded looks like this one:
+
+![IMF Table](images/IMF_Table.jpg)
+
+* As a first step, let's delete all columns except the first the columns labeled 'country', 'year' and the last one. Beyond4P supports negative indexing on columns (also supported on variable array index values, etc.).
+* Rename the last column header to 'GDP growth'.
+* Delete all rows where the contents below the header 'GDP growth' contain points (and not numeric data).
 
 ```text
 // Keep 1st two and the last column, forget all other.
 table keep columns 		( imf, { country, year, -1 } ); 
-	
 table rename column headers	( imf, -1, GDP growth );
 table delete selected rows	( imf, [GDP growth] = '.' );
 
+```
+In contrast to the Worldbank table which lists years in the columns and country names in the row, the IMF table lists both
+year, country names and data in a simple table consisting of 3 columns.  Lets pivot this table so it contains 1 row per
+country name and the years distributed horizontally as additional headers.
+
+![IMF Table](images/IMF_Intermediate.jpg)
+
+Before starting with the pivot, let's convert years to 'IMF Y2019', 'IMF Y2020', etc. so the formulation is similar as
+for the worldbank done before, like 'WBK Y2019'.  Also round the GDP growth numbers to steps of 0.1 so they look a bit nicer.
+
+The pivot from vertical to horizontal consists of just 2 Beyond4P statements:
+* Spread the GDP growth data across years horizontally.  For every different year, a new column with the year will be added.  As of now, the number of rows is still the same.
+* Consolidate the table to 1 row per country.  During the consolidateion process, delete the columns 'year' and 'GDP growth' on the left, and sum up the values beyond the column 'GDP growth' which are the tabulated years.
+
+
+```text
 // The years are still listed vertically.  
 // Move them across columns by doing a simple pivot. Round the numbers for clarity
 table process		( imf, [year] = IMF Y + literal([year]); [GDP growth] = round([GDP growth], 0.1 ) ); 
 table spread 		( imf, GDP growth, [year] );
 table consolidate	( imf, country, { year, GDP growth } + [ imf : '>GDP growth'.., 0 ], { delete, delete, sum } );
 
-table save( imf,       test imf 2.csv );	// Save intermediate files
-table save( worldbank, test wbk 2.csv );
+table save( imf,       test imf 2.csv );	// Save intermediate file
+
 ```
 
-## Merge and align IMF and World Bank data into single table
+The IMF table looks as illustrated below:
+
+![IMF Table](images/IMF_Preprocessed.jpg)
+
+## Clean up country names
+
+Some country names have left-overs digits and commas at the end because the original files contained
+references to footnotes which are just distracting.  The 'table process' procedures take two parameters:
+The 1st one is the table name, the 2nd one contains 1 or more statements.  The statements specified here are
+called up for every table row.  Only the column names or column numbers need to be specified to reference
+cells in the current table and row, e.g. the 'country' column. 
+
+The embedded statemetns are assignments.  First take the value from the column 'country', capitalize it with the
+unary exclamation operator (!), then _subtract_ all redundant digits and commas and finally write the
+string back into the country column.
 
 ```text
 // Capitalize all headers and remove superscript numbers
 table process	( imf, 		[country] = ![country] - '1'-'2'-'3'-'4'-'5'-'6'-'7'-'8'-'9'-'0'-',' );
 table process	( worldbank, 	[country] = ![country] - '1'-'2'-'3'-'4'-'5'-'6'-'7'-'8'-'9'-'0'-',' );
+```
 
+## Merge and align IMF and World Bank data into single table
+
+* Merge table 'imf' into the table 'worldbank' with algining on country names.  This single statement puts the IMF and Worldbank
+  years on the same rows where both tables contain the same country name.
+* Rename the 'worldbank' table to 'combined'
+* Sort by country in alphabetic order (sorting function supports lots of nice sorting options)
+
+```text
 table merge extend columns	( imf, worldbank, country );
 table rename			( worldbank, combined );
 table sort rows			( combined, country );
 ```
 
-## Compare IMF and World Bank GDP figures
+The table looks as follows:
+![Combined Table](images/Combined_Table.jpg)
+
+## Prepare to Compare IMF and World Bank GDP figures
+
+* Pick the IMF years as 'Y2019', without the 'IMF ' prefix and store them into the variable 'years[imf]'
+* Pick the Worldbank years as 'Y2019', without the 'IMF ' prefix and store them into the variable 'years[imf]'
+* Both variables contain years in form of parameter sets containing literals.
+* The 3rd statement does the intersection of the two parameter sets, containing years found in both IMF and Worldbank tables.
 
 ```text
 years [imf]			= [ combined ::'IMF*', 0 ] -^ 'IMF ';  // Here you see how to use member (child) variables
@@ -160,6 +216,16 @@ years [both]			= years[imf] & years[worldbank];       // Intersection of the two
 echo				( "Years in IMF       listing : ", years [imf]       );
 echo				( "Years in Worldbank listing : ", years [worldbank] );
 echo				( "Years in both      listings: ", years [both] );
+
+```
+## Compare IMF and World Bank GDP figures
+
+* Create a bunch of additional columns named 'Delta ' followed by the common years.
+* Do the followign steps for every common year:
+* Process all table row where both IMF values and Worldbank values are available
+* If they are, then calculate the delta and write the value into the corresponding column justcreated before.
+
+```text
 
 table insert columns		( combined, "Delta " +^ years[both] );
 
@@ -172,6 +238,9 @@ for all parameters( years[both], year[] ) // Compare line by line
 ```
 
 ## Save results in spreadsheet
+
+It's _kinderleicht_. Stop th e watch and save the results.
+
 ```text
 echo (new line, "processing took ", watch stop()/1000, " seconds."  );
 echo ("Everything completed.  Open Result.csv" );
