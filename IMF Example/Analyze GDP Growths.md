@@ -5,10 +5,17 @@ This Beyond4P example downloads GDP growth data reports from two different sourc
 Written by Georg zur Bonsen, 21. Jan 2021
 
 ### Initialization
-* Set program path
-* Set options
-* Start stopwatch
+* Set program path (Shebang statement for startinng on UNIX/LINUX/MACOS systems)
+* Include two library files with functions written in Beyond4P, including ability to load Microsoft Excel files
+* Start stopwatch (to do a performance measurement)
 * Begin program code
+
+The first statement (runtime settings[verbose]) is an assigment of the literal 'quiet' to the existing system variable called 'runtine settings' with tree-like member variable 'verbose'.
+'watch start' is a procedure call.  No parentheses are needed if a procedure is called without parameters passed along.
+
+You may recognize that Beyond4P allows multiple words and special symbols for variable names, function names, table names, etc. 
+
+
 
 ```text
 #!/usr/local/bin/Beyond4P
@@ -22,7 +29,13 @@ watch start;				// start stopwatch timing
 
 
 ## Define Spreadsheets
-Dataset variables are defined using brackets "[]"
+
+The following two statements are assignments to two new variables which are created during the assignment.
+Note that simple variables must be delimited with '[]', which is a bit outlandisch compared to other languages, but very beneficial
+because you can also access variables indireectly.  Example: a[] = b; a[][] = 1; // The 2nd statement assigns 1 to variable b[].
+
+In the example below, two file names are assigned.  If a variable contains multiple words and no quotation marks around, then
+spaces before the begin and after the the full names are ignored, i.e. the 2nd assigment assigns to variable **gdp growth imf[]**.
 	
 ```text
 gdp growth worldbank[] = "GDP Growth Worldbank.xlsx";	//assign spreadsheet to variable
@@ -30,6 +43,9 @@ gdp growth imf      [] = "GDP Growth IMF.xlsx";		//assign spreadsheet to variabl
 ```
 
 ## Download GDP growth data and store in dataset file
+
+The following two procedure calls perform downloads of two Excel files from the Internet and store the data into the files specified in the two
+abeforementioned variables.
 
 ```text
 file download overwrite	( 
@@ -43,6 +59,11 @@ file download overwrite	(
 
 ## Load specific sheet from imported dataset into Excel file
 
+The following two procedure calls contain three parameters:  The 1st one is the name of the table which will be created (or initialized if alredy
+existing).  The 2nd parameter contains the Excel file name.  The 3rd parameter is the actual sheet name to use in the Excel workbook file.  
+You may use quotation marks, but must not if the contents contain no special characters and only one space between the words.
+
+
 ```text
 echo( "Note: The IMF file is a huge one (> 7 MB compressed).  Allow a few minutes.", new line );
 
@@ -50,9 +71,15 @@ table load excel file	( worldbank, gdp growth worldbank[], Statistical Appendix 
 table load excel file	( imf      , gdp growth imf      [], ngdp_rpch );
 ```
 
-## Prepare and clean Worldbank data
-* Move table headers to top row
-* Replace missing header name
+## Prepare and clean up the Worldbank data
+
+The sheet loaded looks like this one (but without the formatting)
+
+![Worldbank Table](images/Worldbank_Table.jpg.jpg)
+
+
+* Move table headers with the content below to top row, deleting the unnecessary stuff above.
+* Write header name 'country' to top lef of the table (was blank before)
 * Delete blank columns
 * Delete blank rows
 * Delete 'e' and 'f' in years column
@@ -60,13 +87,11 @@ table load excel file	( imf      , gdp growth imf      [], ngdp_rpch );
 ```text
 echo( "         Lift headers, remove quarterly data, add missing header ... ");
 
-// Move table headers to top row (delete the above).  One header is "2016".
-table lift header row		( worldbank, "2016" );				
+
+table lift header row		( worldbank, "2016" );		// Move table headers to top row (delete the above).  One header is "2016".
+[worldbank:0,0] 		= country;			// Add missing header name to table 'worldbank', row 0, column 0
 	
-// Header name missing
-[worldbank:0,0] 		= country;					
-	
-// Delete all columns with quarterly data and blank columns (blankbehind comma)
+// Delete all columns with quarterly data and blank columns (blank behind comma)
 table delete columns 		( worldbank, [ worldbank: :'*Q*,', 0 ] );	
 	
 // Delete blank row plus description row at the bottom
