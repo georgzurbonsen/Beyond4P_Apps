@@ -57,7 +57,7 @@ include ( Support Library );
 
 	// Delete the 'e' and 'f' behind the years.
 
-	for all table selected columns	( worldbank, ('20*'), 0, col nr[], col[] )
+	for all table selected columns	( worldbank, ('20*'), 0, col nr[] )
 	{
 		[ col nr[] ] = WBK Y + literal([ col nr[] ]) - e - f; // Note: Since table context (table name and row number) are known, only column needs to be specified.
 	}
