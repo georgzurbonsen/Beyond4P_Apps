@@ -251,3 +251,10 @@ table save			( combined, Result.csv );
 }
 
 ```
+
+The results should like this:
+
+![Result](images/Result_Table.jpg)
+
+
+
