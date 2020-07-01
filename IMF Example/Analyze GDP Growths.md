@@ -75,7 +75,7 @@ table load excel file	( imf      , gdp growth imf      [], ngdp_rpch );
 
 The sheet loaded looks like this one (but without the formatting)
 
-![Worldbank Table](images/Worldbank_Table.jpg.jpg)
+![Worldbank Table](images/Worldbank_Table.jpg)
 
 
 * Move table headers with the content below to top row, deleting the unnecessary stuff above.
