@@ -165,7 +165,7 @@ table save( imf,       test imf 2.csv );	// Save intermediate file
 
 The IMF table looks as illustrated below:
 
-![IMF Table](images/IMF_Processed.jpg)
+![IMF Table](images/IMF_Preprocessed.jpg)
 
 ## Clean up country names
 
@@ -199,9 +199,14 @@ table sort rows			( combined, country );
 ```
 
 The table looks as follows:
-![IMF Table](images/Combined_Table.jpg)
+![Combined Table](images/Combined_Table.jpg)
 
-## Compare IMF and World Bank GDP figures
+## Prepare to Compare IMF and World Bank GDP figures
+
+* Pick the IMF years as 'Y2019', without the 'IMF ' prefix and store them into the variable 'years[imf]'
+* Pick the Worldbank years as 'Y2019', without the 'IMF ' prefix and store them into the variable 'years[imf]'
+* Both variables contain years in form of parameter sets containing literals.
+* The 3rd statement does the intersection of the two parameter sets, containing years found in both IMF and Worldbank tables.
 
 ```text
 years [imf]			= [ combined ::'IMF*', 0 ] -^ 'IMF ';  // Here you see how to use member (child) variables
@@ -211,6 +216,16 @@ years [both]			= years[imf] & years[worldbank];       // Intersection of the two
 echo				( "Years in IMF       listing : ", years [imf]       );
 echo				( "Years in Worldbank listing : ", years [worldbank] );
 echo				( "Years in both      listings: ", years [both] );
+
+```
+## Compare IMF and World Bank GDP figures
+
+* Create a bunch of additional columns named 'Delta ' followed by the common years.
+* Do the followign steps for every common year:
+* Process all table row where both IMF values and Worldbank values are available
+* If they are, then calculate the delta and write the value into the corresponding column justcreated before.
+
+```text
 
 table insert columns		( combined, "Delta " +^ years[both] );
 
@@ -223,6 +238,9 @@ for all parameters( years[both], year[] ) // Compare line by line
 ```
 
 ## Save results in spreadsheet
+
+It's _kinderleicht_. Stop th e watch and save the results.
+
 ```text
 echo (new line, "processing took ", watch stop()/1000, " seconds."  );
 echo ("Everything completed.  Open Result.csv" );
