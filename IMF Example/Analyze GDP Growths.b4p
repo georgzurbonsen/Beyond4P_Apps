@@ -88,6 +88,7 @@ include ( Support Library );
 	table rename			( worldbank, combined );
 	table sort rows			( combined, country );
 
+	table save( combined,       combined.csv );	// Save intermediate files
 
 	echo( "Step 6 - Compare teh IMF and Worldbank GDP figures", new line );
 
