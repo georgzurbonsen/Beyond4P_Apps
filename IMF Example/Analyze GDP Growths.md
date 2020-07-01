@@ -77,11 +77,10 @@ The sheet loaded looks like this one (but without the formatting)
 
 ![Worldbank Table](images/Worldbank_Table.jpg)
 
-
-* Move table headers with the content below to top row, deleting the unnecessary stuff above.
+* Move table headers with the content below to top row, deleting the unnecessary rows above the years
 * Write header name 'country' to top lef of the table (was blank before)
-* Delete blank columns
-* Delete blank rows
+* Delete all colums containing quarterly growth (header names contain 'Q', as well asblank headers)
+* Delete rows with no countries specified
 * Delete 'e' and 'f' in years column
 
 ```text
@@ -94,16 +93,31 @@ table lift header row		( worldbank, "2016" );		// Move table headers to top row 
 // Delete all columns with quarterly data and blank columns (blank behind comma)
 table delete columns 		( worldbank, [ worldbank: :'*Q*,', 0 ] );	
 	
-// Delete blank row plus description row at the bottom
+// Delete current and next row as well (total: 2 rows) if the country column is blank)
 table delete selected rows	( worldbank, [country] == '', 2 );		
 	
-// Delete the 'e' and 'f' behind the years.
-for all table selected columns	( worldbank, ('20*'), 0, col nr[], col[] )
+// Delete the 'e' and 'f' behind the years which were used to indicated them as 'expected' or 'forecasted' figures.
+for all table selected columns	( worldbank, ('20*'), 0, col nr[] )
 	{
 	[ col nr[] ] = WBK Y + literal([ col nr[] ]) - e - f; 
+	// Example: 'WBK Y2016', with suffix 'e' or 'f' stripped of if existing.
 	// Note: Since table context (table name and row number) are known, only column needs to be specified.
 	}
 ```
+
+The loop **for all table selected columns** is a smart one which loops through all headers beginning with '20' which are years.
+The 2nd parameter (0) refers to the row number in the table to check these columns.  The 3rd parameters is an output parameter
+to the variable 'col nr[]' which contains the iteratd column numbers.
+
+Inside the loop, the context of the current table (i.e. table name and row number known) allows simplified partial table references
+where only the column name or number needs to be specified to read- or write-access a particular cell.  Example: '[col nr[]]' to 
+access column number as specified in the variable 'col nr[]'.
+
+At this moment, the worldbank data looks like this:
+
+![Worldbank Table](images/Worldbank_Preprocessed.jpg)
+
+
 
 ## Prepare and clean IMF Data
 
