@@ -1,0 +1,25 @@
+{
+    "name": "b4p",
+    "displayName": "b4p",
+    "description": "Beyond 4P",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.46.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "b4p",
+            "aliases": ["b4p", "b4p"],
+            "extensions": ["b4p"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "b4p",
+            "scopeName": "",
+            "path": "./syntaxes/b4p.tmLanguage.json"
+        }]
+    }
+}
