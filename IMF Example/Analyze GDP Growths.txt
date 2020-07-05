@@ -1,3 +1,5 @@
+#!/usr/local/bin/Beyond4P
+
 # IMF Example
 
 This Beyond4P example downloads GDP growth data reports from two different sources (IMF and World Bank), converts to Excel format (.xlsx), cleans and aligns the tables, and compares the growth figures.
@@ -18,7 +20,7 @@ You may recognize that Beyond4P allows multiple words and special symbols for va
 
 
 ```text
-#!/usr/local/bin/Beyond4P
+
 
 runtime settings [verbose]=quiet;  	// turn off notifications
 include ( Office Library );		// include MS Office compatibility
