@@ -1,0 +1,46 @@
+#!/usr/local/bin/Beyond4P
+{
+
+//	Step 1: Download two web pages.
+
+	for all parameters ( {nasdaq100, sp500} , listing[] )
+	{
+		file download overwrite		( "https://www.slickcharts.com/" + listing[], listing[] + .html);
+		table load			( listing[] ,listing[] + .html,  HTML, "Components of the" );
+		table rename column headers	( listing[], "Weight", "Weight " + listing[] ); // Weight info is specific to SP and Nasdaq, so add the listing name
+		table save			( listing[], listing[] + " as loaded.csv" );
+	}
+
+
+//	Step 2:	Combine the two tables
+
+	table merge extend columns		( nasdaq100, sp500, Symbol );
+	table rename				( sp500, stocks );
+
+//	Step 3: Cleanup
+
+	table correct headers			( stocks, {'*Price*'}, Price );
+	table rearrange columns			( stocks, { '#', Company, Symbol, Price, Chg, '% Chg' } ); 		// Weightings follow afterwards
+	table process				( stocks, ['% Chg'] = middle( ['% Chg'], '(', ')' ); [Price] = clean numeral([Price]) );
+	table sort rows				( stocks, Company );
+	table process				( stocks, ['#'] = row() );
+
+//	Step 4: Done.
+
+	table save( stocks, "Stocks.csv" );
+
+
+//	Homework for you:
+
+//	Associate the generated stock listings wiht today's date. (additional column)
+//	Write a program you can run for several day (best: weekdays after closing bell)
+//	Merge the tables into one big master table which continues growing from day to day
+//	Finally, use 'table spread' to create 1 column per date.
+
+//	Alternatively, you can add a new column every time the master file is loaded, updated, and saved.
+
+//	Finally, after running this for several days, load the CSV file into Excel and create some nice charts.
+
+//	Good luck.
+
+}
