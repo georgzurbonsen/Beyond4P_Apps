@@ -11,7 +11,6 @@
 		table save			( listing[], listing[] + " as loaded.csv" );
 	}
 
-
 //	Step 2:	Combine the two tables
 
 	table merge extend columns		( nasdaq100, sp500, Symbol );
@@ -19,7 +18,7 @@
 
 //	Step 3: Cleanup
 
-	table correct headers			( stocks, {'*Price*'}, Price );
+	table correct headers			( stocks, '*Price*', Price );
 	table rearrange columns			( stocks, { '#', Company, Symbol, Price, Chg, '% Chg' } ); 		// Weightings follow afterwards
 	table process				( stocks, ['% Chg'] = middle( ['% Chg'], '(', ')' ); [Price] = clean numeral([Price]) );
 	table sort rows				( stocks, Company );
@@ -32,7 +31,7 @@
 
 //	Homework for you:
 
-//	Associate the generated stock listings wiht today's date. (additional column)
+//	Associate the generated stock listings with today's date. (additional column)
 //	Write a program you can run for several day (best: weekdays after closing bell)
 //	Merge the tables into one big master table which continues growing from day to day
 //	Finally, use 'table spread' to create 1 column per date.
@@ -40,6 +39,7 @@
 //	Alternatively, you can add a new column every time the master file is loaded, updated, and saved.
 
 //	Finally, after running this for several days, load the CSV file into Excel and create some nice charts.
+//	This promises to get an A+ grade (or AAA acc. to Standard and Poor).
 
 //	Good luck.
 
