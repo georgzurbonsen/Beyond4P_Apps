@@ -10,20 +10,19 @@ Written by Georg zur Bonsen, 21. Jan 2021
 You may recognize that Beyond4P allows multiple words and special symbols for variable names, function names, table names, etc. 
 
 ```text
-#!/usr/local/bin/Beyond4P
-runtime settings [verbose]=quiet;  	// turn off notifications
-include ( Office Library );		// include MS Office compatibility
-include ( Support Library );		// include other support libraries
-watch start;				// start stopwatch timing
-{					// begin of program code section
+#!/usr/local/bin/Beyond4P		// [0]
+runtime settings [verbose]=quiet;  	// [1] turn off notifications
+include ( Office Library );		// [2] include MS Office compatibility
+include ( Support Library );		// [3] include other support libraries
+watch start;				// [4] start stopwatch timing
+{					// [5] begin of program code section
 ```
 
-* '#!/usr/local/bin/Beyond4P':  "Shebang path statement": set program path on UNIX/LINUX/MACOS systems 
-* 'runtime settings[verbose]=quiet': assigment of the literal 'quiet' to the system variable 'runtine settings' with tree-like member variable 'verbose'.
-* Include two library files with functions written in Beyond4P, including ability to load Microsoft Excel files
-* 'watch start': procedure call to start performance measurement.  No parentheses are needed if a procedure is called without parameters passed along.
-* '{'  (curly brace) is the begin program code
-
+* [0] set the B4P program path on UNIX/LINUX/MACOS systems; must be on the first line of all B4P files.
+* [1] assigment of the literal 'quiet' to the system variable 'runtine settings' with tree-like member variable 'verbose'.
+* [2,3] Include library files extending functionality of Beyond4P, such as loading Microsoft Excel formatted files
+* [4] procedure call to start performance measurement.  No parentheses are needed if a procedure is called without parameters
+* [5]  curly brace: begin program code
 
 ## Define Spreadsheets
 
