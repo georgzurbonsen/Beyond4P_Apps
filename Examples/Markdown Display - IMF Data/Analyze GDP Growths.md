@@ -17,11 +17,11 @@ watch start;				// [4] start stopwatch timing
 {					// [5] begin of program code section
 ```
 
-* [0] '#!/usr/local/bin/Beyond4P' ("shebang statement") sets the B4P program path on UNIX/LINUX/MACOS systems; must be on the very first line.
-* [1] assigment of the literal 'quiet' to the system variable 'runtine settings' with tree-like member variable 'verbose'.
-* [2,3] Include library files extending functionality of Beyond4P, such as loading Microsoft Excel formatted files
-* [4] procedure call to start performance measurement.  No parentheses are needed if a procedure is called without parameters
-* [5]  curly brace: begin program code
+* '#!/usr/local/bin/Beyond4P':  "shebang statement".  Sets the B4P program path on UNIX/LINUX/MACOS systems; must be on the very first line.
+* 'runtime settings':  assigment of the literal 'quiet' to the system variable 'runtine settings' with member variable 'verbose'.
+* 'include': extend functionality of Beyond4P with additional libraries, such as loading Microsoft Excel formatted files
+* 'watch start':  starts performance measurement.  No parentheses are needed if a procedure is called without parameters
+* '{' (curly brace): begin of program code
 
 ## Define Spreadsheets
 
