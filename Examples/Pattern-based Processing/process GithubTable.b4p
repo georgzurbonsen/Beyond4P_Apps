@@ -7,7 +7,7 @@ include ( Support Library );
 
 {		
 	// load source file and patterns file
-	table load excel file		( table, vagithub2.xlsx );
+	table load excel file		( table, GithubTable.xlsx );
 	table load excel file		( lookup patterns, Patterns.xlsx );
 	
 	// Insert space for header at row 0, insert {list of header names} in row 0, then delete blank rows

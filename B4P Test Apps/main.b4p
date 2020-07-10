@@ -1,8 +1,0 @@
-
-
-table initialize( t, { {a, Numbers}, {a,1}, 1.56, 234.56, 23567.78, -1532.3, Text, "Blank" } );
-
-
-table format numbers( t, Numbers, "??,???.000", de_ch, 'x' );
-
-table process( t, echo( []) );
