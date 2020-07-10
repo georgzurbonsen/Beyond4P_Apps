@@ -10,14 +10,14 @@ Written by Georg zur Bonsen, 21. Jan 2021
 You may recognize that Beyond4P allows multiple words and special symbols for variable names, function names, table names, etc. 
 
 ```text
-runtime settings [verbose]=quiet;  	// [1] turn off notifications
-include ( Office Library );		// [2] include MS Office compatibility
-include ( Support Library );		// [3] include other support libraries
-watch start;				// [4] start stopwatch timing
-{					// [5] begin of program code section
+runtime settings [verbose]=quiet;  	// turn off notifications
+include ( Office Library );		// include MS Office compatibility
+include ( Support Library );		// include other support libraries
+watch start;				// start stopwatch timing
+{					// begin of program code section
 ```
 
-* '#!/usr/local/bin/Beyond4P':  "shebang statement".  Sets the B4P program path on UNIX/LINUX/MACOS systems; must be on the very first line.
+* '#!/usr/local/bin/Beyond4P':  "shebang statement". Sets the B4P program path on UNIX/LINUX/MACOS systems. Must be on the very first line of all B4P files.
 * 'runtime settings':  assigment of the literal 'quiet' to the system variable 'runtine settings' with member variable 'verbose'.
 * 'include': extend functionality of Beyond4P with additional libraries, such as loading Microsoft Excel formatted files
 * 'watch start':  starts performance measurement.  No parentheses are needed if a procedure is called without parameters
