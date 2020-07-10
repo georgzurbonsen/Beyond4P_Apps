@@ -7,28 +7,23 @@ This Beyond4P example downloads GDP growth data reports from two different sourc
 Written by Georg zur Bonsen, 21. Jan 2021
 
 ### Initialization
-* Set program path (Shebang statement for startinng on UNIX/LINUX/MACOS systems)
-* Include two library files with functions written in Beyond4P, including ability to load Microsoft Excel files
-* Start stopwatch (to do a performance measurement)
-* Begin program code
-
-The first statement (runtime settings[verbose]) is an assigment of the literal 'quiet' to the existing system variable called 'runtine settings' with tree-like member variable 'verbose'.
-'watch start' is a procedure call.  No parentheses are needed if a procedure is called without parameters passed along.
-
 You may recognize that Beyond4P allows multiple words and special symbols for variable names, function names, table names, etc. 
 
-
-
 ```text
-
-
+#!/usr/local/bin/Beyond4P
 runtime settings [verbose]=quiet;  	// turn off notifications
 include ( Office Library );		// include MS Office compatibility
 include ( Support Library );		// include other support libraries
 watch start;				// start stopwatch timing
 {					// begin of program code section
-
 ```
+
+* '#!/usr/local/bin/Beyond4P':  "Shebang path statement": set program path on UNIX/LINUX/MACOS systems 
+* 'runtime settings[verbose]=quiet': assigment of the literal 'quiet' to the system variable 'runtine settings' with tree-like member variable 'verbose'.
+* Include two library files with functions written in Beyond4P, including ability to load Microsoft Excel files
+* 'watch start': procedure call to start performance measurement.  No parentheses are needed if a procedure is called without parameters passed along.
+* '{'  (curly brace) is the begin program code
+
 
 ## Define Spreadsheets
 
