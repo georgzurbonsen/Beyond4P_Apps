@@ -1,6 +1,4 @@
-#!/usr/local/bin/Beyond4P
-
-include ( Support Library );
+#!/usr/local/bin/b4p
 
 //	This example demonstrates three ways to loop through the table
 //	and these loops provide the same output.
@@ -8,7 +6,7 @@ include ( Support Library );
 
 define procedure ( print and reset inhabitants )  // Doing it stupidly for now, using global variables
 {
-	echo(	"U.S. inhabitants        : ", literal(U.S. inhabitants[], "#,##0", local), new line, 
+	echo(	"U.S. inhabitants        : ", literal(U.S. inhabitants[],    "#,##0", local), new line, 
 		"and foreign inhabitants : ", literal(foreign inhabitants[], "#,##0", local), new line );
 
 	U.S. inhabitants[] = 0;
@@ -20,7 +18,7 @@ define procedure ( print and reset inhabitants )  // Doing it stupidly for now, 
 		       "=================================", new line );
 
 
-	table load( cities, "../B4P Demo/Cities.csv");
+	table load( cities, "Cities.csv");
 
 	cls;
 	echo( new line, "Variant 1: Use 'table process selected rows' (Most compact way to specify):" );

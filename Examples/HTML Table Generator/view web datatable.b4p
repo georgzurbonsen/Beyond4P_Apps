@@ -1,8 +1,7 @@
-#!/usr/local/bin/Beyond4P
-include ( Support Library.b4p );
+#!/usr/local/bin/b4p
+include ( Support Library );
 
 table load( c, Cities.csv);
-
 view( c, chrome datatables );
 
 

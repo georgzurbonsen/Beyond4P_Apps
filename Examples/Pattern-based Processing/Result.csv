@@ -1,0 +1,419 @@
+﻿URL;description;language;license;members;stargazers;issues;pull-requests;last updated
+va.gov-team;;HTML;;31;46;1985;10;15 hours ago
+caseflow;Caseflow is a web application that enables the tracking and processing of appealed claims at the Board of Veterans' Appeals. governmentworkflowveteran-appealsappeal;Ruby;;36;91;834;38;19 hours ago
+va.gov-cms;Backend CMS for www.va.gov. Frontend repo is at https://github.com/department-of-veterans-affairs/vets-website/;PHP;;20;18;157;10;22 hours ago
+health-apis-deployer;Deploy and promotion pipeline for Health API applications;Shell;;1;2;0;1;23 hours ago
+vets-website;Frontend for VA.gov;JavaScript;CC0-1.0;76;155;21;68;2 days ago
+vets-api;API powering VA.gov rubyrailscivic-techgov;Ruby;;37;72;0;36;2 days ago
+vets-json-schema;JSON Schema for all Vets.gov projects;JavaScript;;9;6;2;2;2 days ago
+Leo;The Leo framework - The VINCI-developed Natural Language Processing(NLP) infrastructure using UIMA.;Java;Apache-2.0;4;21;0;0;2 days ago
+gibct-data-service;Allows stakeholders to build a valid GIBCT database from various data sources and apis.;Ruby;;6;6;0;8;2 days ago
+vets-design-system-documentation;Repository for design.va.gov website;HTML;;13;6;14;1;2 days ago
+health-apis-data-query;;Java;;6;6;0;0;2 days ago
+developer-portal;VA Lighthouse (aka VA API Platform) website and documentation. apiportaldeveloper-portalveteransveterans-affairs;JavaScript;CC0-1.0;1;7;0;7;2 days ago
+vagov-content;The VA.gov Interim CMS;HTML;;9;5;2;36;2 days ago
+caseflow-efolder;Tool for bulk download of efolder claim files;Ruby;;7;9;61;4;2 days ago
+caseflow-monitor;A small application designed to monitor Caseflow dependencies. governmentworkflowveteran-appealsappeal;JavaScript;;4;4;2;5;2 days ago
+vets-saml-proxy;;JavaScript;MIT;2;8;0;9;3 days ago
+Redacted-Public-Release-CCRA-CCRA-7.4.24.174.6-Build-7.4-Sprint-59-Jan-2020;Repository containing the CIF submission for Community Care Program 2 - Referrals and Authorizations (CCRA) CCRA_7.4.24.174.6, Sprint 59, Build 7.4 received Jan 2020.;;;0;0;0;0;3 days ago
+connect_vbms;VBMS SOAP API client;Ruby;;8;7;10;2;3 days ago
+bip-archetype-config;;Shell;;3;0;0;0;3 days ago
+health-apis-community-care-eligibility;;Java;;1;2;0;0;3 days ago
+veteran-facing-services-tools;Packages for formation.js (design.va.gov) and the VA.gov Client Documentation Site (https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/getting-started/internal-tools/);JavaScript;;4;10;6 (2 issues need help);9;4 days ago
+vets-api-clients;Reference implementations and documentation for third-party access to VA APIs.;Go;;6;11;19;18;4 days ago
+wtf-bot;A Flask application that powers the /wtf Slack command;Python;CC0-1.0;2;1;0;0;5 days ago
+health-apis-fhir-resources;;Java;;3;2;0;0;5 days ago
+health-apis-parent;;Java;;4;1;0;0;6 days ago
+bip-archetype-service;;Java;;6;3;0;0;9 days ago
+bip-reference-person;;Java;;3;3;0;0;9 days ago
+bip-framework;;Java;;5;4;1;0;9 days ago
+health-apis-ids;;Java;;2;1;0;0;10 days ago
+health-apis-bulk-fhir;;Java;;1;0;0;0;10 days ago
+health-apis-fall-risk;;Java;;0;0;0;0;10 days ago
+health-apis-mock-eligibility-and-enrollment;;Java;;2;1;0;0;10 days ago
+health-apis-eligibility-and-enrollment-client;;Java;;1;1;0;0;10 days ago
+Redacted-Public-Release-CPRS-v32-P2-CPRSV32_COMBINED_BUILD_V70.KID-Nov-2019;Repository containing the CPRS v32 Phase 2 CIF submission of CPRSV32_COMBINED_BUILD_V70.KID, OR_30_405V70.ZIP, OR_30_405V70_SRC.ZIP in Nov 2019.;;;0;0;0;0;10 days ago
+Redacted-Public-Release-TMP-P3-v4.8-Jan-2020;Repository containing the CIF submission for Telehealth Management Platform Phase 3 v4.8 received Jan 2020.;;;0;0;0;0;11 days ago
+lighthouse-bgs;;Ruby;;0;2;0;0;11 days ago
+Redacted-Public-Release-CRM-PE-P2-v12.0.0.0-iter-12-Jan-2020;Repository containing the CIF submission for CRM Platform Enhancements Phase 2, v12.0.0.0, iter 12 received Jan 2020.;;;0;0;0;0;11 days ago
+health-apis-urgent-care-eligibility;;Java;;1;1;0;0;11 days ago
+Redacted-Public-Release-MCCF-EDI-TAS-P2-IB-2.0-659-eInsurance-Jan-2020;Repository containing the CIF Submission for MCCF EDI TAS P2, IB*2.0*659 (eInsurance) code received January 2020.;;;0;0;0;0;12 days ago
+EchoExtractor;;Java;;4;7;0;1;12 days ago
+Redacted-Public-Release-PDMP-v1.0-Build-1-Jan-2020;Repository containing the CIF Submission for PDMP (State Prescription Drug Monitoring Program Integration) v1.0, Build 1 received January 2020.;;;0;0;0;0;12 days ago
+vitals;Natural language processing pipeline for finding vitals signs in documents.;Java;;2;7;0;1;13 days ago
+health-apis-datamart-synthetic-records;Storage for Synthetic data JSON Documents;;;0;0;0;0;13 days ago
+console-tree-renderer;Renders tree-like objects and column-aligned attributes for each tree node;Ruby;;0;1;0;0;15 days ago
+ruby-bgs;VA Benefits Gateway Service SOAP client;Ruby;;2;4;6;1;16 days ago
+health-apis-spring-boot-application-base;;Shell;;0;0;0;0;16 days ago
+va-salesforce-digital-transformation-center;;;;3;11;1;0;16 days ago
+acronyms;A list of VA acronyms;Python;;10;8;0;1;18 days ago
+omniauth-saml-va;OmniAuth SAML strategy for use at the U.S. Department of Veterans Affairs;Ruby;;1;1;2;0;19 days ago
+health-apis-maven-base;;Shell;;0;0;0;0;20 days ago
+health-apis-kong;;Lua;;0;1;0;0;20 days ago
+health-apis-conformance-unifier;Conformance application to present a unified view of dstu2, stu3, and r4 metadata, despite different resources being serviced by different applications.;Java;;0;0;0;0;23 days ago
+jarranger-maven-plugin;;Java;;1;1;0;0;23 days ago
+health-apis-provider-directory;;Java;;1;1;0;0;24 days ago
+health-apis-mock-vler;;Shell;;0;0;0;0;24 days ago
+lombok-xjc-plugin;;Java;;0;1;0;0;24 days ago
+va-digital-service-handbook;Empowering VA teams to design and build great digital services on the Veteran-facing Services Platform --- https://department-of-veterans-affairs.github.io/va-digital-service-handbook/;CSS;CC0-1.0;6;13;1;0;27 days ago
+Redacted-Public-Release-MCCF-EDI-TAS-P2-BPS-1.0-27-PSO-7.0-549-ePharmacy-Jan-2020;Repository containing the CIF submission of MCCF EDI TAS P2 BPS*1.0*27, PSO*7.0*549 (ePharmacy) received January 2020.;;;0;0;0;0;on Jan 24
+Redacted-Public-Release-JLV-CV-CV-3.2.0.0-Dec-2019;Repository containing the CIF submission of CV 3.2.0.0.0 received Dec 2019.;;;0;0;0;0;on Jan 22
+Redacted-Public-Release-MCCF-EDI-TAS-P2-IB-2-659-eInsurance-Build-15-Docs-Dec-2019;Repository containing the CIF submission for IB*2*659 Build 15 (eInsurance) docs received Dec 2019.;;;0;0;0;0;on Jan 17
+filterable-file-log;Kong file log plugin with filters;Lua;Apache-2.0;0;1;0;0;on Jan 17
+Redacted-Public-Release-ADR-v3.36.0.0-Jan-2020;Repository containing the CIF Submission for ADR v3.36.0.0 received January 2020.;;;0;0;0;0;on Jan 16
+Redacted-Public-Release-HTRE-P3-v15.5-iter-6-build-15.5.0.00301-Dec-2019;Repository containing the CIF submission for Home Telehealth Reporting Enhancements Phase 3, v15.5, iter 6, WEBi, build 15.5.0.00301 received Dec 2019.;;;0;0;0;0;on Jan 15
+va.gov-vfs-teams;Documentation for External Contractor teams working on the Veteran-facing Services Platform;Ruby;;19;7;2;3;on Jan 15
+Redacted-Public-Release-MCCF-EDI-TAS-P2-ePayments-Build-10-13-14-Nov-2019;Repository containing the CIF submission for MCCF EDI TAS P2 - PRCA*4.5*349, IB*2.0*642 (ePayments) Build 10/13/14 received Nov 2019.;;;0;0;0;0;on Jan 13
+caseflow-commons;Shared resources for VA Caseflow applications;Ruby;;4;7;10;0;on Jan 13
+Redacted-Public-Release-CCRS-Build-9.1-Dec-2019;Repository containing the CIF submission for CCRS Build 9.1 received Dec 2019.;;;0;0;0;0;on Jan 10
+Talend_Master;;TSQL;;0;1;0;0;on Jan 6
+va-digital-services-platform-docs;ARCHIVE THIS - VA Digital Services Platform developer portal github-pagesdocumentationplaybook;JavaScript;;2;5;10;2;on Dec 26, 2019
+appeals-devops-jenkins;Configure an intranet application that authenticates with Github Oauth and gets those secrets from SSM;Groovy;;0;1;0;0;on Dec 20, 2019
+gi-bill-comparison-tool;Rails delivered version of the GI Comparision Tool.;HTML;;8;6;57;4;on Dec 19, 2019
+veterans-employment-center;Veterans Employment Center vetsgov;Ruby;;4;4;28;4;on Dec 18, 2019
+connect_vva;Gem for connecting to Virtual VA;Ruby;;2;1;0;2;on Dec 18, 2019
+FOIA-VistA-DBA;Supports FOIA Distribution;Genshi;;1;2;0;0;on Dec 18, 2019
+Redacted-Public-Release-JLV-CV-CV3.1.0-Sep-2019;Repository for the CV3.1.0 CIF submission from Sep 2019.;;;0;0;0;0;on Dec 17, 2019
+Redacted-Public-Release-JLV-CV-JLV-2.8.1.0.0-Sep-2019;Repository containing the CIF submission for Joint Legacy Viewer/Community Viewer, JLV 2.8.1.0.0 received Sep 2019.;;;0;0;0;0;on Dec 17, 2019
+Redacted-Public-Release-OCCC-BIS-EPRS-v1.2.04-iter-1-build-3-Aug-2019;Repository containing the CIF submission for Office of Community Care Clinical and Business Intelligence Solution Enterprise Program Reporting System (EPRS), v1.2.04, iter 1, build 3, received Aug 2019.;;;0;0;0;0;on Dec 17, 2019
+Redacted-Public-Release-MHV-VFE4-MHV-II4-SM-Clinician-release-Oct-2019;Repository containing the CIF submission for both MHV Veteran-Facing Enhancements Phase 4 (MHV VFE4) and MHV Infrastructure and Interface Enhancements Phase 4 (MHV I & I4), SM Clinician release received Oct 2019.;;;0;0;0;0;on Dec 11, 2019
+Redacted-Public-Release-CC-OC-P1-Consult-Toolbox-1.9.006x-iter-2-gmrc-3.0-148-Oct-2019;Repository containing the CIF submission for Community Care (CC) One Consult Phase 1, Consult Toolbox 1.9.006x, iter 2, GMRC*3.0*148 received Oct 2019.;;;0;0;0;0;on Dec 10, 2019
+Redacted-Public-Release-CPRS-V31-P2-v31b-OR-3.0-377-build-262-Oct-2019;Repository containing the CIF submission for CPRS Version 31 Phase 2, v31b, OR*3.0*377, build 262 received Oct 2019.;;;0;0;0;0;on Dec 9, 2019
+Redacted-Public-Release-MCCF-EDI-TAS-P2-IB-2.0-652-Build-14-eInsurance-Oct-2019;Repository containing the CIF submission for MCCF EDI TAS Phase 2, IB*2.0*652, Build 14 (eInsurance) received Oct 2019.;;;0;0;0;0;on Dec 4, 2019
+betamocks;Better mocking solution inspired by VCR;Ruby;MIT;0;2;5;0;on Dec 3, 2019
+Redacted-Public-Release-BMS-V3-v2.4-iter-4-Oct-2019;Repository containing the CIF submission for Bed Management Solution Version 3, v2.4, iter 4, v 2.4.0.0 - 20191008a received Oct 2019.;;;0;1;0;0;on Dec 2, 2019
+Redacted-Public-Release-CCRS-Build-8-Oct-2019;Repository containing the CIF submission for Community Care Reimbursement System (CCRS) Build 8 received Oct 2019;;;0;0;0;0;on Dec 2, 2019
+Redacted-Public-Release-CC-PPMS-P2-v6.0-Build-13-Nov-2019;Repository containing the CIF submission for Community Care (CC) Provider Profile Management System Phase 2, v6.0, Build 13 received Nov 2019.;;;0;0;0;0;on Dec 2, 2019
+Redacted-Public-Release-CPE-P2-v1.1.1-sprint-2-build-15-Nov-2019;Repository containing the CIF submission for Claims Processing and Eligibility Phase 2, v1.1.1, sprint 2, build 15 received Nov 2019.;;;0;0;0;0;on Dec 2, 2019
+caseflow-frontend-toolkit;Build tools and React components for the Caseflow frontends;JavaScript;;0;2;2;6;on Nov 26, 2019
+Redacted-Public-Release-CC-CC-SEOC-v1.10-GMRC-3.0-147-Oct-2019;Repository containing the CIF submission for Community Care (CC) Care Coordination, SEOC v1.10, GMRC*3.0*147 received Oct 2019.;;;0;0;0;0;on Nov 25, 2019
+breakers;Implements the circuit breaker pattern for Ruby using a Faraday middleware;Ruby;;1;7;0;0;on Nov 25, 2019
+Redacted-Public-Release-MHED-P4-CHAMPVA-v1.x-build-1.0.36-Oct-2019;Repository containing the CIF submission for Mobile Health External Development (MHED) Phase 4, ChampVA v1.x, iter 1, build 1.0.36 received Oct 2019.;;;0;0;0;0;on Nov 25, 2019
+sniffybara;Gem that adds automatic 508 accessibility compliance checks into your Capybara specs;Ruby;;4;18;2;1;on Nov 20, 2019
+Redacted-Public-Release-VBECS-Sust-2.3.2.1-Rev-A-Sep-2019;Repository containing the CIF submission for VBECS sustainment 2.3.2.1 Rev A, iter 1, VBECS_02030201713840846, received Sep 2019.;;;0;0;0;0;on Nov 19, 2019
+Redacted-Public-Release-ESM-P2-DG_53_P985.KID-Sep-2019;Repository containing the CIF submission for Enrollment System Modernization Phase 2, DG*5.3*985 and IVM*2.0*188 (DG_53_P985.KID) received Sep 2019.;;;0;0;0;0;on Nov 19, 2019
+Redacted-Public-Release-ESM-P2-ES5.9-docs-Sep-2019;Repository containing the CIF submission for Enrollment System Modernization Phase 2, ES5.9 docs received Sep 2019.;;;0;0;0;0;on Nov 19, 2019
+Redacted-Public-Release-ESM-P2-ES5.8-build-5.8.0.08002-Sep-2019;Repository containing the CIF submission for Enrollment System Modernization Phase 2, ES5.8, build 5.8.0.08002 received Sep 2019.;;;0;0;0;0;on Nov 19, 2019
+Redacted-Public-Release-MCCF-EDI-TAS-P2-eInsurance-Build-14-docs-Aug-2019;Repository containing the CIF submission for MCCF EDI TAS P2 Build 14 docs (eInsurance) received Aug 2019.;;;0;0;0;0;on Nov 19, 2019
+Redacted-Public-Release-MCCF-EDI-TAS-P2-eBilling-Build-14-15-docs-Aug-2019;Repository containing the CIF submission for IB*2*650, Build 14/15 docs (eBilling) in Aug 2019.;;;0;0;0;0;on Nov 19, 2019
+Redacted-Public-Release-MCCF-EDI-TAS-P2-ePayments-Build-9-Aug-2019;Repository containing the CIF submission for ePayments Build 9, PRCA*4.5*345, IB*2.0*639, received Aug 2019.;;;0;0;0;0;on Nov 19, 2019
+Redacted-Public-Release-ATHIIA-Build-4-Sep-2019;Repository containing the CIF submission for A Telehealth Hub Initiative and Interfacility Access, build 4 received Sep 2019.;;;0;0;0;0;on Nov 19, 2019
+Redacted-Public-Release-CPRS-Enh-P1-S2-v33.15-Sep-2019;Repository containing the CIF submission for CPRS Enhancements Phase 1 Segment 2, v33.15, OR*3*439, OR*3*453, OR*3*507/PSJ*5*388, OR*3*413/PSJ*5*319, OR*3*514, received Sep 2019.;;;0;0;0;0;on Nov 18, 2019
+Redacted-Public-Release-eHX-P2-v1.2.0-Build-3-HealthShare-Aug-2019;Repository containing the eHX P2 CIF submission of v1.2.0 Build 3 (HealthShare) in Aug 2019.;;;0;0;0;0;on Nov 18, 2019
+Redacted-Public-Release-CARMA-Salesforce-v19.7.1-Aug-2019;Repository containing the CIF submission for Caregiver Record Management Application (CARMA) Salesforce master v19.7.1 received Aug 2019.;;;0;0;0;0;on Nov 18, 2019
+Redacted-Public-Release-ESM-P2-DG-5.3-987-v4-Sep-2019;Repository containing the CIF submission for Enrollment System Modernization Phase 2, DG*5.3*987, v4 received Sep 2019.;;;0;0;0;0;on Nov 18, 2019
+Redacted-Public-Release-CM-YS-5.01-149-Oct-2019;Repository containing the CIF submission for Clozapine Modernization and also for National Clozapine Coordination Phase 3, YS*5.01*149 received Oct 2019.;;;0;0;0;0;on Nov 18, 2019
+Redacted-Public-Release-SHRPE-P2-Build-9-Sep-2019;Repository containing the CIF submission for Suicide High Risk Patient Enhancements Phase 2 Build 9 received Sep 2019.;;;0;0;0;0;on Nov 18, 2019
+Redacted-Public-Release-VistA-AR-CSE-PRCA-4.5-350-v10-Sep-2019;Repository containing the CIF submission for VistA Accounts Receivable (AR) Cross-Servicing Enhancement PRCA*4.5*350 v10 received Sep 2019.;;;0;0;0;0;on Nov 18, 2019
+caseflow-feedback Archived;ARCHIVED - Compact application used for collecting feedback on Caseflow products;Ruby;;3;3;0;0;on Nov 9, 2019
+actions-settings;Forked from elstudio/actions-settings GitHub Actions to run Probot settings and set defaults;Dockerfile;MIT;2;1;0;0;on Nov 7, 2019
+generator-vets-website;;HTML;CC0-1.0;0;1;0;0;on Nov 1, 2019
+github-handbook;A handbook of how the VA uses GitHub githubgovernmenthandbookgovveterans-affairs;CSS;;1;1;1;1;on Nov 1, 2019
+vets.gov-utility;A place for utility scripts to support Vets.gov team;Ruby;MIT;0;1;0;1;on Nov 1, 2019
+network-status-exporter;;Python;;0;1;0;1;on Nov 1, 2019
+vets.gov-status;Executive Scorecard for vets.gov;HTML;;3;8;0;16;on Nov 1, 2019
+Azure-templates;;PowerShell;;2;2;0;0;on Oct 24, 2019
+map-demo;;JavaScript;;1;1;0;1;on Oct 21, 2019
+actions-js-build;Forked from elstudio/actions-js-build GitHub Actions for running Javascript build tools and committing file changes;Shell;MIT;8;1;0;0;on Oct 14, 2019
+settings;Forked from probot/settings Pull Requests for GitHub repository settings;JavaScript;ISC;83;1;0;0;on Oct 7, 2019
+ascent-proxy-ami;;;;1;1;0;0;on Aug 29, 2019
+ascent-fortify-build-utils;;;;1;1;0;0;on Aug 29, 2019
+ascent-vpn-ami;;Shell;;1;1;0;0;on Aug 29, 2019
+ascent-prometheus-ami;;HCL;;0;1;0;1;on Aug 29, 2019
+ascent-grafana-ami;;;;1;1;0;0;on Aug 29, 2019
+ascent-jsr303keygen-maven-plugin;;;;0;2;0;0;on Aug 28, 2019
+ascent-jenkins-ami;;HCL;;0;1;0;0;on Aug 28, 2019
+ascent-base-ami;;Shell;;0;1;0;0;on Aug 28, 2019
+ascent-vault-ami;;HCL;;0;1;0;0;on Aug 28, 2019
+ascent-libraries-parent;;;;0;2;0;0;on Aug 28, 2019
+ascent-dns-ami;;HCL;;0;1;0;1;on Aug 28, 2019
+ascent-nexus-ami;;HCL;;0;1;0;0;on Aug 28, 2019
+ascent-sonar-ami;;HCL;;0;1;0;0;on Aug 28, 2019
+ascent-docker-ami;;HCL;;1;1;0;0;on Aug 28, 2019
+ascent-test-framework;;;;0;2;0;0;on Aug 28, 2019
+ascent-base;;Shell;;0;2;0;0;on Aug 28, 2019
+ascent-rabbitmq;;Dockerfile;;0;1;0;0;on Aug 28, 2019
+ascent-fluentd;;Dockerfile;;0;1;0;1;on Aug 28, 2019
+ascent-dashboard;;;;0;2;0;0;on Aug 28, 2019
+ascent-redis;;Shell;;0;1;0;1;on Aug 28, 2019
+ascent-config;;;;0;2;0;1;on Aug 28, 2019
+ascent-archetype-service;;Java;;0;3;0;0;on Aug 28, 2019
+ascent-fortify-ami;;HCL;;0;2;0;0;on Aug 28, 2019
+ascent-developer;;Java;;0;3;0;0;on Aug 28, 2019
+ascent-discovery;;Java;;1;3;0;0;on Aug 28, 2019
+ascent-security;;;;0;3;0;0;on Aug 28, 2019
+ascent-zipkin;;;;0;3;0;0;on Aug 28, 2019
+ascent-gateway;;;;0;3;0;0;on Aug 28, 2019
+ascent-framework;;;;1;3;0;0;on Aug 28, 2019
+ascent-jenkins-lib;;Groovy;;4;2;0;0;on Aug 28, 2019
+ascent-sample;;;;3;9;1;0;on Aug 28, 2019
+ascent-platform;;;;3;9;0;0;on Aug 28, 2019
+devops-tools-demo;Artifacts for the DevOps Tools contract (TAC-19-55703) take home exercise;;;2;1;0;0;on Aug 23, 2019
+VA-Open-Source;VA Open Source;;;1;2;0;0;on Aug 12, 2019
+monitor-dslogon-deprecated Archived;Forked from fartbagxp/monitor-dslogon A service for monitoring dslogon;JavaScript;MIT;2;1;1;0;on Aug 7, 2019
+Getting-to-Know-GitHub;Testing out GitHub access and issues;;;0;2;2;0;on Jul 19, 2019
+vets.gov-content-style-guide;;;;2;4;0;1;on Jun 13, 2019
+design-system;Jean Pants: Design System for vets.gov documentationfractaldesign-system;;;1;9;8;0;on May 23, 2019
+lighthouse-viers-emis;EMIS v2 services;Java;;0;1;0;0;on Apr 18, 2019
+ES-ASG;;HTML;;2;3;72;2;on Mar 25, 2019
+VA-Micropurchase-Repo;Public site for VA API Platform Micropurchases;;;24;78;3;2;on Mar 18, 2019
+health-apis-token-validator;;Lua;;0;1;0;0;on Mar 1, 2019
+ncod-all-employee-survey;National Center for Organization Development's work on VA's All Employee Survey;;;0;1;0;0;on Feb 21, 2019
+vetservices-lib-filemanager;;;;0;1;0;1;on Feb 15, 2019
+VA-SaaS;;;;7;5;0;3;on Feb 13, 2019
+vetservices-partner-standarddata;;;;0;1;0;0;on Jan 25, 2019
+vetservices-partner-treatmentfacility;;;;0;1;0;0;on Jan 25, 2019
+Maveric-Reef-no-phi;;;;0;1;0;0;on Jan 10, 2019
+EMM-AWS;;;;0;1;0;0;on Jan 7, 2019
+vetservices-partner-shareddata;;;;0;1;0;0;on Dec 14, 2018
+caseflow-failing-common-build;;;;0;1;0;0;on Nov 23, 2018
+jobs_api;Forked from GSA/jobs_api This Jobs API allows you to tap into a list of current jobs openings with federal, state, and local government agencies. Jobs are searchable by keyword, location, agency, schedule, or any combination of these.;Ruby;;19;1;0;5;on Nov 13, 2018
+react-jsonschema-form;Forked from rjsf-team/react-jsonschema-form A React component for building Web forms from JSONSchema.;JavaScript;;1284;7;0;0;on Nov 13, 2018
+vex;;Python;;0;2;0;0;on Nov 2, 2018
+puma-plugin-statsd;Forked from yob/puma-plugin-statsd A puma plugin that sends key metrics to statsd;Ruby;MIT;18;1;0;0;on Nov 1, 2018
+github-sandbox-psf;GitHub sandbox for Project Special Forces (PSF);;;0;1;0;0;on Oct 31, 2018
+docketeer;Simulation for testing Board of Veterans' Appeals docket auto-assignment algorithms;Jupyter Notebook;;0;1;0;0;on Oct 29, 2018
+va-api-scorecard;Forked from skylight-hq/va-api-scorecard A site for tracking the status of VA's API development.;CSS;;2;1;0;0;on Oct 19, 2018
+abiex;;Java;;0;2;0;0;on Oct 18, 2018
+service-and-facility-locator;Repository containing next gen Facilities Locator artifacts and application;JavaScript;;2;2;5;1;on Sep 26, 2018
+project-management-demo;Demonstration of Project Management using GitHub;CSS;;0;2;4;0;on Aug 10, 2018
+caseflow-looker;;;;0;1;0;0;on Aug 7, 2018
+appeals-data Archived;Scripts for the analysis of the Department of Veterans Affairs' VACOLS database;HTML;;2;4;0;0;on Jul 26, 2018
+vip-guide;The Veteran-focused integration process(VIP) is a Lean-Agile framework services the interest of Veterans through the efficient streamlining of Information Technology (IT) activities that occur within the Department of Veterans Affairs IT enterprise.;CSS;;2;3;0;0;on Jul 25, 2018
+dsva;The official site of the Veterans Affairs Digital Service.;HTML;;7;14;5;0;on Jul 12, 2018
+eslint-config-appeals;ESLint config for Appeals JS;JavaScript;;0;1;0;0;on Jul 12, 2018
+PseudoVet;PseudoVet is an automated patient data fabrication engine. It will provide a set of active synthetic patients and clinical data that can be used for healthcare software development;HTML;Apache-2.0;0;2;7 (1 issue needs help);0;on Jul 3, 2018
+efex;;Java;Apache-2.0;2;5;0;0;on Jun 26, 2018
+vulnerability-disclosure-policy;The vulnerability disclosure policy for the Department of Veterans Affairs.;;;0;1;0;0;on Jun 26, 2018
+va-api-landscape;Forked from skylight-hq/va-api-landscape Repo for managing the VA API Lighthouse landscape analysis and roadmapping project.;HTML;;2;1;0;0;on Jun 19, 2018
+project-management-demonstration;Forked from CyberKoz/project-management-demonstration A Simple Project Using GitHub as Project Management;;;18;1;0;0;on May 31, 2018
+decision-scraper;Scraper to obtain all publicly available BVA decisions;Ruby;;1;1;0;0;on Apr 30, 2018
+gar-exporter;Forked from infinityworks/gar-exporter Google Analytics Reporting API V4;Python;MIT;7;2;0;0;on Apr 19, 2018
+github-utilities;;JavaScript;;0;1;0;0;on Mar 15, 2018
+compliance;VA OI&T Compliance Tracking Repository;;;1;1;0;0;on Mar 7, 2018
+caseflow-developer;;Ruby;;3;1;2;0;on Feb 28, 2018
+vets.gov-designpattrns Archived;Vets.gov Pattern library.;HTML;MIT;1;3;6;0;on Aug 16, 2017
+django-designstandards;;HTML;;2;4;6;0;on Jun 25, 2017
+healthcare-application;;JavaScript;;5;3;0;1;on Jun 16, 2017
+OEI;;;;1;2;0;0;on May 7, 2017
+metalsmith-webpack;;JavaScript;MIT;1;1;0;0;on Apr 21, 2017
+metalsmith-webpack-dev-server;;JavaScript;MIT;1;1;0;0;on Apr 21, 2017
+VHA-Facilities;;;;7;2;0;1;on Apr 14, 2017
+MBOOP;Generate and track barcodes for keeping track of folders, inventory, equipment, etc.;Ruby;;2;2;3;0;on Mar 22, 2017
+va_common;;CSS;;2;2;4;1;on Mar 6, 2017
+ansible-common-roles;Reusable Ansible roles;Shell;;1;2;5;0;on Feb 28, 2017
+mock-health-records-api;;Ruby;;0;1;0;0;on Feb 23, 2017
+VA_Data_Assets_VHA;VHA Data Assets for Aug 2015 IDC Submission;;;1;4;0;0;on Feb 21, 2017
+VA_Data_Assets_OM;This an a repository for VA - OM data assets for Open Data.;;;1;2;0;0;on Feb 9, 2017
+VA_Data_Assets_NCA;This is a a repository for open NCA Data Assets.;;;2;3;0;0;on Feb 3, 2017
+uswds-rails-gem;Forked from 18F/uswds-rails-gem Integrate the US Web Design Standards with your Rails application;Ruby;;5;1;0;0;on Jan 31, 2017
+soliloquy;Ruby structured logger;Ruby;;1;1;3;1;on Dec 21, 2016
+vets.gov;Vets.gov enables Veterans to discover, track, apply for, and manage the benefits they have earned.;;;2;2;0;1;on Dec 14, 2016
+roadrunner-rails;Base rails project with the VA special sauce.;Ruby;;8;7;12;7;on Nov 17, 2016
+mock-prescriptions-api;Fake data to create a simple, mock API;Ruby;CC0-1.0;1;2;1;0;on Nov 3, 2016
+roadrunner;;CSS;;5;2;8;1;on Oct 19, 2016
+sidekiq-statsd;Forked from phstc/sidekiq-statsd Sidekiq StatsD is a Sidekiq server middleware to send Sidekiq worker metrics through statsd.;Ruby;MIT;21;1;0;0;on Oct 9, 2016
+roadrunner-devops;Starter project for automating deployment of a roadrunner-rails (Rails + rbenv) application to AWS;;;3;1;1;0;on Sep 15, 2016
+roadrunner-rails-starter-project Archived;Roadrunner-rails Starter Project;Ruby;;1;1;0;0;on Sep 15, 2016
+messaging-fe;Issues-only repository to track front-end development of the healthcare messaging service;;;1;1;1;0;on Sep 14, 2016
+New-COIN-146;;;;1;1;0;0;on Sep 13, 2016
+New-COIN-145;;;;1;1;0;0;on Sep 13, 2016
+New-COIN-0022;;;;1;1;0;0;on Sep 13, 2016
+New-COIN-0017;;;;1;1;0;0;on Sep 13, 2016
+VA-Suicide-Prevention-Innovation-2;;;;1;1;0;0;on Sep 6, 2016
+VA-Suicide-Prevention-Innovation-1;;;;1;1;0;0;on Sep 6, 2016
+d3-rails;Forked from iblue/d3-rails d3-rails provides D3 for Rails.;Ruby;;49;1;0;0;on Aug 25, 2016
+benefits-api;repo for the benefits API;Ruby;;1;1;0;1;on Aug 24, 2016
+NGL_West-Virginia;;;;0;1;0;0;on Aug 19, 2016
+NGL-Wyoming;;;;0;1;0;0;on Aug 19, 2016
+NGL-Wisconsin;;;;0;1;0;0;on Aug 19, 2016
+NGL-Washington;;;;0;1;0;0;on Aug 19, 2016
+NGL-Washingtondc;;;;1;1;0;0;on Aug 19, 2016
+NGL-Virginia;;;;0;1;0;0;on Aug 19, 2016
+NGL-Utah;;;;0;1;0;0;on Aug 19, 2016
+NGL-Vermont;;;;0;1;0;0;on Aug 19, 2016
+NGL_USA-Territoties;;;;1;1;0;0;on Aug 19, 2016
+NGL-Texas;;;;0;1;0;0;on Aug 19, 2016
+NGL-Tennessee;;;;0;1;0;0;on Aug 19, 2016
+NGL_South-Dakota;;;;0;1;0;0;on Aug 19, 2016
+NGL_South-Carolina;;;;0;1;0;0;on Aug 19, 2016
+NGL-Rhode-Island;;;;0;1;0;0;on Aug 19, 2016
+NGL_Rhode-Island;;;;0;1;0;0;on Aug 19, 2016
+NGL-Oklahoma;;;;0;1;0;0;on Aug 19, 2016
+NGL-Pennsylvania;;;;0;1;0;0;on Aug 19, 2016
+NGL-Oregon;;;;0;1;0;0;on Aug 19, 2016
+NGL-Ohio;;;;0;1;0;0;on Aug 19, 2016
+NGL_North-Carolina;;;;0;1;0;0;on Aug 19, 2016
+NGL_North-Dakota;;;;0;1;0;0;on Aug 19, 2016
+NGL_New-York;;;;0;1;0;0;on Aug 19, 2016
+NGL_New-Mexico;;;;0;1;0;0;on Aug 19, 2016
+NGL_New-Hampshire;;;;0;1;0;0;on Aug 19, 2016
+NGL_New-Jersey;;;;0;1;0;0;on Aug 19, 2016
+NGL-Nevada;;;;0;1;0;0;on Aug 19, 2016
+NGL-Nebraska;;;;0;1;0;0;on Aug 19, 2016
+NGL-Montana;;;;0;1;0;0;on Aug 19, 2016
+NGL-Missouri;;;;0;1;0;0;on Aug 19, 2016
+NGL-Mississippi;;;;0;1;0;0;on Aug 19, 2016
+NGL-Minnesota;;;;0;1;0;0;on Aug 19, 2016
+NGL-Michigan;;;;0;1;0;0;on Aug 19, 2016
+NGL-Massachusetts;;;;0;1;0;0;on Aug 19, 2016
+NGL-Maine;;;;0;1;0;0;on Aug 19, 2016
+NGL-Maryland;;;;0;1;0;0;on Aug 19, 2016
+NGL-Kentucky;;;;0;1;0;0;on Aug 19, 2016
+NGL-Louisiana;;;;0;1;0;0;on Aug 19, 2016
+NGL-Kansas;;;;0;1;0;0;on Aug 19, 2016
+NGL-Iowa;;;;0;1;0;0;on Aug 19, 2016
+NGL-Indiana;;;;0;1;0;0;on Aug 19, 2016
+NGL_Illnois;;;;0;1;0;0;on Aug 19, 2016
+NGL-Idaho;;;;0;1;0;0;on Aug 19, 2016
+NGL-Hawaii;;;;0;1;0;0;on Aug 19, 2016
+NGL-Georgia;;;;0;1;0;0;on Aug 19, 2016
+NGL_glDelaware;;;;0;1;0;0;on Aug 19, 2016
+NGL-Foreign-Addresses;;;;0;1;0;0;on Aug 19, 2016
+NGL_-Florida;;;;0;1;0;0;on Aug 19, 2016
+NGL-Delaware;;;;0;1;0;0;on Aug 19, 2016
+NGL-Connecticut;;;;0;1;0;0;on Aug 19, 2016
+NGL-Colorado;;;;0;1;0;0;on Aug 19, 2016
+NGL-California;;;;0;1;0;0;on Aug 19, 2016
+NGL-Arkansas;;;;0;1;0;0;on Aug 19, 2016
+NGL-Arizona-;;;;0;1;0;0;on Aug 19, 2016
+NGL-Alaska-;;;;0;1;0;0;on Aug 19, 2016
+ngl-alabama;;;;0;1;0;0;on Aug 19, 2016
+FITARA;Repository for FITARA-related reporting requirements;;;1;1;0;0;on Aug 15, 2016
+SCIInterim;;Ruby;;3;5;38;1;on Aug 2, 2016
+ProPathDisplayRACIAPI;;;;1;1;0;0;on Jul 12, 2016
+id-me-demo;Prototype for vets.gov ID.me integration;HTML;;1;2;0;0;on Jul 7, 2016
+hacktheforms;;;;4;4;1;0;on May 9, 2016
+VHA-Files;;;;1;1;0;0;on Apr 13, 2016
+OM_VA_Data_Assets;;;;2;2;0;0;on Apr 13, 2016
+VAEnrolleesByCountyFY2015.json;;;;1;1;0;0;on Apr 11, 2016
+TBIScreeningFY12HSRDSeminar;;;;0;1;0;0;on Apr 11, 2016
+TBIDiagnosisHCUReportFY14;;;;0;1;0;0;on Apr 11, 2016
+VeteransCrisisLineFY11toFY14AggregateFOIA1500242;;;;0;1;0;0;on Apr 11, 2016
+NEPEC_Overview_PTSD_FY14;;;;0;1;0;0;on Apr 11, 2016
+NEPEC_AnnualDataSheet_PTSD_FY15;;;;1;1;0;0;on Apr 11, 2016
+NEPEC_Overview_PTSD_FY15;;;;1;1;0;0;on Apr 11, 2016
+NEPEC_AnnualDataSheet_MH_FY15;;;;1;1;0;0;on Apr 11, 2016
+VAEnrolleesByCountyDataDictionary;;;;1;1;0;0;on Apr 8, 2016
+VeteransCrisisLineFY14FOIA1500242;;;;0;1;0;0;on Apr 8, 2016
+VeteransCrisisLineFY13FOIA1500242;;;;0;1;0;0;on Apr 8, 2016
+VeteransCrisisLineFY12FOIA1500242;;;;0;1;0;0;on Apr 8, 2016
+VeteransCrisisLineFY11FOIA1500242;;;;0;1;0;0;on Apr 8, 2016
+NepecPtsdDataDictionary;;;;2;1;0;0;on Apr 8, 2016
+VAEnrolleesByCountyFY2015;;;;0;1;0;0;on Apr 8, 2016
+VeteransCrisisLineDataDictionary;;;;1;1;0;0;on Apr 8, 2016
+VHAJSONFiles;;;;0;1;0;0;on Apr 8, 2016
+ngl_wyoming;;;;0;1;0;0;on Apr 5, 2016
+ngl_wisconsin;;;;0;1;0;0;on Apr 5, 2016
+ngl_west_virginia;;;;0;1;0;0;on Apr 5, 2016
+ngl_washingtondc;;;;0;1;0;0;on Apr 5, 2016
+ngl_washington;;;;0;1;0;0;on Apr 5, 2016
+ngl_virginia;;;;0;1;0;0;on Apr 5, 2016
+ngl_vermont;;;;0;1;0;0;on Apr 5, 2016
+ngl_utah;;;;0;1;0;0;on Apr 5, 2016
+ngl_usa_territoties;;;;0;1;0;0;on Apr 5, 2016
+ngl_texas;;;;0;1;0;0;on Apr 5, 2016
+ngl_tennessee;;;;0;1;0;0;on Apr 5, 2016
+ngl_south_dakota;;;;0;1;0;0;on Apr 5, 2016
+ngl_south_carolina;;;;0;1;0;0;on Apr 5, 2016
+ngl_rhode_island;;;;0;1;0;0;on Apr 5, 2016
+ngl_pennsylvania;;;;0;1;0;0;on Apr 5, 2016
+ngl_oregon;;;;0;1;0;0;on Apr 5, 2016
+ngl_oklahoma;;;;0;1;0;0;on Apr 5, 2016
+ngl_ohio;;;;0;1;0;0;on Apr 5, 2016
+ngl_north_dakota;;;;0;1;0;0;on Apr 5, 2016
+ngl_north_carolina;;;;0;1;0;0;on Apr 5, 2016
+ngl_new_york;;;;0;1;0;0;on Apr 5, 2016
+ngl_new_mexico;;;;0;1;0;0;on Apr 5, 2016
+ngl_new_jersey;;;;0;1;0;0;on Apr 5, 2016
+ngl_new_hampshire;;;;0;1;0;0;on Apr 5, 2016
+ngl_nevada;;;;0;1;0;0;on Apr 5, 2016
+ngl_nebraska;;;;0;1;0;0;on Apr 5, 2016
+ngl_montana;;;;0;1;0;0;on Apr 5, 2016
+ngl_missouri;;;;0;1;0;0;on Apr 5, 2016
+ngl_mississippi;;;;0;1;0;0;on Apr 5, 2016
+ngl_minnesota;;;;0;1;0;0;on Apr 5, 2016
+ngl_michigan;;;;0;1;0;0;on Apr 5, 2016
+ngl_massachusetts;;;;0;1;0;0;on Apr 5, 2016
+ngl_maryland;;;;0;1;0;0;on Apr 5, 2016
+ngl_maine;;;;0;1;0;0;on Apr 5, 2016
+ngl_louisiana;;;;0;1;0;0;on Apr 5, 2016
+ngl_kentucky;;;;0;1;0;0;on Apr 5, 2016
+ngl_kansas;;;;0;1;0;0;on Apr 5, 2016
+ngl_iowa;;;;0;1;0;0;on Apr 5, 2016
+ngl_indiana;;;;0;1;0;0;on Apr 5, 2016
+ngl_illinois;;;;0;1;0;0;on Apr 5, 2016
+ngl_idaho;;;;0;1;0;0;on Apr 5, 2016
+ngl_hawaii;;;;0;1;0;0;on Apr 5, 2016
+ngl_georgia;;;;0;1;0;0;on Apr 5, 2016
+ngl_foreign_addresses;;;;0;1;0;0;on Apr 5, 2016
+ngl_florida;;;;0;1;0;0;on Apr 5, 2016
+ngl_delaware;;;;0;1;0;0;on Apr 5, 2016
+ngl_connecticut;;;;0;2;0;0;on Apr 5, 2016
+ngl_colorado;;;;0;1;0;0;on Apr 5, 2016
+ngl_california;;;;0;1;0;0;on Apr 5, 2016
+ngl_arkansas;;;;0;1;0;0;on Apr 5, 2016
+ngl_arizona;;;;0;1;0;0;on Apr 5, 2016
+ngl_alabama;;;;0;1;0;0;on Apr 5, 2016
+NGL-Alaska;;;;0;1;0;0;on Apr 4, 2016
+ruby-usps;;Ruby;;1;1;0;0;on Mar 28, 2016
+ChartReview;;JavaScript;Apache-2.0;2;5;0;0;on Mar 23, 2016
+VA_Data_Assets_OGC;Data assets from the VA Office of General Council related to the open data effort;;;1;1;0;0;on Mar 10, 2016
+VA_Data_Assets_HR;This repository is for VA open Human Resurces (HR) data.;;;2;1;0;0;on Mar 10, 2016
+VA_Data_Assets_Finance;Assets for the Office of Finance, Data Quality Service requested by Maggie Cook (FDQS) and Lisa Mavrogianis (OPP) for May quarterly IDC reporting.;;;1;1;0;0;on Mar 10, 2016
+VA_Data_Assets_VBA;These are open VBA data assets.;;;1;3;0;0;on Mar 8, 2016
+roadrunner-react;Base React project with the VA special sauce.;JavaScript;;1;2;6;0;on Mar 2, 2016
+ChoiceActLocator;This web mapping application provides veterans the ability to search and find Non VA Care providers through the Choice Act.;JavaScript;;1;5;0;0;on Feb 11, 2016
+roadrunner-styles;Common styles and associated Javascript for VA projects.;;CC0-1.0;1;2;0;0;on Feb 9, 2016
+NCA-Temp-Repo;Temp Repo;;;0;1;0;0;on Jan 25, 2016
+yulelog;scrape logs to get data;Python;;1;1;0;0;on Jan 25, 2016
+stale-o-matic;;Python;;0;3;1;0;on Jan 21, 2016
+Performance-and-Accountability-Report-Part-Two;This document is part two of the 2014 Performance and Accountability Report;;;0;1;0;0;on Jan 12, 2016
+VA-PAR-Part-Two-Major-Management-Challenges-;This document is VA Performance and Accountability Report Part Two Major Management Challenges;;;1;1;0;0;on Jan 12, 2016
+VA-Performance-and-Accountability-Report-Part-1;This document is part one of the 2014 Performance and Accountability Report;;;0;1;0;0;on Jan 12, 2016
+2014-Performance-and-Accountability-Report;This document is the cover for the 2014 Performance and Accountability Report;;;0;1;0;0;on Jan 12, 2016
+Performance-and-AccountabilityReport;;;;0;1;0;0;on Jan 12, 2016
+sample-repository;Sample repository;;;0;1;0;0;on Jan 8, 2016
+efolder-express;;Python;;2;4;18;1;on Dec 23, 2015
+VHA-Asset;;;;1;1;0;0;on Nov 17, 2015
+TS-Note-Vol-2-Issue-6;VA Executive's Guide to Cloud Computing: Service Models;;;0;1;0;0;on Oct 21, 2015
+TS-Note-Vol-2-Issue-7;VA Executive's Guide to Unified Communications;;;0;1;0;0;on Oct 21, 2015
+TS-Note-Vol-2-Issue-8;VA Executive's Guide to Configuration Management;;;0;1;0;0;on Oct 21, 2015
+TS-Note-Vol-2-Issue-9;VA Executive Guide to Encryption;;;0;1;0;0;on Oct 21, 2015
+TS-Note-Vol-2-Issue-10;VA Executive Guide to Hybrid Data Infrastructure;;;0;1;0;0;on Oct 21, 2015
+COIN-146-Monthly-Top-Totals---09-30-2015;Monthly Top Totals - 09/30/2015;;;1;1;0;0;on Oct 21, 2015
+COIN-145-Monthly-CRS-Totals-Report---09-30-2015;Monthly CRS Totals Report - 09/30/2015;;;1;1;0;0;on Oct 21, 2015
+COIN-0022-CARS-Monthly-Totals-Part-I---09-30-2015;CARS Monthly Totals, Part I - 09/30/2015;;;0;1;0;0;on Oct 21, 2015
+COIN-0017-CARS-Age-Profile-Report-09-30-2015;CARS Age Profile Report 09/30/2015;;;0;1;0;0;on Oct 21, 2015
+COIN-0017;CARS Age Profile Report;;;0;1;0;0;on Oct 21, 2015
+Test-NCA-CSVs;Test;;;0;1;0;0;on Oct 15, 2015
+va-quickstart;Front end packaging for VA;CSS;;2;5;2;0;on Sep 26, 2015
+dsva-portfolio;A portfolio website for the Digital Service at VA team.;HTML;;1;1;1;0;on Sep 1, 2015
+OPP---Living-Veterans-By-Age-Group-Gender-2013-2043;Livieng Veterans By Age Group, Gender, 2013-2043;;;1;1;0;0;on Jul 28, 2015
+NCA-NGL-Aug-2015;NCA NGL Aug 2015;;;0;2;0;0;on Jul 23, 2015
+VBA-August-2015;VBA August 2015 Datasets;;;0;1;0;0;on Jul 22, 2015
+NGL-Aug-2015;;;;0;1;0;0;on Jul 15, 2015
+NCA-1;;;;0;1;0;0;on Jul 15, 2015
+NGL-August-2015;NGL Files for OMB Aug 2015;;;0;1;0;0;on Jul 15, 2015
+OM-Aug-2015-Finance;August 2015 Finance Files;;;0;1;0;0;on Jul 13, 2015
+VA_OPEN_DATA_IPT;This is a repository for the US Department of Veterans Affairs Data Assets that do not have URLs. This is a temporary solution.;;;1;2;0;0;on Apr 24, 2015
+VA_Open_Data_Assets_OSDBU;Data assets for VA's Office of Small and Disadvantaged Business Utilization in the department's Open Data effort;;;1;1;0;0;on Feb 16, 2015
+styleguide;Forked from GSA/data.gov-styleguide;;;10;1;0;0;on Jan 3, 2015
+private-care-eligibility;VA private care eligbility info tool.;JavaScript;;1;2;0;0;on Oct 30, 2014
+VA_DATA_ASSETS;This is a repository for the US Department of Veterans Affairs Data Assets that do not have URLs. This is a temporary solution.;;;2;3;0;0;on Jul 11, 2014
+va-data;;;;0;6;21;0;on Nov 25, 2013
+Tech-Jam-2013---Islington-Green;;JavaScript;;0;1;0;0;on Nov 6, 2013
+Tech-Jam-2013---IBM-Federal;;JavaScript;;0;1;0;0;on Nov 5, 2013
+Tech-Jam-Fall-2013---Awesome-Nighthawks;Team Awesome Nighthawks' Competition Entry;JavaScript;;0;1;0;0;on Nov 5, 2013
+Tech-Jam-2013---Infusion-;;JavaScript;GPL-3.0;1;1;0;0;on Nov 5, 2013
+Tech-Jam-2013---Rambo-Tango-Panda-;;Python;;0;1;0;0;on Nov 5, 2013
+Tech-Jam-2013---vCare;;JavaScript;;2;1;0;0;on Nov 4, 2013
+Tech-Jam-2013---Team-Double-Impact;;JavaScript;;0;1;0;0;on Nov 4, 2013
+Tech-Jam-2013---Team-DBGT-Cary;;;;1;1;0;0;on Nov 2, 2013
+Tech-Jam-2013---Team-11;;;;0;2;0;0;on Nov 2, 2013
+Tech-Jam-2013---Cognizant;;;;0;1;0;0;on Nov 2, 2013
+TechJam;Code From TechJam Fall 2013;;;0;1;0;0;on Nov 2, 2013
+csv-converter;Forked from kinlane/csv-converter This is a utility for converting csv files.;JavaScript;;25;2;0;0;on Sep 24, 2013
+email-excel-conversion;This is a simple PHP script for converting excel files to JSON, CSV and XML.;PHP;;4;2;0;0;on Sep 20, 2013
+government-services-schema-from-google-spreadsheet-javascript;THis is a template for generating government services schema from Google Spreadsheet using PHP.;;;5;5;0;0;on Sep 19, 2013
+government-services-schema-from-google-spreadsheet-php;This is a template for creating government services schema using a Google Spreadsheet.;;;4;2;0;0;on Sep 19, 2013

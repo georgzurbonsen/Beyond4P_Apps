@@ -1,4 +1,4 @@
-#!/usr/local/bin/Beyond4P -w
+#!/usr/local/bin/b4p -w
 
 // switch -w suppresses welcome text and possible license warning
 

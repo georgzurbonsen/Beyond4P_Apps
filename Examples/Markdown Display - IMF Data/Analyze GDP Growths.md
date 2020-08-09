@@ -1,13 +1,13 @@
-#!/usr/local/bin/Beyond4P
+#!/usr/local/bin/b4p
 
 # IMF Example
 
-This Beyond4P example downloads GDP growth data reports from two different sources (IMF and World Bank), converts to Excel format (.xlsx), cleans and aligns the tables, and compares the growth figures.
+This B4P example downloads GDP growth data reports from two different sources (IMF and World Bank), converts to Excel format (.xlsx), cleans and aligns the tables, and compares the growth figures.
 
 Written by Georg zur Bonsen, 21. Jan 2021
 
 ### Initialization
-You may recognize that Beyond4P allows multiple words and special symbols for variable names, function names, table names, etc. 
+You may recognize that B4P allows multiple words and special symbols for variable names, function names, table names, etc. 
 
 ```text
 runtime settings [verbose]=quiet;  	// turn off notifications
@@ -17,9 +17,9 @@ watch start;				// start stopwatch timing
 {					// begin of program code section
 ```
 
-* '#!/usr/local/bin/Beyond4P':  "shebang statement". Sets the B4P program path on UNIX/LINUX/MACOS systems. Must be on the very first line of all B4P files.
+* '#!/usr/local/bin/b4p':  "shebang statement". Sets the B4P program path on UNIX/LINUX/MACOS systems. Must be on the very first line of all B4P files.
 * 'runtime settings':  assigment of the literal 'quiet' to the system variable 'runtine settings' with member variable 'verbose'.
-* 'include': extend functionality of Beyond4P with additional libraries, such as loading Microsoft Excel formatted files
+* 'include': extend functionality of B4P with additional libraries, such as loading Microsoft Excel formatted files
 * 'watch start':  starts performance measurement.  No parentheses are needed if a procedure is called without parameters
 * '{' (curly brace): begin of program code
 
@@ -125,7 +125,7 @@ The sheet loaded looks like this one:
 
 ![IMF Table](images/IMF_Table.jpg)
 
-* As a first step, let's delete all columns except the first the columns labeled 'country', 'year' and the last one. Beyond4P supports negative indexing on columns (also supported on variable array index values, etc.).
+* As a first step, let's delete all columns except the first the columns labeled 'country', 'year' and the last one. B4P supports negative indexing on columns (also supported on variable array index values, etc.).
 * Rename the last column header to 'GDP growth'.
 * Delete all rows where the contents below the header 'GDP growth' contain points (and not numeric data).
 
@@ -145,7 +145,7 @@ country name and the years distributed horizontally as additional headers.
 Before starting with the pivot, let's convert years to 'IMF Y2019', 'IMF Y2020', etc. so the formulation is similar as
 for the worldbank done before, like 'WBK Y2019'.  Also round the GDP growth numbers to steps of 0.1 so they look a bit nicer.
 
-The pivot from vertical to horizontal consists of just 2 Beyond4P statements:
+The pivot from vertical to horizontal consists of just 2 B4P statements:
 * Spread the GDP growth data across years horizontally.  For every different year, a new column with the year will be added.  As of now, the number of rows is still the same.
 * Consolidate the table to 1 row per country.  During the consolidateion process, delete the columns 'year' and 'GDP growth' on the left, and sum up the values beyond the column 'GDP growth' which are the tabulated years.
 

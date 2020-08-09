@@ -1,9 +1,7 @@
-#!/usr/local/bin/Beyond4P
+#!/usr/local/bin/b4p
 
 // Suppresses bla-bla while loading excel file
 runtime settings [verbose]=quiet;
-include ( Office Library );
-include ( Support Library );
 
 {		
 	// load source file and patterns file
@@ -31,12 +29,13 @@ include ( Support Library );
 
 		//put the tokenized/parsed set of values from [Raw] into column'Values'
 		// syntax: tokenize ( [source field], {options}, {separators})
-		[aux table : Values, ..] 		= tokenize( [Raw], { auto convert, thousand separator, "," }, chr(160) );
+		[aux table : Values, ..] 		= tokenize( [Raw], { read numerals, thousand separator, "," }, chr(160) );
 
 
-		// view intermediate results
-		view (aux table);
-		view pause;
+		// view intermediate results, debuggin purposes
+
+//		table list (aux table);
+//		pause;
 		
 		
 		// Look up the pattern table and record the data type into the column 'Columns' 

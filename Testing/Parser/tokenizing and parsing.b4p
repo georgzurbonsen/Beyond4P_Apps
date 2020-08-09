@@ -1,17 +1,16 @@
-#!/usr/local/bin/Beyond4P
+#!/usr/local/bin/b4p
 
-// Test the tokenizing and parsing features of Beyond4P
+// Test the tokenizing and parsing features of B4P
 // echo( find( "<a > and < b>", {">"} ) );
 
-table conversion[boolean] = true;
 
 table initialize ( token test table,
 {
 	{ Test Description,			String In,								Token Out },
 
-	{ "Test number conversion",		'tokenize("1,234.56 ", { auto convert, thousand separator, "," }, " " )',"{1234.56}" },
-	{ "Test type conversion",		'tokenize("a,1,true,c", auto convert, "," )',				"{'a',1,true,c}" },
-	{ "Test number conversion",		'tokenize("1.234,56 ", { decimal separator, ",", auto convert, thousand separator, "." }, " " )',"{1234.56}" },
+	{ "Test number conversion",		'tokenize("1,234.56 ", { read numerals, thousand separator, "," }, " " )',"{1234.56}" },
+	{ "Test type conversion",		'tokenize("a,1,true,c", {read numerals, read booleans}, "," )',		"{'a',1,true,c}" },
+	{ "Test number conversion",		'tokenize("1.234,56 ", { decimal separator, ",", read numerals, thousand separator, "." }, " " )',"{1234.56}" },
 	{ "Test comment block",			'tokenize("a,b,c /* Comment */, d", {}, ",", {}, {},{"/*", "*/"})',	"{'a','b','c ',' d'}" },
 	{ "Test dedicated toekns",		'tokenize("a +b-c", {}, " ", {}, {"+","-"})',				"{a,'+',b,'-',c}"},
 	{ "Test comment block",			'tokenize("a,b,c/* Comment */ , d", {}, ",", {}, {},{"/*", "*/"})',	"{'a','b','c',' ',' d'}" },
@@ -35,8 +34,7 @@ table initialize ( token test table,
 	{ "Stress test",		
 		'tokenize("a +3 -5 +((b)) *2 - <Comment> \\c\\ &Comment& +1 :blabla", {}, {" "},  {"((","))","\\"}, { "+","-","*","/"}, {"<",">","&","&"}, {":" })', 	"{'a','+','3','-','5','+','b','*','2','-','c','+','1'}" },
 	{ "Stress test",		
-		'tokenize("a +3 -5 +((9)) *2 - <Comment> \\c\\ &Comment& +1 :blabla", auto convert, {" "},  {"((","))","\\"}, { "+","-","*","/"}, {"<",">","&","&"}, {":" })', 	"{'a','+',3,'-',5,'+','9','*',2,'-','c','+',1}" }
-
+		'tokenize("a +3 -5 +((9)) *2 - <Comment> \\c\\ &Comment& +1 :blabla", read numerals, {" "},  {"((","))","\\"}, { "+","-","*","/"}, {"<",">","&","&"}, {":" })', "{'a','+',3,'-',5,'+',9,'*',2,'-','c','+',1}" }
 
 
 //	{ "Test new line in quotations",	'tokenize("<Hello" + new line + "World>", allow new line inside quotations, " ", { "<",">" } )',	"{'Hello"+new line+"World'}" }
@@ -46,8 +44,8 @@ table initialize ( token test table,
 } );
 
 
-
 {
+	table configure( token test table, read booleans, yes);
 	table process( token test table,
 		{
 		    print( [Test Description], ": '", [String In], "' --> " );

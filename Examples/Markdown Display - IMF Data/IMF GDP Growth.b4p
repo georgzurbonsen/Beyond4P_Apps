@@ -1,11 +1,11 @@
-#!/usr/local/bin/Beyond4P
+#!/usr/local/bin/b4p
 
 runtime settings [verbose]=quiet;
 include ( Office Library );
 include ( Support Library );
 
 /*
-	This Beyond4P example downloads two GDP growth reports (true Excel files with .xlsx),
+	This B4P example downloads two GDP growth reports (true Excel files with .xlsx),
 	reports, align the tables and compare the growth figures.
 
 	Written by Georg zur Bonsen, 21. Jan 2021

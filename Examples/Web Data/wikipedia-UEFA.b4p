@@ -1,7 +1,7 @@
-#!/usr/local/bin/Beyond4P
+#!/usr/local/bin/b4p
 
 {
-	file download overwrite	( "https://en.wikipedia.org/wiki/UEFA_European_Championship", uefa.html );
+	file download overwrite		( "https://en.wikipedia.org/wiki/UEFA_European_Championship", uefa.html );
 	table load 			( uefa, uefa.html, HTML, 'id="Final_tournament"' );
 	table save			( uefa, uefa as loaded.csv );
 

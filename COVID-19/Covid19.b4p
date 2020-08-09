@@ -1,7 +1,5 @@
-#!/usr/local/bin/Beyond4P
+#!/usr/local/bin/b4p
 
-include ( Support Library );
-include ( Office Library );
 include ( Style Library );
 
 runtime settings[verbose] 			= quiet;
@@ -17,7 +15,7 @@ US file name[] = "./inputs/US_states_daily.csv";
 
 // COVID 19 Analyzer
 
-// Note: All tables in Beyond4P are global.  If you wish to use a local table inside a function, then create one with unique name
+// Note: All tables in B4P are global.  If you wish to use a local table inside a function, then create one with unique name
 // and delete it after leaving the function.
 
 

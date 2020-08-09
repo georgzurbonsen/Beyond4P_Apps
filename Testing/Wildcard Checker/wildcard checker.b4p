@@ -1,4 +1,4 @@
-#!/usr/local/bin Beyond4P
+#!/usr/local/bin/b4p
 
 table load ( table, WC_Testbench.csv );
 table insert columns ( table, { Actual, Note } );

@@ -1,14 +1,13 @@
-#!/usr/local/bin/Beyond4P
+#!/usr/local/bin/b4p
 {
 
 //	In case the web page is not in German, then you need to rename the column headers
 
 	file download overwrite		( "https://www.finanzen.ch/index/liste/smi", smi.html);
 	table load			( smi, smi.html, HTML, 'table-responsive' );
+	table configure			( smi, read numerals, no ); // Read numbers as literals, not as numerals
 
 //	Most headers contain two items.  Separate them.
-
-	table conversion[numeral] = false; // System variable. Force numeric contents to be treated like literals
 
 	table rename column headers( smi, { "3 Mon. +/- %", "6 Mon. +/- %", "1 Jahr +/- %" }, { "3-Mon. 3-Mon-%", "6-Mon. 6-Mon-%", "1-Jahr 1-Jahr-%" } );
 

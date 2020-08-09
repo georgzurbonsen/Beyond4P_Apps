@@ -1,12 +1,12 @@
-include (Office Library); // Needed if you want to load Excel files, as it is implemented in B4P language
+#!/usr/local/bin/b4p
 {
     table load excel file	( football club, Football Membership List.xlsx ); 
-    table load			( soccer club , Soccer Membership List.csv ); // Beginners are Novices here
-    table rename column headers	( football club, {Family Name, City}, {Last Name, Town} );
-    table process selected rows	( soccer club, [Level]==Novice, [Level]=Beginner );
-    table merge			( football club, soccer club, {Last Name, First Name}, {Level, Town}, append, " or " );
-    table sort rows		( soccer club, {Level, Last Name, First Name});
-    table rearrange columns	( soccer club, {Level, First Name, Last Name, Town} );
+    table load			( soccer club,   Soccer Membership List.csv ); // Beginners are Novices here
+    table rename column headers	( football club, { Family Name, City }, { Last Name, Town } );
+    table process selected rows	( soccer club,   [Level]==Novice, [Level]=Beginner );
+    table merge			( football club, soccer club, { Last Name, First Name }, { Level, Town }, append, " or " );
+    table sort rows		( soccer club,   { Level, Last Name,  First Name });
+    table rearrange columns	( soccer club,   { Level, First Name, Last Name, Town } );
 
     table save			( soccer club, New Soccer Club Membership List.xls, EXCEL );
 

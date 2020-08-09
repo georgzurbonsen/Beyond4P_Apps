@@ -1,4 +1,4 @@
-#!/usr/local/bin/Beyond4P
+#!/usr/local/bin/b4p
 include ( Style Library );	
 
 {
@@ -32,6 +32,7 @@ include ( Style Library );
 		 { Democratic,  		"#8080FF" }, // Light blue
 		 { Republican,  		"#FF8080" }, // Light red
 		 { Federalist,  		coral },
+		 { "Democratic- Republican", 	excel light green },
 		 { "Democratic-Republican", 	excel light green },
 		 { Whig, 			yellow },
 		 { National Union, 		ocre },
