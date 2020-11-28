@@ -90,7 +90,7 @@
 		for all parameters ( coords[], c[], i[] )
 		{
 		    [extracted:0,table length(extracted)+2] = compose("Table ", i[], "  Coordinates: ", c[] );
-		    table extract( extracted, test, coords[], i[], table length(extracted), 1 );
+		    table extract( test, extracted, coords[], i[], table length(extracted), 1 );
 		}		
 		table save( extracted, "Table Explore Demo Out.csv" );
 
