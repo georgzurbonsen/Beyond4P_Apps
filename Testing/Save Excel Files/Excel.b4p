@@ -1,426 +1,78 @@
 
-	// Function:	table save excel file
-	//
-	// Description:	Loads tables from a specified excel file
-	//
-	// Parameters:	table names		1 or more source tables
-	//		sheet names		1 or more sheet names (count must match)
-	//		excel file name		Name of Exel file (e.g. .xlsx)
-	//		sheet name to show	Optional parameter: Specify sheet name which shall be shown first when opening the Excel file (optional)
-	//
-	// Return val:	-
-
-
-	define procedure and function( table save excel file, { { table names, to parameters members to literal }, { sheet names, to parameters members to literal }, { excel file name, literal }, { active sheet name, literal } }, 3, 4 )
-	{
-
-		slash[] = system info[directory separator];
-
-		forget memorized table columns;
-		temp verbose[] = runtime settings[verbose];
-		runtime settings[verbose] = quiet;
-		sheet number[]			 = 1;	// Default
-
-		runtime settings[verbose] = temp verbose[];
-
-
-		if (temp verbose[] <> quiet,low)
-		{
-		    echo("    Start saving Excel file '", excel file name[], "'.");
-		    echo("    Step 1:    Checking parameters provided ...");
-		}
-
-		if ( table names[]{} <> sheet names[]{})
-		{
-		    exception( stop, compose("Function '", function name[], "':", new line, "1st parameter contains ", 
-				table names[]{}, " and 2nd parameter contains ", sheet names[]{}, " elements which are not equal."), 1);
-		}
-
-		if ( table names[]{} == 0)
-		{
-		    exception( stop, compose("Function '", function name[], "':", new line, "1st parameter contains 0 elements (no table specified)."),	 1);
-		}
-
-		for all parameters( sheet names[], sheet name[] )
-		{
-			if ( excel check sheet name( sheet name[] ) = false )
-		    		exception( stop, compose("Function '", function name[], "':", new line, "Sheet name '", sheet name[], "' is not valid for Excel and will not be accepted so by Excel."), 1);
-		}
-
-		for all parameters( table names[], table name[] )
-		{
-			if ( !table existing( table name[] ) )
-		    		exception( stop, compose("Function '", function name[], "':", new line, "Table name '", table name[], "' is not existing."), 1);
-		}	
-
-		active sheet number[] = 0; // counts from 0, i.e. 0 = sheet 1, 1 = sheet 2, etc.
-		if (parameter count[]>=4)
-		{
-			active sheet number[] = find( sheet names[], active sheet name[] );
-			if ( active sheet number[] < 0 )
-		    		exception( stop, compose("Function '", function name[], "':", new line, "4th parameter [active sheet name] = '", active sheet name[],"' not found in 2nd parameter."), 1);
-		}
-
-		if (excel file name[] <> '*.xlsx')
-		{
-		    exception( stop, compose("Function '", function name[], "':", new line, "3rd parameter [excel file name] = '", excel file name[], "' does not end with .xlsx"), 1 );
-		}
-
-
-		if (temp verbose[] <> quiet,low)
-		{
-		    echo("    Step 2:    Create intermediate data tables ...");
-		}
-
-		sheet count[] 			= table names[]{};
-
-		int shared strings[] 		= "__ int shared strings __";
-		table initialize		( int shared strings[], { String } );
-		table configure			( int shared strings[], read numerals, no );
-
-		basic style parameters[] 	= { borderId, fillId, fontId, numFmtId, xfId, ApplyAlignment};
-		basic style values[]     	= { 0,        0,      0,      0,        0,    '' };
-
-
-		for all parameters( table names[], table name[], i[] )
-		{
-			sheet name[] = sheet names[]{i[]};
-			int table contents[] = compose("__ int ",i[]," contents __");  // e.g. "__ int 0 contents __"
-
-			table initialize( int table contents[], { { Coord, Type, Style, Value } + basic style parameters[] } );
-			// Column 'Coord' originally contains coordinates.  At the end, it contains the combined XML row
-			
-			row[] = 0;
-			table process all cells( table name[], if ([.] != '') 
-			{
-			    val[] = best type([.]);
-			    if (val[]=='') continue;
-			    row[]++;
-			    abs val[] = abs( val[] );
-
-			    switch( type(val[]) )
-			    {
-				case(boolean) // Boolean
-				{
-				    table append( int table contents[], { { excel coordinates(), b, '', abs val[] } + basic style values[] } );
-				}
-				case(date) // Date
-				{
-				    table append( int table contents[], { { excel coordinates(), '', 'Yes', abs val[] } + basic style values[] } );
-				    [int table contents[]:numFmtId,row[]] = select ifs( 22, (abs val[]<1), 21, (whole(abs val[])), 14 ); // 22 = YYYY-MM-DD hh:mm:ss 21: hh:mm:ss 14: YYYY-MM-DD
-				}
-				case(numeral) // Numbers
-				{
-				    if (literal(val[])='*E*') // Scientific notation
-				    {
-				        table append( int table contents[], { { excel coordinates(), '', 'Yes', abs val[] } + basic style values[] } );
-					[int table contents[]:numFmtId,row[]] = 11; // Scientific notation
-				    }
-				    else
-				    {
-				        table append( int table contents[], { { excel coordinates(), '', '', abs val[] } + basic style values[] } );
-				    }
-				}
-				else // Add strings
-				{
-				    substitute all  ( val[], {'&','<','>'}, { "&amp;", "&lt;", "&gt;" } );
-				    table append( int table contents[], { { excel coordinates(), s, '', val[] } + basic style values[] } );
-				    table append( int shared strings[], { val[] } );
-				    if ( find( val[], new line ) >= 0 )
-				    {
-					[int table contents[]:ApplyAlignment,row[]] = 1;
-					[int table contents[]:Style,row[]] = Yes;
-				    }
-				}
-			    }
-			} );
-		}
-
-
-
-		// Consolidate shared strings and in the Excel tables, replace string contents by reference numbers.
-
-		if (temp verbose[] <> quiet,low)
-		{
-		    echo("    Step 3:    Consolidate shared strings list and refer to it ...");
-		}
-
-		table consolidate( int shared strings[], String );
-
-		for all parameters( table names[], table name[], i[] )
-		{
-			sheet name[] = sheet names[]{i[]};
-			int table contents[] = compose("__ int ",i[]," contents __");  // e.g. "__ int 0 contents __"
-
-			table lookup 			( int table contents[], Value, Value, int shared strings[], String, '#row', [Type]==s );
-			table process selected rows	( int table contents[], [Type]==s, [Value]-- ); // String counting begins with 0
-		}
-
-
-		// Prepare files
-
-		if (temp verbose[] <> quiet,low)
-		{
-		    echo("    Step 3:    Consolidate shared strings list and refer to it ...");
-		}
-
-		original working directory[] = working directory();
-
-		template directory[]	= ".\B4P Excel Template";
-		excel file directory[]	= working directory() + slash[]+ "Work";
-
-		file delete recursive all( excel file directory[] ); // Delete 'Work'
-
-		file copy recursive( template directory[], excel file directory[] );
-		echo("Excel file directory: ", excel file directory[]);
-		working directory( excel file directory[] );
-
-
-		// Prepare [Content_Types].xml
-		// Specify all sheets
-		// -----------------------------------------------------------------------------------------------------------------
+	table load( ta, cities.csv );
 
-		table load			( t, "[Content_Types].xml", TEXT );
-		row[] 				= table selected rows( t, [0]='*sheet1.xml*' ){0};
-		if (row[] = {})			exception( stop, compose("Function '", function name[], "':", new line, "Contents in file '[Content_Types].xml' invalid"), 1);
+	[ta:0,16..19] = {true, false, true, false };
+	[ta:3,16..19] = { date(today), date(now), time(now), date('') };
+	[ta:4,16..19] = { date(today), date(now), time(now), date('') };
 
-		for all parameters( table names[], table name[], i[] ) if (i[]>=1) with table( t, row[], i[] )
-		{
-		    [.] = replace( [0], 'sheet1', 'sheet' + literal(i[]+1) );
-		}
-		table save			( t, "[Content_Types].xml", TEXT );
-
-
-		// Prepare docProps\app.xml
-		// Specify all sheets (count and actual sheet names)
-		// -----------------------------------------------------------------------------------------------------------------
-
-		table load			( t, "docProps\app.xml", TEXT );
-		table process selected rows	( t, ([0]='*$sheet count$*'), substitute( [0], '$sheet count$', literal(sheet count[]) ) );
-		row[] 				= table selected rows( t, [0]='*$sheet name$*' ){0};
-		if (row[] = {})			exception( stop, compose("Function '", function name[], "':", new line, "Contents in file 'docProps\app.xml' invalid"), 1);
-
-		with table( t, row[] )
-		{
-		    orig[] = [0]; // Original string
-		    for all parameters( table names[], table name[], i[] )
-		    {
-		        [i[]] = replace( orig[], '$sheet name$', sheet names[]{i[]} );
-		    }
-		}
-		table save			( t, "docProps\app.xml", TEXT );
-
-
-		// Prepare docProps\core.xml
-		// Specify user name and date created / last modified
-		// -----------------------------------------------------------------------------------------------------------------
-
-		orig[] 				= literal( date(utc), "YYYY-MM-DD'T'HH:II:SS'Z'" ); // Time stamp in W3CDTF format
-		table load			( t, "docProps\core.xml", TEXT );
-		table process selected rows	( t, ([0]='*$user name$*'),  substitute( [0], '$user name$',  "B4P "+system info[user name] ) );
-		table process selected rows	( t, ([0]='*$time stamp$*'), substitute( [0], '$time stamp$', orig[] ) );
-		table save			( t, "docProps\core.xml", TEXT );
-
-
-		// Prepare xl\_rels\workbook.xml.rels
-		// Specify all sheets
-		// -----------------------------------------------------------------------------------------------------------------
-
-		table load			( t, "xl\_rels\workbook.xml.rels", TEXT );
-		row[] 				= table selected rows( t, [0]='*sheet1.xml*' ){0};
-		if (row[] = {})			exception( stop, compose("Function '", function name[], "':", new line, "Contents in file 'xl\_rels\workbook.xml.rels' invalid"), 1);
-
-		for all parameters( table names[], table name[], i[] ) if (i[]>=1) with table( t, row[], i[] )
-		{
-		    [.] = replace all( [0], {'sheet1', 'rId11'}, {'sheet' + literal(i[]+1), 'rId1' + literal(i[]+1) } );
-		}
-		table save			( t, "xl\_rels\workbook.xml.rels", TEXT );
+	[ta:5,16..19] = {true, false, true, false };
+	[ta:3,20] = "Two" + new line + "Lines";
+	[ta:4,20] = "1E+20";
+/*
+//	table style table( ta, sheet, gridlines, 1 );
 
+	table style table ( ta, sheet, fill color, gray 12 );
 
 
-		// Prepare xl\workbook.xml
-		// Specify all sheets (count and actual sheet names)
-		// -----------------------------------------------------------------------------------------------------------------
+	table style cells( ta, 3, 5, single,fill color, green, italic, false );
+	table style rows ( ta,    5, sheet, bottom border, { thin, red }, type, literal );
 
-		table load			( t, "xl\workbook.xml", TEXT );
-		table process selected rows	( t, ([0]='*$sheet count$*'),         substitute( [0], '$sheet count$',         literal(sheet count[]        ) ) );
-		table process selected rows	( t, ([0]='*$active sheet number$*'), substitute( [0], '$active sheet number$', literal(active sheet number[]) ) );
+	table style rows ( ta, 13, sheet, hidden, true );
+	table style columns( ta, 4, sheet, hidden, true );
 
-		row[] 				= table selected rows( t, [0]='*$sheet name$*' ){0};
-		if (row[] = {})			exception( stop, compose("Function '", function name[], "':", new line, "Contents in file 'xl\workbook.xml' invalid"), 1);
+	table style rows ( ta,   21, sheet, fill color, yellow );
+	table style columns( ta, 2, sheet, fill color, ecru );
 
-		with table( t, row[] )
-		{
-		    orig[] = [0]; // Original string
-		    for all parameters( table names[], table name[], i[] )
-		    {
-		        [i[]] = replace all( orig[], { '$sheet name$', $sheet number$ }, { sheet names[]{i[]}, literal(i[]+1) } );
-		    }
-		}
-		table save			( t, "xl\workbook.xml", TEXT );
+	table style rows ( ta, 3, sheet, row height, 40 );
+//	table style rows ( ta, 42, sheet, row height, 40 );
 
+	table style table( ta, sheet, autofilter, 0 );
+	table style columns( ta, 3, sheet, column width, 16 );
+//	table style table( ta, sheet, column width, 30 );
+//	table style table( ta, sheet, row height, 20 );
 
-
-		// Prepare xl\sharedStrings.xml
-		// Save all shared strings
-		// -----------------------------------------------------------------------------------------------------------------
-
-// Debug	table save			( int shared strings[], "..\shared strings.csv" );
-
-		i[] = table length( int shared strings[] );
-		[int shared strings[]:..,0] 	= { '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>',	// Preamble
-						    compose( '<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="',i[],'" uniqueCount="',i[],'">' ) };
-
-		table process			( int shared strings[], [0] = '<si><t>' + [0] + '</t></si>' );	// Body
-		table append 			( int shared strings[], {'</sst>'} );				// Trailer
-		table save			( int shared strings[], "xl\sharedStrings.xml", TEXT );
+	table style cells( ta, 0, 18, single, type, literal );
+	table style cells( ta, 0, 19, single, type, literal );
 
-		table delete			( t, int shared strings[] ); // No longer needed
+	table style cells( ta, 0, 30, single, fill color, red );
 
 
+	table style columns( ta, 0, body, text color, navy );
+	table style cells( ta, {4,4,4,4},{16..19}, single, type, literal );
 
-		// Prepare xl\sharedStrings.xml
-		// Consolidate the styles references in the worksheet files
-		// -----------------------------------------------------------------------------------------------------------------
+	substitute( [ta:Famous attraction,2], ' ', new line ); // Lincoln Statue: Check if wrap text is working here
 
-		table initialize( __ styles __, { basic style parameters[], basic style values[] } );
-		for all parameters( table names[], table name[], i[] )
-		{
-			int table contents[] 		= compose("__ int ",i[]," contents __");  // e.g. "__ int 0 contents __"
-			table merge 			( int table contents[], __ styles __ );
-			table consolidate		( __ styles __, basic style parameters[] );
-		}
 
-		for all parameters( table names[], table name[], i[] )
-		{
-			int table contents[] 		= compose("__ int ",i[]," contents __");  // e.g. "__ int 0 contents __"
-			table lookup			( int table contents[], basic style parameters[], Style, __ styles __, basic style parameters[], '#row', [Style]==Yes );
-			table process selected rows	( int table contents[], [Style]!='', [Style]-- );
-			table delete columns		( int table contents[], basic style parameters[] );
-		}
+	table style cells( ta, 3, 4, single, boldface, true );
+	table style cells( ta, 2, 5, single, text color, red, underscore, true );
+	table style cells( ta, 3, 4, single, text color, red, font size, 16 );
+	table style cells( ta, 1, 1, single, fill color, yellow, font name, Courier New );
+	table style cells( ta, 1, 2, single, underscore, true, boldface, true, italic, true);
+	table style cells( ta, 1, 3, single, top border, { thick, blue }, bottom border, { thick, blue }, left border, { thick, blue }, right border, { thick, blue } );
+	table style cells( ta, 3, 1, single, number format, "#,##0" );
+	table style cells( ta, 3, 2, single, number format, "#,##0.0" );
+	table style cells( ta, 3, 3, single, number format, "#,##0.00" );
+	table style cells( ta, 3, 4, single, number format, "#,##0.000" );
+	table style cells( ta, 6, 0, single, wrap text, true);
+	table style cells( ta, 6,10, single, horizontal align, middle, fill color, orange);
+	table style cells( ta, 7, 0, single, vertical align, top, text color, green);
 
+	table style cells( ta, 3, 9, single, type, literal); // Treat this number as literal
 
-		// Prepare xl\styles.xml
-		// Integrate all style relevant information
-		// -----------------------------------------------------------------------------------------------------------------
+	table style rows( ta, 0, table, boldface, true, fill color, gray 15 );
 
-		table insert columns	( __ styles __, Description, "<xf ", 0 );
-		table process 		( __ styles __,
-		{
-		    for (i[] = 1, i[] < table row width( __ styles __, row() ), i[]++)
-		    {
-			if ( [i[]] != '' ) [Description] += [i[],0] + '="' + literal([i[]]) + '" ';
-		    }
-		    [Description] += '/>';
-		} );
-		
-		table load				( __ sheet __, 'xl\styles.xml', TEXT );
+	table style table( ta, sheet, freeze rows, 1 );
+	table style table( ta, sheet, freeze columns, 2 );
 
-		row 2 insert[] = table selected rows	( __ sheet __, [0]='*$Insert Style Data$*' ){0};
-		if (row 2 insert[] = {})		exception( stop, compose("Function '", function name[], "':", new line, "Contents in file 'xl\styles.xml' invalid"), 1);
-		table split table selected rows		( __ sheet __, __ bottom part __, row() > row 2 insert[] );
 
-		table process				( __ styles __, table append ( __ sheet __, {[0]} ) );
-		table merge				( __ bottom part __, __ sheet __ );	
+	translate style attributes for excel ( ta );
 
-		table save				( __ sheet __, 'xl\styles.xml', TEXT );
+*/
+	table save excel file( ta, Cities, 'Cities Out.xlsx' );  // Not UNICODE
+//	table save excel file( {ta,ta}, {Cities1,Cities2}, 'Cities Out.xlsx' );  // Not UNICODE
 
 
+	interactive;
 
-//		table save( __ styles __, "..\style descriptions.csv" );
 
-
-		// Prepare xl\worksheets\sheet*.xml	
-		// Prepare and save the worksheet files
-		// -----------------------------------------------------------------------------------------------------------------
-
-
-		for all parameters( table names[], table name[], i[] )
-		{
-			table name[] 				= table names[]{i[]};
-			int table contents[] 			= compose("__ int ",i[]," contents __");  // e.g. "__ int 0 contents __"
-			sheet path name[]			= "xl\worksheets\sheet" + literal(i[]+1) + ".xml";
-
-			table load				( __ sheet __, "xl\worksheets\sheet.xml", TEXT );
-
-			range[] = "A1:" + excel coordinates( max 123(0,table max width(table name[])-1), max 123(0,table length(table name[]) ) );
-			echo("Range: ", range[] );
-
-			table process selected rows		( __ sheet __, ([0]='*$sheet range$*'), substitute( [0], '$sheet range$', range[] ) );
-			if (i[]!=active sheet number[])		table process selected rows ( __ sheet __, ([0]='*tabSelected*'), [0] -= 'tabSelected="1"' ); // Remove 'tabSelected' if not applicable
-
-			row 2 insert[] = table selected rows	( __ sheet __, [0]='*$Insert Data$*' ){0};
-			if (row 2 insert[] = {})		exception( stop, compose("Function '", function name[], "':", new line, "Contents in file 'xl\worksheets\sheet.xml' invalid"), 1);
-			table split table selected rows	( __ sheet __, __ bottom part __, row() > row 2 insert[] );
-
-			prev row[] = -1;
-			row[]      = -1;
-			table process( int table contents[],
-			{
-				row[] = clean numeral( [Coord] );  // Check if next row applies  row[] begins with row 1, not 0
-				if (row[] > prev row[])
-				{
-				    if (prev row[] >= 0) table append	( __ sheet __, {'</row>'} );
-				    table append			( __ sheet __, { compose( '<row r="', row[], '" spans="', excel column( [Coord] )+1, ':', table row width(table name[], row[]-1), '" x14ac:dyDescent="0.25">' ) } );
-				    prev row[] 				= row[];
-				}
-
-				table append			( __ sheet __, { compose( '<c r="', [Coord], '" ', select if( [Style]!='', compose('s="',[Style], '" '), '' ), select if( [Type]!='', 't="' + [Type] + '" ', '' ), '><v>', literal([Value]), '</v></c>' ) } );
-			} );
-			if (prev row[] >= 0) table append	( __ sheet __, { '</row>' } );
-
-			table merge				( __ bottom part __, __ sheet __ );	
-
-
-			table save( __ sheet __, sheet path name[] , TEXT);
-
-		}
-		table delete( __ sheet __, __ bottom part __, __ styles __ );
-		file delete ( "xl\worksheets\sheet.xml" );
-
-
-		// Round up
-		// Compress the directory tree, rename to .xlsx, clean up and done.
-		// -----------------------------------------------------------------------------------------------------------------
-
-
-		if (temp verbose[] <> quiet,low)
-		{
-		    echo("    Step 5:    Compress the file to .ZIP file, then rename to .XLSX ...");
-		}
-
-		zip compress( "*.*", "File.zip" );
-		file delete silently( original working directory[] + slash[]+ "Excel File.xlsx" );
-		file rename( "File.zip", original working directory[] + slash[]+ "Excel File.xlsx" );
-
-
-// Debug	table save( int table contents[], "..\table contents.csv" );
-
-	}
-
-
-// Main part of the program to try out ...
-//
-//
-
-	runtime settings[verbose] = low;
-
-	table initialize( table 1,
-		{ { Column 1  , Column 2, Column 3, Column 4 },
-		  { Example , Boolean , 'true'  , 'false'  },
-		  { Example,  Strings,  Hello,    Hello + new line + World, "{Hänsel,Gretel}", "< & > and < & >" },
-		  { Example,  Dates,    '2020-12-07', '18:00:00', '2020-12-07 18:00:00' },
-		  { Example,  Numbers,  1234,    1234.56,   "1.2E+3" }
-		} );
-
-	table load( c, Cities.csv );
-
-//	Function table save excel file:
-//	1st parameter: 1 or more B4P tables
-//	2nd parameter: Corresponding tab names as they shall show up in Excel at the bottom
-//	3rd parameter: Excel file name (must end with ".xlsx")
-//	4th parameter: 
-
-//	table save excel file( table 1, Einführung, 'test.xlsx' );
-	table save excel file( {table 1, c, table 1}, { Einführung, Cities, Tab 2}, 'test.xlsx', Cities );
-
+//	<!-- $Insert Autofilter$ -->

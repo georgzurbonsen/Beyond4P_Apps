@@ -482,14 +482,16 @@ define procedure ( calculate adjusted case fatality risk )
 		table style columns		( table[], [table[]::'Minimum,Maximum,Population,Area,Latest',0], sheet, number format, "#,##0"  );
 		table style columns		( table[], [table[]::'*inh*',0], sheet, number format, "0.000"  );
 		table style columns		( table[], [table[]::'%*',0] , sheet, number format, "0.00%"  );
-		translate style attributes for excel( table[] );
+		translate style attributes for excel ( table[] );
 
 		table save			( table[], dir name[] + my time stamp[] + "_" + table[] + ".csv" );	// Individual tables without formatting
 	}
 
 	// Save the combined data including the styles applied
 
-	table save multiple			( tables[], tables[], dir name[] + my time stamp[] + "_Results.xls", EXCEL );
+	echo("Starting to save Excel (Implemented conservatively, please be patient (ca 1 min for 50 countries or states)...");
+	table save excel file			( tables[], tables[], dir name[] + my time stamp[] + "_Results.xlsx"  );
+	echo("Done saving.");
 }
 
 

@@ -1,0 +1,2070 @@
+
+
+/*
+	Style Library.txt
+	____________________________________________________________________________________________________________
+
+
+	Add some color, style, comments and lots of beautiful elements into your tables !!!
+
+	____________________________________________________________________________________________________________
+
+
+	Author:			Georg zur Bonsen
+				Copyright (C) 2017-2020 by Georg zur Bonsen, All Rights Reserved
+
+	Contents:
+
+	This library contains a set of table style and formatting features which can be defined and
+	will then be applied when the tables are saved into files using 'table save' or 'table save as'
+	functions.  These two functions will automatically detect the data structures built up and use the
+	contents to add formatting information.
+
+	The style and formatting info is supported for the target file formats HTML and EXCEL (an XML format for Excel).
+	Saving files with CSV format will not include any formatting.
+
+	This library is entirely written with B4P.  Experience the virtuous power of this programming language.
+
+	If you want to use this library, then you need to specify following function call:   include ( "Style Library.txt" )
+	If the library is not in the same directory, then specfiy an appropriate directory path.
+
+
+	Revision History:
+	____________________________________________________________________________________________________________
+
+	Library	BP		Date		Features
+
+	1.00	5.00				First Release, lots of features, supports HTML and EXCEL XML file formats
+	1.01	5.01				updated, some performance enhancements
+	1.02	5.08		2019-05-03	Better exception handling (error messages), additional functions like freezing panes
+	1.03	6.01		2019-09-01	Corrected bug on table freeze rows / columns. Before only both rows + cols worked properly.
+	1.10	7.01		2020-07-04	Misc. updates
+	2.00	8.00		2020-08-08	Transition to B4P
+	2.01	8.00		2020-10-30	Correction (bodface in HTML did not work)
+	2.02	8.00		2020-11-13	Version info moved to system variable
+
+*/
+
+
+once
+{
+
+	//
+	// Version verification
+	// _________________________________________________________________________________________________________
+	//
+
+	libraries[style library,version info] = "2.02";
+	if (runtime settings[verbose] != quiet) echo("Included: ", "Support Library", "  ", libraries[style library,version info] );
+
+
+	if (numeral( left( version info[], ' ')) < 8.00)
+	{
+	    echo("Version Mismatch. Prerequisite for using this file 'Style Library.txt' is B4P Release 8.00 or newer.");
+	    echo("Please obtain and install latest available release.");
+	    stop;
+	}
+
+
+
+	//
+	// Basic color specification functions
+	// _________________________________________________________________________________________________________
+	//
+
+
+	global() array( hex[], { '0'..'9', A..F } );
+
+
+
+	// Function:	rgb to html code
+	//
+	// Description:	Converts RGB values into a HTML / XML compatible color specification '#RRGGBB' containing
+	//		two hexadecimal digits for every color.
+	//
+	// Parameters:	red		Red color component, 0 .. 255
+	//		green		Greeen "
+	//		blue		Blue
+	//
+	// Return val:	literal		HTML compatible color specification #RRGGBB
+
+
+	define function ( rgb to html code, {{ red, numeral}, {green, numeral}, {blue,numeral}} )
+	{
+
+//		echo("red: ", red[],  "   green: ", green[], "   blue: ", blue[] );
+
+		if (red  [] >255) red  []=255;
+		if (green[] >255) green[]=255;
+		if (blue [] >255) blue []=255;
+
+		red 0[]   = mod( red[], 16);
+		red  []   = round down(red[] / 16);
+
+		green 0[] = mod( green[], 16);
+		green  [] = round down(green[] / 16);
+
+		blue 0[]  = mod( blue[], 16);
+		blue  []  = round down(blue[] / 16);
+
+		return( '#' + hex[red[]] + hex[red 0[]] + hex[green[]] + hex[green 0[]] + hex[blue[]] + hex[blue 0[]] );
+	}
+
+
+
+
+
+	table initialize( global color table,
+	{
+		{ Color Name,		Cat 1,		Cat 2,		Red,	Green,	Blue,	HTML Color 	},
+
+		// Around the color circle
+
+		{ red,			standard,	primary,	255,	  0,	  0			},
+		{ scarlet,		standard,	saturated,	255,	 64,	  0			},
+		{ mandarin,		standard,	saturated,	255,	128,	  0			},
+		{ orange,		standard,	saturated,	255,	192,	  0			},
+		{ mango,		standard,	saturated,	255,	224,	  0			},
+		{ chrome,		standard,	saturated,	255,	240,	  0			},
+		{ yellow,		standard,	primary,	255,	255,	  0			},
+		{ lemon,		standard,	saturated,	224,	255,	  0			},
+		{ granny,		standard,	saturated,	192,	255,	  0			},
+		{ chartreuse,		standard,	saturated,	128,	255,	  0			},
+		{ green,		standard,	primary,	  0,	255,	  0			},
+		{ spring green,		standard,	saturated,	  0,	255,	128			},
+		{ turquoise,		standard,	saturated,	  0,	255,	192			},
+		{ cyan,			standard,	primary,	  0,	255,	255			},
+		{ sky blue,		standard,	saturated,	  0,	224,	255			},
+		{ aquamarine,		standard,	saturated,	  0,	192,	255			},
+		{ azur,			standard,	saturated,	  0,	160,	255			},
+		{ ocean,		standard,	saturated,	  0,	128,	255			},
+		{ sapphire,		standard,	saturated,	  0,	 96,	255			},
+		{ lapis,		standard,	saturated,	  0,	 64,	255			},
+		{ royal blue,		standard,	saturated,	  0,	 32,	255			},
+		{ blue,			standard,	primary,	  0,	  0,	255			},
+		{ admiral,		standard,	saturated,	 64,	  0,	255			},
+		{ ultramarine,		standard,	saturated,	 96,	  0,	255			},
+		{ blue violet,		standard,	saturated,	128,	  0,	255			},
+		{ violet,		standard,	saturated,	160,	  0,	255			},
+		{ purple,		standard,	saturated,	192,	  0,	255			},
+		{ phlox,		standard,	saturated,	224,	  0,	255			},
+		{ magenta,		standard,	primary,	255,	  0,	255			},
+		{ pink,			standard,	saturated,	255,	  0,	192			},
+		{ carmine,		standard,	saturated,	255,	  0,	128			},
+		{ cold red,		standard,	saturated,	255,	  0,	 64			},
+
+		// Shades of gray
+
+		{ black,		standard,	gray scale,	  0,	  0,	  0			},
+		{ gray 1,		standard,	gray scale,	 16,	 16,	 16			},
+		{ gray 2,		standard,	gray scale,	 32,	 32,	 32			},
+		{ gray 3,		standard,	gray scale,	 48,	 48,	 48			},
+		{ gray 4,		standard,	gray scale,	 64,	 64,	 64			},
+		{ gray 5,		standard,	gray scale,	 80,	 80,	 80			},
+		{ gray 6,		standard,	gray scale,	 96,	 96,	 96			},
+		{ gray 7,		standard,	gray scale,	112,	112,	112			},
+		{ gray 8,		standard,	gray scale,	128,	128,	128			},
+		{ gray 9,		standard,	gray scale,	144,	144,	144			},
+		{ gray 10,		standard,	gray scale,	160,	160,	160			},
+		{ gray 11,		standard,	gray scale,	176,	176,	176			},
+		{ gray 12,		standard,	gray scale,	192,	192,	192			},
+		{ gray 13,		standard,	gray scale,	208,	208,	208			},
+		{ gray 14,		standard,	gray scale,	224,	224,	224			},
+		{ gray 15,		standard,	gray scale,	240,	240,	240			},
+		{ white,		standard,	gray scale,	255,	255,	255			},
+
+		{ warm gray,		standard,	gray tones,	136,	128,    120			},
+		{ cold gray,		standard,	gray tones,	120,	128,    136			},
+
+		// Excel color palette
+
+		{ excel light green,	standard,	excel color,	146,	208,	 80			},
+		{ excel green,		standard,	excel color,	  0,	176,	 80			},
+		{ excel light blue,	standard,	excel color,	  0,	176,	240			},
+		{ excel blue,		standard,	excel color,	  0,	112,	192			},
+		{ excel dark blue,	standard,	excel color,	  0,	 32,	 96			},
+		{ excel violet,		standard,	excel color,	112,	 48,	160			},
+
+
+		// Shades of red
+
+		{ coral,		standard,	red tones,	248,	131,	121			},
+		{ pigment red,		standard,	red tones,	237,	 28,	 36			},
+		{ imperial red,		standard,	red tones,	237,	 41,	 57			},
+		{ indian red,		standard,	red tones,	205,	 92,	 92			},
+		{ ruby,			standard,	red tones,	224,	 17,	 95			},
+		{ raspberry,		standard,	red tones,	227,	 11,	 92			},
+		{ crimson,		standard,	red tones,	220,	 20,	 60			},
+		{ fire brick,		standard,	red tones,	178,	 34,	 34			},
+		{ redwood,		standard,	red tones,	164,	 90,	 82			},
+		{ maroon,		standard,	red tones,	128,	  0,	  0			},
+		{ barn red,		standard,	red tones,	124,	 10,	  2			},
+		{ burgundy,		standard,	red tones,	144,	  0,	 32			},
+		{ turkey red,		standard,	red tones,	169,	 17,	  1			},
+		{ indian red,		standard,	red tones,	205,	 92,	 92			},
+		{ terra cotta,		standard,	red tones,	226,	114,	 91			},
+
+		// Shades of yellow
+
+		{ pigment yellow,	standard,	yellow tones,	255,	239,	  0			},
+		{ gold,			standard,	yellow tones,	255,	215,	  0			},
+		{ mustard,		standard,	yellow tones,	255,	219,	 88			},
+		{ saffron,		standard,	yellow tones,	244,	196,	 48			},
+		{ ocre,			standard,	yellow tones,	218,	165,	 32			},
+		{ royal yellow,		standard,	yellow tones,	250,	218,	 94			},
+		{ mellow yellow,	standard,	yellow tones,	248,	222,	126			},
+		{ straw,		standard,	yellow tones,	228,	217,	111			},
+		{ lemonchiffon,		standard,	yellow tones,	255,	250,	205			},
+		{ khaki,		standard,	yellow tones,	240,	230,	140			},
+		{ vanilla,		standard,	yellow tones,	243,	229,	171			},
+
+		// Shades of green
+
+		{ shamrock,		standard,	green tones,	  0,	158,	 96			},	
+		{ go transit green,	standard,	green tones,	  0,	171,	102			},
+		{ jade,			standard,	green tones,	  0,	168,	107			},
+		{ artichoke,		standard,	green tones,	143,	151,	121			},
+		{ artichoke green,	standard,	green tones,	 75,	111,	 68			},
+		{ asparagus,		standard,	green tones,	135,	169,	106			},
+		{ avocado,		standard,	green tones,	 86,	130,	  3			},
+		{ olive,		standard,	green tones,	128,	128,	  0			},
+		{ fern green,		standard,	green tones,	 79,	121,	 66			},
+		{ fern,			standard,	green tones,	113,	188,	120			},
+		{ forest,		standard,	green tones,	 34,	139,	 34			},
+		{ hookers green,	standard,	green tones,	 73,	121,	107			},		
+		{ jungle green,		standard,	green tones,	 41,	171,	135			},		
+		{ paris green,		standard,	green tones,	 80,	200,	120			},
+		{ laurel,		standard,	green tones,	169,	186,	157			},		
+		{ mantis,		standard,	green tones,	166,	195,	101			},		
+		{ moss,			standard,	green tones,	138,	154,	 91			},		
+		{ myrtle,		standard,	green tones,	 49,	120,	115			},	
+		{ mint,			standard,	green tones,	152,	251,	152			},		
+		{ tea green,		standard,	green tones,	208,	240,	192			},	
+		{ pine,			standard,	green tones,	  1,	121,	111			},	
+		{ pigment green,	standard,	green tones,	  0,	165,	 80			},	
+		{ sea green,		standard,	green tones,	 46,	139,	 87			},
+		{ malachite,		standard,	green tones,	 11,	218,	 81			},
+		{ emerald,		standard,	green tones,	 80,	220,	100			},
+		{ midnight green,	standard,	green tones,	  0,	 73,	 83			},
+		{ persian green,	standard,	green tones,	  0,	166,	147			},
+
+		// Shades of blue
+
+		{ baby blue,		standard,	blue tones,	137,	207,	240			},
+		{ steel blue,		standard,	blue tones,	176,	196,	222			},
+		{ periwinkle,		standard,	blue tones,	204,	204,	255			},
+		{ powder blue,		standard,	blue tones,	176,	224,	230			},
+		{ teal,			standard,	blue tones,	  0,	128,	128			},
+		{ teal blue,		standard,	blue tones,	 54,	117,	136			},
+		{ cadet blue,		standard,	blue tones,	 95,	158,	160			},
+		{ slate blue,		standard,	blue tones,	106,	 90,	205			},
+		{ liberty blue,		standard,	blue tones,	 84,	 90,	167			},
+		{ morning blue,		standard,	blue tones,	141,	163,	153			},
+		{ pigment blue,		standard,	blue tones,	 51,	 51,	153			},
+		{ spanish blue,		standard,	blue tones,	  0,	112,	184			},
+		{ navy,			standard,	blue tones,	  0,	  0,	128			},
+		{ midnight blue,	standard,	blue tones,	 25,	 25,	112			},
+		{ indigo,		standard,	blue tones,	 75,	  0,	130			},
+
+		// Shades of purple
+
+		{ royal purple,		standard,	purple tones,	120,	 81,	169			},
+		{ thistle,		standard,	purple tones,	216,	191,	216			},
+		{ plum,			standard,	purple tones,	221,	160,	221			},
+		{ orchid,		standard,	purple tones,	218,	112,	214			},
+		{ pansy purple,		standard,	purple tones,	120,	 24,	 74			}, 
+
+		// Shades of pink
+
+		{ champagne,		standard,	pink tones,	241,	221,	207			},
+		{ mimi pink,		standard,	pink tones,	255,	218,	233			},	
+		{ baby pink,		standard,	pink tones,	244,	194,	194			},
+		{ orchid pink,		standard,	pink tones,	242,	189,	205			},
+		{ charm pink,		standard,	pink tones,	230,	143,	172			},
+		{ china pink,		standard,	pink tones,	222,	111,	161			},	
+		{ tango pink,		standard,	pink tones,	255,	113,	122			},	
+		{ salmon,		standard,	pink tones,	255,	145,	164			},
+		{ silver pink,		standard,	pink tones,	196,	174,	173			},	
+		{ queen pink,		standard,	pink tones,	232,	204,	215			},	
+		{ lavender,		standard,	pink tones,	219,	178,	209			},	
+
+		// Shades of brown
+
+		{ red brown,		standard,	brown tones,	164,	 42,	 42			},
+		{ beaver,		standard,	brown tones,	159,	129,	112			},
+		{ beige,		standard,	brown tones,	245,	245,	220			},
+		{ burnt umber,		standard,	brown tones,	138,	 51,	 36			},
+		{ chestnut,		standard,	brown tones,	149,	 69,	 53			},
+		{ chocolate,		standard,	brown tones,	210,	105,	 30			},
+		{ cocoa,		standard,	brown tones,	210,	105,	 30			},
+		{ desert sand,		standard,	brown tones,	237,	201,	175			},
+		{ raw umber,		standard,	brown tones,	130,	102,	 68			},	
+		{ rosy brown,		standard,	brown tones,	188,	143,	143			},
+		{ tan,			standard,	brown tones,	210,	180,	140			},
+		{ taupe,		standard,	brown tones,	 72,	 60,	 50			},
+		{ peru,			standard,	brown tones,	205,	133,	 63			},
+		{ wood brown,		standard,	brown tones,	193,	143,	107			},
+		{ ecru,			standard,	brown tones,	238,	231,	187			},
+		{ sand,			standard,	brown tones,	194,	178,	128			},
+		{ sienna,		standard,	brown tones,	136,	 45,	 23			},
+		{ sepia,		standard,	brown tones,	112,	 66,	 20			},
+		{ auburn,		standard,	brown tones,	164,	 42,	 42			},
+		{ tawny,		standard,	brown tones,	205,	 87,	  0			},
+		{ rust,			standard,	brown tones,	183,	 65,	 14			}
+
+
+	} );
+
+
+	table process( global color table, [HTML Color]=rgb to html code( [Red],[Green],[Blue] ) );
+	table configure( global color table, row not found, header row );
+
+
+	define procedure ( lighten colors, { { row numbers, numerals }, { suffix, to literal }, { factor, numeral } } )
+	{
+	    for all parameters (row numbers[], y[])
+	    {
+		with table( global color table, y[] )
+		{
+			color name[] = "light " + [Color Name];
+			if (suffix[]!="") color name[] += " " + suffix[]; // e.g. red -> light red 1, blue -> light blue 1
+			red  [] = select if ([Red  ]<255, 256 - round down ((256 - [Red  ]) / factor[]), 255);
+			green[] = select if ([Green]<255, 256 - round down ((256 - [Green]) / factor[]), 255);
+			blue [] = select if ([Blue ]<255, 256 - round down ((256 - [Blue ]) / factor[]), 255);
+
+			table append( global color table, { { color name[], "lightened", [Cat 2], red[], green[], blue[], rgb to html code( red[],green[],blue[] ) } } );
+		}
+	    }
+	}
+
+
+	define procedure ( darken colors, { { row numbers, numerals }, { suffix, to literal }, { factor, numeral } } )
+	{
+	    for all parameters (row numbers[], y[])
+	    {
+		with table( global color table, y[] )
+		{
+			color name[] = "dark " + [Color Name];
+			if (suffix[]!="") color name[] += " " + suffix[]; // e.g. red -> dark red 1, blue -> dark blue 1
+			red  [] = round up([Red  ] / factor[]);
+			green[] = round up([Green] / factor[]);
+			blue [] = round up([Blue ] / factor[]);
+
+			table append( global color table, { { color name[], "darkened", [Cat 2], red[], green[], blue[], rgb to html code( red[],green[],blue[] ) } } );
+
+		}
+	    }
+	}
+
+
+
+	define procedure ( weaken colors, { { row numbers, numerals }, { suffix, to literal }, { factor, numeral } } )
+	{
+	    for all parameters (row numbers[], y[])
+	    {
+		with table( global color table, y[] )
+		{
+			color name[] = "weak " + [Color Name];
+			if (suffix[]!="") color name[] += " " + suffix[]; // e.g. red -> dark red 1, blue -> dark blue 1
+
+			luminance[] = (0.299*[Red]+0.587*[Green]+0.114*[Blue]); // RGB to Luminance 
+
+			red  [] = round up([Red  ] * (1/ factor[]) + luminance[] * (1-(1 / factor[])) );
+			green[] = round up([Green] * (1/ factor[]) + luminance[] * (1-(1 / factor[])) );
+			blue [] = round up([Blue ] * (1/ factor[]) + luminance[] * (1-(1 / factor[])) );
+
+			table append( global color table, { { color name[], "weakened", [Cat 2], red[], green[], blue[], rgb to html code( red[],green[],blue[] ) } } );
+
+		}
+	    }
+	}
+
+
+	define procedure ( add color, { { color name, literal }, { category 2, literal }, { red, numeral }, { green, numeral }, { blue, numeral } } )
+	{
+
+	    red[]   = max( min( red   [], 255 ), 0 );	// Keep the colors in the value range
+	    green[] = max( min( green [], 255 ), 0 );
+	    blue[]  = max( min( blue  [], 255 ), 0 );
+
+	    table append( global color table, { { color name[], "user defined", category 2[], red[], green[], blue[], rgb to html code( red[],green[],blue[] ) } } );
+	}
+
+	//
+	// Dedicated building blocks to add comments in HTML files (exception: XML files)
+	// _________________________________________________________________________________________________________
+	//
+
+	global ()
+	{
+	    table style html comments[building block 1] =	// Building Bock 1: Add once to end of table
+		"    <div style='mso-element:comment-list'>"	+ new line +
+		"        <div style='mso-element:comment'>"	+ new line +
+		"            <!--[if gte mso 9]>"		+ new line +
+		"            <xml>"				+ new line +
+		'             <v:shapetype id="_x0000_t202" coordsize="21600,21600" o:spt="202" path="m,l,21600r21600,l21600,xe">' + new line +
+		'              <v:stroke joinstyle="miter"/>'	+ new line +
+		'              <v:path gradientshapeok="t" o:connecttype="rect"/>' + new line +
+		"             </v:shapetype>"			+ new line ;
+
+	    table style html comments[building block 2] =  // Add for each registered comment
+		'             <v:shape id="$1" type="#_x0000_t202"'					+ new line + // $1 for comment id
+		"                    style='width:96pt;height:55.5pt;z-index:1;visibility:hidden'"	+ new line + 
+		'                    fillcolor="infoBackground [80]" o:insetmode="auto">'		+ new line +
+		"              <v:textbox style='mso-direction-alt:auto'/>"				+ new line +
+		'              <x:ClientData ObjectType="Note">'					+ new line +
+		"               <x:Row>$2</x:Row>"							+ new line + // $2 for row number
+		"               <x:Column>$3</x:Column>"						+ new line + // $3 for column number
+		"              </x:ClientData>"								+ new line +
+		"             </v:shape>" 								+ new line;
+
+	    table style html comments[building block 3] =  // Add once
+		"            </xml>"				+ new line +
+		"            <![endif]-->" 			+ new line;
+
+	    table style html comments[building block 4] =  	// Add for each registered comment
+		'            <div v:shape="$4" >$5</div>' 	+ new line;	// $4 for comment id, $5 for comment text
+
+	    table style html comments[building block 5] =  // Add once
+		"        </div>" 				+ new line +
+		"    </div>" 					+ new line;
+
+	}
+
+	//
+	// Generic table style specification functions
+	// _________________________________________________________________________________________________________
+	//
+
+
+	global() table style settings[target formats] = { HTML, EXCEL };
+
+
+	//
+	// Define the generic attributes, allowed values and scope (whole table, row, column or individual cell)
+	//
+
+	global() table style rules[] = 0; // Declare as global
+
+
+	// Choices: Distinguishing between colors, boolean, choices, literal, numeral 1 or bigger, and integer 2 or bigger
+
+
+	table style rules[text   color 	   , choices ] = { colors };
+	table style rules[text   color 	   , XML tags] = { Style, Font };
+	table style rules[text   color 	   , XML attr] = { 'ss:Color="$"' }; // Dollar symbol denotes value placeholder
+	table style rules[text   color 	   ,HTML tags] = { Style, Text Color };
+	table style rules[text   color 	   ,HTML attr] = { 'color:$' }; // Dollar symbol denotes value placeholder
+
+
+	table style rules[fill   color 	   , choices ] = { colors };
+	table style rules[fill   color 	   , XML tags] = { Style, Interior };
+	table style rules[fill   color 	   , XML attr] = { 'ss:Color = "$" ss:Pattern="Solid"' };
+	table style rules[fill   color 	   ,HTML tags] = { Style, Fill Color };
+	table style rules[fill   color 	   ,HTML attr] = { 'background-color:$' };
+
+
+	table style rules[top border       , choices ] = { border spec, { hairline, thin, medium, thick} };
+	table style rules[top border       , XML tags] = { Style, Border, Top };
+	table style rules[top border       , XML attr] = { '<Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="@" ss:Color="$" />', { '0','1','2','3'} };
+	table style rules[top border       ,HTML tags] = { Style, Top Border };
+	table style rules[top border       ,HTML attr] = { 'border-top-style:solid; border-top-color:$; border-top-width:@', { '0.25pt','0.5pt','1pt','2pt'} };
+
+
+	table style rules[bottom border    , choices ] = { border spec, { hairline, thin, medium, thick} };
+	table style rules[bottom border    , XML tags] = { Style, Border, Bottom };
+	table style rules[bottom border    , XML attr] = { '<Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="@" ss:Color="$" />', { '0','1','2','3'} };
+	table style rules[bottom border    ,HTML tags] = { Style, Bottom Border };
+	table style rules[bottom border    ,HTML attr] = { 'border-bottom-style:solid;border-bottom-color:$;border-bottom-width:@', { '0.25pt','0.5pt','1pt','2pt'} };
+
+
+	table style rules[left border      , choices ] = { border spec, { hairline, thin, medium, thick} };
+	table style rules[left border      , XML tags] = { Style, Border, Left };
+	table style rules[left border      , XML attr] = { '<Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="@" ss:Color="$" />', { '0','1','2','3'} };
+	table style rules[left border      ,HTML tags] = { Style, Left Border };
+	table style rules[left border      ,HTML attr] = { 'border-left-style:solid;border-left-color:$;border-left-width:@', { '0.25pt','0.5pt','1pt','2pt'} };
+
+
+	table style rules[right border     , choices ] = { border spec, { hairline, thin, medium, thick} };
+	table style rules[right border     , XML tags] = { Style, Border, Right };
+	table style rules[right border     , XML attr] = { '<Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="@" ss:Color="$" />', { '0','1','2','3'} };
+	table style rules[right border     ,HTML tags] = { Style, Right Border };
+	table style rules[right border     ,HTML attr] = { 'border-right-style:solid;border-right-color:$;border-right-width:@', { '0.25pt','0.5pt','1pt','2pt'} };
+
+
+	table style rules[underscore   	   , choices ] = { boolean };
+	table style rules[underscore 	   , XML tags] = { Style, Font };
+	table style rules[underscore   	   , XML attr] = { 'ss:Underline="$"', {  None , Single } };  // 1st value stands for false, 2nd for true
+	table style rules[underscore 	   ,HTML tags] = { Style, Underscore };
+	table style rules[underscore       ,HTML attr] = { 'text-decoration:$', { none, underline } };
+
+
+	table style rules[boldface     	   , choices ] = { boolean };
+	table style rules[boldface     	   , XML tags] = { Style, Font };
+	table style rules[boldface     	   , XML attr] = { 'ss:Bold="$"', { '0','1' } };
+	table style rules[boldface 	   ,HTML tags] = { Style, Boldface };
+	table style rules[boldface         ,HTML attr] = { 'font-weight:$', { normal, bold } };
+
+
+	table style rules[italic       	   , choices ] = { boolean };
+	table style rules[italic     	   , XML tags] = { Style, Font };
+	table style rules[italic       	   , XML attr] = { 'ss:Italic="$"', { '0','1' } };
+	table style rules[italic 	   ,HTML tags] = { Style, Italic };
+	table style rules[italic           ,HTML attr] = { 'font-style:$', { normal, italic } };
+
+
+	table style rules[wrap text    	   , choices ] = { boolean };
+	table style rules[wrap text 	   , XML tags] = { Style, Alignment };
+	table style rules[wrap text    	   , XML attr] = { 'ss:WrapText="$"', { '0','1' } };
+	table style rules[wrap text 	   ,HTML tags] = { Style, Wrap Text };
+	table style rules[wrap text        ,HTML attr] = { 'white-space:$', { nowrap, wrap} };
+
+	table style rules[comment          , choices ] = { literal };
+	table style rules[comment	   , XML tags] = { Comment };
+	table style rules[comment    	   , XML attr] = { '<Comment><ss:Data>$</ss:Data></Comment>' };
+	table style rules[comment 	   ,HTML tags] = { Comment };
+	table style rules[comment          ,HTML attr] = { '' }; // Special handling hardcoded further below
+
+	table style rules[freeze rows      , choices ] = { integer 0 or bigger };
+	table style rules[freeze rows	   , XML tags] = { Freeze, Rows };
+	table style rules[freeze rows      , XML attr] = { '$' }; // Special handling hardcoded further below
+	table style rules[freeze rows 	   ,HTML tags] = { Freeze, Rows };
+	table style rules[freeze rows      ,HTML attr] = { '$' }; // Special handling hardcoded further below
+
+	table style rules[freeze columns   , choices ] = { integer 0 or bigger };
+	table style rules[freeze columns   , XML tags] = { Freeze, Columns };
+	table style rules[freeze columns   , XML attr] = { '$' }; // Special handling hardcoded further below
+	table style rules[freeze columns   ,HTML tags] = { Freeze, Columns };
+	table style rules[freeze columns   ,HTML attr] = { '$' }; // Special handling hardcoded further below
+
+	// Comments are not supported yet in HTML
+
+
+	table style rules[font name    	   , choices ] = { literal };
+	table style rules[font name	   , XML tags] = { Style, Font };
+	table style rules[font name    	   , XML attr] = { 'ss:FontName="$"' };
+	table style rules[font name 	   ,HTML tags] = { Style, Font Name };
+	table style rules[font name 	   ,HTML attr] = { 'font-family:$' }; // Dollar symbol denotes value placeholder
+
+
+	table style rules[font size    	   , choices ] = { numeral 1 or bigger, 1};
+	table style rules[font size	   , XML tags] = { Style, Font };
+	table style rules[font size    	   , XML attr] = { 'ss:Size="$"' };
+	table style rules[font size 	   ,HTML tags] = { Style, Font Size };
+	table style rules[font size 	   ,HTML attr] = { 'font-size:$pt' }; // Dollar symbol denotes value placeholder
+	
+	table style rules[number format	   , choices ] = { literal };
+	table style rules[number format	   , XML tags] = { Style, NumberFormat };
+	table style rules[number format	   , XML attr] = { 'ss:Format = "$"' };
+	table style rules[number format    ,HTML tags] = { Style, Number Format };
+	table style rules[number format	   ,HTML attr] = { 'vnd.ms-excel.numberformat:$' }; // Dollar symbol denotes value placeholder
+
+
+	table style rules[type             , choices ] = { choices, { default, literal, numeral, boolean } };
+	table style rules[type             , XML tags] = { Data };
+	table style rules[type             , XML attr] = { '$', { '', 'ss:Type="String"', 'ss:Type="Number"', 'ss:Type="Boolean"' } };
+	table style rules[type             ,HTML tags] = { Style, Number Format };
+	table style rules[type		   ,HTML attr] = { 'vnd.ms-excel.numberformat:$', { "", "@", "", "" } }; 
+
+
+	table style rules[horizontal align , choices ] = { choices, { automatic, left, middle, right  } };	
+	table style rules[horizontal align , XML tags] = { Style, Alignment };
+	table style rules[horizontal align , XML attr] = { 'ss:Horizontal="$"', { Automatic, Left, Center, Right }   };
+	table style rules[horizontal align ,HTML tags] = { Style, Horizontal Align };
+	table style rules[horizontal align ,HTML attr] = { 'text-align:$', { initial, left, center, right } }; // Dollar symbol denotes value placeholder
+
+
+	table style rules[vertical   align , choices ] = { choices, { automatic, top, center, bottom } };
+	table style rules[vertical   align , XML tags] = { Style, Alignment };
+	table style rules[vertical   align , XML attr] = { 'ss:Vertical="$"', { Automatic, Top, Center, Bottom }   };
+	table style rules[vertical   align ,HTML tags] = { Style, Vertical Align };
+	table style rules[vertical   align ,HTML attr] = { 'vertical-align:$', { baseline, top, middle, bottom } }; // Dollar symbol denotes value placeholder
+
+
+	table style rules[column width     , choices ] = { column width }; // Takes numbers >= 1 or 'automatic'
+	table style rules[column width     , XML tags] = { Column };
+	table style rules[column width     , XML attr] = { 'ss:Width="$" ss:AutoFitWidth="@"' };
+	table style rules[column width     ,HTML tags] = { Column, Width };
+	table style rules[column width     ,HTML attr] = { 'width="$"' };
+
+
+	table style rules[row height       , choices ] = { numeral 1 or bigger, 1 };
+	table style rules[row height       , XML tags] = { Row };
+	table style rules[row height       , XML attr] = { 'ss:Height="$"' };
+	table style rules[row height       ,HTML tags] = { Row, Height };
+	table style rules[row height       ,HTML attr] = { 'height="$"' };
+
+
+	table style rules[hidden row	   , choices ] = { boolean };
+	table style rules[hidden row	   , XML tags] = { Row };				// Will be replaced to "Row" or "Column" in 'table style row' / 'table style column' accordingly
+	table style rules[hidden row	   , XML attr] = { 'ss:Hidden="$"', { '0','1' } };	// Dollar symbol denotes value placeholder
+	table style rules[hidden row	   ,HTML tags] = { Row, Height };
+	table style rules[hidden row	   ,HTML attr] = { '$',{ '', 'height="0"' } }; 		// Not active yet.
+
+	table style rules[hidden column	   , choices ] = { boolean };
+	table style rules[hidden column	   , XML tags] = { Column };				// Will be replaced to "Row" or "Column" in 'table style row' / 'table style column' accordingly
+	table style rules[hidden column	   , XML attr] = { 'ss:Hidden="$"', { '0','1' } };	// Dollar symbol denotes value placeholder
+	table style rules[hidden column	   ,HTML tags] = { Column, Width };
+	table style rules[hidden column	   ,HTML attr] = { '$',{ '', 'width="0"' } }; 		// Not active yet.
+
+
+	table style rules[autofilter       , choices]  = { autofilter row position };
+	table style rules[autofilter       , XML tags] = { AutoFilter };
+	table style rules[autofilter       , XML attr] = { 'x:Range="$"' };
+	table style rules[autofilter       ,HTML tags] = { Autofilter, Autofilter };
+	table style rules[autofilter       ,HTML attr] = { 'filter=all' };
+
+
+//	table style rules[horizontal merge , choices] = { integer 2 or bigger };
+//	table style rules[vertical   merge , choices] = { integer 2 or bigger };
+
+
+	for all parameters ( { 	text color, fill color, underscore, boldface, italic, strikeout, wrap text,
+				font name, font size, number format, type, horizontal align, vertical align, 
+				top border, bottom border, left border, right border }, par[] )
+	{
+		table style rules[ par[], scopes] = { table, row, column, cell };
+	}
+	delete (par[]);
+
+	table style rules[ column width    , scopes] = { table, column };
+	table style rules[ row height      , scopes] = { table, row };
+	table style rules[ comment         , scopes] = { cell  };
+	table style rules[ autofilter      , scopes] = { table  };
+	table style rules[ freeze rows     , scopes] = { table  };
+	table style rules[ freeze columns  , scopes] = { table  };
+	table style rules[ hidden          , scopes] = { row, column  };
+	table style rules[ hidden row      , scopes] = { row  };
+	table style rules[ hidden column   , scopes] = { column  };
+
+//	table style rules[ horizontal merge, scopes] = { cell  };
+//	table style rules[ vertical merge  , scopes] = { cell  };
+
+
+	// 
+	// Definition of global variable 'table style descriptions'
+	// 
+	// Will be handled as a multi-level structure.
+	//
+	// table style descriptions = global style counter (numeral)
+	//
+	// Step 0:	Create space for a particular table
+	// table name
+	//
+	//	Step 1: The items below contain the generic descriptions
+	//	
+	//      'table' ->
+	//      'row'
+	//        '0','1','2',.. ->
+	//      'column'
+	//          '0','1','2',.. ->
+        //      'cell'
+	//        '0','1','2',..	(rows)
+	//          '0','1','2',.. ->	(columns)
+        //          
+	//          ->  generic attribute name		= generic attribute value
+        //          
+	//	Example: table style description[my table,cell,5,3,wrap text] = true;
+	//
+	//
+	//      Step 2: The procedure 'translate style attributes for excel' generates following structure with XML tags:
+	//
+        //	'HTML'          
+	//	    'table' ->
+	//	    'row'
+	//            '0','1','2',.. ->
+	//	    'column'
+	//              '0','1','2',.. ->
+	//	    'cell'
+	//            '0','1','2',..
+	//              '0','1','2',.. ->
+	//
+	//		->  Row		= Final reference, e.g. style="text-color:#00FF00"
+	//			Width
+	//			Autofilter
+	//		    Column 	= Final reference, e.g. style="width:123pt"
+	//			Height
+	//		    Style	= Final reference, e.g. style="text-color:#00FF00"
+	//			Text Color, Fill Color, Bolface, etc.blanks
+	//		    Autofilter	= Activate autofilter for this cell
+	//		    Comment	= Comment text
+	//		    
+	//			    
+	//
+	//	    'comment'  (HTML to Excel requires a dedicated comment management)
+	//		'Comment0000', 'Comment0001', ... -> { Row number, Column Number, Text } // Parameter Set
+	//		
+	//
+        //	'XML'          
+	//	    'table' ->
+	//	    'row'
+	//            '0','1','2',.. ->
+	//	    'column'
+	//              '0','1','2',.. ->
+	//	    'cell'
+	//            '0','1','2',..
+	//              '0','1','2',.. ->
+	//
+	//		->  Row		= Final reference, e.g. Height="10"
+	//		    Column
+	//		    Style	= Final reference, e.g. ss:ID="St3"
+	//			Font		= All font related attributes, alphabetic order, separated by blanks
+	//			Alignment	= All alignment related attributes, ", "
+	//			Numberformat	= All numberformat related attributes, ", "
+	//			Interior	= All cell interior related attributes, ", "
+	//			Border		= All cell border related attributes
+	//		    Comment		= All references to comments
+	//		    Data		= All references to data (is string, number, date)
+ 	//		    Freeze
+	//			Row		Row number
+	//			Column		Column number
+	//			    
+	//	    'styles'	= Final style string, (Step 3), in format of <Styles> ... </Styles>,  ready for direct insertion
+	//		...	= St1		Var name is <Style ... /> (The ... contents)
+	//		...	= St1		Var name is <Style ... /> (The ... contents)	//
+	//
+	//
+
+
+	global() table style descriptions[] = 0; // Initialize as global variable.   Value is global style counter (for <Styles> ... )
+
+
+
+	define function ( check and translate color, { { generic attribute value, literal or parameters, reference } } )
+	{
+
+	    if ( type(generic attribute value[]) == 'parameter set' )
+	    {
+		if (generic attribute value[]{} != 3) return( "Parameter set for a color must contain 3 elements {red, green, blue}.");
+
+		unless (is numeric(generic attribute value[]{0})) return("First color (red) is not a number.");
+		unless (is numeric(generic attribute value[]{1})) return("Second color (green) is not a number.");
+		unless (is numeric(generic attribute value[]{2})) return("Third color (blue) is not a number.");
+
+		generic attribute value[] = deep( round, { generic attribute value[] } );
+		generic attribute value[] = deep( max, { generic attribute value[], 0 } );
+		generic attribute value[] = deep( min, { generic attribute value[], 255 } );
+		generic attribute value[] = rgb to html code( generic attribute value[]{0}, generic attribute value[]{1}, generic attribute value[]{2});
+	    }
+	    else: if ( type(generic attribute value[]) == 'literal' )
+	    {
+		color code looked up[] = [global color table:Color Name,generic attribute value[],HTML Color];
+		if (color code looked up[]!="HTML Color") // Misses result to referring to header row name
+		{
+			generic attribute value[] = color code looked up[];
+		}
+		else: if ( ( generic attribute value[]{0}!="#") | (length(generic attribute value[])!=7) )  // HTML Code
+		{
+		    return( "If color is specified with a literal, use a valid color name or hexadecimal format #RRGGBB (7 symbols)" );
+		}
+	    }
+	    else : return( "Provided wrong type to specify a color: '", type(generic attribute value[]), "'. Literal or parameter set expected." );
+	    return (""); // OK
+	}
+
+
+
+
+
+	define procedure( verify generic attributes, { { target, literal}, {parameter number, numeral}, { generic attribute name, literal }, 
+			 { generic attribute value, valid, io }} ) 
+	{
+
+	    if ( identify( table style rules[ generic attribute name[] ] ) == 'not found')
+	    {
+		exception( stop, compose(parameter number[], ". Parameter (Attribute Name) = '",generic attribute name[], "' is invalid." ), 2);
+	    }
+
+	    generic attribute choice specifier[] = table style rules[ generic attribute name[], choices] {0};
+
+
+	    switch( generic attribute choice specifier[] )			
+	    {
+
+		case (boolean)
+		{
+		    if ( type(generic attribute value[]) != 'boolean' )
+		    {
+			exception( stop, compose(parameter number[]+1, ". Parameter (Attribute Value) = '",generic attribute value[], "' is invalid. A Boolean 'true' or 'false' expected." ), 2);
+		    }					
+		}
+
+		case (literal)
+		{
+		    if ( type(generic attribute value[]) != 'literal' )
+		    {
+			exception( stop, compose(parameter number[]+1, ". Parameter (Attribute Value) = '",generic attribute value[], "' is invalid. A literal value is expected." ), 2);
+		    }					
+		}
+
+		case (choices)
+		{
+		    if ( find( table style rules[ generic attribute name[], choices] {1}, generic attribute value[]) < 0)
+		    {
+			exception( stop, compose(parameter number[]+1, ". Parameter (Attribute Value) = '",generic attribute value[], "' is invalid.", new line,
+				   "Following choices are valid: ", table style rules[generic attribute name[], choices] {1} ), 2);
+		    }
+		}
+
+
+		case (border spec)
+		{
+		    message[] = compose(parameter number[]+1, ". Parameter (Attribute Value) = '",generic attribute value[], "' is invalid. ", new line,
+				"A parameter set containing 2 elements {border thickness and color} is expected");
+
+		    if (type(generic attribute value[]) != parameter set)	exception( stop, message[], 2);
+		    if (generic attribute value[]{} != 2)			exception( stop, message[], 2);
+
+
+		    if ( find( table style rules[ generic attribute name[], choices] {1}, generic attribute value[]{0}) < 0)
+		    {
+			exception( stop, compose(parameter number[]+1, ". Parameter (Attribute Value) = '",generic attribute value[], "' is invalid. ", new line,
+					 "The 1st value in tuple must be one of ", table style rules[generic attribute name[], choices] {1} ), 2);
+		    }
+
+		    a[] = generic attribute value[]{1}; msg[] = check and translate color( a[] ); generic attribute value[]{1} = a[]; 
+
+		    if (msg[] != "")
+		    {
+			exception( stop, compose(parameter number[]+1, ". Parameter (Attribute Value) = '",generic attribute value[], "' is invalid. ", new line,
+					 "The 2nd value (color) is invalid. ", new line, msg[] ), 2);
+		    }
+		}
+
+		case (colors)
+		{
+		    msg[] = check and translate color( generic attribute value[] );
+		    if (msg[] != "")
+		    {
+			exception( stop, compose(parameter number[]+1, ". Parameter (Attribute Value) = '",generic attribute value[], "' is invalid. ", new line,
+					 "The 2nd value (color) is invalid. ", new line, msg[] ), 2);
+		    }
+		}
+
+		case (numeral 1 or bigger, column width)
+		{
+		    message[] = compose(parameter number[]+1, ". Parameter (Attribute Value) = '",generic attribute value[], "' is invalid. A numeral bigger than 1 or 'automatic' is expected." );
+		    if ( type(generic attribute value[]) != 'numeral' )
+		    {
+			if (generic attribute value[] != 'automatic')		exception( stop, message[], 2);
+		    }					
+		    if ( generic attribute value[] < 1 )			exception( stop, message[], 2);
+		}
+
+		case (integer 0 or bigger, integer 2 or bigger)
+		{
+		    minimum[] = clean numeral(	generic attribute choice specifier[] );
+		    message[] = compose(parameter number[]+1, ". Parameter (Attribute Value) = '",generic attribute value[], "' is invalid. An integer bigger than ", minimum[], " is expected." );
+		    if ( type(generic attribute value[]) != 'numeral' )					exception( stop, message[], 2);
+		    if ( (generic attribute value[] < minimum[]) | !whole(generic attribute value[]) )	exception( stop, message[], 2);
+		}
+
+		case (autofilter row position)
+		{
+		    message[] = compose(parameter number[]+1, ". Parameter (Attribute Value) = '",generic attribute value[], "' is invalid. A positive integer is expected." );
+		    if ( type(generic attribute value[]) != 'numeral' )					exception( stop, message[], 2);
+		    if ( (generic attribute value[] < 0) | !whole(generic attribute value[]) )		exception( stop, message[], 2);
+		}
+	    }	
+	}
+
+
+	define procedure( verify scope, { { target, literal}, {parameter number, numeral}, { generic attribute name, literal } } ) 
+	{
+	    if ( find( table style rules[ generic attribute name[], scopes], target[]) < 0)
+	    {
+		names[] = join("table style " +^ table style rules[ generic attribute name[], scopes], ", ");
+		substitute( names[], row, rows);  // Make plural because function names use plural terms.
+		substitute( names[], column, columns);
+		exception( stop, compose(parameter number[], ". Parameter (Attribute Name) = '",generic attribute name[], "' is invalid for this function call.", new line,
+		  	   "This attribute is allowed for following functions only: ", names[] ), 2);
+	    }					
+
+	}
+
+
+	// Function:	table style table
+	//
+	// Description:	Supply style related information applicable to the entire table
+	//		Before doing this, the parameter conents are checked for correctness first.
+	//
+	// Parameters:	table name	Name of table to apply stylish formatting
+	//		coverage	sheet	  = style apples across entire sheet (incl. beyond end of table)
+	//				table     = style applies until last table column acc. to headers
+	//				body	  = style applies to entire table except the header row.
+	//		parameter 3	Generic Attribute Name (applies to following even numbererd parameters)
+	//		parameter 4	Generic Attribute Value Blue (applies to following odd numbererd parameters)
+	//
+	// Return val:	not applicable
+
+
+	define procedure( table style table, { { table name, literal }, { coverage, literal }, { parameter 3, literal }, { parameter 4, valid } }, 4, unlimited, 2 )
+	{
+	    table style descriptions[ table name[] ] = 0; // Introduce the new table name if not yet existing.
+	    my table[] =^ table style descriptions[ table name[] ]; // Create a reference
+
+	    if ( find( { sheet, table, body }, coverage[] ) < 0)
+	    {
+		exception( stop, compose( "2. Parameter (Coverage) = '",coverage[], "' is invalid.  Valid choices: sheet, table, body" ), 1);
+	    }
+
+	    for (i[] = 3, i[] <= parameter count[], i[]+=2)
+	    {
+
+		// Verify that a correct generic attribute name has been chosen
+
+		generic attribute name[] = ('parameter ' + literal(i[]))[];
+		generic attribute value[] = ('parameter ' + literal(i[]+1))[];
+
+		verify generic attributes( table, i[], generic attribute name[], generic attribute value[] );
+		verify scope( table, i[], generic attribute name[] );
+
+		process cells individually[] = table style rules[ generic attribute name[], XML tags]{0} = Data;
+		process cells collectively[] = table style rules[ generic attribute name[], XML tags]{0} = AutoFilter;
+
+		process cols individually[]  = table style rules[ generic attribute name[], XML tags]{0} = Column;
+		process rows individually[]  = table style rules[ generic attribute name[], XML tags]{0} = Row;
+
+		if (process cols individually[])
+		{
+		    col count[] = table max width( table name[] );
+		    for (c[] = 0, c[] < col count[], c[]++)
+		    {
+			my table[ column, c[], generic attribute name[] ] = generic attribute value[];
+		    }
+		    continue loop;
+		}
+
+		if (process rows individually[])
+		{
+		    row count[] = table length( table name[] );
+		    for (r[] = abs(coverage[]=body), r[] < row count[], r[]++)
+		    {
+			my table[ row, r[], generic attribute name[] ] = generic attribute value[];
+		    }
+		    continue loop;
+		}
+
+
+		if ( ( (coverage[] == sheet ) | process cells collectively[] ) & !process cells individually[])
+		{
+		    my table[ table, generic attribute name[] ] = generic attribute value[];
+		}
+		else
+		{
+		    col count[] = table max width( table name[] );
+		    row count[] = table length( table name[] );
+
+		    for (r[] = abs(coverage[]=body), r[] < row count[], r[]++)
+			for (c[] = 0, c[] < col count[], c[]++)
+			{
+			    my table[ cell, r[], c[], generic attribute name[] ] = generic attribute value[];
+			}
+		}
+
+
+	    }
+	}
+
+
+	// Function:	table style rows
+	//
+	// Description:	Supply style related information applicable 1 or more selected rows
+	//		Before doing this, the parameter conents are checked for correctness first.
+	//
+	// Parameters:	table name	Name of table to apply stylish formatting
+	//		rows		Row number(s)
+	//		columns		Column number(s) or column header names
+	//		coverage	sheet	  = style apples across entire row in entire sheet(incl. beyond end of table)
+	//				table     = style applies until last table column acc. to headers
+	//				body	  = style applies until last table column in current row
+	//		parameter 4	Generic Attribute Name (applies to following odd numbererd parameters)
+	//		parameter 5	Generic Attribute Value Blue (applies to following even numbererd parameters)
+	//
+	// Return val:	not applicable
+
+
+	define procedure( table style rows, { { table name, literal }, { rows, numerals }, { coverage, literal }, { parameter 4, literal }, { parameter 5, valid } }, 5, unlimited, 2 )
+	{
+	    table style descriptions[ table name[] ] = 0; // Introduce the new table name if not yet existing
+	    my table[] =^ table style descriptions[ table name[] ]; // Create a reference
+
+	    if ( find( { sheet, table, body }, coverage[] ) < 0)
+	    {
+		exception( stop, compose( "3. Parameter (Coverage) = '",coverage[], "' is invalid.  Valid choices: sheet, table, body" ), 1);
+	    }
+
+	    for (i[] = 4, i[] <= parameter count[], i[]+=2)
+	    {
+
+		// Verify that a correct generic attribute name has been chosen
+
+		generic attribute name[] = ('parameter ' + literal(i[]))[];
+		generic attribute value[] = ('parameter ' + literal(i[]+1))[];
+
+// Debug	echo("Processing: ", generic attribute name[], ": ", generic attribute value[] );
+
+		if (generic attribute name[] = hidden) generic attribute name[] = hidden row;	// Exception
+
+
+		verify generic attributes( row, i[], generic attribute name[], generic attribute value[] );
+		verify scope( row, i[], generic attribute name[] );
+
+		process cells individually[] = table style rules[ generic attribute name[], XML tags]{0} = Data;
+
+		if ( ( (coverage[]==sheet) | ( find(table style rules[ generic attribute name[], scopes],cell)<0) ) & !process cells individually[] ) // 2nd term catches row height format
+		{
+		    for all parameters(rows[], row[])
+		    {
+			my table[ row, row[]] = true;
+			my table[ row, row[], generic attribute name[] ] = generic attribute value[];
+		    }
+		}
+		else
+		{
+		    for all parameters(rows[], row[])
+		    {
+		        col count[] = table row width( table name[], select if( coverage[]==body, row[], 0 ) );
+			for (column[]=0, column[]<col count[], column[]++)
+			{
+			    my table[ cell, row[], column[]] = true;
+			    my table[ cell, row[], column[], generic attribute name[] ] = generic attribute value[];
+			}
+		    }
+		}
+	    }
+	}
+
+
+	// Function:	table style columns
+	//
+	// Description:	Supply style related information applicable 1 or more selected columns
+	//		Before doing this, the parameter conents are checked for correctness first.
+	//
+	// Parameters:	table name	Name of table to apply stylish formatting
+	//		columns		Column number(s) or column header names
+	//		coverage	sheet     = style apples across entire column (incl. beyond end of table)
+	//				table     = style applies until last table row
+	//				body	  = style applies to all rows except 0 (headers)
+	//		parameter 3	Generic Attribute Name (applies to following odd numbererd parameters)
+	//		parameter 4	Generic Attribute Value Blue (applies to following even numbererd parameters)
+	//
+	// Return val:	not applicable
+
+
+	define procedure( table style columns, { { table name, literal }, { columns, columns }, 
+		{ coverage, literal }, { parameter 4, literal }, { parameter 5, valid } }, 5, unlimited, 2 )
+	{
+	    table style descriptions[ table name[] ] = 0; // Introduce the new table name if not yet existing.
+	    my table[] =^ table style descriptions[ table name[] ]; // Create a reference
+
+
+	    if ( find( { sheet, table, body}, coverage[] ) < 0)
+	    {
+		exception( stop, compose( "3. Parameter (Coverage) = '",coverage[], "' is invalid.  Valid choices: sheet, table, body" ), 1);
+	    }
+
+
+	    for (i[] = 0, i[] < columns[]{}, i[]++)
+	    {
+		header[] = columns[]{i[]};
+		columns[]{i[]} = table column number( table name[], columns[]{i[]} );
+		if (columns[]{i[]} < 0)
+		{
+		    exception( stop, compose( "2. Parameter (Columns):  Header name '", header[], "' is invalid or not existing." ), 1);
+		}
+	    }
+
+
+	    for (i[] = 4, i[] <= parameter count[], i[]+=2)
+	    {
+
+		// Verify that a correct generic attribute name has been chosen
+
+		generic attribute name[] = ('parameter ' + literal(i[]))[];
+		generic attribute value[] = ('parameter ' + literal(i[]+1))[];
+
+
+		if (generic attribute name[] = hidden) generic attribute name[] = hidden column;	// Exception
+
+
+		verify generic attributes( column, i[], generic attribute name[], generic attribute value[] );
+		verify scope( column, i[], generic attribute name[] );
+
+		process cells individually[] = table style rules[ generic attribute name[], XML tags]{0} = Data;
+
+		if ( ( (coverage[]==sheet) | ( find(table style rules[ generic attribute name[], scopes],cell)<0) ) & !process cells individually[] ) // 2nd term catches column width format
+		{
+		    for all parameters(columns[], column[])
+		    {
+			my table[ column, column[], generic attribute name[] ] = generic attribute value[];
+			// Literal formatting with leading blanks enforces numbers in order of increasing numbers
+		    }
+		}
+		else
+		{
+		    row count[] = table length( table name[] );
+		    for all parameters(columns[], column[])
+		    {
+			for (row[]=abs( coverage[]=body ), row[]<row count[], row[]++)
+			{
+			    my table[ cell, row[], column[], generic attribute name[] ] = generic attribute value[];
+			}
+		    }
+		}
+	    }
+	}
+
+
+	// Function:	table style cells
+	//
+	// Description:	Supply style related information applicable 1 or more selected rows intersecting with 1 or more selected columns
+	//		Before doing this, the parameter conents are checked for correctness first.
+	//
+	// Parameters:	table name	Name of table to apply stylish formatting
+	//		columns		Column number(s) or column header names
+	//		rows		Row number(s)
+	//		coverage	single	= Single locations to be formatted
+	//				matrix  = Formats all intersections of specified rows and columns
+	//				field   = Pairs of two X and Y constitute fields.  2nd coordinate must be bigger
+	//				If true:  Contains set of (rows,columns) coordinate to address individual cells
+	//		parameter 5	Generic Attribute Name (applies to following odd numbererd parameters)
+	//		parameter 6	Generic Attribute Value Blue (applies to following even numbererd parameters)
+	//
+	// Return val:	not applicable
+
+
+	define procedure( table style cells, { { table name, literal }, { columns, columns }, { rows, numerals }, { coverage, literal },
+			{ parameter 5, literal }, { parameter 6, valid } }, 4, unlimited, 2 )
+	{
+	    table style descriptions[ table name[] ] = 0; // Introduce the new table name if not yet existing.
+	    my table[] =^ table style descriptions[ table name[] ]; // Create a reference
+
+
+	    if ( find( { single, matrix, field }, coverage[] ) < 0)
+	    {
+		exception( stop, compose( "4. Parameter (Coverage) = '",coverage[], "' is invalid.  Valid choices: single, matrix, field" ), 1);
+	    }
+
+	    if ( coverage[] == single )
+	    {
+		if  ( rows[]{} <> columns[]{} )
+		{
+		    exception( stop, compose( "2. Parameter (Columns) contains ", columns[]{}, " columns and 3. Parameter (Rows) contains ", rows[]{}, " rows", new line,
+				"When using 'single' in the 4. Parameter, mumber of rows and columns specified must be equal"), 1 );
+		}
+	    }
+
+
+	    if ( coverage[] == field )
+	    {
+		if  ( odd(columns[]{}) )
+		{
+		    exception( stop, compose( "2. Parameter (Columns) contains ", columns[]{}, " columns which is an odd number", new line,
+				"When using 'field' in the 4. Parameter, number of columns (and rows) must be even and equal." ), 1);
+		}
+		if  ( odd(rows[]{}) )
+		{
+		    exception( stop, compose( "3. Parameter (Rows) contains ", rows[]{}, " rows which is an odd number", new line,
+				"When using 'field' in the 4. Parameter, number of rows (and columns) must be even and equal." ), 1);
+		}
+		if  ( rows[]{} <> columns[]{} )
+		{
+		    exception( stop, compose( "2. Parameter (Columns) contains ", columns[]{}, " columns and 3. Parameter (Rows) contains ", rows[]{}, " rows", new line,
+				"When using 'field' in the 4. Parameter, mumber of rows and columns specified must be equal"), 1 );
+		}
+
+	    }
+
+
+	    for (i[] = 0, i[] < columns[]{}, i[]++)
+	    {
+		header[] = columns[]{i[]};
+		columns[]{i[]} = table column number( table name[], columns[]{i[]} );
+		if (columns[]{i[]} < 0)
+		{
+		    exception( stop, compose( "2. Parameter (Columns):  Header name '", header[], "' is invalid or not existing." ), 1);
+		}
+	    }
+
+	    for (i[] = 0, i[] < rows[]{}, i[]++)
+	    {
+		if (rows[]{i[]} < 0) 
+		{
+		    rows[]{i[]} += table length(table name[]);
+		}
+	    }
+
+	    for (i[] = 5, i[] <= parameter count[], i[]+=2)
+	    {
+
+		// Verify that a correct generic attribute name has been chosen
+
+		generic attribute name[] = ('parameter ' + literal(i[]))[];
+		generic attribute value[] = ('parameter ' + literal(i[]+1))[];
+
+		verify generic attributes( cell, i[], generic attribute name[], generic attribute value[] );
+		verify scope( cell, i[], generic attribute name[] );
+
+
+		if (coverage[]==matrix)
+		{
+		    for all parameters(rows[], row[])
+		    {
+			for all parameters(columns[], column[])
+			{
+			    my table[ cell, row[], column[], generic attribute name[] ] = generic attribute value[];
+			}
+		    }
+		}
+		else : if (coverage[]==single)
+		{
+		    for all parameters( rows[], row[], j[] )
+		    {
+			column[] = columns[]{j[]};
+			my table[ cell, row[], column[], generic attribute name[] ] = generic attribute value[];
+		    }
+		}
+		else
+		{
+		    {
+			for (j[] = 0, j[] < rows[]{}, j[] ++ ++ )
+			{
+			    for (r[] =  rows[]{j[]}, r[] <= rows[]{j[]+1}, r[]++)
+			    {
+				for (c[] = columns[]{j[]}, c[] <= columns[]{j[]+1}, c[]++)
+				    my table[ cell, r[], c[], generic attribute name[] ] = generic attribute value[];
+			    }
+			} 
+		    }
+		}
+	    }
+	}
+
+
+
+
+
+	// Function:	table deploy row and column styles to cells html
+	//
+	//		
+	// Description:	For HTML:
+	//		Step 1:	Apply the row formats on every cell (if not yet done)
+	//		Step 2: Apply the column formats on every cell (if not yet done)
+	//		Step 3: Apply row, column and background format on every cell if not yet done so.
+	//		Ruling is: Cell overlays row, then column
+	//
+	// Parameters:	table name	Name of table to apply stylish formatting
+	//
+	// Return val:	not applicable
+
+
+	define procedure( table deploy row and column styles to cells for html, { { table name, literal } } )
+	{
+
+	    my table[] =^ table style descriptions[ table name[] ];
+	    my html table[] =^ my table[HTML];
+
+	    // Step 1: Apply row formats on every cell
+
+	    for all variables if existing and valid( my table[ column], v[], column[] )
+	    {
+		l[] = table length( table name[] );
+		for (row[] = 0, row[] < l[], row[]++ )
+		{
+ 		    if (existing and valid( my table[ row, row[]])) // Row formatting supercedes column formatting
+		    {
+			my table[ cell, row[], column[] ] +<== my table[ row, column[] ];
+		    }
+		    my table[ cell, row[], column[] ] +<== my table[ column, column[] ];
+		}
+	    }
+
+	    // Step 2: Apply autofilter on every cell in corresponding row
+
+	    if (existing( my table[ table, autofilter ] ) )
+	    {
+		w[] = table max width( table name[] );
+		for ( column[] = 0, column[] < w[], column[]++)
+		{
+		    my table[ cell, row[], column[], autofilter ] = true;
+		}
+	    }
+
+	    // Step 3: Collect all comments and store them separately
+
+	    comment counter[] = 0;
+	    for all variables if existing and valid( my table[cell], placeholder1[], row[] )
+	    {
+	        for all variables if existing and valid( my table[ cell, row[]], placeholder2[], column[] )
+		{
+		    if (existing and valid( my table[ cell, row[], column[], comment ] ) ) // Register the comment
+		    {
+			comment counter[]++;
+			comment id[] = "Comment" + literal(comment counter[], "0000");
+			my html table[ comment, comment id[] ] =  { row[], column[], my table[ cell, row[], column[], comment ] };
+		    }
+		}
+	    }
+
+	    if (existing(my html table[ comment] ) )
+	    {
+		my html table[ comment] = table style html comments[building block 1];
+
+	        for all variables if existing( my html table[ comment], placeholder1[], comment index[], comment id[]) // Build the comment block
+		{
+		    temp[] = table style html comments[building block 2];
+		    substitute ( temp[], '$1', comment id[] ); // Comment ID
+		    substitute ( temp[], '$2', literal( my html table[ comment, comment index[]]{0} ) ); // Column Number
+		    substitute ( temp[], '$3', literal( my html table[ comment, comment index[]]{1} ) ); // Row    Number
+		    my html table [ comment] += temp[];
+		}
+
+		my html table[ comment] += table style html comments[building block 3];
+
+	        for all variables if existing( my html table[ comment], placeholder1[], comment index[], comment id[]) // Build the comment block
+		{
+		    temp[] = table style html comments[building block 4];
+		    substitute ( temp[], '$4', comment id[] ); // Comment ID
+		    substitute ( temp[], '$5', encode entities(my html table[ comment, comment index[]]{2},true) ); // Comment text
+		    my html table[ comment] += temp[];
+		}
+
+		my html table[ comment] += table style html comments[building block 5]; // Closing
+	    }
+
+	}
+
+
+
+
+	// Function:	table deploy row and column styles to cells for xml
+	//
+	//		
+	// Description:	For XML for Excel:
+	//		Step 1:	Apply the table background formats on existing row and column formats if not already specified
+	//		Step 2: Apply dedicated format on intersection rows and columns (require separate formatting)
+	//		Step 3: Apply row, column and background format on every cell if not yet done so.
+	//		Ruling is: Cell overlays row, then column
+	//
+	// Special cases:
+	//		Autofilter and Freeze defined at table level will not be replicated over cells because it's meaningless.
+	//
+	// Parameters:	table name	Name of table to apply stylish formatting
+	//
+	// Return val:	not applicable
+
+
+	define procedure( table deploy row and column styles to cells for xml, { { table name, literal } } )
+	{
+
+	    my table[] =^ table style descriptions[ table name[] ];
+	    no deploy[] = { freeze rows, freeze columns, autofilter };
+
+
+	    // Step 1: Sheet background to be applied on rows and columns
+
+
+	    if (existing( my table[ table ] ) )
+	    {
+		temp my table[] <== my table[ table ]; // Duplicate table contents and delete unnecessary members
+		for all parameters( no deploy[], a[] ) if (existing( temp my table[a[]] )) delete ( temp my table[a[]] );
+
+	    	for all variables if existing( my table[ column], placeholder[], column[] )
+		    my table[ column, column[] ] +<== temp my table[];
+
+		for all variables if existing( my table[ row], placeholder[], row[] )
+		    my table[ row, row[] ] +<== temp my table[];
+	    }
+
+	    // Step 2: Intersecting rows and columns impacting cells
+
+
+	    for all variables if existing and valid( my table[ column], placeholder1[], column[] )
+		for all variables if existing and valid ( my table[ row], placeholder2[], row[] )
+		{
+		    my table[ cell, row[], column[] ] +<== my table[ row, row[] ];
+		    my table[ cell, row[], column[] ] +<== my table[ column, column[] ];
+		}
+
+
+	    // Step 3: All the formatted cells also need to be under-drawn
+
+
+	    // Bug identified: Sticks at row number 0.
+
+
+	    for all variables if existing and valid( my table[ cell ], placeholder1[], row[] )
+		for all variables if existing and valid( my table[ cell, row[]], placeholder2[], column[] )
+		{
+		    if (existing and valid(my table[ row, row[] ]))
+		    {
+		    	my table[ cell, row[], column[] ] +<== my table[ row, row[] ];
+		    }
+		    if (existing and valid(my table[ column, column[] ]))
+		    {
+		    	my table[ cell, row[], column[] ] +<== my table[ column, column[] ];
+		    }
+		    if (existing(my table[ table ]))
+		    {
+		    	my table[ cell, row[], column[] ] +<== temp my table[];
+		    }
+		}
+	}
+
+
+	// Function:	translate one attribute to html
+	//
+	// Description:	This function translates generic style attributes into single HTML specific assignments.
+	//		
+	//
+	// Parameters:	table name	Name of table
+	//
+	// Return val:	not applicable
+
+
+	define procedure( translate one attribute to html, { { table name, literal }, 
+			{ generic attribute name, literal }, { generic attribute value, valid }, { html attribute element, literal, io } } )
+	{
+
+
+	    html attribute element[] = table style rules[ generic attribute name[], HTML attr ] {0};
+
+
+	    switch( table style rules[ generic attribute name[], choices ] {0} )
+	    {
+
+		case( choices )
+		{
+		    new attribute value[] = table style rules[ generic attribute name[], HTML attr ] {1} { 
+				find( table style rules[ generic attribute name[], choices] {1}, generic attribute value[] ) };
+		    substitute all( html attribute element[], '$', new attribute value[] );
+		}
+
+		case( boolean )
+		{
+		    new attribute value[] = table style rules[ generic attribute name[], HTML attr ] {1} {abs(generic attribute value[])};
+		    substitute all( html attribute element[], '$', new attribute value[] );
+		}
+
+		case( colors, literal )
+		{
+		    substitute all( html attribute element[], '$', generic attribute value[] );
+		}
+
+		case( numeral 1 or bigger, integer 2 or bigger, integer 0 or bigger )
+		{
+		    if (generic attribute name[] == "row height")
+		    {
+			generic attribute value[] *= 1.33333333 * 1.01; // Still 1% inaccurate from Excel but oK
+		    }
+
+		    substitute all( html attribute element[], '$', literal(generic attribute value[]) );
+		}
+		case (column width)
+		{
+		    if (generic attribute value[] == automatic)
+		    {
+			html attribute element[] = ""; // Remove all prior specifications.  Default is automatic.
+		    }
+		    else
+		    {
+		        if (generic attribute value[]>255) generic attribute value[] = 255;
+			substitute all( html attribute element[], '$', literal( (generic attribute value[] + 0.7380112 ) * 7 ) );
+		    }
+		}
+		case( autofilter row position ) // E.g. table with 5 columns, row 0 translates to R1C1:R1C5
+		{
+		    null;
+		    // No action.  Already taken care in function 'table deploy row and column styles to cells for html'
+		    // html attribute element already contains final value
+
+		}
+		case (border spec)
+		{
+		    new attribute value[] = table style rules[ generic attribute name[], HTML attr ] {1} { 
+				find( table style rules[ generic attribute name[], choices] {1}, generic attribute value[]{0} ) };
+
+		    substitute all( html attribute element[], '@', new attribute value[] );
+		    substitute all( html attribute element[], '$', generic attribute value[]{1} );
+		}
+		else // This error should never happen.
+		{
+		    exception( stop, compose( "In procedure call 'translate one attribute to html', Encountered invalid choice type: ", table style rules[ generic attribute name[], choices ] {0} ), 0 );
+		}
+
+	    }
+	}
+
+
+	// Function:	translate one attribute to xml
+	//
+	// Description:	This function translates generic style attributes into single XML specific assignments.
+	//		
+	//
+	// Parameters:	table name	Name of table
+	//
+	// Return val:	not applicable
+
+	define procedure( translate one attribute to xml, { { table name, literal }, 
+			{ generic attribute name, literal }, { generic attribute value, valid }, { xml attribute element, literal, io } } )
+	{
+
+
+	    xml attribute element[] = table style rules[ generic attribute name[], XML attr ] {0};
+	    switch( table style rules[ generic attribute name[], choices ] {0} )
+	    {
+
+		case( choices )
+		{
+		    new attribute value[] = table style rules[ generic attribute name[], XML attr ] {1} { 
+				find( table style rules[ generic attribute name[], choices] {1}, generic attribute value[] ) };
+		    substitute all( xml attribute element[], '$', new attribute value[] );
+		}
+
+		case( boolean )
+		{
+		    new attribute value[] = table style rules[ generic attribute name[], XML attr ] {1} {abs(generic attribute value[])};
+		    substitute all( xml attribute element[], '$', new attribute value[] );
+		}
+
+		case( colors, literal )
+		{
+		    temp[] = select if (generic attribute name[]==comment, encode entities( generic attribute value[], false ), generic attribute value[] );
+		    substitute all( xml attribute element[], '$', temp[] );
+		}
+
+		case( numeral 1 or bigger, integer 2 or bigger, integer 0 or bigger )
+		{
+		    substitute all( xml attribute element[], '$', literal(generic attribute value[]) );
+		}
+		case (column width)
+		{
+
+		    if (generic attribute value[] != automatic)
+		    {
+			if (generic attribute value[]>255) generic attribute value[] = 255;
+
+			factor[] = compare select( generic attribute value[], 9.08863424477337,
+				>= 246,	5.26378013509236,	>=202,	  5.26677578232372,	// A very strange and non-linear relationship between Excel column widths
+				>=166,	5.27042602296493,	>=137,	  5.27487096057466,	// and column widths to supply in the XML.
+				>=112,	5.28026133965846,	>=92,	  5.28686166633303,
+				>=75,	5.29500783222877,	>=62,	  5.30504440272040,
+				>=51,	5.31724792254263,	>=42,	  5.33217802100143,
+				>=34,	5.35044784290403,	>=28,	  5.37324342105396,
+				>=23,	5.40124990202744,	>=19,	  5.43584162143658,
+				>=15,	5.47845180211973,	>=12,	  5.53378969911084,
+				>=10,	5.60512768786549,	>= 8,	  5.69369629692883,
+				>= 7,	5.80989418053962,	>= 6,	  5.84845048760082,
+				>= 5,	6.01692436995969,	>= 4,	  6.23515478752299,
+				>= 3,	6.54037215474440,	>= 2,	  7.14911969693873,
+				>= 0,	9.08863424477337 );
+
+			substitute all( xml attribute element[], '$', literal(generic attribute value[]*factor[]) );
+			substitute all( xml attribute element[], '@', '0' ); // Column width not automatic
+		    }
+		    else
+		    {
+			substitute all( xml attribute element[], '$', '9.08863424477337' ); // Minimum 1
+			substitute all( xml attribute element[], '@', '1' ); // Column width automatic
+		    }
+		}
+		case( autofilter row position ) // E.g. table with 5 columns, row 0 translates to R1C1:R1C5
+		{
+		    generic attribute value[] = literal(generic attribute value[]+1);
+		    new attribute value[] = R + generic attribute value[] + "C1:R" + generic attribute value[] + C + literal(table max width( table name[] ));
+		    substitute all( xml attribute element[], '$', new attribute value[] );
+
+		}
+		case (border spec)
+		{
+		    new attribute value[] = table style rules[ generic attribute name[], XML attr ] {1} { 
+				find( table style rules[ generic attribute name[], choices] {1}, generic attribute value[]{0} ) };
+
+		    substitute all( xml attribute element[], '@', new attribute value[] );
+		    substitute all( xml attribute element[], '$', generic attribute value[]{1} );
+		}
+		else // This error should never happen.
+		{
+		    exception( stop, compose( "In procedure call 'translate one attribute to xml', Encountered invalid choice type: ", table style rules[ generic attribute name[], choices ] {0} ), 0 );
+		}
+
+	    }
+	}
+
+
+
+	// Function:	xml register style
+	//
+	// Description:	This function checks if the style is already registered.  If yes, the reference value is returned.	
+	//		Otherwise it will be registered.
+	//		
+	//
+	// Parameters:	xml style tage contents
+	//
+	// Return val:	Style reference (St1, St2, ... )
+
+
+	define function( xml register style, { { table name, literal }, { xml style tag contents, literal } } )
+	{
+	    if ( existing( table style descriptions[ table name[], XML, styles, xml style tag contents[]] ) )
+	    {
+		style reference[] = table style descriptions[ table name[], XML, styles, xml style tag contents[]];
+	    }
+	    else // It's a new style
+	    {
+		style reference[] = "St" + literal( ++table style descriptions[] ); 
+		table style descriptions[ table name[], XML, styles, xml style tag contents[]] = style reference[];
+	    }
+	    return ( style reference[] );
+	}
+
+
+
+	// Function:	translate style attributes for html
+	//
+	// Description:	This function translates generic style attributes into single HTML resp. HTML  specific assignments.
+	//		
+	//
+	// Parameters:	table name	Name of table
+	//
+	// Return val:	not applicable
+
+
+	// In contrast to XML, cell formatting in HTML are overlapping.
+
+	// Step 1: 	Deploy all row formats on every cell if corresponding format is not yet specified
+	// Step 2:	Deploy all column formats on every cell if corresponding format is not yet specified
+
+
+	define procedure ( translate style attributes for html, { { table name, literal } } )
+	{
+	    unless( existing(table style descriptions[ table name[] ] ) ) return;  // Nothing formatted.
+
+	    if (existing(table style descriptions[table name[], HTML])) global() delete members( table style descriptions[table name[], HTML] );
+
+	    my table[] =^ table style descriptions[ table name[] ];
+	    my table[HTML] = ''; // Create HTML branch
+	    my html table[] =^ my table[HTML];
+
+
+	    table deploy row and column styles to cells for html( table name[] );
+
+
+	    html attribute element[] = ""; // Initialize variable
+
+	    for all variables if existing( my table[ table ], generic attribute value[], i[], generic attribute name[] ) 
+	    {
+//		echo("  translate in table: name = ", generic attribute name[], "  value = ", generic attribute value[] );
+
+		translate one attribute to html( table name[], generic attribute name[], generic attribute value[], html attribute element[] );
+		html tag[] = table style rules[ generic attribute name[], HTML tags ];
+
+		if (html tag[]{0}==Style)
+		{
+		    my html table[ table, Style ] += html attribute element[] + "; "; // Introduce the new table name if not yet existing.
+		}
+	    }	
+	    if (existing(my html table[ table, Style]))
+	    {
+		my html table[ table ] = ' style="' + table style descriptions[ table name[], HTML, table, Style] +'"';
+	    }
+
+	    for all variables if existing and valid( my table[ row ], placeholder[], row[] ) 
+	    {
+		for all variables( my table[ row, row[] ], generic attribute value[], i[], generic attribute name[] ) 
+		{
+//		    echo("  translate in row ", row[], ": name = ", generic attribute name[], "  value = ", generic attribute value[] );
+
+		    translate one attribute to html( table name[], generic attribute name[], generic attribute value[], html attribute element[] );
+		    html tag[] = table style rules[ generic attribute name[], HTML tags ];
+
+		    if (html tag[]{0}=Style)
+		    {
+			my html table[ row, row[], Style ] += html attribute element[]  + "; ";
+		    }
+		    else : if (html tag[]{0}==Row)
+		    {
+ 			my html table[ row, row[], Row ] += html attribute element[]  + " ";
+		    }
+		}
+		if (existing(my html table[ row, row[],Style]))
+		{
+		    my html table[ row, row[]] = ' style="' + my html table[ row, row[],Style] +'" ';
+		}
+		if (existing(my html table[ row, row[],Row]))
+		{
+		    my html table[ row, row[]] += my html table[ row, row[],Row] +' ';
+		}
+	    }
+
+	    for all variables if existing and valid( my table[ column ], placeholder[], column[] ) 
+	    {	
+		for all variables( my table[ column, column[] ], generic attribute value[], i[], generic attribute name[] ) 
+		{
+//		    echo("  translate in column ", column[], ": name = ", generic attribute name[], "  value = ", generic attribute value[] );
+
+		    translate one attribute to html ( table name[], generic attribute name[], generic attribute value[], html attribute element[] );
+		    html tag[] = table style rules[ generic attribute name[], HTML tags ];
+
+		    // The style attribute will not be compared for columns.
+
+		    if (html tag[]{0}==Column)
+		    {
+ 			my html table[ column, column[], Column ] += html attribute element[]  + " ";
+		    }
+		}
+		if (existing(my html table[ column, column[],Column]))
+		{
+		    my html table[ column, column[]] += my html table[ column, column[],Column] +' ';
+		}
+	    }
+
+	    for all variables if existing and valid( my table[ cell], placeholder[], row[] ) 
+	    {
+		for all variables if existing and valid( my table[ cell, row[] ], placeholder[], column[] ) 
+		{
+		    for all variables( my table[ cell, row[], column[] ], generic attribute value[], i[], generic attribute name[] ) 
+		    {
+//			echo("  translate in cell ", row[]), ", ", column[]), ": name = ", generic attribute name[], "  value = ", generic attribute value[] );
+
+			translate one attribute to html ( table name[], generic attribute name[], generic attribute value[], html attribute element[] );
+			html tag[] = table style rules[ generic attribute name[], HTML tags ];
+			if (html tag[]{0}==Style)
+			{
+			    my html table[ cell, row[], column[], Style ] += html attribute element[]  + "; "; // Introduce the new table name if not yet existing.
+			}
+			else : if (html tag[]{0}==Autofilter)
+			{
+ 			    my html table[ cell, row[], column[], Autofilter ] += html attribute element[]  + " ";
+		        }
+
+		    }
+		    if (existing(my html table[ cell, row[], column[], Style]))
+		    {
+			my html table[ cell, row[], column[]] = ' style="' + my html table[ cell, row[], column[], Style] +'" ';
+		    }
+		    if (existing(my html table[ cell, row[], column[], Autofilter]))
+		    {
+			my html table[ cell, row[], column[]] += my html table[ cell, row[], column[], Autofilter] +' ';
+		    }
+		}
+	    }
+	}
+
+
+
+	// Function:	translate style attributes for excel
+	//
+	// Description:	This function translates generic style attributes into single HTML resp. Excel XML specific assignments.
+	//		
+	//
+	// Parameters:	table name	Name of table
+	//
+	// Return val:	not applicable
+
+
+	// For every style related to particular table, row, column or cell:
+	// 1.  Create a style string <styles Style ID > ***these contents here*** </stlyes>
+	// 2.  Check the styles library to see if the string is already available.  If yes, pick the style number.  If no, store it and assign new style jumber
+	//	
+
+
+	define procedure ( translate style attributes for excel, { { table name, literal } } )
+	{
+
+	    unless( existing(table style descriptions[ table name[] ] ) ) return;  // Nothing formatted.
+
+	    if (existing(table style descriptions[table name[], XML])) global() delete members( table style descriptions[table name[], XML] );
+
+	    my table[] =^ table style descriptions[ table name[] ];
+	    my table[XML] = ''; // Create XML branch
+	    my xml table[] =^ my table[XML];
+
+	    table deploy row and column styles to cells for xml( table name[] );
+
+
+	    xml attribute element[] = ""; // Initialize variable
+
+	    for all variables if existing( my table[ table ], generic attribute value[], i[], generic attribute name[] ) 
+	    {
+		echo("  translate in table: name = ", generic attribute name[], "  value = ", generic attribute value[] );
+
+		translate one attribute to xml ( table name[], generic attribute name[], generic attribute value[], xml attribute element[] );
+		xml tag[] = table style rules[ generic attribute name[], XML tags ];
+		my xml table[ table, xml tag[] ] += xml attribute element[] + " "; // Introduce the new table name if not yet existing.
+	    }
+
+	echo("Do rows...");
+	    for all variables if existing and valid( my table[ row], placeholder[], row[] ) 
+	    {
+	echo("    Do rows...", row[]);
+		for all variables( my table[ row, row[] ], generic attribute value[], i[], generic attribute name[] ) 
+		{
+		    echo("  translate in row ", row[], ": name = ", generic attribute name[], "  value = ", generic attribute value[] );
+
+		    translate one attribute to xml ( table name[], generic attribute name[], generic attribute value[], xml attribute element[] );
+		    xml tag[] = table style rules[ generic attribute name[], XML tags ];
+		    my xml table[ row, row[], xml tag[] ] += xml attribute element[] + " "; // Introduce the new table name if not yet existing.
+		}
+	    }
+
+	    for all variables if existing and valid( my table[ column], placeholder[], column[] ) 
+	    {	
+		for all variables( my table[ column, column[] ], generic attribute value[], i[], generic attribute name[] ) 
+		{
+		    echo("  translate in column ", column[], ": name = ", generic attribute name[], "  value = ", generic attribute value[] );
+
+		    translate one attribute to xml ( table name[], generic attribute name[], generic attribute value[], xml attribute element[] );
+		    xml tag[] = table style rules[ generic attribute name[], XML tags ];
+		    my xml table[ column, column[], xml tag[] ] += xml attribute element[] + " "; // Introduce the new table name if not yet existing.
+		}
+	    }
+
+	    for all variables if existing and valid( my table[ cell], placeholder[], row[] ) 
+	    {
+		for all variables if existing and valid( my table[ cell, row[] ], placeholder[], column[] ) 
+		{
+		    for all variables( my table[ cell, row[], column[] ], generic attribute value[], i[], generic attribute name[] ) 
+		    {
+			echo("  translate in cell ", row[], ", ", column[], ": name = ", generic attribute name[], "  value = ", generic attribute value[] );
+
+			translate one attribute to xml ( table name[], generic attribute name[], generic attribute value[], xml attribute element[] );
+			xml tag[] = table style rules[ generic attribute name[], XML tags ];
+			my xml table [ cell, row[], column[], xml tag[] ] += xml attribute element[] + " "; // Introduce the new table name if not yet existing.
+		    }
+		}
+	    }
+
+
+
+	    // Consolidate the style descriptions
+
+	    // On tables:
+
+	    border detected[] = false;
+	    xml style tag contents [] = "";
+	    for all variables if existing( my xml table[ table, Style ], style tag value[], placeholder1[], style tag name[] )
+	    {	
+		if (style tag name[] != Border)
+		{
+		    xml style tag contents [] += "<" + style tag name[] + " " + style tag value[] + "/>";
+		}
+		else: border detected[] = true;
+	    }
+	    if (border detected[]) for all variables if existing( my xml table[ table, Style ], style tag value[], placeholder1[], style tag name[] )
+	    {
+		if (style tag name[] == Border)
+		{
+		    xml style tag contents[] += "<Borders>" + new line;
+		    for all variables if existing( my xml table[ table, Style, Border ], style tag value 2[]  )
+		    {
+			xml style tag contents [] += style tag value 2[]; // Complete border spec inside
+		    }
+		    xml style tag contents[] += "</Borders>" + new line;
+		}
+	    }
+//	    echo("xml style tag contents[] = ", xml style tag contents [] );
+	    if (xml style tag contents [] <> "") my xml table[ table, Style ] = 'ss:StyleID="' + xml register style( table name[], xml style tag contents[] ) + '"';
+
+
+	    
+	    // On rows:
+
+	    for all variables if existing( my xml table[ row], placeholder[], row[] ) 
+	    {
+		my xml row[] =^ my xml table[ row, row[] ];
+
+		border detected[] = false;
+		xml style tag contents [] = "";
+		for all variables if existing( my xml row[ Style ], style tag value[], placeholder1[], style tag name[] )
+		{	
+		    if (style tag name[] != Border)
+		    {
+			xml style tag contents [] += "<" + style tag name[] + " " + style tag value[] + "/>";
+		    }
+		    else: border detected[] = true;
+		}
+		if (border detected[]) for all variables if existing( my xml row[ Style ], style tag value[], placeholder1[], style tag name[] )
+		{
+		    if (style tag name[] == Border)
+		    {
+			xml style tag contents[] += "<Borders>" + new line;
+			for all variables if existing( my xml row[ Style, Border ], style tag value 2[]  )
+			{
+			    xml style tag contents [] += style tag value 2[]; // Complete border spec inside
+			}
+			xml style tag contents[] += "</Borders>" + new line;
+		    }
+		}
+
+//		echo("xml style tag contents[] = ", xml style tag contents [] );
+		if (xml style tag contents [] <> "")  my xml row [ Style ] = 'ss:StyleID="' + xml register style( table name[], xml style tag contents[] ) + '"';
+	    }
+
+
+
+	    for all variables if existing( my xml table[ column], placeholder[], column[] ) 
+	    {
+		my xml column[] =^ my xml table[ column, column[] ];
+
+		border detected[] = false;
+		xml style tag contents [] = "";
+		for all variables if existing( my xml column[ Style ], style tag value[], placeholder1[], style tag name[] )
+		{	
+		    if (style tag name[] != Border)
+		    {
+			xml style tag contents [] += "<" + style tag name[] + " " + style tag value[] + "/>";
+		    }
+		    else: border detected[] = true;
+
+		}
+
+		if (border detected[]) for all variables if existing( my xml column[ Style ], style tag value[], placeholder1[], style tag name[] )
+		{
+		    if (style tag name[] == Border)
+		    {
+			xml style tag contents[] += "<Borders>" + new line;
+			for all variables if existing( my xml column[ Style, Border ], style tag value 2[]  )
+			{
+			    xml style tag contents [] += style tag value 2[]; // Complete border spec inside
+			}
+		    	xml style tag contents[] += "</Borders>" + new line;
+		    }
+		}
+//		echo("xml style tag contents[] = ", xml style tag contents [] );
+		if (xml style tag contents [] <> "") my xml column[ Style ] = 'ss:StyleID="' + xml register style( table name[], xml style tag contents[] ) + '"';
+	    }
+
+
+	    // On cells:
+
+	    for all variables if existing( my xml table[ cell], placeholder2[], row[] ) 
+	    {
+		for all variables if existing( my xml table[ cell, row[] ], placeholder[], column[] ) 
+		{
+		    my xml cell[] =^ my xml table[ cell, row[], column[] ];
+
+		    border detected[] = false;
+		    xml style tag contents [] = "";
+		    for all variables if existing( my xml cell[ Style ], style tag value[], placeholder1[], style tag name[] )
+		    {	
+			if (style tag name[] != Border)
+			{
+			    xml style tag contents [] += "<" + style tag name[] + " " + style tag value[] + "/>";
+			}
+			else: border detected[] = true;
+		    }
+		    if (border detected[]) for all variables if existing( my xml cell[ Style ], style tag value[], placeholder1[], style tag name[] )
+		    {
+			if (style tag name[] == Border)
+			{
+			    xml style tag contents[] += "<Borders>" + new line;
+			    for all variables if existing( my xml cell[ Style, Border ], style tag value 2[]  )
+			    {
+				xml style tag contents [] += style tag value 2[]; // Complete border spec inside
+			    }
+			    xml style tag contents[] += "</Borders>" + new line;
+			}
+		    }
+//		    echo("xml style tag contents[] = ", xml style tag contents [] );
+		    if (xml style tag contents [] <> "") my xml cell[ Style ] = 'ss:StyleID="' + xml register style( table name[], xml style tag contents[] ) + '"';
+		}
+	    }
+
+	    // Put together the <Style> ... </Styles> string
+
+
+	    my xml table[ styles ] = "";
+	    for all variables if existing( my xml table [ styles ], style reference[], placeholder[], xml style tag contents[] )
+	    {
+		my xml table[ styles ]  += '<Style ss:ID="' + style reference[] + '"> ' + xml style tag contents[] + '</Style>' + new line;
+	    }
+	    my xml table[ styles ]  += new line;
+
+
+	    // Put together freeze panes info
+
+	    my xml table[ worksheetoptions ] = "";
+
+	    if ( existing( my xml table[table, Freeze] ))
+	    {
+
+		my xml table[ worksheetoptions ] += "<FreezePanes/><FrozenNoSplit/>" + new line;
+		active pane[] = 0;
+
+		if ( existing( my xml table[table, Freeze, Rows] ))
+		{
+		    active pane[] = 2;
+		    row[] = my xml table[table, Freeze, Rows]; // Row number in literal format
+		    if (numeral(row[])>0)
+		    {
+			my xml table[ worksheetoptions ] += "<SplitHorizontal>"+row[]+"</SplitHorizontal><TopRowBottomPane>"+row[]+"</TopRowBottomPane>" + new line;
+		    }
+		}
+
+		if ( existing( my xml table[table, Freeze, Columns] ))
+		{
+		    active pane[] = select if( active pane[]==2, 0, 1 );
+		    col[] = my xml table[table, Freeze, Columns]; // Row number in literal format
+		    if (numeral(col[])>0)
+		    {
+			my xml table[ worksheetoptions ] += "<SplitVertical>"+col[]+"</SplitVertical><LeftColumnRightPane>"+col[]+"</LeftColumnRightPane>" + new line;
+		    }
+		}
+
+		my xml table[ worksheetoptions ] += "<ActivePane>" + literal(active pane[]) + "</ActivePane>" + new line;
+
+	    }
+	
+	    if (my xml table[ worksheetoptions ] != "") // Add prefix and suffix
+	    {
+		my xml table[ worksheetoptions ] = 
+			'<WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">' + new line +
+			my xml table[ worksheetoptions ] +
+			"</WorksheetOptions>" + new line;
+	    }
+	} 
+
+
+	// Function:	table style reset
+	//
+	// Description:	This function resets all style descriptions.
+	//		
+	//
+	// Parameters:	1.2.,...	table name	Name of table
+	//
+	// Return val:	not applicable
+
+
+	define procedure( table style reset, { { parameter 1, literal } }, 0, unlimited, 1  )
+	{
+
+	    for (i[] = 1, i[] <= parameter count[], i[]++)
+	    {
+		table name[] = ('parameter ' + literal(i[]))[];
+		if ( existing( table style descriptions[ table name[] ] ))
+		{
+		    global() delete ( table style descriptions[ table name[] ] );
+		}
+	    }
+	}
+
+
+}
+
+
+
+	table load( t, cities.csv );
+//	table style table( t, sheet, text color, red );
+
+	table style rows( t, 3, sheet, text color, blue );
+	translate style attributes for excel( t );
+
+	inspect(table style descriptions[]);
+pause;
+
+//	table style columns( t, 3, sheet, text color, magenta );
+//	table style cells( t, 4, 4, single, text color, ocre );
+	table save( t, "c.xls", EXCEL );
+

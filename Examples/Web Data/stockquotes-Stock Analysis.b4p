@@ -1,5 +1,6 @@
 #!/usr/local/bin/b4p
 {
+	include ( Style Library );
 
 //	Step 1: Download two web pages.
 
@@ -20,13 +21,27 @@
 
 	table correct headers			( stocks, '*Price*', Price );
 	table rearrange columns			( stocks, { '#', Company, Symbol, Price, Chg, '% Chg' } ); 		// Weightings follow afterwards
-	table process				( stocks, ['% Chg'] = middle( ['% Chg'], '(', ')' ); [Price] = clean numeral([Price]) );
+	
+	// Percent value gets converted to regular number, price value is claned up
+
+	table process				( stocks, ['% Chg'] = smart numeral( middle( ['% Chg'], '(', ')' )); [Price] = clean numeral([Price]) );
 	table sort rows				( stocks, Company );
 	table process				( stocks, ['#'] = row() );
 
-//	Step 4: Done.
+//	Step 4: Add some color
 
-	table save( stocks, "Stocks.csv" );
+	table process				( stocks,
+	    table style cells			    ( stocks, { 'Chg', '% Chg' }, { 2: row() }, single, text color, select if ( [Chg]>0, excel green, red ) ) );
+
+	table style rows			( stocks, 0, table, fill color, gray 14, boldface, true, wrap text, true );
+	table style columns			( stocks, Company, sheet, column width, 30 );
+	table style columns			( stocks, '% Chg', sheet, number format, "0.00%" ); // Value to show as percent.
+	table style table			( stocks, sheet, freeze rows, 1, autofilter, 0);
+
+//	Step 5: Save the artwork
+
+	translate style attributes for excel	( stocks );
+	table save excel file			( stocks, "NASDAQ and SP500", Stocks.xlsx );
 
 
 //	Homework for you:

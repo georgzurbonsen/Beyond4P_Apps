@@ -1,0 +1,868 @@
+
+/*
+	TODO - Further clean-ups
+
+	* Resolving line breaks in this file for wrap text (Move in style preparer into this file)
+	* Wait if output file is locked
+
+	* Empower the rows for cell formatting
+	* Empower the columns for cell formatting
+
+*/
+
+
+
+include( Use Style Library.b4p );
+
+	// Function:	define excel style attribute
+	//
+	// Description:	The requested style will be added to the Excel file.
+	//
+	// Parameters:	attributes (reference)
+	//
+	// Side effects: All style related tables
+	//
+	// Return val:	Style number
+
+
+	define procedure and function( define excel style attributes, { { attributes, all, reference } } )
+	{
+	    // Principal appraoch: Check if new setting is already in the table.  If yes, use it.  If not, add it to the table.
+
+
+	    // Fonts
+
+	    apply font[] = existing(attributes[text color]) | existing(attributes[font name]) | existing(attributes[font size]) | existing(attributes[italic]) | existing(attributes[boldface])| existing(attributes[underscore]);
+	    font id[] = 0; // Not affected - Use default.
+	    if (apply font[]) with table( __ int fonts __, 1 )
+	    {
+		font id[] = table add missing row( __ int fonts __, [..,0],
+		    {
+			pick if( existing(attributes[font name ]), attributes[font name ],			[name val] ),
+			pick if( existing(attributes[font size ]), attributes[font size ],			[sz val] ),
+			pick if( existing(attributes[text color]), "FF" + (attributes[text color] - "#"),	[color rgb] ),
+			pick if( existing(attributes[italic    ]), abs(attributes[italic ]),			[i] ),
+			pick if( existing(attributes[boldface  ]), abs(attributes[boldface]),			[b] ),
+			pick if( existing(attributes[underscore]), abs(attributes[underscore]),			[u] )
+		    } ) - 1;
+	    }
+
+
+	    // Fills
+
+	    apply fill[] = existing(attributes[fill color]);
+	    fill id[] = 0; // Not affected - Use default.
+	    if (apply fill[]) with table( __ int fills __, 1 )
+	    {
+		fill id[] = table add missing row( __ int fills __, [..,0], // Pattern Type and BG color still unused. Use default values from row 1
+		    {
+			solid,
+			pick if( existing(attributes[fill color]), "FF" + (attributes[fill color] - "#"),	[fgColor rgb] ),
+			''
+		    } ) - 1;
+	    }
+
+
+	    // Borders
+
+	    apply border[] = false;
+	    for all parameters( { left border, right border, top border, bottom border }, border[] )
+	        if (existing(attributes[border[]]))
+		{
+		    (border[])[] = attributes[border[]]{0};
+		    if (border[][] <> thin,medium,thick) (border[])[] = thin; // changes other thicknesses to default thin (e.g. hairline)
+		    apply border[] = true;
+		}
+
+	    border id[] = 0; // Not affected - Use default.
+	    if (apply border[]) with table( __ int borders __, 1 )
+	    {
+		border id[] = table add missing row( __ int borders __, [..,0], // Pattern Type and BG color still unused. Use default values from row 1
+		    {
+			pick if( existing(attributes[left   border]), left   border[], 					[left style] ),
+			pick if( existing(attributes[left   border]), "FF" + (attributes[left   border]{1} - "#"),	[left color rgb] ),
+			pick if( existing(attributes[right  border]), right  border[], 					[right style] ),
+			pick if( existing(attributes[right  border]), "FF" + (attributes[right  border]{1} - "#"),	[right color rgb] ),
+			pick if( existing(attributes[top    border]), top    border[], 					[top style] ),
+			pick if( existing(attributes[top    border]), "FF" + (attributes[top    border]{1} - "#"),	[top color rgb] ),
+			pick if( existing(attributes[bottom border]), bottom border[], 					[bottom style] ),
+			pick if( existing(attributes[bottom border]), "FF" + (attributes[bottom border]{1} - "#"),	[bottom color rgb] )
+		    } ) - 1;
+	    }
+
+
+	    // Number Formats
+
+	    apply number format[]	= existing(attributes[number format]);
+	    number format id[]		= 0; // Not affected - Use default.
+	    if (apply number format[])
+	    {
+		number format id[] 	= [__ excel number formats __:Excel Format,attributes[number format]]; // Check if this is a standard one
+		if (number format id[] < 0)  // Not found in original list, add it up.
+		{
+		    number format id[]	= table add missing row( __ int number formats __, formatCode, { attributes[number format] } );
+		    [__ int number formats __: numFmtId, number format id[]] = number format id[] + 163; // Excel rule: all custom number formats begin with 164
+		    number format id[]	+= 163; // See above
+		}		
+	    }
+
+
+	    // Alignments and Overall Style List
+
+	    apply alignment[] = false;
+	    if (existing(attributes[horizontal align]))
+	    {
+		apply alignment[horizontal] = select if ( attributes[horizontal align]=='middle', 'center', attributes[horizontal align] );
+		apply alignment[]= true;
+	    }
+	    else: apply alignment[horizontal] = '';
+
+	    if (existing(attributes[vertical align]))
+	    {
+		apply alignment[vertical] = attributes[vertical align];
+		apply alignment[]= true;
+	    }
+	    else: apply alignment[vertical] = '';
+
+	    if (existing(attributes[wrap text]))
+	    {
+		apply alignment[wrap text] = attributes[wrap text]+0; // Convert true/false to 1/0
+		apply alignment[]= true;
+	    }
+	    else: apply alignment[wrap text] = '';
+
+	    apply any[]			= apply font[] | apply fill[] | apply border[] | apply number format[] | apply alignment[];
+	    style id[]			= 0;
+
+	    if (apply any[]) with table( __ int all styles __, 1 )
+	    {
+		style id[] = table add missing row( __ int all styles __, [..,0],
+		    {
+			border id[],		fill id[],			font id[],			number format id[],
+			apply alignment[]+0,	apply alignment[horizontal],	apply alignment[vertical],	apply alignment[wrap text] 
+		    } ) - 1;
+	    }
+
+
+	    return (style id[]);
+	}
+
+
+
+	// Function:	table save excel file
+	//
+	// Description:	Loads tables from a specified excel file
+	//
+	// Parameters:	table names		1 or more source tables
+	//		sheet names		1 or more sheet names (count must match)
+	//		excel file name		Name of Exel file (e.g. .xlsx)
+	//		sheet name to show	Optional parameter: Specify sheet name which shall be shown first when opening the Excel file (optional)
+	//
+	// Return val:	-
+
+
+	define procedure and function( table save excel file, { { table names, to parameters members to literal }, { sheet names, to parameters members to literal }, { excel file name, literal }, { active sheet name, literal } }, 3, 4 )
+	{
+
+		slash[] = system info[directory separator];
+
+		forget memorized table columns;
+		temp verbose[] = runtime settings[verbose];
+		runtime settings[verbose] = quiet;
+		sheet number[]			 = 1;	// Default
+
+		runtime settings[verbose] = temp verbose[];
+
+		// Step 1:  Checking all input parameters
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		if (temp verbose[] <> quiet,low)
+		{
+		    echo("    Start saving Excel file '", excel file name[], "'.");
+		    echo("    Step 1:    Checking parameters provided ...");
+		}
+
+		if ( table names[]{} <> sheet names[]{})
+		{
+		    exception( stop, compose("Function '", function name[], "':", new line, "1st parameter contains ", 
+				table names[]{}, " and 2nd parameter contains ", sheet names[]{}, " elements which are not equal."), 1);
+		}
+
+		if ( table names[]{} == 0)
+		{
+		    exception( stop, compose("Function '", function name[], "':", new line, "1st parameter contains 0 elements (no table specified)."),	 1);
+		}
+
+		for all parameters( sheet names[], sheet name[] )
+		{
+			if ( excel validate sheet name( sheet name[] ) = false )
+		    		exception( stop, compose("Function '", function name[], "':", new line, "Sheet name '", sheet name[], "' is not valid for Excel and will not be accepted so by Excel."), 1);
+		}
+
+		for all parameters( table names[], table name[] )
+		{
+			if ( !table existing( table name[] ) )
+		    		exception( stop, compose("Function '", function name[], "':", new line, "Table name '", table name[], "' is not existing."), 1);
+		}	
+
+		active sheet number[] = 0; // counts from 0, i.e. 0 = sheet 1, 1 = sheet 2, etc.
+		if (parameter count[]>=4)
+		{
+			active sheet number[] = find( sheet names[], active sheet name[] );
+			if ( active sheet number[] < 0 )
+		    		exception( stop, compose("Function '", function name[], "':", new line, "4th parameter [active sheet name] = '", active sheet name[],"' not found in 2nd parameter."), 1);
+		}
+
+		if (excel file name[] <> '*.xlsx')
+		{
+		    exception( stop, compose("Function '", function name[], "':", new line, "3rd parameter [excel file name] = '", excel file name[], "' does not end with .xlsx"), 1 );
+		}
+
+
+		styles available[] = false;
+		if (existing(table style descriptions[table name[], EXCEL]))
+		{
+			my table[] 			=^ table style descriptions[ table name[] ];
+			my excel table[] 		=^ my table[EXCEL];
+			styles available[]		= true;
+		}
+
+
+
+		// Step 2:  Create intermediate data tables, several of them are needed for formatting and style
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		if (temp verbose[] <> quiet,low)
+		{
+		    echo("    Step 2:    Create intermediate data tables ...");
+		}
+
+
+
+		table initialize ( __ int fonts __,
+			{
+				{ name val,	sz val,	color rgb,	i,	b,	u },
+				{ Calibri,	11,	"FF000000",	0,	0,	0 }
+			} );
+
+
+		table initialize ( __ int fills __,
+			{
+				{ patternType,	fgColor rgb,	bgColor rgb },
+				{ none	},
+				{ gray125 }
+			} );
+
+
+		table initialize ( __ int borders __,
+			{
+				{ left style,	left color rgb,		right style,	right color rgb,	top style,	top color rgb,	bottom style,	bottom color rgb }, 
+				{} // 1st data row represents default (no borders)
+			} );
+
+
+		table initialize ( __ int number formats __,
+			{
+				{ numFmtId,	formatCode }
+			} );
+
+
+		table initialize ( __ int all styles __,
+			{
+				{ borderId, fillId, fontId, numFmtId, applyAlignment, alignment horizontal, alignment vertical, alignment wrapText },
+				{ 0,        0,      0,      0,        0 }
+			} );
+
+
+		table initialize		( __ int shared strings __, { String } );
+		table configure			( __ int shared strings __, read numerals, no );
+
+
+		sheet count[] 			= table names[]{};
+
+
+		for all parameters( table names[], table name[], i[] )
+		{
+			sheet name[] = sheet names[]{i[]};
+			int table contents[] = compose("__ int ",i[]," contents __");  // e.g. "__ int 0 contents __"
+
+			table initialize( int table contents[], { { Coord, Type, Style, Value } } );
+			// Column 'Coord' originally contains coordinates.  At the end, it contains the combined XML row
+			
+			last row[] = table length( table name[] ) - 1;
+			this table[] =^ table style descriptions[table name[]];
+			given row numbers[] = {-1};
+
+
+			// Identify all row numbers with cells and row formatting
+
+			if (existing( this table[cell] ))
+			{
+				given row numbers[] 		= deep( numeral, {set names(this table[cell],1,all)} );
+				last row[] 			= max 123( last row[], given row numbers[]{-1} );
+				rows with cell styles[]		= { last row[]+1 : false };
+				for all parameters ( given row numbers[], r[] ) rows with cell styles[]{r[]} = true;
+			}
+			else	rows with cell styles[]		= { last row[]+1 : false };
+
+			echo( rows with cell styles[] );
+//			interactive;
+
+
+			row seq[] = 0; // Row number for sequential list to be generated
+
+			given row numbers[index] = 0;
+			for ( row[] = 0, row[] <= last row[], row[]++)
+			{
+			    last col[] = pick if( row[] >= table length( table name[] ), 0, table row width( table name[], row[] )) - 1;
+			    while ((given row numbers[]{given row numbers[index]} < row[]) & (given row numbers[index]+1 < given row numbers[]{})) given row numbers[index]++;
+			    row with cell style info[] = given row numbers[]{given row numbers[index]} == row[]; // Boolean
+			    given col numbers[] = {-1};
+			    if (row with cell style info[])
+			    {
+				this row[] =^ this table[cell,given row numbers[index]];
+				given col numbers[] = deep( numeral, {set names(this row[],1,all)} );
+				if (given col numbers[]{-1} > last col[]) [table name[]:given col numbers[]{-1},row[]] = ''; // Pad up table if cells are formatted beyond last existing column
+				last col[] = max 123( last col[], given col numbers[]{-1} );
+			    }
+
+//			    echo( "Row: ", row[], "  Given col number: ", given col numbers[]);
+			
+
+			    given col numbers[index] = 0;
+			    for ( col[] = 0, col[] <= last col[], col[]++) with table( table name[], row[], col[] )
+			    {
+			    	while ((given col numbers[]{given col numbers[index]} < col[]) & (given col numbers[index]+1 < given col numbers[]{})) given col numbers[index]++;
+			    	col with cell style info[] = given col numbers[]{given col numbers[index]} == col[]; // Boolean
+
+//				echo( "   Col: ", col[] );
+
+				style[] = '';
+				force literal[] = false;
+				if (col with cell style info[])
+				{
+				    this cell[] =^this row[given col numbers[index]];
+				    if (existing( this cell[type] )) if ( this cell[type]==literal ) force literal[] = true;
+				    style[] = define excel style attributes (  this cell[] );
+//				    echo("Found a cell style, assigned number: ", style[]);
+// Debug			    interactive;
+				}
+				if (style[]==0) style[] = '';
+
+				    val[] = best type([.]);
+				    if (force literal[] & type(val[])=boolean,date) val[] = [.]; // Overrun boolean and date values values if literal type is forced
+				    if ((val[]=='') & (style[]='')) continue;
+				    row seq[]++;
+
+				    switch( type(val[]) )
+				    {
+					case(boolean) // Boolean
+					{
+					    table append( int table contents[], { { excel coordinates(), b,  style[], abs(val[]) } } );
+					}
+					case(date) // Date
+					{
+					    table append( int table contents[], { { excel coordinates(), '', style[], abs(val[]) } } );
+					}
+					case(numeral) // Numbers
+					{
+					    table append( int table contents[], { { excel coordinates(), '', style[], [.] } } );
+					}
+					else // Add strings
+					{
+					    if (val[]!='')
+					    {
+						substitute all  ( val[], {'&','<','>'}, { "&amp;", "&lt;", "&gt;" } );
+						table append( int table contents[], { { excel coordinates(), s, style[], val[] } } );
+						table append( __ int shared strings __, { val[] } );
+					    }
+					    else // Blank contents
+					    {
+						table append( int table contents[], { { excel coordinates(), '', style[], '' } } );
+					    }
+					}
+
+				    } // switch ...
+			    } // for (col[] ...
+			} // for (row[] ...
+
+		} // for all parameters( table names[] ...
+
+
+
+		// Consolidate shared strings and in the Excel tables, replace string contents by reference numbers.
+
+		if (temp verbose[] <> quiet,low)
+		{
+		    echo("    Step 3:    Consolidate shared strings list and refer to it ...");
+		}
+
+		table consolidate( __ int shared strings __, String );
+
+		for all parameters( table names[], table name[], i[] )
+		{
+			sheet name[] = sheet names[]{i[]};
+			int table contents[] = compose("__ int ",i[]," contents __");  // e.g. "__ int 0 contents __"
+
+			table lookup 			( int table contents[], Value, Value, __ int shared strings __, String, '#row', [Type]==s );
+			table process selected rows	( int table contents[], [Type]==s, [Value]-- ); // String counting begins with 0
+		}
+
+
+
+
+
+		// Prepare files
+
+		if (temp verbose[] <> quiet,low)
+		{
+		    echo("    Step 4:    Consolidate shared strings list and refer to it ...");
+		}
+
+		original working directory[] = working directory();
+
+		template directory[]	= ".\B4P Excel Template";
+		excel file directory[]	= working directory() + slash[]+ "Work";
+
+		file delete recursive all( excel file directory[] ); // Delete 'Work'
+
+		file copy recursive( template directory[], excel file directory[] );
+		echo("Excel file directory: ", excel file directory[]);
+		working directory( excel file directory[] );
+
+
+		// Prepare [Content_Types].xml
+		// Specify all sheets
+		// -----------------------------------------------------------------------------------------------------------------
+
+		table load			( __ content types __, "[Content_Types].xml", TEXT );
+		row[] 				= table selected rows( __ content types __, [0]='*sheet1.xml*' ){0};
+		if (row[] = {})			exception( stop, compose("Function '", function name[], "':", new line, "Contents in file '[Content_Types].xml' invalid"), 1);
+
+		for all parameters( table names[], table name[], i[] ) if (i[]>=1) with table( __ content types __, row[], i[] )
+		{
+		    [.] = replace( [0], 'sheet1', 'sheet' + literal(i[]+1) );
+		}
+		table save			( __ content types __, "[Content_Types].xml", TEXT );
+		table delete			( __ content types __ );
+
+
+		// Prepare docProps\app.xml
+		// Specify all sheets (count and actual sheet names)
+		// -----------------------------------------------------------------------------------------------------------------
+
+		table load			( __ app __, "docProps\app.xml", TEXT );
+		table process selected rows	( __ app __, ([0]='*$sheet count$*'), substitute( [0], '$sheet count$', literal(sheet count[]) ) );
+		row[] 				= table selected rows( __ app __, [0]='*$sheet name$*' ){0};
+		if (row[] = {})			exception( stop, compose("Function '", function name[], "':", new line, "Contents in file 'docProps\app.xml' invalid"), 1);
+
+		with table( __ app __, row[] )
+		{
+		    orig[] = [0]; // Original string
+		    for all parameters( table names[], table name[], i[] )
+		    {
+		        [i[]] = replace( orig[], '$sheet name$', sheet names[]{i[]} );
+		    }
+		}
+		table save			( __ app __, "docProps\app.xml", TEXT );
+		table delete			( __ app __ );
+
+
+		// Prepare docProps\core.xml
+		// Specify user name and date created / last modified
+		// -----------------------------------------------------------------------------------------------------------------
+
+		orig[] 				= literal( date(utc), "YYYY-MM-DD'T'HH:II:SS'Z'" ); // Time stamp in W3CDTF format
+		table load			( __ core __, "docProps\core.xml", TEXT );
+		table process selected rows	( __ core __, ([0]='*$user name$*'),  substitute( [0], '$user name$',  "B4P "+system info[user name] ) );
+		table process selected rows	( __ core __, ([0]='*$time stamp$*'), substitute( [0], '$time stamp$', orig[] ) );
+		table save			( __ core __, "docProps\core.xml", TEXT );
+		table delete			( __ core __ );
+
+		// Prepare xl\_rels\workbook.xml.rels
+		// Specify all sheets
+		// -----------------------------------------------------------------------------------------------------------------
+
+		table load			( __ workbook __, "xl\_rels\workbook.xml.rels", TEXT );
+		row[] 				= table selected rows( __ workbook __, [0]='*sheet1.xml*' ){0};
+		if (row[] = {})			exception( stop, compose("Function '", function name[], "':", new line, "Contents in file 'xl\_rels\workbook.xml.rels' invalid"), 1);
+
+		for all parameters( table names[], table name[], i[] ) if (i[]>=1) with table( __ workbook __, row[], i[] )
+		{
+		    [.] = replace all( [0], {'sheet1', 'rId11'}, {'sheet' + literal(i[]+1), 'rId1' + literal(i[]+1) } );
+		}
+		table save			( __ workbook __, "xl\_rels\workbook.xml.rels", TEXT );
+
+
+		// Prepare xl\workbook.xml
+		// Specify all sheets (count and actual sheet names)
+		// -----------------------------------------------------------------------------------------------------------------
+
+		table load			( __ workbook __, "xl\workbook.xml", TEXT );
+		table process selected rows	( __ workbook __, ([0]='*$sheet count$*'),         substitute( [0], '$sheet count$',         literal(sheet count[]        ) ) );
+		table process selected rows	( __ workbook __, ([0]='*$active sheet number$*'), substitute( [0], '$active sheet number$', literal(active sheet number[]) ) );
+
+		row[] 				= table selected rows( __ workbook __, [0]='*$sheet name$*' ){0};
+		if (row[] = {})			exception( stop, compose("Function '", function name[], "':", new line, "Contents in file 'xl\workbook.xml' invalid"), 1);
+
+		with table( __ workbook __, row[] )
+		{
+		    orig[] = [0]; // Original string
+		    for all parameters( table names[], table name[], i[] )
+		    {
+		        [i[]] = replace all( orig[], { '$sheet name$', $sheet number$ }, { sheet names[]{i[]}, literal(i[]+1) } );
+		    }
+		}
+		table save			( __ workbook __, "xl\workbook.xml", TEXT );
+		table delete			( __ workbook __ );
+
+
+		// Prepare xl\sharedStrings.xml
+		// Save all shared strings
+		// -----------------------------------------------------------------------------------------------------------------
+
+// Debug	table save			( __ int shared strings __, "..\shared strings.csv" );
+
+		i[] = table length( __ int shared strings __ );
+		[__ int shared strings __:..,0] 	= { '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>',	// Preamble
+						    compose( '<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="',i[],'" uniqueCount="',i[],'">' ) };
+
+		table process			( __ int shared strings __, [0] = '<si><t>' + [0] + '</t></si>' );	// Body
+		table append 			( __ int shared strings __, {'</sst>'} );				// Trailer
+		table save			( __ int shared strings __, "xl\sharedStrings.xml", TEXT );
+
+		table delete			( __ int shared strings __ ); // No longer needed
+
+
+
+
+
+		// Prepare xl\styles.xml
+		// Consolidate the styles references in the worksheet files
+		// -----------------------------------------------------------------------------------------------------------------
+
+		if (temp verbose[] <> quiet,low)
+		{
+		    echo("    Step 5:    Translate all format and style attributions to XML ...");
+		}
+
+		// Fonts
+
+		table insert columns( __ int fonts __, XML );  // Addtl colum for XML code
+		table process( __ int fonts __,
+		{
+			[XML] = compose( '<font> <sz val="', [sz val], '"/> <name val="', [name val], '"/> <color rgb="', [color rgb], '"/> ' );
+			if ([i]==1) [XML] += '<i/> ';
+			if ([u]==1) [XML] += '<u/> ';
+			if ([b]==1) [XML] += '<b/> ';
+			[XML] += '</font>';
+		} );
+		table keep columns ( __ int fonts __, XML );
+		[__ int fonts __:0,0] = compose( '<fonts count="', table length( __ int fonts __ )-1, '">' );
+		table append ( __ int fonts __, { '</fonts>' } );
+
+
+		// Fills
+
+		table insert columns( __ int fills __, XML );  // Addtl colum for XML code
+		table process( __ int fills __,
+		{
+			[XML] = compose( '<fill> <patternFill patternType="', [patternType], '"' ); // Not yet closed
+			if ([patternType] = 'none,gray*') // Defaults
+			{
+			    [XML] += '/> '; // Close immmediately
+			}
+			else
+			{
+			    [XML] += '> ';
+			    if ([fgColor rgb]!='') [XML] += '<fgColor rgb="' + [fgColor rgb] + '"/> ';
+			    if ([bgColor rgb]!='') [XML] += '<bgColor rgb="' + [bgColor rgb] + '"/> ';
+			    else:  [XML] += '<bgColor indexed="64"/> ';
+			    [XML] += '</patternFill> ';
+			}
+			[XML] += '</fill>';
+		} );
+		table keep columns ( __ int fills __, XML );
+		[__ int fills __:0,0] = compose( '<fills count="', table length( __ int fills __ )-1, '">' );
+		table append ( __ int fills __, { '</fills>' } );
+
+
+		// Borders
+
+		table insert columns( __ int borders __, XML );  // Addtl colum for XML code
+		table process( __ int borders __,
+		{
+			[XML] = compose( '<border> ' ); 
+			for all parameters( { left, right, top, bottom }, s[] ) // Sequence left, right, top, bottom must be in *this* order (reqired for Excel)
+			{
+			    if( [s[] +' style'] == '')  [XML] += '<' + s[] +'/> ';
+			    else
+			    {
+				[XML] += '<' + s[] +' style="' + [s[] +' style'] + '"> <color rgb="' + [s[] +' color rgb'] + '"/> </' + s[] + '> ';
+			    }
+			}
+			[XML] += '<diagonal/> </border>'; // No diagonals supported in B4P
+
+		} );
+
+		table keep columns ( __ int borders __, XML );
+		[__ int borders __:0,0] = compose( '<borders count="', table length( __ int borders __ )-1, '">' );
+		table append ( __ int borders __, { '</borders>' } );
+
+//		table list( __ int borders __ );
+
+
+		// Number Formats
+
+		if (table length ( __ int number formats __ ) <= 1) // No number formats
+		{
+		    table initialize( __ int number formats __, { "<!-- No number formats specified -->" } );
+		}
+		else // Some number formats are inside
+		{
+		    table insert columns	( __ int number formats __,  XML );  // Addtl colum for XML code
+		    table process		( __ int number formats __, [XML] = compose( '<numFmt formatCode="', literal([formatCode]), '" numFmtId="', [numFmtId], '"/> ' ) );
+		    table keep columns		( __ int number formats __,  XML );
+		    [__ int number formats __:0,0] = compose( '<numFmts count="', table length( __ int number formats __ )-1, '">' );
+		    table append		( __ int number formats __, { '</numFmts>' } );
+		}
+
+
+		// Alignments and Overall Style List
+
+		table insert columns( __ int all styles __, XML );  // Addtl colum for XML code
+		table process( __ int all styles __,
+		{
+			[XML] = compose( '<xf numFmtId="', [numFmtId], '" borderId="', [borderId], '" fillId="', [fillId], '" fontId="', [fontId], '" xfId="0" ' );
+			if ([numFmtId]!=0) [XML] += 'applyNumberFormat="1" ';
+			if ([borderId]!=0) [XML] += 'applyBorder="1" ';
+			if ([fillId  ]!=0) [XML] += 'applyFill="1" ';
+			if ([fontId  ]!=0) [XML] += 'applyFont="1" ';
+			if ([applyAlignment]==0) [XML] += '/>';
+			else
+			{
+			    [XML] += '> <alignment ';
+			    if ([alignment horizontal] != '')  [XML] += 'horizontal="' + [alignment horizontal] + '" ';
+			    if ([alignment vertical  ] != '')  [XML] += 'vertical="'   + [alignment vertical  ] + '" ';
+			    if ([alignment wrapText  ] != '')  [XML] += 'wrapText="1" ';
+			    [XML] += '/> </xf>';
+			}
+		
+		} );
+
+		table keep columns 		( __ int all styles __, XML );
+		[__ int all styles __:0,0] 	= compose( 	'<cellXfs count="', table length( __ int all styles __ )-1, '">' );
+		table append 			( __ int all styles __, { '</cellXfs>' } );
+
+
+
+
+		// Prepare xl\styles.xml
+		// Integrate all style relevant information
+		// -----------------------------------------------------------------------------------------------------------------
+
+		table load				( __ sheet __, 'xl\styles.xml', TEXT );
+
+		row 2 insert[] = table selected rows	( __ sheet __, [0]='*$Insert Number Formats$*' ){0};
+		if (row 2 insert[] = {})		exception( stop, compose("Function '", function name[], "':", new line, "Template File 'xl\styles.xml': '$Insert Number Formats$' missing"), 1);
+		table move rows				( __ int number formats __, __ sheet __, row 2 insert[]+1, 0 );
+
+
+		row 2 insert[] = table selected rows	( __ sheet __, [0]='*$Insert Fonts$*' ){0};
+		if (row 2 insert[] = {})		exception( stop, compose("Function '", function name[], "':", new line, "Template File 'xl\styles.xml': '$Insert Fonts$' missing"), 1);
+		table move rows				( __ int fonts __, __ sheet __, row 2 insert[]+1, 0 );
+
+
+		row 2 insert[] = table selected rows	( __ sheet __, [0]='*$Insert Fills$*' ){0};
+		if (row 2 insert[] = {})		exception( stop, compose("Function '", function name[], "':", new line, "Template File 'xl\styles.xml': '$Insert Fills$' missing"), 1);
+		table move rows				( __ int fills __, __ sheet __, row 2 insert[]+1, 0 );
+
+
+		row 2 insert[] = table selected rows	( __ sheet __, [0]='*$Insert Borders$*' ){0};
+		if (row 2 insert[] = {})		exception( stop, compose("Function '", function name[], "':", new line, "Template File 'xl\styles.xml': '$Insert Borders$' missing"), 1);
+		table move rows				( __ int borders __, __ sheet __, row 2 insert[]+1, 0 );
+
+
+		row 2 insert[] = table selected rows	( __ sheet __, [0]='*$Insert all Styles$*' ){0};
+		if (row 2 insert[] = {})		exception( stop, compose("Function '", function name[], "':", new line, "Template File 'xl\styles.xml': '$Insert all Styles$' missing"), 1);
+		table move rows				( __ int all styles __, __ sheet __, row 2 insert[]+1, 0 );
+
+
+		table save				( __ sheet __, 'xl\styles.xml', TEXT );
+
+
+
+		// Prepare xl\worksheets\sheet*.xml	
+		// Prepare and save the worksheet files
+		// -----------------------------------------------------------------------------------------------------------------
+
+
+		for all parameters( table names[], table name[], i[] )
+		{
+			table name[] 				= table names[]{i[]};
+			int table contents[] 			= compose("__ int ",i[]," contents __");  // e.g. "__ int 0 contents __"
+			sheet path name[]			= "xl\worksheets\sheet" + literal(i[]+1) + ".xml";
+
+			table load				( __ sheet __, "xl\worksheets\sheet.xml", TEXT );
+
+			range[] = "A1:" + excel coordinates( max 123(0,table max width(table name[])-1), max 123(0,table length(table name[]) ) );
+			echo("Range: ", range[] );
+
+			table process selected rows		( __ sheet __, ([0]='*$sheet range$*'), substitute( [0], '$sheet range$', range[] ) );
+			if (i[]!=active sheet number[])		table process selected rows ( __ sheet __, ([0]='*tabSelected*'), [0] -= 'tabSelected="1"' ); // Remove 'tabSelected' if not applicable
+
+			row 2 insert[] = table selected rows	( __ sheet __, [0]='*$Insert Data$*' ){0};
+			if (row 2 insert[] = {})		exception( stop, compose("Function '", function name[], "':", new line, "Contents in file 'xl\worksheets\sheet.xml' invalid"), 1);
+			table split table selected rows		( __ sheet __, __ bottom part __, row() > row 2 insert[] );
+
+			prev row[] = -1;
+			row[]      = -1;
+			table process( int table contents[],
+			{
+				row[] = clean numeral( [Coord] );  // Check if next row applies  row[] begins with row 1, not 0
+				if (row[] > prev row[])
+				{
+				    if (prev row[] >= 0) table append	( __ sheet __, {'</row>'} );
+				    table append			( __ sheet __, { compose( '<row r="', row[], '" spans="', excel column( [Coord] )+1, ':', table row width(table name[], row[]-1), '" x14ac:dyDescent="0.25">' ) } );
+				    prev row[] 				= row[];
+				}
+				if ([Value]!='')
+				{
+				    table append			( __ sheet __, { compose( '<c r="', [Coord], '" ', select if( [Style]!='', compose('s="',[Style], '" '), '' ), select if( [Type]!='', 't="' + [Type] + '" ', '' ), '><v>', literal([Value]), '</v></c>' ) } );
+				}
+				else // <c r="B2" s="1"/>
+				{
+				    table append			( __ sheet __, { compose( '<c r="', [Coord], '" ', select if( [Style]!='', compose('s="',[Style], '" '), '' ), '/>' ) } );
+				}
+			} );
+			if (prev row[] >= 0) table append	( __ sheet __, { '</row>' } );
+
+			table merge				( __ bottom part __, __ sheet __ );	
+
+
+			table save( __ sheet __, sheet path name[] , TEXT);
+
+		}
+		table delete( __ sheet __, __ bottom part __, __ int fonts __, __ int fills __, __ int borders __, __ int number formats __, __ int all styles __ );
+
+		file delete ( "xl\worksheets\sheet.xml" );
+
+
+		// Round up
+		// Compress the directory tree, rename to .xlsx, clean up and done.
+		// -----------------------------------------------------------------------------------------------------------------
+
+
+		if (temp verbose[] <> quiet,low)
+		{
+		    echo("    Step 5:    Compress the file to .ZIP file, then rename to .XLSX ...");
+		}
+
+		zip compress( "*.*", "File.zip" );
+		file delete silently( original working directory[] + slash[]+ "Excel File.xlsx" );
+		file rename( "File.zip", original working directory[] + slash[]+ "Excel File.xlsx" );
+
+
+// Debug	table save( int table contents[], "..\table contents.csv" );
+
+	}
+
+/*
+	table initialize( ta, {{ City }} );
+	[ta:0,2] = Cologne;
+	table style columns( ta, 0, body, text color, navy );
+
+*/
+
+	table load( ta, cities.csv );
+
+
+	[ta:0,16..19] = {true, false, true, false };
+	table style cells( ta, 0, 18, single, type, literal );
+	table style cells( ta, 0, 19, single, type, literal );
+
+	table style cells( ta, 0, 30, single, fill color, red );
+
+
+	[ta:3,16..19] = { date(today), date(now), time(now), date('') };
+	[ta:4,16..19] = { date(today), date(now), time(now), date('') };
+
+	table style columns( ta, 0, body, text color, navy );
+	table style cells( ta, {4,4,4,4},{16..19}, single, type, literal );
+
+	substitute( [ta:Famous attraction,2], ' ', new line ); // Lincoln Statue: Check if wrap text is working here
+
+	table style cells( ta, 3, 4, single, boldface, true );
+	table style cells( ta, 2, 5, single, text color, red, underscore, true );
+	table style cells( ta, 3, 4, single, text color, red, font size, 16 );
+	table style cells( ta, 1, 1, single, fill color, yellow, font name, Courier New );
+	table style cells( ta, 1, 2, single, underscore, true, boldface, true, italic, true);
+	table style cells( ta, 1, 3, single, top border, { thick, blue }, bottom border, { thick, blue }, left border, { thick, blue }, right border, { thick, blue } );
+	table style cells( ta, 3, 1, single, number format, "#,##0" );
+	table style cells( ta, 3, 2, single, number format, "#,##0.0" );
+	table style cells( ta, 3, 3, single, number format, "#,##0.00" );
+	table style cells( ta, 3, 4, single, number format, "#,##0.000" );
+	table style cells( ta, 6, 0, single, wrap text, true);
+	table style cells( ta, 6,10, single, horizontal align, middle, fill color, orange);
+	table style cells( ta, 7, 0, single, vertical align, top, text color, green);
+
+	table style cells( ta, 3, 9, single, type, literal); // Treat this number as literal
+
+	table style rows( ta, 0, table, boldface, true, fill color, gray 15 );
+
+
+
+/*
+	table style cells( ta, 5, 4, single, horizontal align, right );
+	table style cells( ta, 1, 1, single, bottom border, { thick, red } );
+	table style cells( ta, 2, 2, single, bottom border, { thick, red } );
+	table style cells( ta, 3, 4, single, bottom border, { thin,  red } );
+
+//	table style table( ta, sheet, text color, red );
+//	table style rows( ta, 3, table, text color, blue, italic, true, horizontal align, middle, vertical align, top, wrap text, true );
+
+*/
+	translate style attributes for excel ( ta );
+
+//	inspect(table style descriptions[]);
+//	pause;
+
+	table save excel file( ta, Städte, 'Cities Out.xlsx' );
+
+
+
+
+//	table style columns( t, 3, sheet, text color, magenta );
+//	table style cells( t, 4, 4, single, text color, ocre );
+
+
+
+
+/*
+
+// Main part of the program to try out ...
+//
+//
+
+	runtime settings[verbose] = low;
+
+	table initialize( table 1,
+		{ { Column 1  , Column 2, Column 3, Column 4 },
+		  { Example , Boolean , 'true'  , 'false'  },
+		  { Example,  Strings,  Hello,    Hello + new line + World, "{Hänsel,Gretel}", "< & > and < & >" },
+		  { Example,  Dates,    '2020-12-07', '18:00:00', '2020-12-07 18:00:00' },
+		  { Example,  Numbers,  1234,    1234.56,   "1.2E+3" }
+		} );
+
+	table load( c, Cities.csv );
+
+//	Function table save excel file:
+//	1st parameter: 1 or more B4P tables
+//	2nd parameter: Corresponding tab names as they shall show up in Excel at the bottom
+//	3rd parameter: Excel file name (must end with ".xlsx")
+//	4th parameter: 
+
+//	table save excel file( table 1, Einführung, 'test.xlsx' );
+	table save excel file( {table 1, c, table 1}, { Einführung, Cities, Tab 2}, 'test.xlsx', Cities );
+
+*/
