@@ -1,5 +1,4 @@
 #!/usr/local/bin/b4p
-{
 
 //	In case the web page is not in German, then you need to rename the column headers
 
@@ -34,7 +33,6 @@
 	table save				( smi, smi.csv );
 
 
-
 	// This was a little too easy, and CSV files do not look that nice.  Let's save it in Excel with some nice colors and formatting
 
 	include ( Style Library );
@@ -51,7 +49,3 @@
 
 	translate style attributes for excel	( smi );
 	table save excel file			( smi, "Switzerland SMI Stocks", smi.xlsx );
-
-
-
-}

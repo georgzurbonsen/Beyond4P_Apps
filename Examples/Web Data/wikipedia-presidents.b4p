@@ -26,10 +26,8 @@ include ( Style Library ); // This library needs to be included if you want to a
 
 	// Strip out all footnote references and new lines in the fields
 
-	for (row[] = 0, row[] < table length(presidents), row[]++) 
-	    for all table columns( presidents, row[], col[], col nr[] )
-		[col nr[]] = replace all( literal([col nr[]]), { "[a]" .. "[z]", new line}, '' );
-
+	table process all cells ( presidents, [.] = replace all( literal([.]), { "[a]" .. "[z]", new line}, '' ) );
+table save( presidents, test.csv );
 
 	// Remove the blank column originally containing portraits and put president name into all rows (because some presidents worked for more than 1 term)
 

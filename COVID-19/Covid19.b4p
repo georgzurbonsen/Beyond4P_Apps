@@ -482,7 +482,8 @@ define procedure ( calculate adjusted case fatality risk )
 		table style columns		( table[], [table[]::'Minimum,Maximum,Population,Area,Latest',0], sheet, number format, "#,##0"  );
 		table style columns		( table[], [table[]::'*inh*',0], sheet, number format, "0.000"  );
 		table style columns		( table[], [table[]::'%*',0] , sheet, number format, "0.00%"  );
-		translate style attributes for excel ( table[] );
+		translate style attributes for excel ( table[] ); 		// Modern EXCEL XLSX 2013+
+//		translate style attributes for excel xml 2003 ( table[] );	// Legacy EXCEL XML 2003
 
 		table save			( table[], dir name[] + my time stamp[] + "_" + table[] + ".csv" );	// Individual tables without formatting
 	}
@@ -491,7 +492,8 @@ define procedure ( calculate adjusted case fatality risk )
 
 	echo("Starting to save Excel (Implemented conservatively, please be patient (ca 1 min for 50 countries or states)...");
 	watch start;
-	table save excel file			( tables[], tables[], dir name[] + my time stamp[] + "_Results.xlsx"  );
+	table save excel file			( tables[], tables[], dir name[] + my time stamp[] + "_Results.xlsx"  );         // Modern EXCEL XLSX 2013+
+//	table save multiple			( tables[], tables[], dir name[] + my time stamp[] + "_Results.xls", EXCEL  );   // Legacy EXCEL XML 2003
 	echo("Done saving.  It took ", watch stop()/1000, " seconds.");
 }
 
