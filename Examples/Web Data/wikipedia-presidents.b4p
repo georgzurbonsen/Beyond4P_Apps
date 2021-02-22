@@ -2,7 +2,6 @@
 
 include ( Style Library ); // This library needs to be included if you want to add style and formatting to the table
 
-{
 	// This B4P program demonstrates the following:
 
 	// 1.  Retrieve a list of former and currently U.S. presidents from a table in Wikipedia
@@ -26,8 +25,8 @@ include ( Style Library ); // This library needs to be included if you want to a
 
 	// Strip out all footnote references and new lines in the fields
 
-	table process all cells ( presidents, [.] = replace all( literal([.]), { "[a]" .. "[z]", new line}, '' ) );
-table save( presidents, test.csv );
+	table process all  cells 	( presidents, [.] = replace all( literal([.]), { "[a]" .. "[z]", new line}, '' ) );
+
 
 	// Remove the blank column originally containing portraits and put president name into all rows (because some presidents worked for more than 1 term)
 
@@ -70,7 +69,5 @@ table save( presidents, test.csv );
 
 	translate style attributes for html ( presidents );
 	table save( presidents, presidents.html, HTML ); // Save in HTML so you can open it in a browser
-	file copy ( presidents.html, presidents_html.xls ); // And make copy with 'xls' file type so you can open it in Excel
+	file copy overwrite( presidents.html, presidents_html.xls ); // And make copy with 'xls' file type so you can open it in Excel
 
-
-}

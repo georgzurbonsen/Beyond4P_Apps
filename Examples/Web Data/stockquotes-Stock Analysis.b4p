@@ -1,5 +1,5 @@
 #!/usr/local/bin/b4p
-{
+
 	include ( Style Library );
 
 //	Step 1: Download two web pages.
@@ -8,6 +8,7 @@
 	{
 		file download overwrite		( "https://www.slickcharts.com/" + listing[], listing[] + .html);
 		table load			( listing[] ,listing[] + .html,  HTML, "Components of the" );
+
 		table rename column headers	( listing[], "Weight", "Weight " + listing[] ); // Weight info is specific to SP and Nasdaq, so add the listing name
 		table save			( listing[], listing[] + " as loaded.csv" );
 	}
@@ -30,32 +31,14 @@
 
 //	Step 4: Add some color
 
-	table process				( stocks,
-	    table style cells			    ( stocks, { 'Chg', '% Chg' }, { 2: row() }, single, text color, select if ( [Chg]>0, excel green, red ) ) );
+	table style auto width			( stocks );
+	table style theme			( stocks, Zebra Vertical Lines, pattern, 2, table, "gridlines, false" ); // Double zebra patterns, no grid lines
+	table process				( stocks, // Negative numbers: red, positive numbers: navy blue
+	    table style cells			    ( stocks, { 'Chg', '% Chg' }, { 2: row() }, single, text color, select if ( [Chg]>0, navy, red ) ) );
 
-	table style rows			( stocks, 0, table, fill color, gray 14, boldface, true, wrap text, true );
-	table style columns			( stocks, Company, sheet, column width, 30 );
 	table style columns			( stocks, '% Chg', sheet, number format, "0.00%" ); // Value to show as percent.
 	table style table			( stocks, sheet, freeze rows, 1, autofilter, 0);
 
 //	Step 5: Save the artwork
 
-	translate style attributes for excel	( stocks );
 	table save excel file			( stocks, "NASDAQ and SP500", Stocks.xlsx );
-
-
-//	Homework for you:
-
-//	Associate the generated stock listings with today's date. (additional column)
-//	Write a program you can run for several day (best: weekdays after closing bell)
-//	Merge the tables into one big master table which continues growing from day to day
-//	Finally, use 'table spread' to create 1 column per date.
-
-//	Alternatively, you can add a new column every time the master file is loaded, updated, and saved.
-
-//	Finally, after running this for several days, load the CSV file into Excel and create some nice charts.
-//	This promises to get an A+ grade (or AAA acc. to Standard and Poor).
-
-//	Good luck.
-
-}

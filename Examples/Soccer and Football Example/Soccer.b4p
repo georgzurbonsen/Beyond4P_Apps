@@ -6,22 +6,24 @@ include ( Style Library ); 	// Include this library if you want to use the 'tabl
 
     table load excel file	( football club, Football Membership List.xlsx ); 
     table load			( soccer club,   Soccer Membership List.csv ); // Beginners are Novices here
+
     table rename column headers	( football club, { Family Name, City }, { Last Name, Town } );
     table process selected rows	( soccer club,   [Level]==Novice, [Level]=Beginner );
     table merge			( football club, soccer club, { Last Name, First Name }, { Level, Town }, append, " or " );
     table sort rows		( soccer club,   { Level, Last Name,  First Name });
     table rearrange columns	( soccer club,   { Level, First Name, Last Name, Town } );
 
+
     // Done processing.  Before saving to Excel fie, do some formatting.
 
-    table style table		( soccer club, sheet, column width, 20, row height, 20, freeze rows, 1, autofilter, 0, vertical align, center );
-    table style rows		( soccer club, 0, sheet, boldface, true, fill color, gray 15 );
-    table style columns		( soccer club, Level, sheet, column width, 30 );
-
+    table style theme		( soccer club, Zebra );
+    table style auto width	( soccer club );
     table process selected rows ( soccer club, ([Level] = '*Questionable*'),
 	table style cells	    ( soccer club, Level, row(), single, text color, red ) );
 
-    translate style attributes for excel (soccer club);
+    translate style attributes for html (soccer club);
+    table save			( soccer club, "New Soccer Club Membership List.html", HTML );
+
     table save excel file	( soccer club, Soccer Club, New Soccer Club Membership List.xlsx );
 
     echo ("New soccer club has ", table length( soccer club ), " members. Enjoy playing.");

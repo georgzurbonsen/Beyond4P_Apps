@@ -13,7 +13,7 @@
 	for all parameters( { Name ISIN, Letzter Vortag, Tief Hoch, "+/- %", "3-Mon. 3-Mon-%", "6-Mon. 6-Mon-%", "1-Jahr 1-Jahr-%" }, h12[] ) // But keep date time column together which is OK.
 	{
 		h2[] = right last match (h12[],' ');
-		h1[] = h12[] - (' ' + h2[]);
+		h1[] = left  last match (h12[],' ');
 		table insert columns		( smi, h2[], '', softquoted literal('>'+h12[]) );
 		table rename column headers	( smi, h12[], h1[] );
 		table process			( smi, [h2[]] = right last match( [h1[]], ' ' ); [h1[]] -= ' ' +[h2[]] );
@@ -44,7 +44,7 @@
 	for all parameters			( columns in percents[], header[] )  table style columns( smi, header[], sheet, number format, "0.00%" );
 	table process cells			( smi, if ([.]<0) table style cells( smi, col(), row(), single, text color, red ) );
 	
-	table style rows			( smi, 0, table, boldface, true, fill color, ecru );
+	table style rows			( smi, 0, table, boldface, true, fill color, gray 14 );
 	table style table			( smi, sheet, freeze columns, 2, freeze rows, 1, autofilter, 0 );
 
 	translate style attributes for excel	( smi );

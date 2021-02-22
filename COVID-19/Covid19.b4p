@@ -474,16 +474,20 @@ define procedure ( calculate adjusted case fatality risk )
 
 	directory create all ( dir name[] );
 
+	echo("Apply formatting and style");
 	for all parameters( tables[], table[] )
 	{
+		table style theme		( table[], Zebra, pattern, 2 );
 		table style table 		( table[], sheet, autofilter, 0, freeze rows, 1, freeze columns, 2 );
 		table style columns		( table[], { "Country/Region", Population, Comments }, sheet, column width, 20 );
 		table style columns		( table[], [table[]::'####-##-##',0] + [table[]::'Day &',0], sheet, number format, select if ( (table[]='*Trend*'), "0.00%", "#,##0")  );
 		table style columns		( table[], [table[]::'Minimum,Maximum,Population,Area,Latest',0], sheet, number format, "#,##0"  );
 		table style columns		( table[], [table[]::'*inh*',0], sheet, number format, "0.000"  );
 		table style columns		( table[], [table[]::'%*',0] , sheet, number format, "0.00%"  );
+		print("Translate style attributes for ", table[], "... " );
 		translate style attributes for excel ( table[] ); 		// Modern EXCEL XLSX 2013+
 //		translate style attributes for excel xml 2003 ( table[] );	// Legacy EXCEL XML 2003
+		echo("  Done.");
 
 		table save			( table[], dir name[] + my time stamp[] + "_" + table[] + ".csv" );	// Individual tables without formatting
 	}
