@@ -3,7 +3,7 @@
 //	In case the web page is not in German, then you need to rename the column headers
 
 	file download overwrite		( "https://www.finanzen.ch/index/liste/smi", smi.html);
-	table load			( smi, smi.html, HTML, 'table-responsive' );
+	table load			( smi, smi.html, HTML, 'index-list-container' );
 	table configure			( smi, read numerals, no ); // Read numbers as literals, not as numerals
 
 //	Most headers contain two items.  Separate them.
