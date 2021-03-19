@@ -1,0 +1,22 @@
+﻿Choice,Keywords,HTML File Name,Section Nr,Section Name,Match
+A,Table of Contents,REF_Features_Table_of_Contents.html,,Table of Contents,Yes
+B,table append,REF_Function_table_initialize.html,B 4.7.1.2,table initialize/append ...,Yes
+C,table append blank rows,REF_Function_table_append_blank_rows.html,B 4.7.1.3,table append blank rows,Yes
+D,table append on same field,REF_Function_table_initialize.html,B 4.7.1.2,table initialize/append ...,Yes
+E,table append on same row,REF_Function_table_initialize.html,B 4.7.1.2,table initialize/append ...,Yes
+F,table check,REF_Function_table_check.html,B 4.7.11.2,table check,Yes
+G,table check header,REF_Function_table_check_header.html,B 4.7.5.1,table check header,Yes
+H,table check headers,REF_Function_table_check_headers.html,B 4.7.5.3,table check headers ...,Yes
+I,table check headers silently,REF_Function_table_check_headers.html,B 4.7.5.3,table check headers ...,Yes
+J,table check row,REF_Function_table_check_row.html,B 4.7.8.8,table check row,Yes
+K,table clear,REF_Function_table_clear.html,B 4.7.1.5,table clear ...,Yes
+L,table column number,REF_Function_table_column_number.html,B 4.7.5.2,table column number,Yes
+M,Table columns,REF_Features_Table_columns.html,B 3.3.2,Table Columns (Func. Param. Type),Yes
+N,table columns as function parameters,REF_Features_Table_columns.html,B 3.3.2,Table Columns (Func. Param. Type),Yes
+O,table compare,REF_Function_table_compare.html,B 4.7.11.1,table compare ...,Yes
+P,table compare ignore blanks,REF_Function_table_compare.html,B 4.7.11.1,table compare ...,Yes
+Q,table compare ignore both,REF_Function_table_compare.html,B 4.7.11.1,table compare ...,Yes
+R,table compare ignore case,REF_Function_table_compare.html,B 4.7.11.1,table compare ...,Yes
+S,Table comparison reports,REF_Features_Table_comparison_reports.html,B 4.7.11.1.2,Table Comparison Reports,Yes
+T,Table comparison strategy,REF_Features_Table_comparison_strategy.html,B 4.7.11.1.1,Table Comparison Strategy,Yes
+X,Exit this menu,Exit
