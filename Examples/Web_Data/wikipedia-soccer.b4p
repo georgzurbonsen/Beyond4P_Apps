@@ -1,0 +1,21 @@
+#!/usr/local/bin/b4p
+
+{
+	file download overwrite		( "https://en.wikipedia.org/wiki/UEFA_European_Championship", uefa.html );
+	table load 					( uefa, uefa.html, HTML, 'id="Final_tournament"' );
+	table save					( uefa, uefa as loaded.csv );
+
+	table keep columns			( uefa, {Year, Final} );
+	table rename column headers	( uefa, Final, Country );
+	table process				( uefa, [Year] -= new line + Details; [Country] -= new line );
+
+	table delete selected rows	( uefa, ([Year]='',Year) | [Country]='' );
+	table process selected rows	( uefa, [Country] == West Germany, [Country] = Germany );
+
+	table save					( uefa, uefa winner by years.csv );
+
+	table consolidate			( uefa, Country, Year, count );
+	table rename column headers	( uefa, Year, Count );
+	table sort rows				( uefa, Count, numeric down );
+	table save					( uefa, uefa winner ranklist.csv );
+}

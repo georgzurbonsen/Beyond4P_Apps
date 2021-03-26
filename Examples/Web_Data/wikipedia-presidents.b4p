@@ -1,20 +1,7 @@
 #!/usr/local/bin/b4p
+include ( Style Library );	
 
-include ( Style Library ); // This library needs to be included if you want to add style and formatting to the table
-
-	// This B4P program demonstrates the following:
-
-	// 1.  Retrieve a list of former and currently U.S. presidents from a table in Wikipedia
-	// 2.  Clean up the data so you have an easy-to-use table with 1 president per row
-	// 3.  Add colors denoting affiliation to political party
-	// 4.  Save the results in following formats
-	// 	a.  Plain CSV format
-	//	b.  HTML format, with ending '.html' so you can open it with a web browser
-	//	c.  HTML format, with ending '..._html.xls' so you can open the same file with Excel directly
-	//	d.  Excel XML 2003 format (old fashioned)
-	//	e.  Modern Excel file format (.xlsx)
-
-
+{
 	echo( "It's July 4th !", new line, "20 statements suffice to extract the presidents from Wikipedia and generate a nice list" );
 	file download overwrite	( "https://en.wikipedia.org/wiki/List_of_presidents_of_the_United_States", presidents.html );
 
@@ -25,7 +12,9 @@ include ( Style Library ); // This library needs to be included if you want to a
 
 	// Strip out all footnote references and new lines in the fields
 
-	table process all  cells 	( presidents, [.] = replace all( literal([.]), { "[a]" .. "[z]", new line}, '' ) );
+	for (row[] = 0, row[] < table length(presidents), row[]++) 
+	    for all table columns( presidents, row[], col[], col nr[] )
+		[col nr[]] = replace all( literal([col nr[]]), { "[a]" .. "[z]", new line}, '' );
 
 
 	// Remove the blank column originally containing portraits and put president name into all rows (because some presidents worked for more than 1 term)
@@ -55,19 +44,9 @@ include ( Style Library ); // This library needs to be included if you want to a
 	table process 			( presidents, table style cells( presidents, Party, row(), single, fill color, [party colors : Party Name, [Party], Colors ] ) );
 	table style columns 		( presidents, { "Presidency (1)", "President", "Vice President" }, sheet, column width, 30 );
 	table style columns 		( presidents, { Party, Election }, sheet, column width, 20, horizontal align, middle );
+	table style table   		( presidents, table, wrap text, true, autofilter, 0 );
 	table style rows   		( presidents, 0, table, boldface, true );
-	table style table   		( presidents, sheet, wrap text, true, autofilter, 0, freeze rows, 1 );
-
-
-	table save( presidents, presidents.csv ); // Plain CSV format
-
-	translate style attributes for excel xml 2003 ( presidents );
-	table save( presidents, presidents.xls, EXCEL ); // Old-fashioned Excel 2003 XML format containing formatting attributes.  Old, but very effective.
 
 	translate style attributes for excel ( presidents );
-	table save excel file( presidents, All U.S. Presidents, presidents.xlsx ); // Modern Excel 2013+ Format.  Highly recommended to use this one!
-
-	translate style attributes for html ( presidents );
-	table save( presidents, presidents.html, HTML ); // Save in HTML so you can open it in a browser
-	file copy overwrite( presidents.html, presidents_html.xls ); // And make copy with 'xls' file type so you can open it in Excel
-
+	table save( presidents, presidents.xls, EXCEL ); // Excel 2003 XML format containing formatting attributes.  Old, but very effective.
+}
