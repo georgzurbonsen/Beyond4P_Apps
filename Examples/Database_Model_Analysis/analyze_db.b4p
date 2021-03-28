@@ -2,20 +2,18 @@
 
 watch start;
 
-table load excel file( filemanDB, "fileman_db.xlsx" );
+table load excel file( fileman, "fileman_db.xlsx" );
 echo( "Load time: ", watch read()/1000, " sec" );
 
 sheets[] = excel list sheets( "fileman_db.xlsx"  );
-sheetnum[] = length (sheets[] )
 
+sheetnum[] = length (sheets[] );
+echo("Number of sheets: ", sheetnum[]   );
 
 echo( "The sheets are: ", sheets[] );
 
 
-//echo("Number of sheets: ", sheetnum[]   );
-
-
-//echo("First sheet name: ", sheets[][1] )
+// echo("First sheet name: ", sheets[][1] )
 
 //for (a[] = 1, a[] < numSheets[], a[]+=1)
 //      {
@@ -25,12 +23,9 @@ echo( "The sheets are: ", sheets[] );
 
 
 
-
-
 // table list( db );
 
 // view( db, firefox);
-
 
 // list table noninteractively
 // table list(c);
