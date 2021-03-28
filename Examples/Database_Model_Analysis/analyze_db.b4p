@@ -1,11 +1,35 @@
 #!/usr/local/bin/b4p
 
-table load excel file( db, "db_vista.xlsx" );
-table list( db );
+watch start;
 
+table load excel file( filemanDB, "fileman_db.xlsx" );
+echo( "Load time: ", watch read()/1000, " sec" );
+
+sheets[] = excel list sheets( "fileman_db.xlsx"  );
+sheetnum[] = length (sheets[] )
+
+
+echo( "The sheets are: ", sheets[] );
+
+
+//echo("Number of sheets: ", sheetnum[]   );
+
+
+//echo("First sheet name: ", sheets[][1] )
+
+//for (a[] = 1, a[] < numSheets[], a[]+=1)
+//      {
+//          print(a[],' ', sheets[]a[]   );
+//      }
+
+
+
+
+
+
+// table list( db );
 
 // view( db, firefox);
-
 
 
 // list table noninteractively
