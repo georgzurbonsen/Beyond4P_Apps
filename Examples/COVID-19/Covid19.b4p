@@ -424,14 +424,21 @@ define procedure ( calculate adjusted case fatality risk )
 //
 
 {
+	watch start;
 	download covid 19 data;
+
 
 	table load excel file 			( Country Data, "Country Data.xlsx", Basedata );
 	table process 				( Country Data, [Population] = clean numeral( [Population] ) ); // Remove 1,000 separators, especially the non-ANSI character on HP systems in Switzerland
 	data sets[] 				= { Confirmed, Hospitalized, Deaths };
 
 	echo("In the 'Population Data', you can specify different choice patterns using capital letters", new line, "in order to focus on countries of choice.  Enter choice:");
+
+	echo("Downloading time (s): ", watch reset()/1000 ); // Watch continues running
+
 	favor[]   = input quick ignore case("[space bar] = All favorites, Letter = Favorite as listed with that letter", " ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+
+	watch reset; // Reset after input.
 
 	table create template( { Confirmed, Hospitalized, Deaths } );
 
@@ -495,7 +502,9 @@ define procedure ( calculate adjusted case fatality risk )
 	// Save the combined data including the styles applied
 
 	echo("Starting to save Excel (Implemented conservatively, please be patient (ca 1 min for 50 countries or states)...");
-	watch start;
+
+	echo("Processing time (s): ", watch reset()/1000 ); // Watch continues running
+
 	table save excel file			( tables[], tables[], dir name[] + my time stamp[] + "_Results.xlsx"  );         // Modern EXCEL XLSX 2013+
 //	table save multiple			( tables[], tables[], dir name[] + my time stamp[] + "_Results.xls", EXCEL  );   // Legacy EXCEL XML 2003
 	echo("Done saving.  It took ", watch stop()/1000, " seconds.");
