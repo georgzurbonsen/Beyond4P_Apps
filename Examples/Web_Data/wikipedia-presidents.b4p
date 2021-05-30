@@ -5,7 +5,7 @@ table load 				( presidents, presidents.html, HTML, 'id="Presidents"' );
 
 // Strip all footnote references and new lines in the fields, and the last table row with footnotes inside
 table delete rows			( presidents, table length( presidents ) -1 );
-table process all cells 	( presidents, [.] = replace all( literal([.]), { '[?]', new line}, '' ) );
+table process all cells 	( presidents, [.] = replace all( literal([.]), { '[?]', new line, '- '}, {'','','-' } ) );
 
 // Remove the blank column originally containing portraits and put president name into all rows
 
@@ -18,14 +18,15 @@ table fill vertically		( presidents, President );
 table consolidate		( presidents, President, { Election, Vice President }, append, ", " );
 
 table initialize ( party colors, 	// Define party colors
-	{{ Party Name,			Colors },
-	 { Democratic,  		"#8080FF" /* Light blue */ }, 	{ Republican,		"#FF8080" }, // Light red
-	 { Federalist,  		coral },						{ "Democratic- Republican",	excel light green },
-	 { Whig, 				yellow },						{ "Democratic-Republican", 	excel light green },
+	{{ Party Name,		Colors },
+	 { Democratic,  	azur }, 	{ Republican,	imperial red }, 
+	 { Federalist,  	coral },
+	 { Whig, 			yellow },						{ "Democratic-Republican", 	excel light green },
 	 { National Union, 	ocre },						{ Unaffiliated, 		gray 15 } } );
 
 // Add some colors and styles
-table process 				( presidents, table style cells( presidents, Party, row(), single, 								                       fill color, [ party colors : Party Name, [Party], Colors ] ) );
+table process 				( presidents, table style cells( presidents, Party, row(), single, 
+		                       fill color, [ party colors : Party Name, [Party], Colors ] ) );
 table style columns 		( presidents, { "Period", "President", "Vice President" }, sheet, column width, 30 );
 table style columns 		( presidents, { Party, Election }, sheet, column width, 20, horizontal align, middle );
 table style rows   		( presidents, 0, table, boldface, true );
