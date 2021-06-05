@@ -17,6 +17,12 @@ __Code Runner__
 ``` text
     "code-runner.executorMap": {
         "b4p": "b4p",
+        .
+        .
+        .
+    "code-runner.executorMapByFileExtension": {
+         ".b4p": "b4p",
+         
 ```
 
 
