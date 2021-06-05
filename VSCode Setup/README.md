@@ -1,11 +1,11 @@
 # Visual Studio Code configuraiton
 
 
-## VS Code
+## 1. Install VS Code
 https://code.visualstudio.com/
 
 
-## VS Code Plugins
+## 2. Install VS Code Plugins
 
 ### Code Runner
 * https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner
