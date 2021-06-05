@@ -1,5 +1,8 @@
 # Visual Studio Code configuraiton
 
+First install Visual Studio Code (VS Code), then the following plugins.
+
+To configure any plugin, right-click on the information panel.
 
 ## VS Code
 https://code.visualstudio.com/
