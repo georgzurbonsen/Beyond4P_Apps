@@ -7,7 +7,7 @@ https://code.visualstudio.com/
 
 ## 2. Install VS Code Plugins
 
-### Code Runner
+A. Code Runner
 * https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner
 * ==> configure the 'b4p' extension to run in settings
 
