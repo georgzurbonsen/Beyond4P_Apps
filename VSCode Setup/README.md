@@ -22,6 +22,11 @@ __Code Runner__
         .
     "code-runner.executorMapByFileExtension": {
          ".b4p": "b4p",
+        .
+        .
+        .
+   "code-runner.languageIdToFileExtensionMap": {
+        "b4p": ".b4p",
          
 ```
 
