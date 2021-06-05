@@ -1,10 +1,11 @@
 # Visual Studio Code configuraiton
 
-1. Install Visual Studio Code (VS Code
-2. Install VSCode plugins
-3. To configure any plugin, right-click on its information panel -> Setttings
+1. Install Visual Studio Code Appliation (VS Code)
+2. Install VSCode Plugins (Code Runner, HTML, CSV Excel, Markdown, PDF)
+3. Configure Code Runner to run 'b4p' code by adding b4p extension to settings file
 
-## VS Code
+
+## VS Code Application
 https://code.visualstudio.com/
 
 
