@@ -1,8 +1,8 @@
 # Visual Studio Code configuraiton
 
-First install Visual Studio Code (VS Code), then the following plugins.
-
-To configure any plugin, right-click on the information panel.
+1. Install Visual Studio Code (VS Code
+2. Install VSCode plugins
+3. To configure any plugin, right-click on its information panel -> Setttings
 
 ## VS Code
 https://code.visualstudio.com/
@@ -12,7 +12,8 @@ https://code.visualstudio.com/
 
 __Code Runner__
 * https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner
-* ==> configure the 'b4p' extension to run in settings
+* See code-runner-settings.json 
+
 
 
 __HTML viewers__
