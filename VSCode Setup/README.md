@@ -26,7 +26,7 @@ __JSON viewer__
 * https://marketplace.visualstudio.com/items?itemName=ZainChen.json
 * https://marketplace.visualstudio.com/items?itemName=nickdemayo.vscode-json-editor
 
-___Markdown viewer__
+__Markdown viewer__
 * https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced
 
 __PDF viewer__
