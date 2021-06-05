@@ -12,8 +12,12 @@ https://code.visualstudio.com/
 
 __Code Runner__
 * https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner
-* See code-runner-settings.json 
+* Add b4p extension
 
+``` text
+    "code-runner.executorMap": {
+        "b4p": "b4p",
+```
 
 
 __HTML viewers__
