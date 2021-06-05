@@ -12,7 +12,7 @@ https://code.visualstudio.com/
 
 __Code Runner__
 * https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner
-* Add b4p extension
+* See vs-code-settings.json file for settings;  pertinent sections are below:
 
 ``` text
     "code-runner.executorMap": {
