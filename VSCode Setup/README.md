@@ -7,27 +7,27 @@ https://code.visualstudio.com/
 
 ## 2. Install VS Code Plugins
 
-A. Code Runner
+__Code Runner__
 * https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner
 * ==> configure the 'b4p' extension to run in settings
 
 
-### HTML viewers
+__HTML viewers__
 * https://marketplace.visualstudio.com/items?itemName=ecmel.vscode-html-css
 * https://marketplace.visualstudio.com/items?itemName=qinjia.view-in-browser
 
-### CSV viewer
+__CSV viewer__
 * https://marketplace.visualstudio.com/items?itemName=RandomFractalsInc.vscode-data-preview
 
-### Excel viewer
+__Excel viewer__
 * https://marketplace.visualstudio.com/items?itemName=GrapeCity.gc-excelviewer
 
-### JSON viewer
+__JSON viewer__
 * https://marketplace.visualstudio.com/items?itemName=ZainChen.json
 * https://marketplace.visualstudio.com/items?itemName=nickdemayo.vscode-json-editor
 
-### Markdown viewer
+___Markdown viewer__
 * https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced
 
-### PDF viewer
+__PDF viewer__
 * https://marketplace.visualstudio.com/items?itemName=tomoki1207.pdf
