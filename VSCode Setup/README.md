@@ -15,9 +15,9 @@ __Code Runner__
 * https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner
 
 __Settings File__
-* Path to the settings file is:   ~/Library/Application Support/Code/User
-* See vs-code-settings.json file for full file
-* Pertinent sections are as follows
+*  ~/Library/Application Support/Code/User
+* vs-code-settings.json file for full file
+* Pertinent sections:
 
 
 ``` text
