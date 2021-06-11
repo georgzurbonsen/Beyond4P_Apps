@@ -3,6 +3,4 @@
 ![](gifs/b4p-vscode-workflow-50.gif)
 
 
-![](workflow/images/output-HTML.png)
-
-
+![](workflow/images/code-Markdown.png)
