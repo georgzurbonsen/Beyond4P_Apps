@@ -1,6 +1,6 @@
 
 # Visual Studio Code for B4P
-![](workflow/gifs/b4p-vscode-workflow-50.gif)
+![](workflow/gifs/b4p-vscode-workflow-75.gif)
 
 
 ## Visual Studio Code setup
