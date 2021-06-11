@@ -9,16 +9,16 @@ https://code.visualstudio.com/
 
 
 
-## Settings File
-Path to the settings file is:   ~/Library/Application Support/Code/User
-
-
-
 ## VS Code Runner
 
 __Code Runner__
 * https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner
-* See vs-code-settings.json file for settings;  pertinent sections are below:
+
+__Settings File__
+* Path to the settings file is:   ~/Library/Application Support/Code/User
+* See vs-code-settings.json file for full file
+* Pertinent sections are as follows
+
 
 ``` text
     "code-runner.executorMap": {
