@@ -1,5 +1,9 @@
-# Visual Studio Code setup
 
+# B4P Visual Studio Code
+![](workflow/gifs/b4p-vscode-workflow-50.gif)
+
+
+## Visual Studio Code setup
 1. Install Visual Studio Code Appliation (VS Code)
 2. Enable launch from command line
 3. Install VSCode Plugins (Code Runner, HTML, CSV Excel, Markdown, PDF)
