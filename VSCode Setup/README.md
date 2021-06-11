@@ -1,4 +1,4 @@
-# Visual Studio Code configuraiton
+# Visual Studio Code setup
 
 1. Install Visual Studio Code Appliation (VS Code)
 2. Enable launch from command line
