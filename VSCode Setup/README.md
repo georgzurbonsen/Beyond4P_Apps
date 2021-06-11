@@ -1,12 +1,19 @@
 # Visual Studio Code configuraiton
 
 1. Install Visual Studio Code Appliation (VS Code)
-2. Install VSCode Plugins (Code Runner, HTML, CSV Excel, Markdown, PDF)
-3. Configure Code Runner to run 'b4p' code by adding b4p extension to settings file
+2. Enable launch from command line
+3. Install VSCode Plugins (Code Runner, HTML, CSV Excel, Markdown, PDF)
+4. Configure Code Runner to run 'b4p' code by adding b4p extension to settings file
 
-## VS Code Application
+## VS Code Installer
 https://code.visualstudio.com/
 
+
+## Enable launch from command line
+* https://code.visualstudio.com/docs/setup/mac
+* Launch VS Code.
+* Open the Command Palette (Cmd+Shift+P) and type 'shell command' to find the Shell Command: Install 'code' command in PATH command.
+* Restart the terminal for the new $PATH value to take effect. You'll be able to type 'code .' in any folder to start editing files in that folder.
 
 
 ## VS Code Runner
