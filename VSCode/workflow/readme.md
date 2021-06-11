@@ -4,24 +4,20 @@
 
 # Edit Markdown
 ![](images/code-Markdown.png)
+
 # Edit Code
 ![](images/code-editor.png)
 
 # Execute in Terminal
 ![](images/execution-terminal.png)
 
-# View CSV file
+# View CSV files
 ![](images/input-CSV.png)
 
-# View Excel file
-![](images/input-Excel.png)
-
-![](images/input-Excel2.png)
-
-# View Output Excel file
+# View Excel files
 ![](images/output-Excel.png)
 
-# View output HTML file
+# View HTML files
 ![](images/output-HTML.png)
 
 
