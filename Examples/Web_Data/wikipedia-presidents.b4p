@@ -1,10 +1,9 @@
-include ( Style Library ); // This library needs to be included if you want to add style and formatting to the table
 
 file download overwrite		( "https://en.wikipedia.org/wiki/List_of_presidents_of_the_United_States", presidents.html );
-table load 				( presidents, presidents.html, HTML, 'id="Presidents"' );
+table load 			( presidents, presidents.html, HTML, 'id="Presidents"' );
 
 // Strip all footnote references and new lines in the fields, and the last table row with footnotes inside
-table delete rows			( presidents, table length( presidents ) -1 );
+table delete rows		( presidents, table length( presidents ) -1 );
 table process all cells 	( presidents, [.] = replace all( literal([.]), { '[?]', new line, '- '}, {'','','-' } ) );
 
 // Remove the blank column originally containing portraits and put president name into all rows
@@ -21,11 +20,11 @@ table initialize ( party colors, 	// Define party colors
 	{{ Party Name,		Colors },
 	 { Democratic,  	azur }, 	{ Republican,	imperial red }, 
 	 { Federalist,  	coral },
-	 { Whig, 			yellow },						{ "Democratic-Republican", 	excel light green },
-	 { National Union, 	ocre },						{ Unaffiliated, 		gray 15 } } );
+	 { Whig, 		yellow },	{ "Democratic-Republican", 	excel light green },
+	 { National Union, 	ocre },		{ Unaffiliated, 		gray 15 } } );
 
 // Add some colors and styles
-table process 				( presidents, table style cells( presidents, Party, row(), single, 
+table process 			( presidents, table style cells( presidents, Party, row(), single, 
 		                       fill color, [ party colors : Party Name, [Party], Colors ] ) );
 table style columns 		( presidents, { "Period", "President", "Vice President" }, sheet, column width, 30 );
 table style columns 		( presidents, { Party, Election }, sheet, column width, 20, horizontal align, middle );

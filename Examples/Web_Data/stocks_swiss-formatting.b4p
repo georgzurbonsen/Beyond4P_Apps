@@ -35,7 +35,6 @@
 
 	// This was a little too easy, and CSV files do not look that nice.  Let's save it in Excel with some nice colors and formatting
 
-	include ( Style Library );
 	table configure				( smi, read numerals, yes ); // Now read the numbers as numerals again
 
 	for all parameters			( { 20, 16, 6:8, 20, 7:10, 20 }, width[], column[] )  table style columns( smi, column[], sheet, column width, width[] );
@@ -47,5 +46,4 @@
 	table style rows			( smi, 0, table, boldface, true, fill color, gray 14 );
 	table style table			( smi, sheet, freeze columns, 2, freeze rows, 1, autofilter, 0 );
 
-	translate style attributes for excel	( smi );
 	table save excel file			( smi, "Switzerland SMI Stocks", smi.xlsx );
