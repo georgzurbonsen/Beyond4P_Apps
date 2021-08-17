@@ -2,15 +2,15 @@
 
 watch start;
 
-table load excel file( fileman, "fileman_db.xlsx" );
+table load excel file( cdw, "cdw_db.xlsx" );
 echo( "Load time: ", watch read()/1000, " sec" );
 
-sheets[] = excel list sheets( "fileman_db.xlsx"  );
+sheets[] = excel list sheets( "cdw_db.xlsx"  );
 
-sheetnum[] = length (sheets[] );
-echo("Number of sheets: ", sheetnum[]   );
+// sheetnum[] = length (sheets[] );
+// echo("Number of sheets: ", sheetnum[]   );
 
-echo( "The sheets are: ", sheets[] );
+// echo( "The sheets are: ", sheets[] );
 
 
 // echo("First sheet name: ", sheets[][1] )

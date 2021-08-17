@@ -1,0 +1,41 @@
+#!/usr/local/bin/b4p
+
+watch start;
+
+table load excel file( fileman, "fileman_db.xlsx" );
+echo( "Load time: ", watch read()/1000, " sec" );
+
+sheets[] = excel list sheets( "fileman_db.xlsx"  );
+
+sheetnum[] = length (sheets[] );
+echo("Number of sheets: ", sheetnum[]   );
+
+echo( "The sheets are: ", sheets[] );
+
+
+// echo("First sheet name: ", sheets[][1] )
+
+//for (a[] = 1, a[] < numSheets[], a[]+=1)
+//      {
+//          print(a[],' ', sheets[]a[]   );
+//      }
+
+
+
+
+// table list( db );
+
+// view( db, firefox);
+
+// list table noninteractively
+// table list(c);
+//table list (c, 1st col, 1, last col, 5, briefly, 3);
+
+
+// view table interactively
+// view (c, here);
+
+// view( c, firefox datatables );
+// view( c, safari datatables );
+// view( c, chrome datatables );
+
