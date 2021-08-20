@@ -1,0 +1,25 @@
+#!/usr/bin/Beyond4P -w
+
+// switch -w suppresses welcome text and possible license warning
+
+// Note the "Shebang" statement on the 1st row:
+// It will be recognized by the UNIX/LINUX operating
+// system to use Beyond4P to start this script. This
+// makes starting scripts as easy as starting
+// LINUX sh and bash scripts.
+
+// Attention: Shebangs only work if files are saved with
+// LF-only line breaks (Windows style CR+LF won't work)
+// common in UNIX / LINUX environments.
+
+// Shebangs are ignored in Microsoft Windows environments.
+
+
+echo(new line, "    When starting, then Beyond4P now looks for");
+echo(          "    'Main.b4p' or 'Main.txt' in the following directory:");
+echo(          "    ", working directory() );
+
+starting directory( working directory() );
+
+
+
