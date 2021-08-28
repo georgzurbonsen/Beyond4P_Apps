@@ -1,5 +1,5 @@
 
-## Datbase model comparison: Meta-program
+## Datbase model comparison
 
 Fileman (File Manager) is a hierachical filestore, which stores data in  (numbered) fields 'FieldNumber' within (numbered) files 'FileNumber'.
 
