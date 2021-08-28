@@ -8,17 +8,19 @@ __Objective:__ Compare fields in commmon between the Fileman datastore and a sub
 ```text
 Source files / worksheets / columns to analyze:
 
+A:
 excel:      fileman_db
 worksheet:  FileManFields (90587)
 columns:    FileNumber
             FieldNumber
 
+B:
 excel:      cdw_db
 worksheet:  CDW View Columns (18649)
 columns:    SourceFileNumber
             SourceFieldNumber
 
-Compare:  
+Compare A vs B:
 A. [FileNumber + FieldNumber] in FileManFields workbook in fileman_db
 B. [SourceFileNumber+SourceFieldNumber] in CDW View Columns workbook in cdw_db
 
