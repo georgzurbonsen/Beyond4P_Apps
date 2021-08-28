@@ -29,9 +29,9 @@ B. [SourceFileNumber+SourceFieldNumber] in CDW View Columns workbook in cdw_db
 
 Task:
 1. Create new excel file called 'fileman_cdw_map' that contains a copy of the 'FileManFields (90587)' worksheet.  
-2. Add a new column to 'fileman_cdw_map'  with the heading 'cdw'.   
+2. Add a new column to 'fileman_cdw_map'  with the heading 'cdw match'.   
 3. Compare File+Fields defined in fileman_db vs cdw_db
-4. Add 'Y' to the 'cdw' column there is an exact match of the FieldNumber+FileNumber; otherwise it should be blank.
+4. Add 'Y' to the 'cdw match' column there is an exact match of the FieldNumber+FileNumber; otherwise it should be blank.
 
 Optional: all rows that are marked with 'Y' should be highlighted in yellow
 
