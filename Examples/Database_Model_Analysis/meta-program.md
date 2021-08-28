@@ -17,11 +17,12 @@ excel:      cdw_db
 worksheet:  CDW View Columns (18649)
 columns:    SourceFileNumber
             SourceFieldNumber
-```
 
 Compare:  
 A. [FileNumber + FieldNumber] in FileManFields workbook in fileman_db
 B. [SourceFileNumber+SourceFieldNumber] in CDW View Columns workbook in cdw_db
+
+```
 
 Task:
 1. Create new excel file called 'fileman_cdw_map' that contains a copy of the 'FileManFields (90587)' worksheet.  
