@@ -6,16 +6,17 @@ Fileman (File Manager) is a hierachical filestore, which stored data in  (number
 __Objective:__ Compare fields in commmon between the Fileman datastore and a subset of Fileman called the clinical data warehouse (CDW).
 
 ```text
-Source files / worksheets / columns to analyze:
+
+database source files / worksheets / columns to analyze:
 
 A:
-excel:      fileman_db
+excel:      db-source / fileman_db
 worksheet:  FileManFields (90587)
 columns:    FileNumber
             FieldNumber
 
 B:
-excel:      cdw_db
+excel:      db-source/ cdw_db
 worksheet:  CDW View Columns (18649)
 columns:    SourceFileNumber
             SourceFieldNumber
