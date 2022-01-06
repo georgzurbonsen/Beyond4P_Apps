@@ -12,7 +12,7 @@ table process all cells 	( presidents, [.] = replace all( literal([.]), { '[?]',
 table save( presidents, "as saved.csv" );
 
 table delete columns		( presidents, {Portrait, Party } );
-table rename column headers	( presidents, {"Presidency (1)", "Party (1)"}, {Period, Party} );
+table rename column headers	( presidents, {"Presidency (1)", "Party (1)","Name (Birth–Death)"}, {Period, Party,President} );
 table fill vertically		( presidents, President );
 table consolidate		( presidents, President, { Election, Vice President }, append, ", " );
 
@@ -31,3 +31,7 @@ table style columns 		( presidents, { Party, Election }, sheet, column width, 20
 table style rows   		( presidents, 0, table, boldface, true );
 table style table   		( presidents, sheet, wrap text, true, autofilter, 0, freeze rows, 1 );
 table save excel file		( presidents, All U.S. Presidents, presidents.xlsx );
+
+// Interactive viewing.
+
+view 				( presidents );

@@ -1,0 +1,46 @@
+
+
+echo("Demonstrating console colors and styles");
+
+	text color ( yellow );
+	background color ( dark blue );
+	echo(Yellow text on dark blue background);
+	text color ( default );
+	background color ( default );
+
+	echo(Back to default settings);
+
+	echo;
+	echo(The same can also be done with entities which are UNICODE characters in the);
+	echo("Private Use Area (PUA2) space");
+	echo;
+
+	echo('&yellow;&DARK BLUE;Yellow text on dark blue background&default;&DEFAULT;');
+	// Note: Capital letters refer to background color, lower-case letters to text color
+
+	echo(Back to default settings);
+	text color( light orange );
+	echo("Note: Single qutoation marks used for the string so the entities are converted into");
+	echo("      true UNICODE characters.  You can also use the 'encode entities()' function");
+	text color( default );
+
+
+	echo;
+	echo("Additional output features - Not all console programs support all four at the same time.");
+	echo('This text is &underscore;underscored&underscore;.');
+	echo('This text is &boldface;boldfaced&boldface;.');
+	echo('This text is &blinking on;blinking&blinking off;.');  // Note: &blinking; toggles between on and off.  &blinking on; turns on, &blinking off; turns off
+	echo('This text is &reverse;reversed&reverse;.');
+
+	echo;
+
+	color1[] = { 83, 143, 32 };
+	text color( color1[] );
+	echo("A more exotic color");
+	text color( previous );	// The color name previous restores the last color. Only one last color is memorized
+	echo("Back to previos color");
+
+	background color( "#8090A0" ); // RRGGBB in hex code
+	echo("A more exotic background");
+	echo('&PREVIOUS;');
+	echo("Back to previous color again");

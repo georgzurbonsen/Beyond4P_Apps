@@ -7,7 +7,8 @@
 
 	table keep columns		( uefa, {Year, Final} );
 	table rename column headers	( uefa, Final, Country );
-	table process			( uefa, [Year] -= new line + Details; [Country] -= new line );
+
+	table process selected rows	( uefa, ([Year] = '*[*]'), [Year] = left([Year],'[') );
 
 	table delete selected rows	( uefa, ([Year]='',Year) | [Country]='' );
 	table process selected rows	( uefa, [Country] == West Germany, [Country] = Germany );
@@ -18,4 +19,6 @@
 	table rename column headers	( uefa, Year, Count );
 	table sort rows			( uefa, Count, numeric down );
 	table save			( uefa, uefa winner ranklist.csv );
+
+	view ( uefa );
 }
