@@ -10,13 +10,14 @@ echo( '''
 	properly for navigation and function keys.  Example: 8 for navigating upwards.
 
 	How to play:
-	1. &light green;Navigate the snake&default; across the screen using navigation keys
+	1. &light green;Navigate the snake&default; across the screen using navigation keys or W-A-S-D or 8-4-2 or 5-6. 
 	2. &light blue;Eat the &light red;red&light blue; and &yellow;yellow&light blue; food items&default;, marked as 'O'.
 	   Red food items score 1 point and extend the snake by 1 piece.
-	   Yellow symbols score 10 points and extend the snake by 5 pieces.
+	   Yellow items score 10 points and extend the snake by 5 pieces.
+	4. &yellow;20 extra bonus points&default; when eating a lot within a short time interval.
 	3. The game will &light brown;speed up a little &default; every minute.
-	4. &light magenta;The game is over&default; when colliding against the boundaries or eating yourself (colliding with 
-	   the snake.
+	4. &light magenta;The game is over&default; when colliding against the boundaries, running into ostacles 'X',
+	   or eating yourself (colliding with the snake).
 ''');
 
 pause("Resize the screen, then start playing ...");
@@ -81,21 +82,30 @@ define procedure and function( update snake, {{ grow, numeral, io } } )
 	if ( !(snake[snake head[]]{0} = 0..field[height]-1 ) | !(snake[snake head[]]{1} = 0..field[width]-1 ) ) return( Bounced the wall );
 
 	symbol[] = game board[ snake[snake head[]]{0}, snake[snake head[]]{1} ];
-	if ( symbol[] == F ) // Food
+	switch( symbol[] )
 	{
-	    display message( "Thanks!" );
-	    grow[]++;
-	    rv[] = 1;
-	}
-	if (symbol[] == G) // Gold
-	{
-	    display message( "Nice Catch - Keep up!" );
-	    grow[]+=5;
-	    rv[] = 10;
-	}
-	if (symbol[]='1') // Self collision
-	{
-	    return(Eaten yourself);
+	    case ('X') return(Ran into an obstacle);
+	    case ('1') return(Eaten yourself);
+	    case ('F') // Food
+	    {
+		display message( {"Thanks!", "Hmmm!", "Tasty!", "Lecker!", "Crunchy!" }{random(4)} );
+		grow[]++;
+		rv[] = 1;
+		game board[] = max 123( game board[]+10, 10 );
+	    }
+	    case ('G') // Gold
+	    {
+		display message( {"Nice Catch - Keep up!", "I love golden cookies", "Absolutely great!", "How delicious!"}{random(3)} );
+		grow[]+=5;
+		rv[] = 10;
+		game board[] = max 123( game board[]+20, 20 );
+	    }
+	    else
+	    {
+		if (game board[] = -60) display message( {"Don't fall asleep!", "You are boring me.", "Are you awake?", "Zzzzzzz! Zzzz!"}{random(3)} );
+		if (game board[] >= 30) {  display message('&yellow;Great job!!! 20 points bonus!'); rv[] += 20; game board[] = 0; }
+		game board[]--;	
+	    }
 	}
 	game board[ snake[snake head[]]{0}, snake[snake head[]]{1} ] = '1';
 
@@ -173,7 +183,7 @@ define function( play )
 		    if (interval[] > 0.01)
 		    {
 			display message('Getting faster!!!');
-			interval[] *= 0.8;
+			interval[] *= 0.7;
 		    }
 		    else: display message('You are doing really well!!!');
 		}
@@ -185,18 +195,19 @@ define function( play )
 		x[] = random( 0, field[width]-1 );
 		y[] = random( 0, field[height]-1 );
 		food[] = select if( random(10)>=8, G, F);
+		food[] = select if( random(30)>=29, X, food[] );
 	
 		if (game board[y[],x[]]=='')
 		{
 		    game board[y[],x[]] = food[]; // Food, and in some cases gold
 		    cursor( x[] + field[x offset], y[] + field[y offset] );
-		    print(select if (food[]==G,'&yellow;','&light red;'),'O&default;');
+		    print(select by value( food[], G, '&yellow;O', F, '&light red;O', X, '&magenta;X') );
 		}
 	    }
 
 	    snake head[] = member count( snake[] ) - 1;
-	    key[] = wait(interval[]);
-	    new direction[] = select by value( key[], '&arrow-up;', up, '8', up, '&arrow-down;', down, '2', down, '&arrow-left;', left, '4', left, '&arrow-right;', right, '6', right, snake[] );
+	    key[] = +wait(interval[] * select if ( (snake[]=up,down), 2, 1 ));
+	    new direction[] = select by value( key[], 'W', up, '&arrow-up;', up, '8', up, '&arrow-down;', down, 'S', down, '5', down, '2', down, 'A', left, '&arrow-left;', left, '4', left, '&arrow-right;', right, '6', right, 'D', right, snake[] );
 
 	    if ( new direction[] != select by value( snake[], up, down, down, up, left, right, right, left )) snake[] = new direction[]; // Avoid turning back
 
@@ -237,7 +248,7 @@ do
 	//	''	= Blank
 
 	dim( game board[], { field[height], field[width]} , '' );
-
+	game board[] = 0; // Base variable - Pickup Performance Balance
 
 	// Define the snake
 	//
