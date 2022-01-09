@@ -120,7 +120,7 @@ define procedure and function( update snake, {{ grow, numeral, io } } )
 
 define procedure( display time )
 {
-	time[] = round down(watch read());
+	time[] = (time(now) - start time[])*24*3600; // True wall clock time
 	if (time[] <> time elapsed[])
 	{
 	    cursor(40,1);
@@ -148,7 +148,7 @@ define function( play )
 {
 	cursor(hide);
 	score[] = 0;
-	watch start;
+	global() start time[] = time(now);
 	display score( score[] );
 	game over[] = false;
 	interval[] = 0.1; // seconds
