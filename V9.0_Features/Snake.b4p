@@ -1,0 +1,258 @@
+
+cls;
+echo( '''
+	&yellow;The Snake Game&default;
+	&white;&underscore;B4P Demonstration Program&underscore; to show the functionality and performance of the cosole features.&default;
+
+	When running under Windows, activate "Num Lock" on your keypad in order to push the corresponding
+	digits instead of the arrow keys because the key-pressed function under Windows is not working
+	properly for navigation and function keys.  Example: 8 for navigating upwards.
+
+	How to play:
+	1. &light green;Navigate the snake&default; across the screen using navigation keys
+	2. &light blue;Eat the &light red;red&light blue; and &yellow;yellow&light blue; food items&default;, marked as 'O'.
+	   Red food items score 1 point and extend the snake by 1 piece.
+	   Yellow symbols score 10 points and extend the snake by 5 pieces.
+	3. The game will &light brown;speed up a little &default; every minute.
+	4. &light magenta;The game is over&default; when colliding against the boundaries or eating yourself (colliding with 
+	   the snake.
+''');
+
+pause("Resize the screen, then start playing ...");
+
+screen[width]	= console(width);
+screen[height]	= console(height);
+
+field[width]	= screen[width]-2;	// Allow space for surrounding frame
+field[height]	= screen[height]-7;	// Allow spece for header, scores, etc.
+
+field[x offset] = 2;
+field[y offset] = 3;
+
+structure( snake symbol[],      { up, down, left, right }, { '&boxv;',  '&boxv;',  '&boxh;',  '&boxh;'  } ); // These are HTML entities
+structure( snake symbol[up],    { up, down, left, right }, { '&boxv;',  '&boxv;',  '&boxur;', '&boxul;' } ); // for box drawing characters
+structure( snake symbol[down],  { up, down, left, right }, { '&boxv;',  '&boxv;',  '&boxdr;', '&boxdl;' } );
+structure( snake symbol[left],  { up, down, left, right }, { '&boxdl;', '&boxul;', '&boxh;',  '&boxh;'  } );
+structure( snake symbol[right], { up, down, left, right }, { '&boxdr;', '&boxur;', '&boxh;',  '&boxh;'  } );
+
+
+
+define procedure( start screen )
+{
+	clear(alt);
+	echo('&yellow;The Snake Game written in B4P');
+	cursor( 1, field[y offset]-1 );
+	text color(light blue);
+	print( '&boxDR;', replicate( '&boxH;', field[width] ), '&boxDL;' );
+
+	cursor( 1, field[height] + field[y offset] );
+	print( '&boxUR;', replicate( '&boxH;', field[width] ), '&boxUL;' );
+
+	for (y[] = 0, y[] < field[height], y[]++)
+	{
+	    cursor( 1, y[]+field[y offset] );	
+	    print( '&boxV;' );
+	    cursor( field[x offset] + field[width], y[]+field[y offset] );	
+	    print( '&boxV;' );
+	}
+	text color(default);
+
+}
+
+define procedure and function( update snake, {{ grow, numeral, io } } )
+{
+	rv[] = 0;
+	snake head[] = member count( snake[] ) - 1;
+	if (!existing(prev dir[])) global() prev dir[] = snake[];
+
+	print('&white;');
+
+	if (snake head[]>=1 & prev dir[]!=snake[]) // Contains at least 2 segments
+	{
+	    cursor( snake[snake head[]-1]{1} + field[x offset], snake[snake head[]-1]{0} + field[y offset] );
+	    print( snake symbol[snake[], prev dir[]] );
+	}
+	cursor( snake[snake head[]]{1} + field[x offset], snake[snake head[]]{0} + field[y offset] );
+	print( snake symbol[snake[]] );
+	print('&default;');
+	prev dir[] = snake[];
+
+	if ( !(snake[snake head[]]{0} = 0..field[height]-1 ) | !(snake[snake head[]]{1} = 0..field[width]-1 ) ) return( Bounced the wall );
+
+	symbol[] = game board[ snake[snake head[]]{0}, snake[snake head[]]{1} ];
+	if ( symbol[] == F ) // Food
+	{
+	    display message( "Thanks!" );
+	    grow[]++;
+	    rv[] = 1;
+	}
+	if (symbol[] == G) // Gold
+	{
+	    display message( "Nice Catch - Keep up!" );
+	    grow[]+=5;
+	    rv[] = 10;
+	}
+	if (symbol[]='1') // Self collision
+	{
+	    return(Eaten yourself);
+	}
+	game board[ snake[snake head[]]{0}, snake[snake head[]]{1} ] = '1';
+
+
+	if (grow[]>0)
+	{
+	    grow[]--;
+	}
+	else: if (grow[]==0) // Chop the snake tail if 0 (Use -1 for initialization)
+	{
+	    cursor( snake[0]{1} + field[x offset], snake[0]{0} + field[y offset] );
+	    print(' ');
+	    game board[ snake[0]{0}, snake[0]{1} ] = '';
+	    global() delete( snake[0] );
+	}
+	if (grow[]<0) grow[] = 0; // Negative values are also reset to 0
+
+	return(rv[]); // OK
+
+}
+
+
+define procedure( display time )
+{
+	time[] = round down(watch read() / 1000);
+	if (time[] <> time elapsed[])
+	{
+	    cursor(40,1);
+	    print('&cyan;', literal(round down(time[]/60), "00"), ':', literal(round down(mod(time[],60)), "00"), '&default;');
+	    time elapsed[] = time[];
+	}
+}
+
+
+define procedure( display score, {{ score, numeral }})
+{
+	cursor(50,1);
+	print('&light green;Score: ', score[],' &default;');
+}
+
+define procedure( display message, {{ msg, literal }} )
+{
+	cursor(65,1);
+	print(msg[]);
+	clear(right);
+}
+
+
+define function( play )
+{
+	cursor(hide);
+	score[] = 0;
+	watch start;
+	display score( score[] );
+	game over[] = false;
+	interval[] = 0.1; // seconds
+	index[] = 0;
+	time elapsed[speedup done] = false;
+	prev dir[] = right;
+
+	grow[] = -1;		// Initialization
+	update snake( grow[] );
+
+
+	do
+	{
+	    index[]++;
+	    display time;
+
+	    if (mod( time elapsed[], 60 )== 0) // Speed up every minute
+	    {
+		if (!time elapsed[speedup done])
+		{
+		    time elapsed[speedup done] = true;
+		    if (interval[] > 0.01)
+		    {
+			display message('Getting faster!!!');
+			interval[] *= 0.8;
+		    }
+		    else: display message('You are doing really well!!!');
+		}
+	    }
+	    else: time elapsed[speedup done] = false;
+
+	    if (mod(index[], 20)=0) // Provide food
+	    {
+		x[] = random( 0, field[width]-1 );
+		y[] = random( 0, field[height]-1 );
+		food[] = select if( random(10)>=8, G, F);
+	
+		if (game board[y[],x[]]=='')
+		{
+		    game board[y[],x[]] = food[]; // Food, and in some cases gold
+		    cursor( x[] + field[x offset], y[] + field[y offset] );
+		    print(select if (food[]==G,'&yellow;','&light red;'),'O&default;');
+		}
+	    }
+
+	    snake head[] = member count( snake[] ) - 1;
+	    key[] = wait(interval[]);
+	    new direction[] = select by value( key[], '&arrow-up;', up, '8', up, '&arrow-down;', down, '2', down, '&arrow-left;', left, '4', left, '&arrow-right;', right, '6', right, snake[] );
+
+	    if ( new direction[] != select by value( snake[], up, down, down, up, left, right, right, left )) snake[] = new direction[]; // Avoid turning back
+
+	    if (key[] <> escape)
+	    {
+		// Snake head moves forward
+		snake[ snake head[]+1 ] = snake[ snake head[] ] +^ select by value( snake[], up, { -1, 0 }, down, { 1, 0 }, left, { 0, -1 }, right, { 0, 1 }, { 0, 0 } );
+
+		rv[] = update snake( grow[] );
+		if (rv[]>0)
+		{
+		    score[] += rv[];
+		    display score(score[]);
+		}
+
+		if (rv[]='* *') game over[] = true; // Any text consisting of multiple words is a game over ase
+	    }
+
+	}
+	while (!game over[] & key[]!=escape);
+	cursor(1,field[height]+field[y offset]+1); 
+	if (game over[]) echo('&light red;', rv[],' - Game Over&default;');
+	cursor(show);
+	return( input quick( "Hit space bar to play again or escape to leave", ' '+escape ) );
+}
+
+
+
+// Main Program
+
+do
+{
+
+	// Define and clear the game board: 2-dimensional array (height, width)
+	// 	'1'	= Own snake
+	// 	'F'	= Food (crossing over it increases length by 1)
+	// 	'G'	= Golden Food (crossing over it increases length by 3)
+	//	''	= Blank
+
+	dim( game board[], { field[height], field[width]} , '' );
+
+
+	// Define the snake
+	//
+	// It is an array consisting of Y and X coordinates of every segment (parameter set with 2 elements)
+	// The array array size increses whenever the snake eats food.
+	// The crawling direction is stored as a character in the base variable snake[].
+
+	delete(snake[]);
+	snake[0] = { round (field[height]/2), round (field[width]/2) };
+	snake[]  = 'right';  // Base variable contains direction up, down, left, right
+
+	time elapsed[] = -1;
+
+	start screen;
+	rv[] = play();
+	clear(back);
+
+} while (rv[]!=escape);
+interactive;
