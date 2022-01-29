@@ -1,0 +1,27 @@
+#!/usr/local/bin/b4p
+
+path[] = working directory();
+do
+{
+	continue[] = false;
+	directory listing( dir );
+	table copy table columns( dir, dir2, { Name, Date Created, Time Created, Date Updated, Time Updated } );
+	table insert rows( dir2, 1 );
+	[dir2:Name,1] = ".." + system info[directory separator];
+
+	cmd[] = table view( dir2, path[] + new line + "Choose directory, push Enter, then select file, and push Enter: ", new line, { full row cursor, hide row numbers, select no headers, alt screen }, row[] );
+	file name[] = [dir2:Name,row[]];
+
+	if (cmd[]==new line & ( right(file name[],1) = system info[directory separator] ) )
+	{
+	    working directory( file name[] );
+	    path[] = working directory();
+	    continue[]= true;
+	}
+} while (continue[]);
+
+
+echo("Good job. The chosen file name is: ", file name[] );
+
+system('"' + file name[]  + '"'); //  Opens the file.  Under LINUX, you may probably need to add 'Open' at the beginning of the command.
+
