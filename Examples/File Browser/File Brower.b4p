@@ -1,0 +1,9 @@
+#!/usr/local/bin/b4p
+
+
+file name[] = file browser( "Enter -->  ", ".", "", { colors, file names ignore case } );
+
+echo("Good job. The chosen file name is: ", file name[] );
+
+// system('"' + file name[]  + '"'); //  Opens the file.  Under LINUX, you may probably need to add 'Open' at the beginning of the command.
+
