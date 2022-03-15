@@ -1,8 +1,0 @@
-{
-    "code-runner.fileDirectoryAsCwd": true,
-    "code-runner.runInTerminal": true,
-    "code-runner.saveFileBeforeRun": true,
-    "terminal.explorerKind": "external",
-    "terminal.integrated.allowChords": false,
-    "terminal.integrated.altClickMovesCursor": false
-}
