@@ -1,0 +1,20 @@
+#!/usr/local/bin/b4p
+
+table load( c, Cities.csv);
+
+view( c, firefox);
+
+
+// list table noninteractively
+// table list(c);
+table list (c, 1st col, 1, last col, 5, briefly, 3);
+
+
+// view table interactively
+view (c, here);
+
+
+// view( c, firefox datatables );
+// view( c, safari datatables );
+// view( c, chrome datatables );
+

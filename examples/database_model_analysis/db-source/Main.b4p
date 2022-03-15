@@ -1,0 +1,13 @@
+	watch start;
+
+	table load excel file		( fileman, fileman_db.xlsx, 'FileManFields (90587)' );
+	table load excel file		( cdw, cdw_db.xlsx, 'CDW View Columns (18649)' );
+
+	table insert columns		( fileman, CDW Match, '', 0 );
+	table lookup			( fileman, { FileNumber, FieldNumber }, CDW Match, cdw, { SourceFileNumber, SourceFieldNumber }, '#row' );
+
+	table process selected rows	( fileman, [CDW Match]!='', [CDW Match] = 'Yes'; table style rows( fileman, row(), table, fill color, yellow ) );
+	table style auto width		( fileman );
+	table save excel file		( fileman, Result, fileman_cdw_map.xlsx );
+
+	echo("Time required: ", watch stop()/1000, " seconds.");

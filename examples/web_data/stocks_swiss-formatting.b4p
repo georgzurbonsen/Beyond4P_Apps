@@ -1,0 +1,49 @@
+#!/usr/local/bin/b4p
+
+//	In case the web page is not in German, then you need to rename the column headers
+
+	file download overwrite		( "https://www.finanzen.ch/index/liste/smi", smi.html);
+	table load			( smi, smi.html, HTML, 'index-list-container' );
+	table configure			( smi, read numerals, no ); // Read numbers as literals, not as numerals
+
+//	Most headers contain two items.  Separate them.
+
+	table rename column headers( smi, { "3 Mon. +/- %", "6 Mon. +/- %", "1 Jahr +/- %" }, { "3-Mon. 3-Mon-%", "6-Mon. 6-Mon-%", "1-Jahr 1-Jahr-%" } );
+
+	for all parameters( { Name ISIN, Letzter Vortag, Tief Hoch, "+/- %", "3-Mon. 3-Mon-%", "6-Mon. 6-Mon-%", "1-Jahr 1-Jahr-%" }, h12[] ) // But keep date time column together which is OK.
+	{
+		h2[] = right last match (h12[],' ');
+		h1[] = left  last match (h12[],' ');
+		table insert columns		( smi, h2[], '', softquoted literal('>'+h12[]) );
+		table rename column headers	( smi, h12[], h1[] );
+		table process			( smi, [h2[]] = right last match( [h1[]], ' ' ); [h1[]] -= ' ' +[h2[]] );
+	}
+
+
+	// Contains accent-aigu symbol as thousand separator.  Likely created on a Hewlett Packard windows installation and not Dell which uses sg. quotation marks.
+	// Clean numbers up so they can be used on all installations.
+
+
+	for all parameters( { Letzter, Vortag, Tief, Hoch, "3-Mon.", "6-Mon.", "1-Jahr" }, column[] )
+	{
+		table process( smi, [column[]] = clean if numeral( [column[]] ) );
+	}
+
+	table delete blank columns 		( smi );
+	table save				( smi, smi.csv );
+
+
+	// This was a little too easy, and CSV files do not look that nice.  Let's save it in Excel with some nice colors and formatting
+
+	table configure				( smi, read numerals, yes ); // Now read the numbers as numerals again
+
+	for all parameters			( { 20, 16, 6:8, 20, 7:10, 20 }, width[], column[] )  table style columns( smi, column[], sheet, column width, width[] );
+	columns in percents[] 			= { '%', '3-Mon-%', '6-Mon-%', '1-Jahr-%' };
+	table process cells in columns		( smi, columns in percents[], [.] /= 100 );
+	for all parameters			( columns in percents[], header[] )  table style columns( smi, header[], sheet, number format, "0.00%" );
+	table process cells			( smi, if ([.]<0) table style cells( smi, col(), row(), single, text color, red ) );
+	
+	table style rows			( smi, 0, table, boldface, true, fill color, gray 14 );
+	table style table			( smi, sheet, freeze columns, 2, freeze rows, 1, autofilter, 0 );
+
+	table save excel file			( smi, "Switzerland SMI Stocks", smi.xlsx );

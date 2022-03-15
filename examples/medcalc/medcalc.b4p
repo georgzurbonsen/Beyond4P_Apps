@@ -1,0 +1,91 @@
+
+define function (input length, {{ prompt, literal}, {verification string, literal}} )
+{
+    do 
+    {
+        do
+        {
+            a[]= input ( prompt[] + " ", literal) + " " ;
+            feet[]= clean numeral ( left( a[]," ")  );
+            inches[] = clean numeral ( right( a[], " ") );
+            echo ( "The entered value is: ", feet[], " feet ", inches[], " inches" );
+        }
+        while ( input quick ignore case ( "Is this correct? ", NY) == N ); 
+        inches[] += feet[] * 12;
+        result[] = compare ( inches[], : verification string[] );
+        if ( result[] == false)
+            echo ("Out of range " , verification string[]);
+    }
+    while (result[] == false);
+    return ( inches[] );
+}
+
+
+table load excel file           (medcalc, "medcalc.xlsx", "Questions" );
+clear (all);
+table lift header row           (medcalc);
+table delete blank rows         (medcalc);
+table check headers             (medcalc, {Q_Num, Parameter, Questions, ResponseType, Validation, Calculation, Condition, Comment});  // copy-paste and add commas
+table insert columns            (medcalc, VarMulti, "", 0);   // inserts new column for multiple-choice answer Variables, with blank contents at left
+table process selected rows     (medcalc, [Parameter] == "", [VarMulti] = select if ( [Parameter, row()-1 ] != "",   [Parameter, row()-1 ], [VarMulti, row()-1 ])  );
+table initialize                (answerTable, { trim ( [medcalc: Parameter, ..] ) } ); 
+table delete blank columns      (answerTable);
+
+//view (medcalc);
+
+Q_count[] = max 123 (  [medcalc: Q_Num, .. ]  );  // maximum numeric value of medcalc table column name Q_Num for all rows
+
+table insert columns (medcalc, Answer, "", ResponseType); // inserts new Answer column to medcalc table
+
+
+for all table selected rows  (medcalc, [Parameter]!=""  )
+    {
+        // prefix all Questions with (question # / total questions) and format as white color
+        questionsVar[]= compose ( '&white;', [Q_Num], "/", Q_count[], ": ", [Questions], '&default;' );
+
+        if ([Condition] !="")
+        {
+            with table ( answerTable, 1 )
+            if ( calc ( :[^Condition] ) == false) continue;
+        }
+
+        switch ( [ResponseType] )
+        {
+            case (Multiple)
+            {
+                print bar;
+                format print( {right margin, 70},  questionsVar[]  );
+                table process selected rows (medcalc, [VarMulti]== [^Parameter], echo ( [ ResponseType], "  ", [Questions] ) );
+                [Answer] = input quick ignore case ( "Please Select ", [Validation] );
+            }
+            case (Numeric)
+            {
+                print bar;
+                echo ( questionsVar[] );
+                [Answer]= input ( "Please Select ", integer, :[Validation] );
+            }
+            case (Length)            
+            {
+                print bar;
+                [Answer]= input length( questionsVar[] , [Validation] );
+            }
+            case (Formula)
+            {
+                with table (answerTable, 1)
+                [^Answer]= calc ( :[^Calculation]  );  // calculates expression which provides return value
+            }
+            case (Action)
+            {
+                with table (answerTable, 1)
+                exec ( :[^Calculation]  );    // execute statements
+            }
+        }
+        [answerTable: [Parameter], 1] = [Answer];  // full table spec: [column], row;   write first row of answerTable in column specified by Parameter (from medcalc table)
+    }
+
+
+print bar;
+
+// table transpose                 (answerTable);
+// table save excel file           (answerTable, sheetName, answerTable.xlsx);
+// table save excel file           (medcalc, formulas, medcalc_out.xlsx);

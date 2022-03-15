@@ -1,0 +1,9 @@
+#!/usr/local/bin/b4p
+{
+
+file download overwrite ("https://www.slickcharts.com/sp500", sp500.html)
+table load (sp500, sp500.html, HTML, "Components of the")
+table save (sp500, sp500_as_loaded_CSV)
+
+
+}
