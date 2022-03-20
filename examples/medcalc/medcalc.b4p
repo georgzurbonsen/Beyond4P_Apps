@@ -1,14 +1,14 @@
 
-define function (input length, {{ prompt, literal}, {verification string, literal}} )
+define function (input length, {{ prompt, string}, {verification string, string}} )
 {
     do 
     {
         do
         {
-            a[]= input ( prompt[] + " ", literal) + " " ;
-            feet[]= clean numeral ( left( a[]," ")  );
-            inches[] = clean numeral ( right( a[], " ") );
-            echo ( "The entered value is: ", feet[], " feet ", inches[], " inches" );
+            a[]		= input ( prompt[] + " ", string) + " " ;
+            feet[]	= clean num ( left( a[]," ")  );
+            inches[] 	= clean num ( right( a[], " ") );
+            echo 	( "The entered value is: ", feet[], " feet ", inches[], " inches" );
         }
         while ( input quick ignore case ( "Is this correct? ", NY) == N ); 
         inches[] += feet[] * 12;
@@ -86,6 +86,6 @@ for all table selected rows  (medcalc, [Parameter]!=""  )
 
 print bar;
 
-// table transpose                 (answerTable);
-// table save excel file           (answerTable, sheetName, answerTable.xlsx);
-// table save excel file           (medcalc, formulas, medcalc_out.xlsx);
+table transpose                 (answerTable);
+table save excel file           (answerTable, sheetName, answerTable.xlsx);
+table save excel file           (medcalc, formulas, medcalc_out.xlsx);

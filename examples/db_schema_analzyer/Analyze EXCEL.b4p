@@ -47,7 +47,7 @@
 		    {
 			count[]			+=[^Count];
 			[Contents Count]	= [^Count];
-			[Contents]		= left(literal([^0]),limit[char count]) + select if( literal([^0]){}>limit[char count]," ...","" );
+			[Contents]		= left(str([^0]),limit[char count]) + select if( str([^0]){}>limit[char count]," ...","" );
 		    } );
 		}
 

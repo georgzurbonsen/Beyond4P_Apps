@@ -6,8 +6,8 @@
 
 define procedure ( print and reset inhabitants )  // Doing it stupidly for now, using global variables
 {
-	echo(	"U.S. inhabitants        : ", literal(U.S. inhabitants[],    "#,##0", local), new line, 
-		"and foreign inhabitants : ", literal(foreign inhabitants[], "#,##0", local), new line );
+	echo(	"U.S. inhabitants        : ", str(U.S. inhabitants[],    "#,##0", local), new line, 
+		"and foreign inhabitants : ", str(foreign inhabitants[], "#,##0", local), new line );
 
 	U.S. inhabitants[] = 0;
 	foreign inhabitants[] = 0;

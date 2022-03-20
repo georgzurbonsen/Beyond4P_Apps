@@ -14,7 +14,7 @@
 	link[] = table menu quick( menu, input, text, link );
 	choice[] = input quick ignore case( "V = Load into variable,  T = Load into sequential table and analyze?", VT );
 
-	if (link[] <> "-") file download overwrite( literal(link[]), Downloaded Example.JSON ); // Force quoted literal
+	if (link[] <> "-") file download overwrite( str(link[]), Downloaded Example.JSON ); // Force quoted string
 
 	echo("Downlaod done (if requested).  Starting the watch to clock the performance");
 	watch start;
@@ -44,7 +44,7 @@
 
 
 		table process selected rows	( table, ([JSON Type]=array,object), [JSON Value]='' );
-		table process selected rows 	( table,  !is numeric([JSON Name]), [JSON Name] = literal( "", literal(2*[JSON Level])+" ") + literal([JSON Name]) );
+		table process selected rows 	( table,  !is numeric([JSON Name]), [JSON Name] = str( "", str(2*[JSON Level])+" ") + str([JSON Name]) );
 
 		table initialize  ( summary page 1,
 				{ { "Item", "Value" },
@@ -86,7 +86,7 @@
 			echo("Table is too big to save as Excel file.");
 		}
 
-		table process			( summary page 1, echo( literal( [Item], "30# : ", align right), [Value] ) );
+		table process			( summary page 1, echo( str( [Item], "30# : ", align right), [Value] ) );
 	}
 
 	echo(new line, "Done saving the work. Time needed [ms]: ", watch stop() );

@@ -8,14 +8,14 @@
 	[ta:5,16..19] = {true, false, true, false };
 	[ta:3,20] = "Two" + new line + "Lines";
 	[ta:4,20] = "1E+20";
-/*
+
 //	table style table( ta, sheet, gridlines, 1 );
 
 	table style table ( ta, sheet, fill color, gray 12 );
 
 
 	table style cells( ta, 3, 5, single,fill color, green, italic, false );
-	table style rows ( ta,    5, sheet, bottom border, { thin, red }, type, literal );
+	table style rows ( ta,    5, sheet, bottom border, { thin, red }, type, string );
 
 	table style rows ( ta, 13, sheet, hidden, true );
 	table style columns( ta, 4, sheet, hidden, true );
@@ -31,14 +31,14 @@
 //	table style table( ta, sheet, column width, 30 );
 //	table style table( ta, sheet, row height, 20 );
 
-	table style cells( ta, 0, 18, single, type, literal );
-	table style cells( ta, 0, 19, single, type, literal );
+	table style cells( ta, 0, 18, single, type, string );
+	table style cells( ta, 0, 19, single, type, string );
 
 	table style cells( ta, 0, 30, single, fill color, red );
 
 
 	table style columns( ta, 0, body, text color, navy );
-	table style cells( ta, {4,4,4,4},{16..19}, single, type, literal );
+	table style cells( ta, {4,4,4,4},{16..19}, single, type, string );
 
 	substitute( [ta:Famous attraction,2], ' ', new line ); // Lincoln Statue: Check if wrap text is working here
 
@@ -57,7 +57,7 @@
 	table style cells( ta, 6,10, single, horizontal align, middle, fill color, orange);
 	table style cells( ta, 7, 0, single, vertical align, top, text color, green);
 
-	table style cells( ta, 3, 9, single, type, literal); // Treat this number as literal
+	table style cells( ta, 3, 9, single, type, string); // Treat this number as string
 
 	table style rows( ta, 0, table, boldface, true, fill color, gray 15 );
 
@@ -67,7 +67,7 @@
 
 	translate style attributes for excel ( ta );
 
-*/
+
 	table save excel file( ta, Cities, 'Cities Out.xlsx' );  // Not UNICODE
 //	table save excel file( {ta,ta}, {Cities1,Cities2}, 'Cities Out.xlsx' );  // Not UNICODE
 

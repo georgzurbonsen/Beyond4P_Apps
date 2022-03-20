@@ -52,7 +52,7 @@ runtime settings [verbose]=quiet;
 
 	// Combine the 'need help' info into the issues column
 
-	table process selected rows	( table, [need help]!='', [issues] = literal([issues]) + " " + [need help] );
+	table process selected rows	( table, [need help]!='', [issues] = str([issues]) + " " + [need help] );
 
 
 	// Consolidate the info into one row per item

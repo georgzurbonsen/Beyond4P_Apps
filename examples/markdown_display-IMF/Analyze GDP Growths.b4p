@@ -59,7 +59,7 @@ include ( Support Library );
 
 	for all table selected columns	( worldbank, ('20*'), 0, col nr[] )
 	{
-		[ col nr[] ] = WBK Y + literal([ col nr[] ]) - e - f; // Note: Since table context (table name and row number) are known, only column needs to be specified.
+		[ col nr[] ] = WBK Y + str([ col nr[] ]) - e - f; // Note: Since table context (table name and row number) are known, only column needs to be specified.
 	}
 
 	echo( "Step 4 - Precondition IMF data", new line );
@@ -71,7 +71,7 @@ include ( Support Library );
 
 	// The years are still listed vertically.  Move them across columns by doing a simple pivot.
 
-	table process			( imf, [year] = IMF Y + literal([year]); [GDP growth] = round([GDP growth], 0.1 ) ); // Round the numbers for clarity
+	table process			( imf, [year] = IMF Y + str([year]); [GDP growth] = round([GDP growth], 0.1 ) ); // Round the numbers for clarity
 	table spread 			( imf, GDP growth, [year] );
 	table consolidate		( imf, country, { year, GDP growth } + [ imf : '>GDP growth'.., 0 ], { delete, delete, sum } );
 

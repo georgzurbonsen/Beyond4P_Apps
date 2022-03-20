@@ -25,7 +25,7 @@
 	
 	// Percent value gets converted to regular number, price value is claned up
 
-	table process				( stocks, ['% Chg'] = smart numeral( middle( ['% Chg'], '(', ')' )); [Price] = clean numeral([Price]) );
+	table process				( stocks, ['% Chg'] = smart num( middle( ['% Chg'], '(', ')' )); [Price] = clean num([Price]) );
 	table sort rows				( stocks, Company );
 	table process				( stocks, ['#'] = row() );
 

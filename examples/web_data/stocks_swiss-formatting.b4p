@@ -4,7 +4,7 @@
 
 	file download overwrite		( "https://www.finanzen.ch/index/liste/smi", smi.html);
 	table load			( smi, smi.html, HTML, 'index-list-container' );
-	table configure			( smi, read numerals, no ); // Read numbers as literals, not as numerals
+	table configure			( smi, read numerals, no ); // Read numbers as strings, not as numerals
 
 //	Most headers contain two items.  Separate them.
 
@@ -14,7 +14,7 @@
 	{
 		h2[] = right last match (h12[],' ');
 		h1[] = left  last match (h12[],' ');
-		table insert columns		( smi, h2[], '', softquoted literal('>'+h12[]) );
+		table insert columns		( smi, h2[], '', soft('>'+h12[]) );
 		table rename column headers	( smi, h12[], h1[] );
 		table process			( smi, [h2[]] = right last match( [h1[]], ' ' ); [h1[]] -= ' ' +[h2[]] );
 	}
@@ -26,7 +26,7 @@
 
 	for all parameters( { Letzter, Vortag, Tief, Hoch, "3-Mon.", "6-Mon.", "1-Jahr" }, column[] )
 	{
-		table process( smi, [column[]] = clean if numeral( [column[]] ) );
+		table process( smi, [column[]] = clean if num( [column[]] ) );
 	}
 
 	table delete blank columns 		( smi );

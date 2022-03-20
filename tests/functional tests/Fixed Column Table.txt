@@ -1,5 +1,0 @@
-Mouse     4         4 cm         Mammal
-Snake     0         5 cm - 7 m   Reptile
-Lobster   10        up to 35 cm  Crustacea
-Fly       6         0.2 - 1 cm   Insect
-Spider    8         up to 10 cm  Chelicerata

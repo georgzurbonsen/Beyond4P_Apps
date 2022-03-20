@@ -5,9 +5,9 @@
 	for all parameters ( {nasdaq100, sp500} , listing[] )
 	{
 		file download overwrite		( "https://www.slickcharts.com/" + listing[], listing[] + .html);
-		table load					( listing[] ,listing[] + .html,  HTML, "Components of the" );
+		table load			( listing[] ,listing[] + .html,  HTML, "Components of the" );
 		table rename column headers	( listing[], "Weight", "Weight " + listing[] ); // Weight info is specific to SP and Nasdaq, so add the listing name
-		table save					( listing[], listing[] + " as loaded.csv" );
+		table save			( listing[], listing[] + " as loaded.csv" );
 	}
 
 //	Step 2:	Combine the two tables
@@ -15,9 +15,9 @@
 	table rename					( sp500, stocks );
 
 //	Step 3: Cleanup
-	table correct headers		( stocks, '*Price*', Price );
-	table rearrange columns		( stocks, { '#', Company, Symbol, Price, Chg, '% Chg' } ); 		// Weightings follow afterwards
-	table process				( stocks, ['% Chg'] = middle( ['% Chg'], '(', ')' ); [Price] = clean numeral([Price]) );
+	table correct headers			( stocks, '*Price*', Price );
+	table rearrange columns			( stocks, { '#', Company, Symbol, Price, Chg, '% Chg' } ); 		// Weightings follow afterwards
+	table process				( stocks, ['% Chg'] = middle( ['% Chg'], '(', ')' ); [Price] = clean num([Price]) );
 	table sort rows				( stocks, Company );
 	table process				( stocks, ['#'] = row() );
 

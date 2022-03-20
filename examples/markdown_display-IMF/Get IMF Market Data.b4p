@@ -19,8 +19,8 @@
 
 	table process( data, for all parameters( filter([data:..,0], 1900..2999 ), year[] )
 	{
-		 year[] = literal(year[]);
-		 if ([year[]] <> "n/a","") [year[]] = clean numeral( [year[]] ); // Clean up numbers, e.g. remove unnecessary thousand separators
+		 year[] = str(year[]);
+		 if ([year[]] <> "n/a","") [year[]] = clean num( [year[]] ); // Clean up numbers, e.g. remove unnecessary thousand separators
 	}  );
 
 	echo("Save the market info in readable form ...", new line);
@@ -29,13 +29,13 @@
 	echo("Retrieve GDP growth data for all countries ...", new line);
 
 	// Identify past 10 years by picking up the years from header row and choosing the right most items.
-	// Note: Years are numerals, not literals.  Pay attention when using them to reference columns - not to confuse headers with column numbers
+	// Note: Years are numerals, not strings.  Pay attention when using them to reference columns - not to confuse headers with column numbers
 
-	// The function deep(...) applies the function literal (...) for every parameter element inside 'past 10 years[]' to convert
-	// numbers to literals.  Alternative, you can use: for all parameters( past 10 years[] ... ) and implement it in a loop.
+	// The function deep(...) applies the function str (...) for every parameter element inside 'past 10 years[]' to convert
+	// numbers to strings.  Alternative, you can use: for all parameters( past 10 years[] ... ) and implement it in a loop.
 
 
-	past 10 years[] 		= deep( literal, { right( filter([data:..,0], 1900..2999 ), 10)  } );
+	past 10 years[] 		= deep( str, { right( filter([data:..,0], 1900..2999 ), 10)  } );
 	table keep columns		( data, { Country, Subject Descriptor, Units } + past 10 years[] ); 
 	table keep selected rows	( data, [Subject Descriptor] == 'Gross domestic product, constant prices' & [Units] = 'Percent change' );
 	table delete columns		( data, { Subject Descriptor, Units } );
@@ -48,7 +48,7 @@
 
 	table process 	( data, for all parameters( past 10 years[], year[] ) 
 				{
-					if ( [year[]] != 'n/a') [year[]] = literal( [year[]]/100, '0.00%' ); // Format as true percent figure
+					if ( [year[]] != 'n/a') [year[]] = str( [year[]]/100, '0.00%' ); // Format as true percent figure
 				} );
 
 

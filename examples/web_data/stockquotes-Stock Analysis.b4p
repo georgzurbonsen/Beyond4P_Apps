@@ -6,7 +6,7 @@
 		file download overwrite		( "https://www.slickcharts.com/" + listing[], listing[] + .html);
 		table load			( listing[],listing[] + .html,  HTML, "Components of the" );
 		table clean			( listing[], trim spaces );
-		table process			( listing[], ['% Chg'] = smart numeral( middle( ['% Chg'], '(', ')' )); [Price] = clean numeral([Price]) );
+		table process			( listing[], ['% Chg'] = smart num( middle( ['% Chg'], '(', ')' )); [Price] = clean num([Price]) );
 
 		table rename column headers	( listing[], "Weight", "Weight " + listing[] ); // Weight info is specific to SP and Nasdaq, so add the listing name
 	}

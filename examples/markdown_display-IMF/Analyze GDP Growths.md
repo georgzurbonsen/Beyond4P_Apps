@@ -19,7 +19,7 @@ watch start;				// start stopwatch timing
 ```
 
 * '#!/usr/local/bin/b4p':  "shebang statement". Sets the B4P program path on UNIX/LINUX/MACOS systems. Must be on the very first line of all B4P files.
-* 'runtime settings':  assigment of the literal 'quiet' to the system variable 'runtine settings' with member variable 'verbose'.
+* 'runtime settings':  assigment of the string 'quiet' to the system variable 'runtine settings' with member variable 'verbose'.
 * 'include': extend functionality of B4P with additional libraries, such as loading Microsoft Excel formatted files
 * 'watch start':  starts performance measurement.  No parentheses are needed if a procedure is called without parameters
 * '{' (curly brace): begin of program code
@@ -97,7 +97,7 @@ table delete selected rows	( worldbank, [country] == '', 2 );
 // Delete the 'e' and 'f' behind the years which were used to indicated them as 'expected' or 'forecasted' figures.
 for all table selected columns	( worldbank, ('20*'), 0, col nr[] )
     {
-	[ col nr[] ] = WBK Y + literal([ col nr[] ]) - e - f; 
+	[ col nr[] ] = WBK Y + str([ col nr[] ]) - e - f; 
 	// Example: 'WBK Y2016', with suffix 'e' or 'f' stripped of if existing.
 	// Note: Since table context (table name and row number) are known, only column needs to be specified.
     }
@@ -152,7 +152,7 @@ The pivot from vertical to horizontal consists of just 2 B4P statements:
 ```text
 // The years are still listed vertically.  
 // Move them across columns by doing a simple pivot. Round the numbers for clarity
-table process		( imf, [year] = IMF Y + literal([year]); [GDP growth] = round([GDP growth], 0.1 ) ); 
+table process		( imf, [year] = IMF Y + str([year]); [GDP growth] = round([GDP growth], 0.1 ) ); 
 table spread 		( imf, GDP growth, [year] );
 table consolidate	( imf, country, { year, GDP growth } + [ imf : '>GDP growth'.., 0 ], { delete, delete, sum } );
 
@@ -201,7 +201,7 @@ The table looks as follows:
 
 * Pick the IMF years as 'Y2019', without the 'IMF ' prefix and store them into the variable 'years[imf]'
 * Pick the Worldbank years as 'Y2019', without the 'IMF ' prefix and store them into the variable 'years[imf]'
-* Both variables contain years in form of parameter sets containing literals.
+* Both variables contain years in form of parameter sets containing strings.
 * The 3rd statement does the intersection of the two parameter sets, containing years found in both IMF and Worldbank tables.
 
 ```text

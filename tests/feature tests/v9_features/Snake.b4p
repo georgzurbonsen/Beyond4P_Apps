@@ -134,7 +134,7 @@ define procedure( display time )
 	if (time[] <> time elapsed[])
 	{
 	    cursor(40,1);
-	    print('&cyan;', literal(round down(time[]/60), "00"), ':', literal(round down(mod(time[],60)), "00"), '&default;');
+	    print('&cyan;', str(round down(time[]/60), "00"), ':', str(round down(mod(time[],60)), "00"), '&default;');
 	    time elapsed[] = time[];
 	}
 }
@@ -146,7 +146,7 @@ define procedure( display score, {{ score, numeral }})
 	print('&light green;Score: ', score[],' &default;');
 }
 
-define procedure( display message, {{ msg, literal }} )
+define procedure( display message, {{ msg, string }} )
 {
 	cursor(65,1);
 	print(msg[]);

@@ -59,7 +59,7 @@
 			{
 			    count[]			+=[^Count];
 			    [Contents Count]		= [^Count];
-			    [Contents]			= left(literal([^JSON Value]),limit[char count]) + select if( literal([^JSON Value]){}>limit[char count]," ...","" );
+			    [Contents]			= left(str([^JSON Value]),limit[char count]) + select if( str([^JSON Value]){}>limit[char count]," ...","" );
 			} );
 		    }
 

@@ -166,7 +166,7 @@ define procedure( load Switzerland )
 //
 
 
-define procedure( calculate max and incidences, { { data, literal }, { do pct of confirmed cases, boolean } } )
+define procedure( calculate max and incidences, { { data, string }, { do pct of confirmed cases, boolean } } )
 {
 	echo(new line, "Calculate maximm value and incidences for ", data[]);
 	forget memorized table columns;
@@ -194,7 +194,7 @@ define procedure( calculate max and incidences, { { data, literal }, { do pct of
 	if (function name[] == calculate latest and incidences) table rename column headers( data[], Maximum, Latest );
 }
 
-define additional procedure( calculate latest and incidences, calculate max and incidences, { { data, literal }, { do pct of confirmed cases, boolean } } );
+define additional procedure( calculate latest and incidences, calculate max and incidences, { { data, string }, { do pct of confirmed cases, boolean } } );
 
 
 
@@ -203,7 +203,7 @@ define additional procedure( calculate latest and incidences, calculate max and 
 // Step 1: Number stays equal if there is a reporting gap (0 or blank)
 // Step 2: Above a certain level, start interpolating because value may have changed constant followed by a jump after a reporitng pause.
 
-define procedure ( interpolate gaps , {{ data, literal }} )
+define procedure ( interpolate gaps , {{ data, string }} )
 {
 	echo(new line, "Interpolate data gaps in ", data[], " ..." );
 
@@ -214,7 +214,7 @@ define procedure ( interpolate gaps , {{ data, literal }} )
 	table process( data[], 
 	{
 		x coord[] = { 0 };				// 1st point (0, y1)
-		y coord[] = { numeral( [1st column[]] ) };	// Ensures blanks are treated as zero
+		y coord[] = { num( [1st column[]] ) };	// Ensures blanks are treated as zero
 
 		table process selected columns( data[], row(), col() > 1st column[], 
 			if ([.] < ['<.']) [.] = ['<.'];
@@ -273,7 +273,7 @@ define procedure ( calculate actively infected )
 
 
 
-define procedure ( daily new, {{ data, literal }, { new, literal}} )
+define procedure ( daily new, {{ data, string }, { new, string}} )
 {
 	echo(new line, "Calculate daily new cases for ", data[], " ..." );
 	forget memorized table columns;
@@ -290,7 +290,7 @@ define procedure ( daily new, {{ data, literal }, { new, literal}} )
 
 
 
-define procedure ( weekly per 100k inh, {{ data, literal }, {new, literal}} )
+define procedure ( weekly per 100k inh, {{ data, string }, {new, string}} )
 {
 	echo(new line, "Calculate weekly incidence rate ..." );
 	forget memorized table columns;
@@ -320,7 +320,7 @@ define procedure ( weekly per 100k inh, {{ data, literal }, {new, literal}} )
 
 
 
-define procedure ( day 0 alignment, {{ data, literal }} )
+define procedure ( day 0 alignment, {{ data, string }} )
 {
 	echo(new line, "Calculate day 0 alignment ..." );
 
@@ -333,7 +333,7 @@ define procedure ( day 0 alignment, {{ data, literal }} )
 	table rename column headers		(  new[], Blank 3, '% CDGR');
 
 	dates[]					= [data[]::'####-##-##',0];
-	[new[]:'>Comments'..,0]			= "Day " +^ deep( literal, {{ 1 .. dates[]{} }} );
+	[new[]:'>Comments'..,0]			= "Day " +^ deep( str, {{ 1 .. dates[]{} }} );
 
 	table process( new[],  			series[] 	= filter start include( [ data[]:dates[],row() ], >=threshold[] );
 						['% CDGR'] 	= cagr( series[] );
@@ -345,7 +345,7 @@ define procedure ( day 0 alignment, {{ data, literal }} )
 
 
 
-define procedure ( trend cases, {{ data, literal }} )
+define procedure ( trend cases, {{ data, string }} )
 {
 	echo(new line, "Calculate trend cases on ", data[], " ...");
 	forget memorized table columns;
@@ -429,7 +429,7 @@ define procedure ( calculate adjusted case fatality risk )
 
 
 	table load excel file 			( Country Data, "Country Data.xlsx", Basedata );
-	table process 				( Country Data, [Population] = clean numeral( [Population] ) ); // Remove 1,000 separators, especially the non-ANSI character on HP systems in Switzerland
+	table process 				( Country Data, [Population] = clean num( [Population] ) ); // Remove 1,000 separators, especially the non-ANSI character on HP systems in Switzerland
 	data sets[] 				= { Confirmed, Hospitalized, Deaths };
 
 	echo("In the 'Population Data', you can specify different choice patterns using capital letters", new line, "in order to focus on countries of choice.  Enter choice:");
@@ -455,7 +455,7 @@ define procedure ( calculate adjusted case fatality risk )
 	    table sort columns			( table[], '>Comments', -1, date );	// Ensure dates in right order
 	    table sort rows			( table[], "Country/Region" );
 	    calculate max and incidences	( table[], table[] != Confirmed );
-	    table process cells in columns	( table[], [ table[] : :'####-##-##', 0 ], [.] = numeral([.] ) ); // Force all blank values to zero
+	    table process cells in columns	( table[], [ table[] : :'####-##-##', 0 ], [.] = num([.] ) ); // Force all blank values to zero
 	}
 
 	interpolate gaps ( Confirmed );
@@ -476,7 +476,7 @@ define procedure ( calculate adjusted case fatality risk )
 
 	tables[] = { Confirmed, Confirmed Daily New, Confirmed Weekly per 100k Inh, Confirmed Day Zero, Confirmed Trend, Recovered Predicted, Hospitalized, Deaths, Actively Infected, Actively Infected Trend };
 
-	my time stamp[]	= literal( date(today), "YYYY-MM-DD" );
+	my time stamp[]	= str( date(today), "YYYY-MM-DD" );
 	dir name[]	= "./" + my time stamp[] + "_Results/";
 
 	directory create all ( dir name[] );

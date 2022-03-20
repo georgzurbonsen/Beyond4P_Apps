@@ -2,7 +2,9 @@
 include ( Support Library );
 
 table load( c, Cities.csv);
-view( c, chrome datatables );
+
+
+view( c, datatables );
 
 
 interactive;
