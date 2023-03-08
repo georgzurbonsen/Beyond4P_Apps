@@ -1,9 +1,9 @@
 
 ## Datbase model comparison
 
-Fileman (File Manager) is a hierachical filestore, which stores data in numbered fields 'FieldNumber' within numbered files 'FileNumber'.
+Fileman (File Manager) is a hierachical filestore, which stores data in numbered fields (FieldNumber) within numbered files (FileNumber).
 
-__Objective:__ Compare fields in commmon between the Fileman datastore and a subset of Fileman called the clinical data warehouse (CDW).
+__Objective:__ Compare fields in commmon between the Fileman datastore and the clinical data warehouse (CDW).
 
 ```text
 
