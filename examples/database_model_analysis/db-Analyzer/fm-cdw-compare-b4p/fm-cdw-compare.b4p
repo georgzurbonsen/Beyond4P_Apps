@@ -1,0 +1,20 @@
+table load excel file (fileman, "fm_130s.xlsx");
+table load excel file (cdw, "cdw_130s.xlsx");
+table lookup (fileman, {FileNumber, FieldNumber}, matchField, cdw, {SourceFileNumber, SourceFieldNumber}, DWViewFieldName);
+//view (fileman);
+
+fmTotal[]=table length(fileman) -1; 
+fmNonMatch[]=table selected rows(fileman,[matchField]==""){};
+fmMatch[]=fmTotal[] - fmNonMatch[];
+
+echo ("number of Fileman fields ", fmTotal[]);
+echo ("number of Fileman-CDW matched fields ", fmMatch[]);
+echo ("percent Fileman-CDW matched fields ", str(fmMatch[]/fmTotal[], "0.0%" ) );
+ 
+echo ("number of Fileman-CDW unmatched fields ", fmNonMatch[]);
+echo ("percent Fileman-CDW unmatched fields ", str(fmNonMatch[]/fmTotal[], "0.0%" ) );
+
+table process selected rows(fileman, [matchField]=="", table style cells (fileman,0, row(), single, fill color, '#FF9090'));
+table style table (fileman, table, autofilter, 0);
+table style auto width (fileman);
+table save excel file (fileman, cdwMatch, fm130_cdw130_match.xlsx );
