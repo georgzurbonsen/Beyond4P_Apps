@@ -1,0 +1,10 @@
+&reverse;2. Functions: find, list, and explain&reverse;
+_______________________________________________________________________________
+list functions                  List all functions
+list functions ( '*if*' )       List functions containing 'if'
+
+explain functions               Explain function parameters
+explain functions ( 'c*')       Explain all of functions starting with 'c'
+explain functions ( for )       Explain the 'for' procedure
+
+dump functions( [table name] )  Dumps all functions with details in a table

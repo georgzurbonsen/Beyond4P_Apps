@@ -1,0 +1,14 @@
+&reverse;7. Operating System Commands&reverse;
+_______________________________________________________________________________
+To execute operating system commands interactively from within B4P, 
+type '$' then the operating system command. Examples:
+
+Windows:                             Linux / MacOS
+    $ dir                                $ ls
+    $ cd                                 $ pwd
+    $ cd directory_name                  $ cd directory_name
+    $ start abc.pdf                      $ open abc.def
+
+_______________________________________________________________________________
+For more information, type:         docs (os commands)
+                                    docs (system)

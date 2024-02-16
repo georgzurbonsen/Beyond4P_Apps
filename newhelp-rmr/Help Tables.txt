@@ -1,0 +1,21 @@
+&reverse;4. Inspecting Tables&reverse;
+_______________________________________________________________________________
+list tables                        Lists names of all tables loaded or created
+
+table list ( [mytable] )           Displays contents of 'mytable' to the console
+
+view ( [mytable] )                 View 'mytable' in browser
+view ( [mytable], [tool] )         View 'mytable' in different way, see below
+
+Examples:
+    view ( mytable )               View interactively in the console
+    view ( mytable, xlsx )         Vew in Excel (.xlsx format)
+    view ( mytable, csv )          View in Excel (.csv format)
+    view ( mytable, browser )      View in web browser (plain HTML)
+    view ( mytable, datatables )   View in web browser (with datatables navigator)
+	
+view reset                         Deletes browser cache (temporary files)
+_______________________________________________________________________________	
+For more information, type:        docs (view)
+                                   docs search (table list)
+
