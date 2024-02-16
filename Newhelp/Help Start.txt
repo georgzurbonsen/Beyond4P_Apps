@@ -1,21 +1,25 @@
 0.  Help: Table of Contents
 _______________________________________________________________________________
-Section         Topic
-   [&boldface;1&boldface;]      Online B4P Documentation
-   [&boldface;2&boldface;]      Functions
-   [&boldface;3&boldface;]      Interactive Expressions
-   [&boldface;4&boldface;]      Inspecting Tables
-   [&boldface;5&boldface;]      Inspecting Variables
-   [&boldface;6&boldface;]      Basic Commands
-   [&boldface;7&boldface;]      Operating System Commands
+Section     Topic
+   [1]      Online B4P Documentation
+   [2]      Functions
+   [3]      Interactive Expressions
+   [4]      Inspecting Tables
+   [5]      Inspecting Variables
+   [6]      Basic Commands
+   [7]      Operating System Commands
 
-   Navigation:
-    Section: jump to section 1,2,..     1,2,...               
-             previous | next            left arrow | right arrow    
-    Scroll:  line up / down             up arrow  | down arrow
-             page up / down             Pg up   | Pg dn
-             top of section             Home
-     Exit:   exit help menu             Escape
+Navigation:
+jump to section 1,2,..  1,2,...               
+previous section        left arrow
+next section            right arrow
+scroll line up          up arrow
+scroll line up          down arrow
+scroll page up          Pg up
+scroll page down        Pg dn
+scroll to top           Home
+
+Exit help menu          Escape
 _______________________________________________________________________________
 For more information, type:
         docs search ( interactive mode )
@@ -23,3 +27,5 @@ For more information, type:
 
 // You can add comments in this help file using 2 consecutive slashes
 // at the beginning.  Comments will not be displayed.
+// &boldface;
+// &reverse;

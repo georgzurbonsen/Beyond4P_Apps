@@ -8,7 +8,6 @@ Keys    File Name
 6	Help Basic Commands.txt
 7	Help System Commands.txt
 J	Help Joker.txt
-
 //	It's a tab separated file.  Do not use spaces.  First one shall be landing page
 //	Options for colors coded as character entitites:
 //	https://www.b4p.app/LAN_Features_Special_Console_Output_Characters.html 
