@@ -1,7 +1,7 @@
 Keys	File Name
-0	Help Start.txt
-1	Help Access Online Docu.txt
-2	Help Access Local Docu.txt
+0   Help Start.txt
+1	Help Access Online.txt
+2	Help Access Local.txt
 3	Help Interactive.txt
 4	Help Tables.txt
 5	Help Variables.txt

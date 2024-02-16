@@ -17,6 +17,6 @@ see ( a[] )                     Outputs all variable contents in simple way
 = [variable name]               Display the value of a variable. Examples:
                                  = a[]       display variable
                                  = a[1]      display first element of variable
-	
+_______________________________________________________________________________	
 For more information, type:     docs (list variables)
                                 docs (inspect)

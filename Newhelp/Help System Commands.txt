@@ -9,10 +9,6 @@ Windows:                             Linux / MacOS
     $ cd directory_name                  $ cd directory_name
     $ start abc.pdf                      $ open abc.def
 
-
-Within B4P programs, one can invoke operating system commands as well:
-    system ( dir )                       system ( ls )
 _______________________________________________________________________________
-For more information:
-    docs (os commands)
-    docs (system)
+For more information, type:         docs (os commands)
+                                    docs (system)
