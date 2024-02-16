@@ -1,4 +1,4 @@
-&reverse;6. Basic Commands&reverse;
+6. Basic Commands
 _______________________________________________________________________________
 start ( b4p_program.b4p )       Start B4P program
 exit                            Exit B4P program (alternative: CTRL+C)

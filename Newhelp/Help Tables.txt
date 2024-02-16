@@ -1,4 +1,4 @@
-&reverse;4. Inspecting Tables&reverse;
+4. Inspecting Tables
 _______________________________________________________________________________
 list tables                        Lists names of all tables loaded or created
 

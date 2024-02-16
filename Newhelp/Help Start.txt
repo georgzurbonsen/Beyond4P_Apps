@@ -1,4 +1,4 @@
-&reverse;0.  Help: Table of Contents&reverse;
+0.  Help: Table of Contents
 _______________________________________________________________________________
 Section         Topic
    [&boldface;1&boldface;]      Online B4P Documentation
