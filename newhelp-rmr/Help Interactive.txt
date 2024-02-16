@@ -1,4 +1,4 @@
-&reverse;3. Interactive Expressions&reverse;
+3. Interactive Expressions
 _______________________________________________________________________________
 Interactive calculations: 
     Note: Always begin with an equal sign '='.

@@ -1,4 +1,4 @@
-&reverse;5. Inspecting Variables&reverse;
+5. Inspecting Variables
 _______________________________________________________________________________
 
 list variables                  List all variables with all contents

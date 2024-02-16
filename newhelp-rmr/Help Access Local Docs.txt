@@ -1,4 +1,4 @@
-&reverse;2. Functions: find, list, and explain&reverse;
+2. Functions: find, list, and explain
 _______________________________________________________________________________
 list functions                  List all functions
 list functions ( '*if*' )       List functions containing 'if'

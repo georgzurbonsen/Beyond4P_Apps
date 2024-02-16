@@ -1,4 +1,4 @@
-&reverse;1. Access Online B4P Documentation&reverse;
+1. Access Online B4P Documentation
 _______________________________________________________________________________
 Following commands access the online documentation from www.b4p.app
 

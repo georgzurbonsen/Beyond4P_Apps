@@ -1,4 +1,4 @@
-&reverse;7. Operating System Commands&reverse;
+7. Operating System Commands
 _______________________________________________________________________________
 To execute operating system commands interactively from within B4P, 
 type '$' then the operating system command. Examples:
