@@ -1,46 +1,49 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="/css/cosmo/bootstrap.min.css" >
+<style>
+.maxWidth {
+    max-width: 1200px;
+}
+body {
+    background-color: #FBFCEA;
+    background-color: rgb(250, 250, 250);
+}
+</style>
 
-    <link rel="stylesheet" href="/css/cosmo/bootstrap.min.css" >
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans" >
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
 
-    <style>
-        .maxWidth {
-            max-width: 1200px;
-        }
-        body {
-            background-color: #FBFCEA;
-            background-color: rgb(250, 250, 250);
-        }
-    </style>
+<title>Nasdaq 100 Companies by Weight</title>
 
-    
 
-    <title>Nasdaq 100 Index Component Weights - Nasdaq 100 Companies</title>
-    <script>
-    (function(h,o,t,j,a,r){
-        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-        h._hjSettings={hjid:845487,hjsv:6};
-        a=o.getElementsByTagName('head')[0];
-        r=o.createElement('script');r.async=1;
-        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-        a.appendChild(r);
-    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-    </script>
+<link rel="preconnect" href="https://a.pub.network/" crossorigin />
+<link rel="preconnect" href="https://b.pub.network/" crossorigin />
+<link rel="preconnect" href="https://c.pub.network/" crossorigin />
+<link rel="preconnect" href="https://d.pub.network/" crossorigin />
+<link rel="preconnect" href="https://c.amazon-adsystem.com" crossorigin />
+<link rel="preconnect" href="https://s.amazon-adsystem.com" crossorigin />
+<link rel="preconnect" href="https://secure.quantserve.com/" crossorigin />
+<link rel="preconnect" href="https://rules.quantcount.com/" crossorigin />
+<link rel="preconnect" href="https://pixel.quantserve.com/" crossorigin />
+<link rel="preconnect" href="https://cmp.quantcast.com/" crossorigin />
+<link rel="preconnect" href="https://btloader.com/" crossorigin />
+<link rel="preconnect" href="https://api.btloader.com/" crossorigin />
+<link rel="preconnect" href="https://confiant-integrations.global.ssl.fastly.net" crossorigin />
+<link rel="stylesheet" href="https://a.pub.network/slickcharts-com/cls.css">
+<script data-cfasync="false" type="text/javascript">
+  var freestar = freestar || {};
+  freestar.queue = freestar.queue || [];
+  freestar.config = freestar.config || {};
+  freestar.config.enabled_slots = [];
+  freestar.initCallback = function () { (freestar.config.enabled_slots.length === 0) ? freestar.initCallbackCalled = false : freestar.newAdSlots(freestar.config.enabled_slots) }
+</script>
+<script src="https://a.pub.network/slickcharts-com/pubfig.min.js" data-cfasync="false" async></script>
 
-    <script type="text/javascript" src="//monu.delivery/site/a/5/6897e3-9066-407e-9b40-602137cebd49.js" data-cfasync="false"></script>
-    <script type="text/javascript">
-        window._mNHandle = window._mNHandle || {};
-        window._mNHandle.queue = window._mNHandle.queue || [];
-        medianet_versionId = "3121199";
-    </script>
-    <script src="https://contextual.media.net/dmedianet.js?cid=8CUN51746" async="async"></script>
-
-    <script type="text/javascript">!(function(o,n,t){t=o.createElement(n),o=o.getElementsByTagName(n)[0],t.async=1,t.src="https://rainyrule.com/v2excVIY_MIdqn7oxbeqmvOT5gxcMzQ9TFp-wEp4IR4unegH9y7lts5tXmuCZ_fV-",o.parentNode.insertBefore(t,o)})(document,"script"),(function(o,n){function t(){(t.q=t.q||[]).push(arguments)}t.v=1,o.admiral=o.admiral||t})(window);!(function(o,t,n,c){function e(n){(function(){try{return(localStorage.getItem("v4ac1eiZr0")||"").split(",")[4]>0}catch(o){}return!1})()&&(n=o[t].pubads())&&n.setTargeting("admiral-engaged","true")}(c=o[t]=o[t]||{}).cmd=c.cmd||[],typeof c.pubads===n?e():typeof c.cmd.unshift===n?c.cmd.unshift(e):c.cmd.push(e)})(window,"googletag","function");</script>
 </head>
 <body>
 
@@ -62,6 +65,24 @@
             <li class="nav-item">
                 <a class="nav-link" href="/etf">Ark ETFs</a>
             </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Movers
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/market-movers">Top Gainers &amp; Losers</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/sp500/gainers">S&amp;P 500 Gainers</a>
+                    <a class="dropdown-item" href="/nasdaq100/gainers">Nasdaq 100 Gainers</a>
+                    <a class="dropdown-item" href="/dowjones/gainers">Dow Jones Gainers</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/sp500/losers">S&amp;P 500 Losers</a>
+                    <a class="dropdown-item" href="/nasdaq100/losers">Nasdaq 100 Losers</a>
+                    <a class="dropdown-item" href="/dowjones/losers">Dow Jones Losers</a>
+                </div>
+            </li>
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     S&amp;P 500
@@ -74,8 +95,10 @@
                     <a class="dropdown-item" href="/sp500/yield">Dividend Yield</a>
                     <a class="dropdown-item" href="/sp500/analysis">Weight Analysis</a>
                     <a class="dropdown-item" href="/sp500/returns/details">Return Components</a>
+                    <a class="dropdown-item" href="/sp500/marketcap">Market Capitalization</a>
+                    <a class="dropdown-item" href="/sp500/drawdown">Drawdown</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/portfolio">Portfolio Builder &nbsp;&nbsp;<span class="badge badge-pill badge-success">New</span></a>
+                    <a class="dropdown-item" href="/portfolio">Custom Indexing</a>
                 </div>
             </li>
 
@@ -90,8 +113,9 @@
                     <a class="dropdown-item" href="/nasdaq100/returns/ytd">Year-to-date Return</a>
                     <a class="dropdown-item" href="/nasdaq100/yield">Dividend Yield</a>
                     <a class="dropdown-item" href="/nasdaq100/analysis">Weight Analysis</a>
+                    <a class="dropdown-item" href="/nasdaq100/ratio">QQQ Ratio</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/portfolio">Portfolio Builder &nbsp;&nbsp;<span class="badge badge-pill badge-success">New</span></a>
+                    <a class="dropdown-item" href="/portfolio">Custom Indexing</a>
                 </div>
             </li>
 
@@ -108,7 +132,7 @@
                     <a class="dropdown-item" href="/dowjones/analysis">Weight Analysis</a>
                     <a class="dropdown-item" href="/dowjones/crash/1929">1929 Market Crash</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/portfolio">Portfolio Builder &nbsp;&nbsp;<span class="badge badge-pill badge-success">New</span></a>
+                    <a class="dropdown-item" href="/portfolio">Custom Indexing</a>
                 </div>
             </li>
 
@@ -118,6 +142,14 @@
 
             <li class="nav-item">
                 <a class="nav-link" href="/inflation">US Inflation</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/mortgage">Mortgage Rates</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/treasury">Treasury Rates</a>
             </li>
         </ul>
         <!--
@@ -132,27 +164,34 @@
 
 
 
-<div class="container-fluid maxWidth">
-    <div class="row">
-        <div class="col-12">
-            <div style="min-width: 728px; min-height: 90px; margin-top: 20px; margin-bottom: 20px;">
-                <!--MONUMETRIC Top Leaderboard D:728x90 T:728x90 M:320x50,320x100 START-->
+<div class="container-fluid  maxWidth" style='font-family: Open Sans; font-size: 13.5px;'>
 
-                <div id="mmt-03711f9a-aebe-41e6-8207-a1f4386eb067"></div><script type="text/javascript" data-cfasync="false">$MMT = window.$MMT || {}; $MMT.cmd = $MMT.cmd || [];$MMT.cmd.push(function(){ $MMT.display.slots.push(["03711f9a-aebe-41e6-8207-a1f4386eb067"]); })</script>
-
-                <!--MONUMETRIC Top Leaderboard D:728x90 T:728x90 M:320x50,320x100  ENDS-->
+    
+    
+    
+<div class="row">
+    <div class="col">
+        <div style="margin-top: 20px; margin-bottom: 20px;">
+            <!-- Tag ID: slickcharts_leaderboard_aft -->
+            <div align="center" data-freestar-ad="__970x90" id="slickcharts_leaderboard_aft">
+                <script data-cfasync="false" type="text/javascript">
+                    freestar.config.enabled_slots.push({ placementName: "slickcharts_leaderboard_aft", slotId: "slickcharts_leaderboard_aft" });
+                </script>
             </div>
         </div>
     </div>
+</div>
+
+
     <div class="row">
         <div class="col-12">
             <div class="shadow p-3 mb-4 bg-white rounded">
-                <h3 class="text-center">Nasdaq 100 Companies</h3>
+                <h1 class="text-center" style='font-size: 22px;'>Nasdaq 100 Companies</h1>
                 <p>
-                    The Nasdaq 100 company weights are listed from largest to smallest. The index is heavily
+                    The Nasdaq 100 QQQ ETF holdings are listed by company weight from largest to smallest. The fund is heavily
                     concentrated with technology companies but also includes companies from other sectors.
-                    It is often used as a barometer of the health of the technology sector. The largest twenty
-                    companies comprise most of the weight in the index.
+                    The QQQ fund is often used as a barometer of the health of the technology sector. The largest twenty
+                    companies comprise most of the <a href="/nasdaq100/analysis">weight</a> in the fund.
                 </p>
             </div>
         </div>
@@ -160,7 +199,7 @@
     <div class="row">
         <div class="col-lg-7">
             <div class="shadow p-3 mb-5 bg-white rounded">
-                <h5 class="text-center">Components of the Nasdaq 100</h5>
+                <h5 class="text-center">Nasdaq 100 QQQ Components</h5>
                 <div class="table-responsive">
                     <table class="table table-hover table-borderless table-sm">
                         <thead>
@@ -178,1022 +217,1012 @@
                             
 <tr>
     <td>1</td>
-    <td><a href="/symbol/AAPL">Apple Inc</a></td>
-    <td><a href="/symbol/AAPL">AAPL</a></td>
-    <td>12.089</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;164.33</td>
-    <td class="text-nowrap" style="color: green">0.35</td>
-    <td class="text-nowrap" style="color: green">(0.21%)</td>
+    <td><a href="/symbol/MSFT">Microsoft Corp</a></td>
+    <td><a href="/symbol/MSFT">MSFT</a></td>
+    <td>8.968</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;420.55</td>
+    <td class="text-nowrap" style="color: green">6.44</td>
+    <td class="text-nowrap" style="color: green">(1.56%)</td>
 </tr>
 
 <tr>
     <td>2</td>
-    <td><a href="/symbol/MSFT">Microsoft Corp</a></td>
-    <td><a href="/symbol/MSFT">MSFT</a></td>
-    <td>10.175</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;300.78</td>
-    <td class="text-nowrap" style="color: green">0.35</td>
-    <td class="text-nowrap" style="color: green">(0.12%)</td>
+    <td><a href="/symbol/AAPL">Apple Inc</a></td>
+    <td><a href="/symbol/AAPL">AAPL</a></td>
+    <td>8.523</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;188.85</td>
+    <td class="text-nowrap" style="color: green">0.53</td>
+    <td class="text-nowrap" style="color: green">(0.28%)</td>
 </tr>
 
 <tr>
     <td>3</td>
     <td><a href="/symbol/AMZN">Amazon.com Inc</a></td>
     <td><a href="/symbol/AMZN">AMZN</a></td>
-    <td>7.413</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;3,226.51</td>
-    <td class="text-nowrap" style="color: green">1.50</td>
-    <td class="text-nowrap" style="color: green">(0.05%)</td>
+    <td>5.114</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;174.45</td>
+    <td class="text-nowrap" style="color: green">4.61</td>
+    <td class="text-nowrap" style="color: green">(2.71%)</td>
 </tr>
 
 <tr>
     <td>4</td>
-    <td><a href="/symbol/TSLA">Tesla Inc</a></td>
-    <td><a href="/symbol/TSLA">TSLA</a></td>
-    <td>4.227</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;907.60</td>
-    <td class="text-nowrap" style="color: green">2.21</td>
-    <td class="text-nowrap" style="color: green">(0.24%)</td>
+    <td><a href="/symbol/NVDA">NVIDIA Corp</a></td>
+    <td><a href="/symbol/NVDA">NVDA</a></td>
+    <td>5.012</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;721.33</td>
+    <td class="text-nowrap" style="color: green">24.92</td>
+    <td class="text-nowrap" style="color: green">(3.58%)</td>
 </tr>
 
 <tr>
     <td>5</td>
-    <td><a href="/symbol/NVDA">NVIDIA Corp</a></td>
-    <td><a href="/symbol/NVDA">NVDA</a></td>
-    <td>4.204</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;265.10</td>
-    <td class="text-nowrap" style="color: green">0.57</td>
-    <td class="text-nowrap" style="color: green">(0.22%)</td>
+    <td><a href="/symbol/META">Meta Platforms Inc</a></td>
+    <td><a href="/symbol/META">META</a></td>
+    <td>4.836</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;468.11</td>
+    <td class="text-nowrap" style="color: red">-1.89</td>
+    <td class="text-nowrap" style="color: red">(-0.40%)</td>
 </tr>
 
 <tr>
     <td>6</td>
-    <td><a href="/symbol/GOOG">Alphabet Inc</a></td>
-    <td><a href="/symbol/GOOG">GOOG</a></td>
-    <td>3.901</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;2,741.00</td>
-    <td class="text-nowrap" style="color: green">4.97</td>
-    <td class="text-nowrap" style="color: green">(0.18%)</td>
+    <td><a href="/symbol/AVGO">Broadcom Inc</a></td>
+    <td><a href="/symbol/AVGO">AVGO</a></td>
+    <td>4.481</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;1,283.44</td>
+    <td class="text-nowrap" style="color: green">8.68</td>
+    <td class="text-nowrap" style="color: green">(0.68%)</td>
 </tr>
 
 <tr>
     <td>7</td>
-    <td><a href="/symbol/GOOGL">Alphabet Inc</a></td>
-    <td><a href="/symbol/GOOGL">GOOGL</a></td>
-    <td>3.699</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;2,728.00</td>
-    <td class="text-nowrap" style="color: green">5.49</td>
-    <td class="text-nowrap" style="color: green">(0.20%)</td>
+    <td><a href="/symbol/TSLA">Tesla Inc</a></td>
+    <td><a href="/symbol/TSLA">TSLA</a></td>
+    <td>2.658</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;193.57</td>
+    <td class="text-nowrap" style="color: green">4.01</td>
+    <td class="text-nowrap" style="color: green">(2.12%)</td>
 </tr>
 
 <tr>
     <td>8</td>
-    <td><a href="/symbol/FB">Meta Platforms Inc</a></td>
-    <td><a href="/symbol/FB">FB</a></td>
-    <td>3.381</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;216.35</td>
-    <td class="text-nowrap" style="color: red">-0.14</td>
-    <td class="text-nowrap" style="color: red">(-0.06%)</td>
+    <td><a href="/symbol/GOOGL">Alphabet Inc</a></td>
+    <td><a href="/symbol/GOOGL">GOOGL</a></td>
+    <td>2.516</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;149.00</td>
+    <td class="text-nowrap" style="color: green">3.09</td>
+    <td class="text-nowrap" style="color: green">(2.12%)</td>
 </tr>
 
 <tr>
     <td>9</td>
-    <td><a href="/symbol/AVGO">Broadcom Inc</a></td>
-    <td><a href="/symbol/AVGO">AVGO</a></td>
-    <td>1.874</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;610.80</td>
-    <td class="text-nowrap" style="color: green">0.39</td>
-    <td class="text-nowrap" style="color: green">(0.06%)</td>
+    <td><a href="/symbol/GOOG">Alphabet Inc</a></td>
+    <td><a href="/symbol/GOOG">GOOG</a></td>
+    <td>2.456</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;150.22</td>
+    <td class="text-nowrap" style="color: green">3.00</td>
+    <td class="text-nowrap" style="color: green">(2.04%)</td>
 </tr>
 
 <tr>
     <td>10</td>
     <td><a href="/symbol/COST">Costco Wholesale Corp</a></td>
     <td><a href="/symbol/COST">COST</a></td>
-    <td>1.866</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;561.42</td>
-    <td class="text-nowrap" style="color: green">0.07</td>
-    <td class="text-nowrap" style="color: green">(0.01%)</td>
+    <td>2.413</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;723.40</td>
+    <td class="text-nowrap" style="color: red">-0.76</td>
+    <td class="text-nowrap" style="color: red">(-0.10%)</td>
 </tr>
 
 <tr>
     <td>11</td>
-    <td><a href="/symbol/CSCO">Cisco Systems Inc</a></td>
-    <td><a href="/symbol/CSCO">CSCO</a></td>
-    <td>1.743</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;55.97</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
+    <td><a href="/symbol/ADBE">Adobe Inc</a></td>
+    <td><a href="/symbol/ADBE">ADBE</a></td>
+    <td>2.11</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;627.21</td>
+    <td class="text-nowrap" style="color: green">11.35</td>
+    <td class="text-nowrap" style="color: green">(1.84%)</td>
 </tr>
 
 <tr>
     <td>12</td>
-    <td><a href="/symbol/PEP">PepsiCo Inc</a></td>
-    <td><a href="/symbol/PEP">PEP</a></td>
-    <td>1.688</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;162.79</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
+    <td><a href="/symbol/AMD">Advanced Micro Devices Inc</a></td>
+    <td><a href="/symbol/AMD">AMD</a></td>
+    <td>2.059</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;172.48</td>
+    <td class="text-nowrap" style="color: green">3.13</td>
+    <td class="text-nowrap" style="color: green">(1.85%)</td>
 </tr>
 
 <tr>
     <td>13</td>
-    <td><a href="/symbol/ADBE">Adobe Inc</a></td>
-    <td><a href="/symbol/ADBE">ADBE</a></td>
-    <td>1.605</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;453.53</td>
-    <td class="text-nowrap" style="color: green">0.20</td>
-    <td class="text-nowrap" style="color: green">(0.04%)</td>
+    <td><a href="/symbol/NFLX">Netflix Inc</a></td>
+    <td><a href="/symbol/NFLX">NFLX</a></td>
+    <td>1.84</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;561.32</td>
+    <td class="text-nowrap" style="color: green">2.79</td>
+    <td class="text-nowrap" style="color: green">(0.50%)</td>
 </tr>
 
 <tr>
     <td>14</td>
-    <td><a href="/symbol/CMCSA">Comcast Corp</a></td>
-    <td><a href="/symbol/CMCSA">CMCSA</a></td>
-    <td>1.59</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;46.91</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
+    <td><a href="/symbol/PEP">PepsiCo Inc</a></td>
+    <td><a href="/symbol/PEP">PEP</a></td>
+    <td>1.799</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;167.67</td>
+    <td class="text-nowrap" style="color: red">-6.18</td>
+    <td class="text-nowrap" style="color: red">(-3.55%)</td>
 </tr>
 
 <tr>
     <td>15</td>
-    <td><a href="/symbol/INTC">Intel Corp</a></td>
-    <td><a href="/symbol/INTC">INTC</a></td>
-    <td>1.448</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;47.45</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
+    <td><a href="/symbol/CSCO">Cisco Systems Inc</a></td>
+    <td><a href="/symbol/CSCO">CSCO</a></td>
+    <td>1.528</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;50.13</td>
+    <td class="text-nowrap" style="color: green">0.18</td>
+    <td class="text-nowrap" style="color: green">(0.36%)</td>
 </tr>
 
 <tr>
     <td>16</td>
-    <td><a href="/symbol/AMD">Advanced Micro Devices Inc</a></td>
-    <td><a href="/symbol/AMD">AMD</a></td>
-    <td>1.384</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;113.80</td>
-    <td class="text-nowrap" style="color: green">0.34</td>
-    <td class="text-nowrap" style="color: green">(0.30%)</td>
+    <td><a href="/symbol/TMUS">T-Mobile US Inc</a></td>
+    <td><a href="/symbol/TMUS">TMUS</a></td>
+    <td>1.401</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;162.19</td>
+    <td class="text-nowrap" style="color: green">1.26</td>
+    <td class="text-nowrap" style="color: green">(0.78%)</td>
 </tr>
 
 <tr>
     <td>17</td>
-    <td><a href="/symbol/QCOM">QUALCOMM Inc</a></td>
-    <td><a href="/symbol/QCOM">QCOM</a></td>
-    <td>1.301</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;154.31</td>
-    <td class="text-nowrap" style="color: green">0.32</td>
-    <td class="text-nowrap" style="color: green">(0.21%)</td>
+    <td><a href="/symbol/INTU">Intuit Inc</a></td>
+    <td><a href="/symbol/INTU">INTU</a></td>
+    <td>1.376</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;658.16</td>
+    <td class="text-nowrap" style="color: green">5.09</td>
+    <td class="text-nowrap" style="color: green">(0.78%)</td>
 </tr>
 
 <tr>
     <td>18</td>
-    <td><a href="/symbol/NFLX">Netflix Inc</a></td>
-    <td><a href="/symbol/NFLX">NFLX</a></td>
-    <td>1.266</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;380.89</td>
-    <td class="text-nowrap" style="color: green">0.29</td>
-    <td class="text-nowrap" style="color: green">(0.08%)</td>
+    <td><a href="/symbol/INTC">Intel Corp</a></td>
+    <td><a href="/symbol/INTC">INTC</a></td>
+    <td>1.349</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;43.31</td>
+    <td class="text-nowrap" style="color: green">0.81</td>
+    <td class="text-nowrap" style="color: green">(1.91%)</td>
 </tr>
 
 <tr>
     <td>19</td>
-    <td><a href="/symbol/TXN">Texas Instruments Inc</a></td>
-    <td><a href="/symbol/TXN">TXN</a></td>
+    <td><a href="/symbol/CMCSA">Comcast Corp</a></td>
+    <td><a href="/symbol/CMCSA">CMCSA</a></td>
     <td>1.247</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;180.13</td>
-    <td class="text-nowrap" style="color: green">0.03</td>
-    <td class="text-nowrap" style="color: green">(0.02%)</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;42.07</td>
+    <td class="text-nowrap" style="color: green">0.82</td>
+    <td class="text-nowrap" style="color: green">(1.99%)</td>
 </tr>
 
 <tr>
     <td>20</td>
-    <td><a href="/symbol/TMUS">T-Mobile US Inc</a></td>
-    <td><a href="/symbol/TMUS">TMUS</a></td>
-    <td>1.191</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;127.51</td>
-    <td class="text-nowrap" style="color: green">0.33</td>
-    <td class="text-nowrap" style="color: green">(0.26%)</td>
+    <td><a href="/symbol/QCOM">QUALCOMM Inc</a></td>
+    <td><a href="/symbol/QCOM">QCOM</a></td>
+    <td>1.241</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;151.00</td>
+    <td class="text-nowrap" style="color: green">2.82</td>
+    <td class="text-nowrap" style="color: green">(1.90%)</td>
 </tr>
 
 <tr>
     <td>21</td>
-    <td><a href="/symbol/PYPL">PayPal Holdings Inc</a></td>
-    <td><a href="/symbol/PYPL">PYPL</a></td>
-    <td>1.037</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;117.76</td>
-    <td class="text-nowrap" style="color: red">-1.01</td>
-    <td class="text-nowrap" style="color: red">(-0.85%)</td>
+    <td><a href="/symbol/AMGN">Amgen Inc</a></td>
+    <td><a href="/symbol/AMGN">AMGN</a></td>
+    <td>1.188</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;291.12</td>
+    <td class="text-nowrap" style="color: red">-3.73</td>
+    <td class="text-nowrap" style="color: red">(-1.27%)</td>
 </tr>
 
 <tr>
     <td>22</td>
-    <td><a href="/symbol/INTU">Intuit Inc</a></td>
-    <td><a href="/symbol/INTU">INTU</a></td>
-    <td>1.018</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;482.68</td>
-    <td class="text-nowrap" style="color: green">2.81</td>
-    <td class="text-nowrap" style="color: green">(0.59%)</td>
+    <td><a href="/symbol/TXN">Texas Instruments Inc</a></td>
+    <td><a href="/symbol/TXN">TXN</a></td>
+    <td>1.095</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;162.40</td>
+    <td class="text-nowrap" style="color: green">2.19</td>
+    <td class="text-nowrap" style="color: green">(1.37%)</td>
 </tr>
 
 <tr>
     <td>23</td>
-    <td><a href="/symbol/HON">Honeywell International Inc</a></td>
-    <td><a href="/symbol/HON">HON</a></td>
-    <td>1.001</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;194.72</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
+    <td><a href="/symbol/AMAT">Applied Materials Inc</a></td>
+    <td><a href="/symbol/AMAT">AMAT</a></td>
+    <td>1.095</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;185.84</td>
+    <td class="text-nowrap" style="color: green">11.95</td>
+    <td class="text-nowrap" style="color: green">(6.87%)</td>
 </tr>
 
 <tr>
     <td>24</td>
-    <td><a href="/symbol/AMGN">Amgen Inc</a></td>
-    <td><a href="/symbol/AMGN">AMGN</a></td>
-    <td>0.986</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;235.02</td>
-    <td class="text-nowrap" style="color: red">-1.23</td>
-    <td class="text-nowrap" style="color: red">(-0.52%)</td>
+    <td><a href="/symbol/ISRG">Intuitive Surgical Inc</a></td>
+    <td><a href="/symbol/ISRG">ISRG</a></td>
+    <td>1.025</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;388.22</td>
+    <td class="text-nowrap" style="color: green">1.28</td>
+    <td class="text-nowrap" style="color: green">(0.33%)</td>
 </tr>
 
 <tr>
     <td>25</td>
-    <td><a href="/symbol/AMAT">Applied Materials Inc</a></td>
-    <td><a href="/symbol/AMAT">AMAT</a></td>
-    <td>0.895</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;135.41</td>
-    <td class="text-nowrap" style="color: green">0.27</td>
-    <td class="text-nowrap" style="color: green">(0.20%)</td>
+    <td><a href="/symbol/BKNG">Booking Holdings Inc</a></td>
+    <td><a href="/symbol/BKNG">BKNG</a></td>
+    <td>1.008</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;3,758.18</td>
+    <td class="text-nowrap" style="color: red">-82.04</td>
+    <td class="text-nowrap" style="color: red">(-2.14%)</td>
 </tr>
 
 <tr>
     <td>26</td>
-    <td><a href="/symbol/ISRG">Intuitive Surgical Inc</a></td>
-    <td><a href="/symbol/ISRG">ISRG</a></td>
-    <td>0.778</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;290.49</td>
-    <td class="text-nowrap" style="color: green">0.38</td>
-    <td class="text-nowrap" style="color: green">(0.13%)</td>
+    <td><a href="/symbol/HON">Honeywell International Inc</a></td>
+    <td><a href="/symbol/HON">HON</a></td>
+    <td>0.96</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;194.84</td>
+    <td class="text-nowrap" style="color: green">1.38</td>
+    <td class="text-nowrap" style="color: green">(0.71%)</td>
 </tr>
 
 <tr>
     <td>27</td>
-    <td><a href="/symbol/SBUX">Starbucks Corp</a></td>
-    <td><a href="/symbol/SBUX">SBUX</a></td>
-    <td>0.772</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;89.57</td>
-    <td class="text-nowrap" style="color: red">-0.03</td>
-    <td class="text-nowrap" style="color: red">(-0.03%)</td>
+    <td><a href="/symbol/PANW">Palo Alto Networks Inc</a></td>
+    <td><a href="/symbol/PANW">PANW</a></td>
+    <td>0.871</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;376.90</td>
+    <td class="text-nowrap" style="color: green">9.88</td>
+    <td class="text-nowrap" style="color: green">(2.69%)</td>
 </tr>
 
 <tr>
     <td>28</td>
-    <td><a href="/symbol/CHTR">Charter Communications Inc</a></td>
-    <td><a href="/symbol/CHTR">CHTR</a></td>
-    <td>0.747</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;577.31</td>
-    <td class="text-nowrap" style="color: red">-0.01</td>
-    <td class="text-nowrap" style="color: red">(-0.00%)</td>
+    <td><a href="/symbol/LRCX">Lam Research Corp</a></td>
+    <td><a href="/symbol/LRCX">LRCX</a></td>
+    <td>0.857</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;911.58</td>
+    <td class="text-nowrap" style="color: green">47.22</td>
+    <td class="text-nowrap" style="color: green">(5.46%)</td>
 </tr>
 
 <tr>
     <td>29</td>
-    <td><a href="/symbol/ADP">Automatic Data Processing Inc</a></td>
-    <td><a href="/symbol/ADP">ADP</a></td>
-    <td>0.676</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;214.11</td>
-    <td class="text-nowrap" style="color: red">-0.58</td>
-    <td class="text-nowrap" style="color: red">(-0.27%)</td>
+    <td><a href="/symbol/SBUX">Starbucks Corp</a></td>
+    <td><a href="/symbol/SBUX">SBUX</a></td>
+    <td>0.826</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;97.30</td>
+    <td class="text-nowrap" style="color: green">0.71</td>
+    <td class="text-nowrap" style="color: green">(0.74%)</td>
 </tr>
 
 <tr>
     <td>30</td>
-    <td><a href="/symbol/BKNG">Booking Holdings Inc</a></td>
-    <td><a href="/symbol/BKNG">BKNG</a></td>
-    <td>0.67</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;2,186.36</td>
-    <td class="text-nowrap" style="color: green">0.05</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
+    <td><a href="/symbol/VRTX">Vertex Pharmaceuticals Inc</a></td>
+    <td><a href="/symbol/VRTX">VRTX</a></td>
+    <td>0.82</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;422.91</td>
+    <td class="text-nowrap" style="color: red">-0.15</td>
+    <td class="text-nowrap" style="color: red">(-0.04%)</td>
 </tr>
 
 <tr>
     <td>31</td>
-    <td><a href="/symbol/MU">Micron Technology Inc</a></td>
-    <td><a href="/symbol/MU">MU</a></td>
-    <td>0.666</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;79.55</td>
-    <td class="text-nowrap" style="color: green">0.14</td>
-    <td class="text-nowrap" style="color: green">(0.18%)</td>
+    <td><a href="/symbol/ADP">Automatic Data Processing Inc</a></td>
+    <td><a href="/symbol/ADP">ADP</a></td>
+    <td>0.777</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;249.99</td>
+    <td class="text-nowrap" style="color: red">-1.09</td>
+    <td class="text-nowrap" style="color: red">(-0.43%)</td>
 </tr>
 
 <tr>
     <td>32</td>
-    <td><a href="/symbol/ADI">Analog Devices Inc</a></td>
-    <td><a href="/symbol/ADI">ADI</a></td>
-    <td>0.641</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;164.00</td>
-    <td class="text-nowrap" style="color: green">0.55</td>
-    <td class="text-nowrap" style="color: green">(0.34%)</td>
+    <td><a href="/symbol/MDLZ">Mondelez International Inc</a></td>
+    <td><a href="/symbol/MDLZ">MDLZ</a></td>
+    <td>0.766</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;73.17</td>
+    <td class="text-nowrap" style="color: red">-1.59</td>
+    <td class="text-nowrap" style="color: red">(-2.13%)</td>
 </tr>
 
 <tr>
     <td>33</td>
-    <td><a href="/symbol/MDLZ">Mondelez International Inc</a></td>
-    <td><a href="/symbol/MDLZ">MDLZ</a></td>
-    <td>0.64</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;61.51</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
+    <td><a href="/symbol/REGN">Regeneron Pharmaceuticals Inc</a></td>
+    <td><a href="/symbol/REGN">REGN</a></td>
+    <td>0.763</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;953.42</td>
+    <td class="text-nowrap" style="color: green">6.99</td>
+    <td class="text-nowrap" style="color: green">(0.74%)</td>
 </tr>
 
 <tr>
     <td>34</td>
-    <td><a href="/symbol/CSX">CSX Corp</a></td>
-    <td><a href="/symbol/CSX">CSX</a></td>
-    <td>0.597</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;36.02</td>
-    <td class="text-nowrap" style="color: red">-0.29</td>
-    <td class="text-nowrap" style="color: red">(-0.80%)</td>
+    <td><a href="/symbol/ADI">Analog Devices Inc</a></td>
+    <td><a href="/symbol/ADI">ADI</a></td>
+    <td>0.725</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;195.02</td>
+    <td class="text-nowrap" style="color: green">0.96</td>
+    <td class="text-nowrap" style="color: green">(0.49%)</td>
 </tr>
 
 <tr>
     <td>35</td>
-    <td><a href="/symbol/LRCX">Lam Research Corp</a></td>
-    <td><a href="/symbol/LRCX">LRCX</a></td>
-    <td>0.569</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;545.00</td>
-    <td class="text-nowrap" style="color: green">0.36</td>
-    <td class="text-nowrap" style="color: green">(0.07%)</td>
+    <td><a href="/symbol/MU">Micron Technology Inc</a></td>
+    <td><a href="/symbol/MU">MU</a></td>
+    <td>0.705</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;85.56</td>
+    <td class="text-nowrap" style="color: green">0.68</td>
+    <td class="text-nowrap" style="color: green">(0.80%)</td>
 </tr>
 
 <tr>
     <td>36</td>
     <td><a href="/symbol/GILD">Gilead Sciences Inc</a></td>
     <td><a href="/symbol/GILD">GILD</a></td>
-    <td>0.558</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;59.42</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
+    <td>0.692</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;73.67</td>
+    <td class="text-nowrap" style="color: red">-0.13</td>
+    <td class="text-nowrap" style="color: red">(-0.18%)</td>
 </tr>
 
 <tr>
     <td>37</td>
-    <td><a href="/symbol/REGN">Regeneron Pharmaceuticals Inc</a></td>
-    <td><a href="/symbol/REGN">REGN</a></td>
-    <td>0.549</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;685.94</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
-</tr>
-
-<tr>
-    <td>38</td>
-    <td><a href="/symbol/MRNA">Moderna Inc</a></td>
-    <td><a href="/symbol/MRNA">MRNA</a></td>
-    <td>0.54</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;179.39</td>
-    <td class="text-nowrap" style="color: green">0.46</td>
-    <td class="text-nowrap" style="color: green">(0.26%)</td>
-</tr>
-
-<tr>
-    <td>39</td>
-    <td><a href="/symbol/FISV">Fiserv Inc</a></td>
-    <td><a href="/symbol/FISV">FISV</a></td>
-    <td>0.492</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;100.61</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
-</tr>
-
-<tr>
-    <td>40</td>
-    <td><a href="/symbol/VRTX">Vertex Pharmaceuticals Inc</a></td>
-    <td><a href="/symbol/VRTX">VRTX</a></td>
-    <td>0.475</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;248.97</td>
-    <td class="text-nowrap" style="color: red">-0.11</td>
-    <td class="text-nowrap" style="color: red">(-0.04%)</td>
-</tr>
-
-<tr>
-    <td>41</td>
-    <td><a href="/symbol/ABNB">Airbnb Inc</a></td>
-    <td><a href="/symbol/ABNB">ABNB</a></td>
-    <td>0.465</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;166.65</td>
-    <td class="text-nowrap" style="color: red">-0.35</td>
-    <td class="text-nowrap" style="color: red">(-0.21%)</td>
-</tr>
-
-<tr>
-    <td>42</td>
-    <td><a href="/symbol/ATVI">Activision Blizzard Inc</a></td>
-    <td><a href="/symbol/ATVI">ATVI</a></td>
-    <td>0.46</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;79.05</td>
-    <td class="text-nowrap" style="color: green">0.29</td>
-    <td class="text-nowrap" style="color: green">(0.37%)</td>
-</tr>
-
-<tr>
-    <td>43</td>
-    <td><a href="/symbol/MRVL">Marvell Technology Inc</a></td>
-    <td><a href="/symbol/MRVL">MRVL</a></td>
-    <td>0.451</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;71.33</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
-</tr>
-
-<tr>
-    <td>44</td>
     <td><a href="/symbol/MELI">MercadoLibre Inc</a></td>
     <td><a href="/symbol/MELI">MELI</a></td>
-    <td>0.448</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;1,186.99</td>
-    <td class="text-nowrap" style="color: green">1.46</td>
-    <td class="text-nowrap" style="color: green">(0.12%)</td>
-</tr>
-
-<tr>
-    <td>45</td>
-    <td><a href="/symbol/PANW">Palo Alto Networks Inc</a></td>
-    <td><a href="/symbol/PANW">PANW</a></td>
-    <td>0.426</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;577.02</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
-</tr>
-
-<tr>
-    <td>46</td>
-    <td><a href="/symbol/ASML">ASML Holding NV</a></td>
-    <td><a href="/symbol/ASML">ASML</a></td>
-    <td>0.422</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;683.00</td>
-    <td class="text-nowrap" style="color: green">3.14</td>
-    <td class="text-nowrap" style="color: green">(0.46%)</td>
-</tr>
-
-<tr>
-    <td>47</td>
-    <td><a href="/symbol/MAR">Marriott International Inc/MD</a></td>
-    <td><a href="/symbol/MAR">MAR</a></td>
-    <td>0.419</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;171.25</td>
-    <td class="text-nowrap" style="color: green">0.06</td>
-    <td class="text-nowrap" style="color: green">(0.04%)</td>
-</tr>
-
-<tr>
-    <td>48</td>
-    <td><a href="/symbol/KLAC">KLA Corp</a></td>
-    <td><a href="/symbol/KLAC">KLAC</a></td>
-    <td>0.412</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;365.05</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
-</tr>
-
-<tr>
-    <td>49</td>
-    <td><a href="/symbol/ILMN">Illumina Inc</a></td>
-    <td><a href="/symbol/ILMN">ILMN</a></td>
-    <td>0.407</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;347.99</td>
-    <td class="text-nowrap" style="color: green">1.88</td>
+    <td>0.659</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;1,742.26</td>
+    <td class="text-nowrap" style="color: green">9.43</td>
     <td class="text-nowrap" style="color: green">(0.54%)</td>
 </tr>
 
 <tr>
+    <td>38</td>
+    <td><a href="/symbol/SNPS">Synopsys Inc</a></td>
+    <td><a href="/symbol/SNPS">SNPS</a></td>
+    <td>0.653</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;575.30</td>
+    <td class="text-nowrap" style="color: green">4.61</td>
+    <td class="text-nowrap" style="color: green">(0.81%)</td>
+</tr>
+
+<tr>
+    <td>39</td>
+    <td><a href="/symbol/PDD">PDD Holdings Inc ADR</a></td>
+    <td><a href="/symbol/PDD">PDD</a></td>
+    <td>0.637</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;127.48</td>
+    <td class="text-nowrap" style="color: green">0.83</td>
+    <td class="text-nowrap" style="color: green">(0.65%)</td>
+</tr>
+
+<tr>
+    <td>40</td>
+    <td><a href="/symbol/KLAC">KLA Corp</a></td>
+    <td><a href="/symbol/KLAC">KLAC</a></td>
+    <td>0.633</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;649.80</td>
+    <td class="text-nowrap" style="color: green">31.31</td>
+    <td class="text-nowrap" style="color: green">(5.06%)</td>
+</tr>
+
+<tr>
+    <td>41</td>
+    <td><a href="/symbol/CDNS">Cadence Design Systems Inc</a></td>
+    <td><a href="/symbol/CDNS">CDNS</a></td>
+    <td>0.629</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;311.94</td>
+    <td class="text-nowrap" style="color: green">4.58</td>
+    <td class="text-nowrap" style="color: green">(1.49%)</td>
+</tr>
+
+<tr>
+    <td>42</td>
+    <td><a href="/symbol/ASML">ASML Holding NV</a></td>
+    <td><a href="/symbol/ASML">ASML</a></td>
+    <td>0.61</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;949.60</td>
+    <td class="text-nowrap" style="color: green">26.66</td>
+    <td class="text-nowrap" style="color: green">(2.89%)</td>
+</tr>
+
+<tr>
+    <td>43</td>
+    <td><a href="/symbol/CRWD">Crowdstrike Holdings Inc</a></td>
+    <td><a href="/symbol/CRWD">CRWD</a></td>
+    <td>0.553</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;329.34</td>
+    <td class="text-nowrap" style="color: green">6.30</td>
+    <td class="text-nowrap" style="color: green">(1.95%)</td>
+</tr>
+
+<tr>
+    <td>44</td>
+    <td><a href="/symbol/MAR">Marriott International Inc/MD</a></td>
+    <td><a href="/symbol/MAR">MAR</a></td>
+    <td>0.552</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;247.02</td>
+    <td class="text-nowrap" style="color: red">-2.56</td>
+    <td class="text-nowrap" style="color: red">(-1.03%)</td>
+</tr>
+
+<tr>
+    <td>45</td>
+    <td><a href="/symbol/CSX">CSX Corp</a></td>
+    <td><a href="/symbol/CSX">CSX</a></td>
+    <td>0.551</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;36.89</td>
+    <td class="text-nowrap" style="color: red">-0.18</td>
+    <td class="text-nowrap" style="color: red">(-0.49%)</td>
+</tr>
+
+<tr>
+    <td>46</td>
+    <td><a href="/symbol/ABNB">Airbnb Inc</a></td>
+    <td><a href="/symbol/ABNB">ABNB</a></td>
+    <td>0.493</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;147.60</td>
+    <td class="text-nowrap" style="color: red">-2.94</td>
+    <td class="text-nowrap" style="color: red">(-1.96%)</td>
+</tr>
+
+<tr>
+    <td>47</td>
+    <td><a href="/symbol/CTAS">Cintas Corp</a></td>
+    <td><a href="/symbol/CTAS">CTAS</a></td>
+    <td>0.473</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;618.22</td>
+    <td class="text-nowrap" style="color: green">1.06</td>
+    <td class="text-nowrap" style="color: green">(0.17%)</td>
+</tr>
+
+<tr>
+    <td>48</td>
+    <td><a href="/symbol/WDAY">Workday Inc</a></td>
+    <td><a href="/symbol/WDAY">WDAY</a></td>
+    <td>0.47</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;304.89</td>
+    <td class="text-nowrap" style="color: green">6.24</td>
+    <td class="text-nowrap" style="color: green">(2.09%)</td>
+</tr>
+
+<tr>
+    <td>49</td>
+    <td><a href="/symbol/MRVL">Marvell Technology Inc</a></td>
+    <td><a href="/symbol/MRVL">MRVL</a></td>
+    <td>0.461</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;68.83</td>
+    <td class="text-nowrap" style="color: red">-2.19</td>
+    <td class="text-nowrap" style="color: red">(-3.08%)</td>
+</tr>
+
+<tr>
     <td>50</td>
-    <td><a href="/symbol/KDP">Keurig Dr Pepper Inc</a></td>
-    <td><a href="/symbol/KDP">KDP</a></td>
-    <td>0.402</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;38.06</td>
-    <td class="text-nowrap" style="color: green">0.25</td>
-    <td class="text-nowrap" style="color: green">(0.66%)</td>
+    <td><a href="/symbol/PYPL">PayPal Holdings Inc</a></td>
+    <td><a href="/symbol/PYPL">PYPL</a></td>
+    <td>0.455</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;58.91</td>
+    <td class="text-nowrap" style="color: green">2.78</td>
+    <td class="text-nowrap" style="color: green">(4.95%)</td>
 </tr>
 
 <tr>
     <td>51</td>
-    <td><a href="/symbol/FTNT">Fortinet Inc</a></td>
-    <td><a href="/symbol/FTNT">FTNT</a></td>
-    <td>0.386</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;321.30</td>
-    <td class="text-nowrap" style="color: green">1.33</td>
-    <td class="text-nowrap" style="color: green">(0.42%)</td>
+    <td><a href="/symbol/ORLY">O&#39;Reilly Automotive Inc</a></td>
+    <td><a href="/symbol/ORLY">ORLY</a></td>
+    <td>0.455</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;1,025.82</td>
+    <td class="text-nowrap" style="color: green">4.99</td>
+    <td class="text-nowrap" style="color: green">(0.49%)</td>
 </tr>
 
 <tr>
     <td>52</td>
-    <td><a href="/symbol/NXPI">NXP Semiconductors NV</a></td>
-    <td><a href="/symbol/NXPI">NXPI</a></td>
-    <td>0.379</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;192.75</td>
-    <td class="text-nowrap" style="color: green">0.33</td>
-    <td class="text-nowrap" style="color: green">(0.17%)</td>
+    <td><a href="/symbol/MNST">Monster Beverage Corp</a></td>
+    <td><a href="/symbol/MNST">MNST</a></td>
+    <td>0.442</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;55.66</td>
+    <td class="text-nowrap" style="color: red">-0.83</td>
+    <td class="text-nowrap" style="color: red">(-1.47%)</td>
 </tr>
 
 <tr>
     <td>53</td>
-    <td><a href="/symbol/SNPS">Synopsys Inc</a></td>
-    <td><a href="/symbol/SNPS">SNPS</a></td>
-    <td>0.365</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;318.21</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
+    <td><a href="/symbol/NXPI">NXP Semiconductors NV</a></td>
+    <td><a href="/symbol/NXPI">NXPI</a></td>
+    <td>0.442</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;233.55</td>
+    <td class="text-nowrap" style="color: green">5.72</td>
+    <td class="text-nowrap" style="color: green">(2.51%)</td>
 </tr>
 
 <tr>
     <td>54</td>
-    <td><a href="/symbol/CTSH">Cognizant Technology Solutions Corp</a></td>
-    <td><a href="/symbol/CTSH">CTSH</a></td>
-    <td>0.361</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;91.95</td>
-    <td class="text-nowrap" style="color: green">0.23</td>
-    <td class="text-nowrap" style="color: green">(0.25%)</td>
+    <td><a href="/symbol/ROP">Roper Technologies Inc</a></td>
+    <td><a href="/symbol/ROP">ROP</a></td>
+    <td>0.438</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;0.00</td>
+    <td class="text-nowrap" style="color: green">0.00</td>
+    <td class="text-nowrap" style="color: green">(0.00%)</td>
 </tr>
 
 <tr>
     <td>55</td>
-    <td><a href="/symbol/WDAY">Workday Inc</a></td>
-    <td><a href="/symbol/WDAY">WDAY</a></td>
-    <td>0.358</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;243.01</td>
-    <td class="text-nowrap" style="color: red">-0.59</td>
-    <td class="text-nowrap" style="color: red">(-0.24%)</td>
+    <td><a href="/symbol/LULU">Lululemon Athletica Inc</a></td>
+    <td><a href="/symbol/LULU">LULU</a></td>
+    <td>0.432</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;470.24</td>
+    <td class="text-nowrap" style="color: red">-2.74</td>
+    <td class="text-nowrap" style="color: red">(-0.58%)</td>
 </tr>
 
 <tr>
     <td>56</td>
-    <td><a href="/symbol/AEP">American Electric Power Co Inc</a></td>
-    <td><a href="/symbol/AEP">AEP</a></td>
-    <td>0.355</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;93.97</td>
-    <td class="text-nowrap" style="color: red">-0.10</td>
-    <td class="text-nowrap" style="color: red">(-0.11%)</td>
+    <td><a href="/symbol/ADSK">Autodesk Inc</a></td>
+    <td><a href="/symbol/ADSK">ADSK</a></td>
+    <td>0.421</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;266.68</td>
+    <td class="text-nowrap" style="color: green">5.17</td>
+    <td class="text-nowrap" style="color: green">(1.98%)</td>
 </tr>
 
 <tr>
     <td>57</td>
-    <td><a href="/symbol/ADSK">Autodesk Inc</a></td>
-    <td><a href="/symbol/ADSK">ADSK</a></td>
-    <td>0.352</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;215.00</td>
-    <td class="text-nowrap" style="color: green">1.70</td>
-    <td class="text-nowrap" style="color: green">(0.80%)</td>
+    <td><a href="/symbol/PCAR">PACCAR Inc</a></td>
+    <td><a href="/symbol/PCAR">PCAR</a></td>
+    <td>0.416</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;106.01</td>
+    <td class="text-nowrap" style="color: green">0.40</td>
+    <td class="text-nowrap" style="color: green">(0.38%)</td>
 </tr>
 
 <tr>
     <td>58</td>
-    <td><a href="/symbol/PAYX">Paychex Inc</a></td>
-    <td><a href="/symbol/PAYX">PAYX</a></td>
-    <td>0.346</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;128.00</td>
-    <td class="text-nowrap" style="color: red">-0.13</td>
-    <td class="text-nowrap" style="color: red">(-0.10%)</td>
+    <td><a href="/symbol/FTNT">Fortinet Inc</a></td>
+    <td><a href="/symbol/FTNT">FTNT</a></td>
+    <td>0.392</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;70.44</td>
+    <td class="text-nowrap" style="color: green">2.59</td>
+    <td class="text-nowrap" style="color: green">(3.82%)</td>
 </tr>
 
 <tr>
     <td>59</td>
-    <td><a href="/symbol/KHC">Kraft Heinz Co/The</a></td>
-    <td><a href="/symbol/KHC">KHC</a></td>
-    <td>0.345</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;37.71</td>
-    <td class="text-nowrap" style="color: green">0.09</td>
-    <td class="text-nowrap" style="color: green">(0.24%)</td>
-</tr>
-
-<tr>
-    <td>60</td>
-    <td><a href="/symbol/ORLY">O&#39;Reilly Automotive Inc</a></td>
-    <td><a href="/symbol/ORLY">ORLY</a></td>
-    <td>0.344</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;689.98</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
-</tr>
-
-<tr>
-    <td>61</td>
-    <td><a href="/symbol/IDXX">IDEXX Laboratories Inc</a></td>
-    <td><a href="/symbol/IDXX">IDXX</a></td>
-    <td>0.343</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;542.46</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
-</tr>
-
-<tr>
-    <td>62</td>
-    <td><a href="/symbol/DXCM">Dexcom Inc</a></td>
-    <td><a href="/symbol/DXCM">DXCM</a></td>
-    <td>0.34</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;469.61</td>
-    <td class="text-nowrap" style="color: green">1.56</td>
-    <td class="text-nowrap" style="color: green">(0.33%)</td>
-</tr>
-
-<tr>
-    <td>63</td>
-    <td><a href="/symbol/CDNS">Cadence Design Systems Inc</a></td>
-    <td><a href="/symbol/CDNS">CDNS</a></td>
-    <td>0.33</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;159.08</td>
-    <td class="text-nowrap" style="color: green">0.21</td>
-    <td class="text-nowrap" style="color: green">(0.13%)</td>
-</tr>
-
-<tr>
-    <td>64</td>
-    <td><a href="/symbol/CRWD">Crowdstrike Holdings Inc</a></td>
-    <td><a href="/symbol/CRWD">CRWD</a></td>
-    <td>0.325</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;208.40</td>
-    <td class="text-nowrap" style="color: green">0.34</td>
-    <td class="text-nowrap" style="color: green">(0.16%)</td>
-</tr>
-
-<tr>
-    <td>65</td>
-    <td><a href="/symbol/MCHP">Microchip Technology Inc</a></td>
-    <td><a href="/symbol/MCHP">MCHP</a></td>
-    <td>0.322</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;77.29</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
-</tr>
-
-<tr>
-    <td>66</td>
-    <td><a href="/symbol/MNST">Monster Beverage Corp</a></td>
-    <td><a href="/symbol/MNST">MNST</a></td>
-    <td>0.32</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;80.70</td>
-    <td class="text-nowrap" style="color: green">0.11</td>
-    <td class="text-nowrap" style="color: green">(0.14%)</td>
-</tr>
-
-<tr>
-    <td>67</td>
-    <td><a href="/symbol/LCID">Lucid Group Inc</a></td>
-    <td><a href="/symbol/LCID">LCID</a></td>
-    <td>0.318</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;25.70</td>
-    <td class="text-nowrap" style="color: green">0.03</td>
-    <td class="text-nowrap" style="color: green">(0.12%)</td>
-</tr>
-
-<tr>
-    <td>68</td>
-    <td><a href="/symbol/EXC">Exelon Corp</a></td>
-    <td><a href="/symbol/EXC">EXC</a></td>
-    <td>0.318</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;43.21</td>
-    <td class="text-nowrap" style="color: red">-0.04</td>
-    <td class="text-nowrap" style="color: red">(-0.09%)</td>
-</tr>
-
-<tr>
-    <td>69</td>
-    <td><a href="/symbol/TEAM">Atlassian Corp PLC</a></td>
-    <td><a href="/symbol/TEAM">TEAM</a></td>
-    <td>0.312</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;295.01</td>
-    <td class="text-nowrap" style="color: green">0.28</td>
-    <td class="text-nowrap" style="color: green">(0.10%)</td>
-</tr>
-
-<tr>
-    <td>70</td>
-    <td><a href="/symbol/CTAS">Cintas Corp</a></td>
-    <td><a href="/symbol/CTAS">CTAS</a></td>
-    <td>0.311</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;401.50</td>
-    <td class="text-nowrap" style="color: green">1.13</td>
-    <td class="text-nowrap" style="color: green">(0.28%)</td>
-</tr>
-
-<tr>
-    <td>71</td>
-    <td><a href="/symbol/WBA">Walgreens Boots Alliance Inc</a></td>
-    <td><a href="/symbol/WBA">WBA</a></td>
-    <td>0.306</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;47.30</td>
-    <td class="text-nowrap" style="color: red">-0.06</td>
+    <td><a href="/symbol/ROST">Ross Stores Inc</a></td>
+    <td><a href="/symbol/ROST">ROST</a></td>
+    <td>0.372</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;145.87</td>
+    <td class="text-nowrap" style="color: red">-0.19</td>
     <td class="text-nowrap" style="color: red">(-0.13%)</td>
 </tr>
 
 <tr>
+    <td>60</td>
+    <td><a href="/symbol/DXCM">Dexcom Inc</a></td>
+    <td><a href="/symbol/DXCM">DXCM</a></td>
+    <td>0.369</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;120.47</td>
+    <td class="text-nowrap" style="color: red">-6.58</td>
+    <td class="text-nowrap" style="color: red">(-5.18%)</td>
+</tr>
+
+<tr>
+    <td>61</td>
+    <td><a href="/symbol/CPRT">Copart Inc</a></td>
+    <td><a href="/symbol/CPRT">CPRT</a></td>
+    <td>0.368</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;50.91</td>
+    <td class="text-nowrap" style="color: red">-0.05</td>
+    <td class="text-nowrap" style="color: red">(-0.10%)</td>
+</tr>
+
+<tr>
+    <td>62</td>
+    <td><a href="/symbol/IDXX">IDEXX Laboratories Inc</a></td>
+    <td><a href="/symbol/IDXX">IDXX</a></td>
+    <td>0.359</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;572.21</td>
+    <td class="text-nowrap" style="color: red">-1.40</td>
+    <td class="text-nowrap" style="color: red">(-0.24%)</td>
+</tr>
+
+<tr>
+    <td>63</td>
+    <td><a href="/symbol/ODFL">Old Dominion Freight Line Inc</a></td>
+    <td><a href="/symbol/ODFL">ODFL</a></td>
+    <td>0.357</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;435.33</td>
+    <td class="text-nowrap" style="color: green">0.17</td>
+    <td class="text-nowrap" style="color: green">(0.04%)</td>
+</tr>
+
+<tr>
+    <td>64</td>
+    <td><a href="/symbol/MCHP">Microchip Technology Inc</a></td>
+    <td><a href="/symbol/MCHP">MCHP</a></td>
+    <td>0.343</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;85.44</td>
+    <td class="text-nowrap" style="color: green">1.09</td>
+    <td class="text-nowrap" style="color: green">(1.29%)</td>
+</tr>
+
+<tr>
+    <td>65</td>
+    <td><a href="/symbol/KHC">Kraft Heinz Co/The</a></td>
+    <td><a href="/symbol/KHC">KHC</a></td>
+    <td>0.337</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;35.97</td>
+    <td class="text-nowrap" style="color: red">-0.50</td>
+    <td class="text-nowrap" style="color: red">(-1.37%)</td>
+</tr>
+
+<tr>
+    <td>66</td>
+    <td><a href="/symbol/PAYX">Paychex Inc</a></td>
+    <td><a href="/symbol/PAYX">PAYX</a></td>
+    <td>0.334</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;123.03</td>
+    <td class="text-nowrap" style="color: green">0.28</td>
+    <td class="text-nowrap" style="color: green">(0.23%)</td>
+</tr>
+
+<tr>
+    <td>67</td>
+    <td><a href="/symbol/KDP">Keurig Dr Pepper Inc</a></td>
+    <td><a href="/symbol/KDP">KDP</a></td>
+    <td>0.331</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;31.15</td>
+    <td class="text-nowrap" style="color: red">-0.34</td>
+    <td class="text-nowrap" style="color: red">(-1.08%)</td>
+</tr>
+
+<tr>
+    <td>68</td>
+    <td><a href="/symbol/DASH">DoorDash Inc</a></td>
+    <td><a href="/symbol/DASH">DASH</a></td>
+    <td>0.33</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;0.00</td>
+    <td class="text-nowrap" style="color: green">0.00</td>
+    <td class="text-nowrap" style="color: green">(0.00%)</td>
+</tr>
+
+<tr>
+    <td>69</td>
+    <td><a href="/symbol/CHTR">Charter Communications Inc</a></td>
+    <td><a href="/symbol/CHTR">CHTR</a></td>
+    <td>0.315</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;291.15</td>
+    <td class="text-nowrap" style="color: green">8.55</td>
+    <td class="text-nowrap" style="color: green">(3.03%)</td>
+</tr>
+
+<tr>
+    <td>70</td>
+    <td><a href="/symbol/CEG">Constellation Energy Corp</a></td>
+    <td><a href="/symbol/CEG">CEG</a></td>
+    <td>0.314</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;132.17</td>
+    <td class="text-nowrap" style="color: green">1.45</td>
+    <td class="text-nowrap" style="color: green">(1.11%)</td>
+</tr>
+
+<tr>
+    <td>71</td>
+    <td><a href="/symbol/AEP">American Electric Power Co Inc</a></td>
+    <td><a href="/symbol/AEP">AEP</a></td>
+    <td>0.301</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;76.66</td>
+    <td class="text-nowrap" style="color: green">0.72</td>
+    <td class="text-nowrap" style="color: green">(0.95%)</td>
+</tr>
+
+<tr>
     <td>72</td>
-    <td><a href="/symbol/LULU">Lululemon Athletica Inc</a></td>
-    <td><a href="/symbol/LULU">LULU</a></td>
-    <td>0.293</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;316.92</td>
-    <td class="text-nowrap" style="color: red">-0.01</td>
-    <td class="text-nowrap" style="color: red">(-0.00%)</td>
+    <td><a href="/symbol/DDOG">Datadog Inc</a></td>
+    <td><a href="/symbol/DDOG">DDOG</a></td>
+    <td>0.299</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;134.91</td>
+    <td class="text-nowrap" style="color: green">3.46</td>
+    <td class="text-nowrap" style="color: green">(2.63%)</td>
 </tr>
 
 <tr>
     <td>73</td>
-    <td><a href="/symbol/JD">JD.com Inc ADR</a></td>
-    <td><a href="/symbol/JD">JD</a></td>
-    <td>0.291</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;65.90</td>
-    <td class="text-nowrap" style="color: green">0.77</td>
-    <td class="text-nowrap" style="color: green">(1.18%)</td>
+    <td><a href="/symbol/FAST">Fastenal Co</a></td>
+    <td><a href="/symbol/FAST">FAST</a></td>
+    <td>0.298</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;70.02</td>
+    <td class="text-nowrap" style="color: green">0.76</td>
+    <td class="text-nowrap" style="color: green">(1.10%)</td>
 </tr>
 
 <tr>
     <td>74</td>
-    <td><a href="/symbol/DDOG">Datadog Inc</a></td>
-    <td><a href="/symbol/DDOG">DDOG</a></td>
-    <td>0.289</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;145.99</td>
-    <td class="text-nowrap" style="color: green">0.23</td>
-    <td class="text-nowrap" style="color: green">(0.16%)</td>
+    <td><a href="/symbol/CTSH">Cognizant Technology Solutions Corp</a></td>
+    <td><a href="/symbol/CTSH">CTSH</a></td>
+    <td>0.295</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;77.10</td>
+    <td class="text-nowrap" style="color: red">-1.20</td>
+    <td class="text-nowrap" style="color: red">(-1.53%)</td>
 </tr>
 
 <tr>
     <td>75</td>
-    <td><a href="/symbol/ODFL">Old Dominion Freight Line Inc</a></td>
-    <td><a href="/symbol/ODFL">ODFL</a></td>
-    <td>0.283</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;328.85</td>
-    <td class="text-nowrap" style="color: green">0.55</td>
-    <td class="text-nowrap" style="color: green">(0.17%)</td>
+    <td><a href="/symbol/EA">Electronic Arts Inc</a></td>
+    <td><a href="/symbol/EA">EA</a></td>
+    <td>0.281</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;140.61</td>
+    <td class="text-nowrap" style="color: green">1.76</td>
+    <td class="text-nowrap" style="color: green">(1.27%)</td>
 </tr>
 
 <tr>
     <td>76</td>
-    <td><a href="/symbol/XEL">Xcel Energy Inc</a></td>
-    <td><a href="/symbol/XEL">XEL</a></td>
+    <td><a href="/symbol/GEHC">GE HealthCare Technologies Inc</a></td>
+    <td><a href="/symbol/GEHC">GEHC</a></td>
     <td>0.281</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;68.87</td>
-    <td class="text-nowrap" style="color: green">0.08</td>
-    <td class="text-nowrap" style="color: green">(0.12%)</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;81.34</td>
+    <td class="text-nowrap" style="color: red">-0.72</td>
+    <td class="text-nowrap" style="color: red">(-0.88%)</td>
 </tr>
 
 <tr>
     <td>77</td>
-    <td><a href="/symbol/AZN">AstraZeneca PLC ADR</a></td>
-    <td><a href="/symbol/AZN">AZN</a></td>
-    <td>0.27</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;63.23</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
+    <td><a href="/symbol/ZS">Zscaler Inc</a></td>
+    <td><a href="/symbol/ZS">ZS</a></td>
+    <td>0.278</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;254.93</td>
+    <td class="text-nowrap" style="color: green">5.52</td>
+    <td class="text-nowrap" style="color: green">(2.21%)</td>
 </tr>
 
 <tr>
     <td>78</td>
-    <td><a href="/symbol/BIDU">Baidu Inc ADR</a></td>
-    <td><a href="/symbol/BIDU">BIDU</a></td>
-    <td>0.27</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;149.98</td>
-    <td class="text-nowrap" style="color: green">0.94</td>
-    <td class="text-nowrap" style="color: green">(0.63%)</td>
+    <td><a href="/symbol/AZN">AstraZeneca PLC ADR</a></td>
+    <td><a href="/symbol/AZN">AZN</a></td>
+    <td>0.278</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;62.26</td>
+    <td class="text-nowrap" style="color: red">-1.26</td>
+    <td class="text-nowrap" style="color: red">(-1.98%)</td>
 </tr>
 
 <tr>
     <td>79</td>
-    <td><a href="/symbol/EA">Electronic Arts Inc</a></td>
-    <td><a href="/symbol/EA">EA</a></td>
-    <td>0.266</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;126.40</td>
-    <td class="text-nowrap" style="color: green">0.12</td>
-    <td class="text-nowrap" style="color: green">(0.10%)</td>
+    <td><a href="/symbol/VRSK">Verisk Analytics Inc</a></td>
+    <td><a href="/symbol/VRSK">VRSK</a></td>
+    <td>0.272</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;250.61</td>
+    <td class="text-nowrap" style="color: green">1.35</td>
+    <td class="text-nowrap" style="color: green">(0.54%)</td>
 </tr>
 
 <tr>
     <td>80</td>
-    <td><a href="/symbol/DLTR">Dollar Tree Inc</a></td>
-    <td><a href="/symbol/DLTR">DLTR</a></td>
-    <td>0.265</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;157.16</td>
-    <td class="text-nowrap" style="color: red">-0.01</td>
-    <td class="text-nowrap" style="color: red">(-0.01%)</td>
+    <td><a href="/symbol/MRNA">Moderna Inc</a></td>
+    <td><a href="/symbol/MRNA">MRNA</a></td>
+    <td>0.269</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;87.41</td>
+    <td class="text-nowrap" style="color: red">-6.25</td>
+    <td class="text-nowrap" style="color: red">(-6.67%)</td>
 </tr>
 
 <tr>
     <td>81</td>
-    <td><a href="/symbol/ALGN">Align Technology Inc</a></td>
-    <td><a href="/symbol/ALGN">ALGN</a></td>
+    <td><a href="/symbol/BIIB">Biogen Inc</a></td>
+    <td><a href="/symbol/BIIB">BIIB</a></td>
     <td>0.262</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;442.40</td>
-    <td class="text-nowrap" style="color: red">-0.47</td>
-    <td class="text-nowrap" style="color: red">(-0.11%)</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;240.98</td>
+    <td class="text-nowrap" style="color: green">0.68</td>
+    <td class="text-nowrap" style="color: green">(0.28%)</td>
 </tr>
 
 <tr>
     <td>82</td>
-    <td><a href="/symbol/VRSK">Verisk Analytics Inc</a></td>
-    <td><a href="/symbol/VRSK">VRSK</a></td>
-    <td>0.252</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;208.24</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
+    <td><a href="/symbol/ON">ON Semiconductor Corp</a></td>
+    <td><a href="/symbol/ON">ON</a></td>
+    <td>0.262</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;80.80</td>
+    <td class="text-nowrap" style="color: green">0.09</td>
+    <td class="text-nowrap" style="color: green">(0.11%)</td>
 </tr>
 
 <tr>
     <td>83</td>
-    <td><a href="/symbol/FAST">Fastenal Co</a></td>
-    <td><a href="/symbol/FAST">FAST</a></td>
-    <td>0.25</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;57.99</td>
-    <td class="text-nowrap" style="color: green">0.12</td>
-    <td class="text-nowrap" style="color: green">(0.21%)</td>
-</tr>
-
-<tr>
-    <td>84</td>
-    <td><a href="/symbol/ROST">Ross Stores Inc</a></td>
-    <td><a href="/symbol/ROST">ROST</a></td>
-    <td>0.247</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;93.33</td>
+    <td><a href="/symbol/MDB">MongoDB Inc</a></td>
+    <td><a href="/symbol/MDB">MDB</a></td>
+    <td>0.255</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;0.00</td>
     <td class="text-nowrap" style="color: green">0.00</td>
     <td class="text-nowrap" style="color: green">(0.00%)</td>
 </tr>
 
 <tr>
+    <td>84</td>
+    <td><a href="/symbol/EXC">Exelon Corp</a></td>
+    <td><a href="/symbol/EXC">EXC</a></td>
+    <td>0.253</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;33.84</td>
+    <td class="text-nowrap" style="color: green">0.09</td>
+    <td class="text-nowrap" style="color: green">(0.27%)</td>
+</tr>
+
+<tr>
     <td>85</td>
-    <td><a href="/symbol/EBAY">eBay Inc</a></td>
-    <td><a href="/symbol/EBAY">EBAY</a></td>
-    <td>0.247</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;56.24</td>
-    <td class="text-nowrap" style="color: green">0.22</td>
-    <td class="text-nowrap" style="color: green">(0.39%)</td>
+    <td><a href="/symbol/CSGP">CoStar Group Inc</a></td>
+    <td><a href="/symbol/CSGP">CSGP</a></td>
+    <td>0.251</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;83.13</td>
+    <td class="text-nowrap" style="color: green">1.36</td>
+    <td class="text-nowrap" style="color: green">(1.66%)</td>
 </tr>
 
 <tr>
     <td>86</td>
-    <td><a href="/symbol/ZS">Zscaler Inc</a></td>
-    <td><a href="/symbol/ZS">ZS</a></td>
-    <td>0.234</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;223.29</td>
-    <td class="text-nowrap" style="color: green">0.58</td>
-    <td class="text-nowrap" style="color: green">(0.26%)</td>
+    <td><a href="/symbol/TEAM">Atlassian Corp</a></td>
+    <td><a href="/symbol/TEAM">TEAM</a></td>
+    <td>0.248</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;218.76</td>
+    <td class="text-nowrap" style="color: green">6.47</td>
+    <td class="text-nowrap" style="color: green">(3.05%)</td>
 </tr>
 
 <tr>
     <td>87</td>
-    <td><a href="/symbol/PCAR">PACCAR Inc</a></td>
-    <td><a href="/symbol/PCAR">PCAR</a></td>
-    <td>0.231</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;88.67</td>
+    <td><a href="/symbol/CDW">CDW Corp/DE</a></td>
+    <td><a href="/symbol/CDW">CDW</a></td>
+    <td>0.246</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;0.00</td>
     <td class="text-nowrap" style="color: green">0.00</td>
     <td class="text-nowrap" style="color: green">(0.00%)</td>
 </tr>
 
 <tr>
     <td>88</td>
-    <td><a href="/symbol/CPRT">Copart Inc</a></td>
-    <td><a href="/symbol/CPRT">CPRT</a></td>
-    <td>0.23</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;129.24</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
+    <td><a href="/symbol/XEL">Xcel Energy Inc</a></td>
+    <td><a href="/symbol/XEL">XEL</a></td>
+    <td>0.241</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;58.17</td>
+    <td class="text-nowrap" style="color: green">0.17</td>
+    <td class="text-nowrap" style="color: green">(0.29%)</td>
 </tr>
 
 <tr>
     <td>89</td>
-    <td><a href="/symbol/BIIB">Biogen Inc</a></td>
-    <td><a href="/symbol/BIIB">BIIB</a></td>
-    <td>0.23</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;203.66</td>
-    <td class="text-nowrap" style="color: red">-4.91</td>
-    <td class="text-nowrap" style="color: red">(-2.35%)</td>
+    <td><a href="/symbol/TTD">Trade Desk Inc/The</a></td>
+    <td><a href="/symbol/TTD">TTD</a></td>
+    <td>0.236</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;71.31</td>
+    <td class="text-nowrap" style="color: green">1.14</td>
+    <td class="text-nowrap" style="color: green">(1.62%)</td>
 </tr>
 
 <tr>
     <td>90</td>
-    <td><a href="/symbol/MTCH">Match Group Inc</a></td>
-    <td><a href="/symbol/MTCH">MTCH</a></td>
-    <td>0.219</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;102.69</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
+    <td><a href="/symbol/DLTR">Dollar Tree Inc</a></td>
+    <td><a href="/symbol/DLTR">DLTR</a></td>
+    <td>0.231</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;139.50</td>
+    <td class="text-nowrap" style="color: red">-1.40</td>
+    <td class="text-nowrap" style="color: red">(-0.99%)</td>
 </tr>
 
 <tr>
     <td>91</td>
-    <td><a href="/symbol/ZM">Zoom Video Communications Inc</a></td>
-    <td><a href="/symbol/ZM">ZM</a></td>
-    <td>0.211</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;116.75</td>
-    <td class="text-nowrap" style="color: green">0.47</td>
-    <td class="text-nowrap" style="color: green">(0.40%)</td>
+    <td><a href="/symbol/CCEP">Coca-Cola Europacific Partners PLC</a></td>
+    <td><a href="/symbol/CCEP">CCEP</a></td>
+    <td>0.23</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;0.00</td>
+    <td class="text-nowrap" style="color: green">0.00</td>
+    <td class="text-nowrap" style="color: green">(0.00%)</td>
 </tr>
 
 <tr>
     <td>92</td>
-    <td><a href="/symbol/ANSS">ANSYS Inc</a></td>
-    <td><a href="/symbol/ANSS">ANSS</a></td>
-    <td>0.208</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;318.56</td>
-    <td class="text-nowrap" style="color: red">-0.04</td>
-    <td class="text-nowrap" style="color: red">(-0.01%)</td>
+    <td><a href="/symbol/GFS">GLOBALFOUNDRIES Inc</a></td>
+    <td><a href="/symbol/GFS">GFS</a></td>
+    <td>0.226</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;55.94</td>
+    <td class="text-nowrap" style="color: green">1.16</td>
+    <td class="text-nowrap" style="color: green">(2.12%)</td>
 </tr>
 
 <tr>
     <td>93</td>
-    <td><a href="/symbol/SGEN">Seagen Inc</a></td>
-    <td><a href="/symbol/SGEN">SGEN</a></td>
-    <td>0.197</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;142.81</td>
-    <td class="text-nowrap" style="color: green">0.00</td>
-    <td class="text-nowrap" style="color: green">(0.00%)</td>
+    <td><a href="/symbol/ANSS">ANSYS Inc</a></td>
+    <td><a href="/symbol/ANSS">ANSS</a></td>
+    <td>0.226</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;342.28</td>
+    <td class="text-nowrap" style="color: red">-3.05</td>
+    <td class="text-nowrap" style="color: red">(-0.88%)</td>
 </tr>
 
 <tr>
     <td>94</td>
-    <td><a href="/symbol/OKTA">Okta Inc</a></td>
-    <td><a href="/symbol/OKTA">OKTA</a></td>
-    <td>0.194</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;174.02</td>
-    <td class="text-nowrap" style="color: red">-0.48</td>
-    <td class="text-nowrap" style="color: red">(-0.28%)</td>
+    <td><a href="/symbol/BKR">Baker Hughes Co</a></td>
+    <td><a href="/symbol/BKR">BKR</a></td>
+    <td>0.222</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;29.06</td>
+    <td class="text-nowrap" style="color: red">-0.26</td>
+    <td class="text-nowrap" style="color: red">(-0.89%)</td>
 </tr>
 
 <tr>
     <td>95</td>
-    <td><a href="/symbol/SIRI">Sirius XM Holdings Inc</a></td>
-    <td><a href="/symbol/SIRI">SIRI</a></td>
-    <td>0.187</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;6.27</td>
-    <td class="text-nowrap" style="color: red">-0.06</td>
-    <td class="text-nowrap" style="color: red">(-0.95%)</td>
-</tr>
-
-<tr>
-    <td>96</td>
-    <td><a href="/symbol/VRSN">VeriSign Inc</a></td>
-    <td><a href="/symbol/VRSN">VRSN</a></td>
-    <td>0.182</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;220.75</td>
+    <td><a href="/symbol/TTWO">Take-Two Interactive Software Inc</a></td>
+    <td><a href="/symbol/TTWO">TTWO</a></td>
+    <td>0.217</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;0.00</td>
     <td class="text-nowrap" style="color: green">0.00</td>
     <td class="text-nowrap" style="color: green">(0.00%)</td>
 </tr>
 
 <tr>
+    <td>96</td>
+    <td><a href="/symbol/FANG">Diamondback Energy Inc</a></td>
+    <td><a href="/symbol/FANG">FANG</a></td>
+    <td>0.207</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;151.74</td>
+    <td class="text-nowrap" style="color: red">-1.74</td>
+    <td class="text-nowrap" style="color: red">(-1.13%)</td>
+</tr>
+
+<tr>
     <td>97</td>
-    <td><a href="/symbol/SWKS">Skyworks Solutions Inc</a></td>
-    <td><a href="/symbol/SWKS">SWKS</a></td>
-    <td>0.166</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;135.18</td>
+    <td><a href="/symbol/SPLK">Splunk Inc</a></td>
+    <td><a href="/symbol/SPLK">SPLK</a></td>
+    <td>0.196</td>
+    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;0.00</td>
     <td class="text-nowrap" style="color: green">0.00</td>
     <td class="text-nowrap" style="color: green">(0.00%)</td>
 </tr>
 
 <tr>
     <td>98</td>
-    <td><a href="/symbol/SPLK">Splunk Inc</a></td>
-    <td><a href="/symbol/SPLK">SPLK</a></td>
-    <td>0.152</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;127.52</td>
-    <td class="text-nowrap" style="color: red">-0.49</td>
-    <td class="text-nowrap" style="color: red">(-0.38%)</td>
+    <td><a href="/symbol/WBD">Warner Bros Discovery Inc</a></td>
+    <td><a href="/symbol/WBD">WBD</a></td>
+    <td>0.18</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;9.64</td>
+    <td class="text-nowrap" style="color: red">-0.19</td>
+    <td class="text-nowrap" style="color: red">(-1.93%)</td>
 </tr>
 
 <tr>
     <td>99</td>
-    <td><a href="/symbol/DOCU">DocuSign Inc</a></td>
-    <td><a href="/symbol/DOCU">DOCU</a></td>
-    <td>0.142</td>
-    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;95.36</td>
-    <td class="text-nowrap" style="color: red">-0.15</td>
-    <td class="text-nowrap" style="color: red">(-0.16%)</td>
+    <td><a href="/symbol/ILMN">Illumina Inc</a></td>
+    <td><a href="/symbol/ILMN">ILMN</a></td>
+    <td>0.171</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;137.84</td>
+    <td class="text-nowrap" style="color: red">-5.49</td>
+    <td class="text-nowrap" style="color: red">(-3.83%)</td>
 </tr>
 
 <tr>
     <td>100</td>
-    <td><a href="/symbol/NTES">NetEase Inc ADR</a></td>
-    <td><a href="/symbol/NTES">NTES</a></td>
-    <td>0.142</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;90.48</td>
-    <td class="text-nowrap" style="color: green">0.30</td>
-    <td class="text-nowrap" style="color: green">(0.33%)</td>
+    <td><a href="/symbol/WBA">Walgreens Boots Alliance Inc</a></td>
+    <td><a href="/symbol/WBA">WBA</a></td>
+    <td>0.147</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;22.24</td>
+    <td class="text-nowrap" style="color: red">-0.30</td>
+    <td class="text-nowrap" style="color: red">(-1.33%)</td>
 </tr>
 
 <tr>
     <td>101</td>
-    <td><a href="/symbol/PDD">Pinduoduo Inc ADR</a></td>
-    <td><a href="/symbol/PDD">PDD</a></td>
-    <td>0.141</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;43.00</td>
-    <td class="text-nowrap" style="color: green">0.40</td>
-    <td class="text-nowrap" style="color: green">(0.94%)</td>
-</tr>
-
-<tr>
-    <td>102</td>
-    <td><a href="/symbol/CEG">Constellation Energy Corp</a></td>
-    <td><a href="/symbol/CEG">CEG</a></td>
-    <td>0.12</td>
-    <td class="text-nowrap"><img src="/img/up.gif" alt=""> &nbsp;&nbsp;49.90</td>
-    <td class="text-nowrap" style="color: green">0.89</td>
-    <td class="text-nowrap" style="color: green">(1.82%)</td>
+    <td><a href="/symbol/SIRI">Sirius XM Holdings Inc</a></td>
+    <td><a href="/symbol/SIRI">SIRI</a></td>
+    <td>0.144</td>
+    <td class="text-nowrap"><img src="/img/down.gif" alt=""> &nbsp;&nbsp;4.90</td>
+    <td class="text-nowrap" style="color: red">-0.09</td>
+    <td class="text-nowrap" style="color: red">(-1.80%)</td>
 </tr>
 
                         </tbody>
@@ -1205,60 +1234,64 @@
 
             
 <div class="shadow p-3 mb-4 bg-white rounded">
-    <h5 class="text-center">Market Indexes</h5>
+    <h5 class="text-center">Stock Index ETFs</h5>
     <div class="table-responsive">
         <table class="table table-hover table-borderless table-sm">
             <tbody>
                 <tr>
-                    <td class="text-nowrap"><a href="/sp500">S&amp;P 500</a></td>
-                    <td class="text-nowrap"><img src="/img/up.gif"> &nbsp;&nbsp;4,463.12 </td>
-                    <td class="text-nowrap" style="color: green">0.00</td>
-                    <td class="text-nowrap" style="color: green">(0.00%)</td>
+                    <td class="text-nowrap"><a href="/symbol/SPY">SPY</a></td>
+                    <td class="text-nowrap"><a href="/sp500">S&amp;P 500 ETF</a></td>
+                    <td class="text-nowrap"><img src="/img/up.gif"> &nbsp;&nbsp;501.20 </td>
+                    <td class="text-nowrap" style="color: green">2.88</td>
+                    <td class="text-nowrap" style="color: green">(0.58%)</td>
                 </tr>
                 <tr>
-                    <td class="text-nowrap"><a href="/nasdaq100">Nasdaq 100</a></td>
-                    <td class="text-nowrap"><img src="/img/up.gif"> &nbsp;&nbsp;14,420.08 </td>
-                    <td class="text-nowrap" style="color: green">0.00</td>
-                    <td class="text-nowrap" style="color: green">(0.00%)</td>
+                    <td class="text-nowrap"><a href="/symbol/QQQ">QQQ</a></td>
+                    <td class="text-nowrap"><a href="/nasdaq100">Nasdaq 100 ETF</a></td>
+                    <td class="text-nowrap"><img src="/img/up.gif"> &nbsp;&nbsp;437.05 </td>
+                    <td class="text-nowrap" style="color: green">4.26</td>
+                    <td class="text-nowrap" style="color: green">(0.98%)</td>
                 </tr>
                 <tr>
-                    <td class="text-nowrap"><a href="/dowjones">Dow Jones</a></td>
-                    <td class="text-nowrap"><img src="/img/up.gif"> &nbsp;&nbsp;34,754.93 </td>
-                    <td class="text-nowrap" style="color: green">0.00</td>
-                    <td class="text-nowrap" style="color: green">(0.00%)</td>
+                    <td class="text-nowrap"><a href="/symbol/DIA">DIA</a></td>
+                    <td class="text-nowrap"><a href="/dowjones">Dow Jones ETF</a></td>
+                    <td class="text-nowrap"><img src="/img/down.gif"> &nbsp;&nbsp;386.72 </td>
+                    <td class="text-nowrap" style="color: red">-0.63</td>
+                    <td class="text-nowrap" style="color: red">(-0.16%)</td>
                 </tr>
                 <tr>
-                    <td class="text-nowrap"><a href="/nasdaq100">Nasdaq</a></td>
-                    <td class="text-nowrap"><img src="/img/down.gif"> &nbsp;&nbsp;13,893.84 </td>
-                    <td class="text-nowrap" style="color: red">-0.00</td>
-                    <td class="text-nowrap" style="color: red">(-0.00%)</td>
+                    <td class="text-nowrap"><a href="/symbol/ONEQ">ONEQ</a></td>
+                    <td class="text-nowrap"><a href="/nasdaq100">Nasdaq Comp ETF</a></td>
+                    <td class="text-nowrap"><img src="/img/up.gif"> &nbsp;&nbsp;63.03 </td>
+                    <td class="text-nowrap" style="color: green">0.77</td>
+                    <td class="text-nowrap" style="color: green">(1.24%)</td>
                 </tr>
             </tbody>
         </table>
+        
+        <div class="text-center">Prices provided by <a href="https://polygon.io/">Polygon.io</a></div>
     </div>
-    <p style="font-size: smaller; display: none;"> * Premarket index calculation. Based on pre-market trading prices. </p>
 </div>
 
 
             <div class="shadow p-3 mb-5 bg-white rounded">
                 <h5 class="text-center">Data Details</h5>
-                <p> There are 102 symbols due to several companies with two share classes. For example, Google's parent company Alphabet has Class A (GOOGL) and Class C (GOOG) shares in the index.</p>
-                <p> When companies are removed and added to the index the membership list may temporarily show both the removed company and added company.</p>
-                <p> Index weights as of 03/18/2022. </p>
+                <p> There are 101 symbols due to several companies with two share classes. For example, Google's parent company Alphabet has Class A (GOOGL) and Class C (GOOG) shares in the fund.</p>
+                <p> Holding weights as of 02/08/2024. </p>
             </div>
 
-            <div class="p-3 mb-4">
-                <div id="783249363">
-                    <script type="text/javascript">
-                        try {
-                            window._mNHandle.queue.push(function (){
-                                window._mNDetails.loadTag("783249363", "300x250", "783249363");
-                            });
-                        }
-                        catch (error) {}
-                    </script>
-                </div>
-            </div>
+            
+            
+<div class="p-3 mb-4">
+    <!-- Tag ID: slickcharts_right_rail_1 -->
+    <div align="center" data-freestar-ad="__300x600" id="slickcharts_right_rail_1">
+        <script data-cfasync="false" type="text/javascript">
+            freestar.config.enabled_slots.push({ placementName: "slickcharts_right_rail_1", slotId: "slickcharts_right_rail_1" });
+        </script>
+    </div>
+</div>
+
+            
 
             
 <div class="shadow p-3 mb-4 bg-white rounded">
@@ -1271,16 +1304,21 @@
 </div>
 
 
-            <div class="p-3 mb-5">
-                <!--MONUMETRIC Middle Sidebar D:300x250,160x600,300x600 T:300x250,160x600,300x600 M:300x250,320x50,320x100 START-->
-
-                <div id="mmt-df5edb8e-88ea-4f6c-828e-32e6942de2c3"></div><script type="text/javascript" data-cfasync="false">$MMT = window.$MMT || {}; $MMT.cmd = $MMT.cmd || [];$MMT.cmd.push(function(){ $MMT.display.slots.push(["df5edb8e-88ea-4f6c-828e-32e6942de2c3"]); })</script>
-
-                <!--MONUMETRIC Middle Sidebar D:300x250,160x600,300x600 T:300x250,160x600,300x600 M:300x250,320x50,320x100  ENDS-->
-            </div>
+            
+            
+<div class="p-3 mb-4">
+    <!-- Tag ID: slickcharts_right_rail_2 -->
+    <div align="center" data-freestar-ad="__300x600" id="slickcharts_right_rail_2">
+        <script data-cfasync="false" type="text/javascript">
+            freestar.config.enabled_slots.push({ placementName: "slickcharts_right_rail_2", slotId: "slickcharts_right_rail_2" });
+        </script>
+    </div>
+</div>
 
             
-<div class="shadow p-3 mb-5 bg-white rounded">
+
+            
+<div class="shadow p-3 mb-4 bg-white rounded">
     <h5 class="text-center">S&amp;P 500 Data</h5>
     <div class="list-group">
       <a href="/sp500/returns" class=" list-group-item list-group-item-action">S&amp;P 500 Historical Returns</a>
@@ -1294,48 +1332,37 @@
 
 
             
-<div class="shadow p-3 mb-5 bg-white rounded">
-    <h5 class="text-center">Target Indexes</h5>
-    <div class="list-group">
-      <a href="/portfolio" class=" list-group-item list-group-item-action">Portfolio Builder &nbsp;&nbsp;<span class="badge badge-pill badge-success">New</span></a>
+            
+<div class="p-3 mb-4" style="position: -webkit-sticky; position: sticky; top: 0;">
+    <!-- Tag ID: slickcharts_right_rail_sticky -->
+    <div align="center" data-freestar-ad="__300x600" id="slickcharts_right_rail_sticky">
+        <script data-cfasync="false" type="text/javascript">
+            freestar.config.enabled_slots.push({ placementName: "slickcharts_right_rail_sticky", slotId: "slickcharts_right_rail_sticky" });
+        </script>
     </div>
 </div>
 
 
-            <div class="p-3 mb-5">
-                <!--MONUMETRIC Sticky Sidebar D:300x250,160x600,300x600 T:300x250,160x600,300x600 M:300x250,320x50,320x100 START-->
-
-                <div id="mmt-32b2e5fe-09eb-4fd1-b84c-d239829c8f6e"></div><script type="text/javascript" data-cfasync="false">$MMT = window.$MMT || {}; $MMT.cmd = $MMT.cmd || [];$MMT.cmd.push(function(){ $MMT.display.slots.push(["32b2e5fe-09eb-4fd1-b84c-d239829c8f6e"]); })</script>
-
-                <!--MONUMETRIC Sticky Sidebar D:300x250,160x600,300x600 T:300x250,160x600,300x600 M:300x250,320x50,320x100  ENDS-->
-            </div>
-
         </div>
    </div>
-   <div class="row">
 
-       <div class="col-12">
-           <!--MONUMETRIC Sticky Footer / In-Screen D:728x90 T:728x90 M:320x50,320x100 START-->
+   
 
-           <div id="mmt-5556207a-5f13-4a1d-956a-5a7de02cb92e"></div><script type="text/javascript" data-cfasync="false">$MMT = window.$MMT || {}; $MMT.cmd = $MMT.cmd || [];$MMT.cmd.push(function(){ $MMT.display.slots.push(["5556207a-5f13-4a1d-956a-5a7de02cb92e"]); })</script>
-
-           <!--MONUMETRIC Sticky Footer / In-Screen D:728x90 T:728x90 M:320x50,320x100  ENDS-->
-       </div>
-    </div>
 </div>
 
 
 
 <footer>
-<div style="background-color: #73877B; color: #FFFFFF; box-shadow: 0 50vh 0 50vh #73877B;">
+<div style="background-color: #73877B; color: #FFFFFF; box-shadow: 0 50vh 0 50vh #73877B; ">
     <div class="container-fluid maxWidth pt-4" style="margin-bottom: 100px;">
         <div class="row">
             <div class="col-6 col-md-3">
-                <p style="font-weight: bold; font-style: italic; font-size:17px;">Index Holdings</p>
+                <p style="font-weight: bold; font-style: italic; font-size:17px;">Holdings</p>
                 <ul class="list-unstyled">
                     <li><a href="/sp500" style="color: white;">S&amp;P 500</a></li>
                     <li><a href="/nasdaq100" style="color: white;">Nasdaq 100</a></li>
                     <li><a href="/dowjones" style="color: white;">Dow Jones</a></li>
+                    <li><a href="/berkshire-hathaway" style="color: white;">Berkshire Hathaway</a></li>
                 </ul>
                 <p style="font-weight: bold; font-style: italic; font-size:17px;">YTD Returns</p>
                 <ul class="list-unstyled">
@@ -1364,6 +1391,19 @@
                     <li><a href="/nasdaq100/yield" style="color: white;">Nasdaq 100</a></li>
                     <li><a href="/dowjones/yield" style="color: white;">Dow Jones</a></li>
                 </ul>
+                <p style="font-weight: bold; font-style: italic; font-size:17px;">Market Movers</p>
+                <ul class="list-unstyled">
+                    <li><a href="/market-movers" style="color: white;">Gainers</a></li>
+                    <li><a href="/market-movers#losers" style="color: white;">Losers</a></li>
+                </ul>
+                <p style="font-weight: bold; font-style: italic; font-size:17px;">Drawdowns</p>
+                <ul class="list-unstyled">
+                    <li><a href="/sp500/drawdown" style="color: white;">S&amp;P 500</a></li>
+                </ul>
+                <p style="font-weight: bold; font-style: italic; font-size:17px;">Misc</p>
+                <ul class="list-unstyled">
+                    <li><a href="/goog-vs-googl" style="color: white;">GOOG vs GOOGL</a></li>
+                </ul>
             </div>
             <div class="col-6 col-md-3">
                 <p style="font-weight: bold; font-style: italic; font-size:17px;">Crypto</p>
@@ -1376,10 +1416,18 @@
                 <ul class="list-unstyled">
                     <li><a href="/etf" style="color: white;">Ark Invest</a></li>
                 </ul>
-                <p style="font-weight: bold; font-style: italic; font-size:17px;">US Dollar</p>
+                <p style="font-weight: bold; font-style: italic; font-size:17px;">US Inflation</p>
                 <ul class="list-unstyled">
                     <li><a href="/inflation" style="color: white;">Inflation</a></li>
                     <li><a href="https://www.bls.gov/data/inflation_calculator.htm" style="color: white;">Inflation Calculator</a></li>
+                </ul>
+                <p style="font-weight: bold; font-style: italic; font-size:17px;">Treasury</p>
+                <ul class="list-unstyled">
+                    <li><a href="/treasury" style="color: white;">Treasury Rates</a></li>
+                </ul>
+                <p style="font-weight: bold; font-style: italic; font-size:17px;">Mortgage</p>
+                <ul class="list-unstyled">
+                    <li><a href="/mortgage" style="color: white;">Mortgage Rates</a></li>
                 </ul>
                 <p style="font-weight: bold; font-style: italic; font-size:17px;">Market Crashes</p>
                 <ul class="list-unstyled">
@@ -1402,18 +1450,20 @@
 </footer>
 
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="/js/popper-1.14.0-umd.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-    <script src="/js/bootstrap-4.1.0.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<script src="/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="/js/popper-1.14.0-umd.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<script src="/js/bootstrap-4.1.0.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-8313899-12"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'UA-8313899-12');
-    </script>
-</body>
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MWXZ0FBF55"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-MWXZ0FBF55');
+</script>
+
+<script>(function(){var js = "window['__CF$cv$params']={r:'853c14606d160d5d',t:'MTcwNzY0OTEzNi44MzUwMDA='};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js',document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script></body>
 </html>

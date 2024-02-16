@@ -1,0 +1,22 @@
+6. Basic Commands
+_______________________________________________________________________________
+
+start ( Hello_World.b4p )       Start a B4P program like in this example
+
+return                          Return and continue program execution
+                                (if stopped with the 'interactive' statement)
+	
+exit                            Exit B4P (also CTRL+C exits B4P immediately)
+
+prompt ( "..." )                Change the command prompt
+
+
+Examples:                       prompt( "working directory()" )
+                                prompt( "system info[user name])
+	
+	
+	
+For more information, type:     docs (basic commands)
+                                docs (start)
+                                docs (prompt)
+                                docs (return)

@@ -1,0 +1,43 @@
+&reverse;0.  Help: Table of Contents&reverse;
+_______________________________________________________________________________
+
+Page Number
+
+[1]   Access Online B4P Documentation
+
+[2]   Access Local B4P Documentation and Function Descriptions
+
+[3]   Interactive Statements, Expressions and Calculations
+
+[4]   Inspecting Tables
+
+[5]   Inspecting Variables
+
+[6]   Basic Commands
+
+[7]   Operating System Commands
+
+// You can add comments in this help file using 2 consecutive slashes
+// at the beginning.  Comments will not be displayed.
+
+
+For more information, type:     docs search ( interactive mode )
+                                docs search (help)
+
+&reverse;Available Navigation Keys on all Pages&reverse;
+_______________________________________________________________________________
+
+Type the choices 1, 2, ... etc. to access the pages directly
+
+Arrow left		Previous help page
+Arrow right		Next help page
+
+Arrow up		Scroll 1 line up
+Arrow down		Scroll 1 line down
+
+Pg up			Scroll 1 screen page up
+Pg dn			Scroll 1 screen page down
+Home			Scroll to the beginning of the screen
+
+Escape			Leave help
+

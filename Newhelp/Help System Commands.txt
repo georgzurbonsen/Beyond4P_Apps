@@ -1,0 +1,21 @@
+7. Operating System Commands
+_______________________________________________________________________________
+
+To execute operating system commands from within B4P, 
+type '$' then the operating system command. Examples:
+
+Windows:                             Linux / MacOS
+    $ dir                                $ ls
+    $ cd                                 $ pwd
+    $ cd subirectory_name                $ cd subdirectory_name
+    $ start abc.pdf                      $ open abc.def
+
+    system ( dir )                       system ( ls )
+
+The 'system' function also works in B4P programs, but '$' only interactively.
+
+B4P recognizes '$ cd ...', '$ chdir ...' '$ D:\', etc. and ensures that the
+working directory inside B4P run time machine will also change.
+	
+For more information, type:     docs (os commands)
+                                docs (system)

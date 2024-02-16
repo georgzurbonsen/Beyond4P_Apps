@@ -1,0 +1,95 @@
+
+    runtime settings[verbose]	= quiet;
+
+    local
+    {
+	help directory[] 	= "." + system info[directory separator];
+	help shortcuts file[]	= "Shortcuts.txt";
+
+	table load			( help shortcuts, help directory[] + help shortcuts file[] );
+	table delete selected rows	( help shortcuts, [0]='','//' );
+	table configure			( help shortcuts, read numerals, no );
+
+	help keys[]		= join([help shortcuts:Keys,..]) + escape;
+	help keys[]		+= '&arrow-left;&arrow-right;&arrow-up;&arrow-down;&pgup;&pgdn;&home;';
+
+	echo( help keys[] ); 
+
+	choice[]		= '0'; // opens the landing page
+
+	clear(alt);
+
+	offset[]		= 2;  // Scrolling offset below 2 title rows
+
+
+	do
+	{
+	    cls;
+	    help file name[]		= help directory[] + [help shortcuts: Keys, choice[], File Name];
+	    current row number[]	= [help shortcuts: Keys, choice[]];
+
+	    table load				( help page, help file name[], TEXT );
+
+	    table delete selected rows		( help page, ([0]='//*') );
+
+	    table process all selected rows	( help page, ( ((row()-offset[]>=0) | (row()<=1)) & (row()<console(height)+offset[]-3) ), echo( decode entities( [0] )) );
+
+	    cursor(1,console(height));	
+	    next choice[] 	= input quick ignore case( "Use navigation keys, 0 = Start Page, Escape to Quit: ", help keys[] );
+	    next row number[]	= [help shortcuts: Keys, next choice[]];
+
+	    if (next row number[]>0)
+	    {
+		choice[]	= next choice[];
+		continue loop;
+	    }
+	    next row number[] = current row number[];
+	    check( next choice[] )
+	    {
+		case( '&arrow-left;' )
+		{
+		    if (next row number[] > 1) next row number[]--;
+		}
+		case( '&arrow-right;' )
+		{
+		    if (next row number[] < table length( help shortcuts )-1) next row number[]++;
+		}
+		case( '&arrow-right;', '&arrow-left;' )
+		{
+		    choice[] = [help shortcuts: Keys, next row number[] ];
+		    offset[] = 2; // Fixed 2 title rows 
+		}
+		case( '&home;' )
+		{
+		    offset[]=2;
+		}
+		case( '&arrow-down;' )
+		{
+		    if (offset[] < table length ( help page )-2) offset[]++;
+		}
+		case( '&arrow-up;' )
+		{
+		    if (offset[] > 2) offset[]--;
+		}
+		case( '&pgdn;' )
+		{
+		    for (i[]=1, i[]<console(height)-3, i[]++) if (offset[] < table length ( help page )-2) offset[]++;
+		}
+		case( '&pgup;' )
+		{
+		    for (i[]=1, i[]<console(height)-3, i[]++) if (offset[] > 2) offset[]--;
+		}
+
+	    }
+
+//	echo( "Next row number is ",next row number[] ); pause;
+//	echo( "Choice is ",choice[] ); pause;
+
+	} while ( next choice[] <> escape );
+
+	clear(back);
+
+    }
+
+echo(done);
+interactive;

@@ -1,0 +1,22 @@
+4. Inspecting Tables
+_______________________________________________________________________________
+
+list tables                        Lists names of all tables loaded or created
+
+table list ( [mytable] )           Outputs contents of 'mytable' to the console
+
+view ( [mytable] )                 View 'mytable' in remembered browser or here
+view ( [mytable], [tool] )         View 'mytable' in different way, see below
+
+Examples:
+    view ( mytable )               View interactively on the console
+    view ( mytable, xlsx )         On Excel (.xlsx format)
+    view ( mytable, browser )      On web browser (plain HTML)
+    view ( mytable, datatables )   On web browser (with datatables navigator)
+    view ( mytable, csv )          On Excel (.csv format)
+	
+view reset                         Deletes cached browser content (temp. files)
+	
+For more information, type:        docs (view)
+                                   docs search (table list)
+
