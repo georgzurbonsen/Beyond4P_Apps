@@ -1,39 +1,20 @@
 &reverse;1. Access Online B4P Documentation&reverse;
 _______________________________________________________________________________
-	
-Following commands access help and info from www.b4p.app :
+Following commands access documentation from www.b4p.app :
 
 help                            Display this interactive help information
-
 help welcome                    Welcome page (www.b4p.app)
 help user guide                 User Guide
-help language                   Languuage Guide
-help functions, help library    Function Library
-help index, help keywords       Index of all keywords
-
-
-
+help language                   Language Guide
+help functions                  Function Library
+help index                      Index of all keywords
 
 docs                            Welcome page (like 'help welcome')
-docs ( for )                    Search for specific keyword 'for'
-                                and access online documentation directly
-
-
-
-
-
-
-
-
-
-docs ( 'for*' )                 Search for or keywords starting with 'for'
+docs ( for )                    Search documentation for keyword 'for'
+docs ( 'for*' )                 Search all keywords starting with 'for'
                                 and then choose the docs to read.
 docs ('*')                      Search for all keywords, then select to open
 toc                             Access table of contents of all documents
 
-
-
-
-
-
 browser (set)                   Select a different browser for web access
+_______________________________________________________________________________

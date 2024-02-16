@@ -1,10 +1,9 @@
-2. Access Local B4P Documentation and Function Descriptions
+&reverse;2. Functions: find, list, and explain&reverse;
 _______________________________________________________________________________
+list functions                  List all functions
+list functions ( '*if*' )       List functions containing 'if'
 
-list functions                  Lists all procedures and functions
-list functions ( '*if*' )       Lists all functions containing 'if'
-
-explain functions               Lists all procedures and functions
+explain functions               Explain function parameters
 explain functions ( 'c*')       Explain all of functions starting with 'c'
 explain functions ( for )       Explain the 'for' procedure
 

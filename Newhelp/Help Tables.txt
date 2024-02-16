@@ -1,6 +1,5 @@
-4. Inspecting Tables
+&reverse;4. Inspecting Tables&reverse;
 _______________________________________________________________________________
-
 list tables                        Lists names of all tables loaded or created
 
 table list ( [mytable] )           Outputs contents of 'mytable' to the console
@@ -16,7 +15,7 @@ Examples:
     view ( mytable, csv )          On Excel (.csv format)
 	
 view reset                         Deletes cached browser content (temp. files)
-	
+_______________________________________________________________________________	
 For more information, type:        docs (view)
                                    docs search (table list)
 
