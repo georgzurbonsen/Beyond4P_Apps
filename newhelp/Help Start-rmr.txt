@@ -1,0 +1,30 @@
+0.  Help: Table of Contents
+_______________________________________________________________________________
+Section     Topic
+   [1]      Online B4P Documentation
+   [2]      Functions
+   [3]      Interactive Expressions
+   [4]      Inspecting Tables
+   [5]      Inspecting Variables
+   [6]      Basic Commands
+   [7]      Operating System Commands
+
+Navigation Keys:
+jump to section 1,2,..  1,2,...               
+previous section        left arrow
+next section            right arrow
+scroll line up          up arrow
+scroll line up          down arrow
+scroll page up          Pg up
+scroll page down        Pg dn
+scroll to top           Home
+Exit help menu          Escape
+_______________________________________________________________________________
+For more information, type:
+        docs search ( interactive mode )
+        docs search (help)
+
+// You can add comments in this help file using 2 consecutive slashes
+// at the beginning.  Comments will not be displayed.
+// &boldface;
+// &reverse;
