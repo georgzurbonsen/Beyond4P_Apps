@@ -1,16 +1,18 @@
 0.  Help: Home
 _______________________________________________________________________________
-Page: &boldface;#&boldface; &boldface;p&boldface;rev &boldface;n&boldface;ext &boldface;h&boldface;ome | &boldface;q&boldface;uit
+page&mango;#&default;| &mango;p&default;rev &mango;n&default;ext &mango;h&default;ome | &mango;q&default;uit
 
-   &boldface;#&boldface;      &boldface;Topic&boldface;
-   &boldface;0&boldface;      Home
-   &boldface;1&boldface;      Online B4P Documentation
-   &boldface;2&boldface;      Functions
-   &boldface;3&boldface;      Interactive Expressions
-   &boldface;4&boldface;      Inspecting Tables
-   &boldface;5&boldface;      Inspecting Variables
-   &boldface;6&boldface;      Basic Commands
-   &boldface;7&boldface;      Operating System Commands
+
+   &mango;#&default;      &mango;Topic&mango;
+   &mango;0&default;      Home
+   &mango;1&default;      Online B4P Documentation
+   &mango;2&default;      Functions
+   &mango;3&default;      Interactive Expressions
+   &mango;4&default;      Inspecting Tables
+   &mango;5&default;      Inspecting Variables
+   &mango;6&default;      Basic Commands
+   &mango;7&default;      Operating System Commands
+
 
 For more information, type:
         docs search ( interactive mode )
