@@ -35,7 +35,7 @@
 	    table process all selected rows	( help page, ( ((row()-offset[]>=0) | (row()<=1)) & (row()<console(height)+offset[]-3) ), echo( decode entities( [0] )) );
 
 	    cursor(1,console(height));	
-	    next choice[] 	= input quick ignore case( "navigate: arrow keys | page[#] | [h]ome | [q]uit ", help keys[] );
+	    next choice[] 	= input quick ignore case( 'navigate: &larr; &rarr; &uarr; &darr; | page[#] | [h]ome | [q]uit ', help keys[] );
 	    next row number[]	= [help shortcuts: Key, next choice[]];
 
 	    if (next row number[]>0)
