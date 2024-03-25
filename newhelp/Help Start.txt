@@ -1,6 +1,7 @@
 0.  Help: Home
-_______________________________________________________________________________
-page&mango;#&default;| &mango;p&default;rev &mango;n&default;ext &mango;h&default;ome | &mango;q&default;uit
+______________________________________________________________________________
+
+
 
 
    &mango;#&default;      &mango;Topic&mango;
@@ -14,6 +15,8 @@ page&mango;#&default;| &mango;p&default;rev &mango;n&default;ext &mango;h&defaul
    &mango;7&default;      Operating System Commands
 
 
+
+______________________________________________________________________________
 For more information, type:
         docs search ( interactive mode )
         docs search (help)
