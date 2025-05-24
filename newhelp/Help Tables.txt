@@ -1,5 +1,5 @@
 4. Inspecting Tables
-_______________________________________________________________________________
+______________________________________________________________________________
 list tables                        Lists names of all tables loaded or created
 
 table list ( [mytable] )           Displays contents of 'mytable' to the console
@@ -15,7 +15,7 @@ Examples:
     view ( mytable, datatables )   View in web browser (with datatables navigator)
 	
 view reset                         Deletes browser cache (temporary files)
-_______________________________________________________________________________	
+______________________________________________________________________________
 For more information, type:        docs (view)
                                    docs search (table list)
 

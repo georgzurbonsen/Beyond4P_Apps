@@ -7,9 +7,9 @@ Key	File Name
 5	Help Variables.txt
 6	Help Basic Commands.txt
 7	Help System Commands.txt
-J	Help Joker.txt
-
+//
 //	It's a tab separated file.  Do not use spaces.  First one shall be landing page
+//	Both letters and numbers are allowed.  Case insensitive.
 //	Options for colors coded as character entitites:
 //	https://www.b4p.app/LAN_Features_Special_Console_Output_Characters.html 
-//  &reverse; reverse backround/text  &reverse;
+//	&reverse; reverse backround/text  &reverse;

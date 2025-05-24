@@ -1,19 +1,19 @@
 
-    runtime settings[verbose]	= quiet;
+runtime settings[verbose]	= quiet;
 
+define procedure ( helpx )
+{
     local
     {
 	help directory[] 	= "." + system info[directory separator];
 	help shortcuts file[]	= "Shortcuts.txt";
 
-	table load			( help shortcuts, help directory[] + help shortcuts file[] );
-	table delete selected rows	( help shortcuts, [0]='','//' );
-	table configure			( help shortcuts, read numerals, no );
+	table load			( __ help shortcuts __, help directory[] + help shortcuts file[] );
+	table delete selected rows	( __ help shortcuts __, [0]='','//' );
+	table configure			( __ help shortcuts __, read numerals, no );
 
-	help keys[]		= join([help shortcuts:Key,..]) + escape +Q;
+	help keys[]		= join([__ help shortcuts __:Key,..]) + escape +Q;
 	help keys[]		+= '&arrow-left;&arrow-right;&arrow-up;&arrow-down;&pgup;&pgdn;&home;';
-
-	echo( help keys[] ); 
 
 	choice[]		= '0'; // opens the landing page
 
@@ -25,8 +25,8 @@
 	do
 	{
 	    cls;
-	    help file name[]		= help directory[] + [help shortcuts: Key, choice[], File Name];
-	    current row number[]	= [help shortcuts: Key, choice[]];
+	    help file name[]		= help directory[] + [__ help shortcuts __: Key, choice[], File Name];
+	    current row number[]	= [__ help shortcuts __: Key, choice[]];
 
 	    table load				( help page, help file name[], TEXT );
 
@@ -36,7 +36,7 @@
 
 	    cursor(1,console(height));	
 	    next choice[] 	= input quick ignore case( 'navigation: page&mango;#&default; &mango;&larr; &rarr; &uarr; &darr;&default;| &mango;q&default;uit ', help keys[] );
-	    next row number[]	= [help shortcuts: Key, next choice[]];
+	    next row number[]	= [__ help shortcuts __: Key, next choice[]];
 
 	    if (next row number[]>0)
 	    {
@@ -52,11 +52,11 @@
 		}
 		case( '&arrow-right;' )
 		{
-		    if (next row number[] < table length( help shortcuts )-1) next row number[]++;
+		    if (next row number[] < table length( __ help shortcuts __ )-1) next row number[]++;
 		}
 		case( '&arrow-right;', '&arrow-left;' )
 		{
-		    choice[] = [help shortcuts: Key, next row number[] ];
+		    choice[] = [__ help shortcuts __: Key, next row number[] ];
 		    offset[] = 2; // Fixed 2 title rows 
 		}
 		case( '&home;' )
@@ -88,8 +88,10 @@
 	} while ( next choice[] <> escape,Q );
 
 	clear(back);
-
+	table delete( __ help shortcuts __ );
     }
+}
 
+helpx;
 echo(done);
 interactive;
